@@ -1,0 +1,13 @@
+---
+---
+{% comment %}http://alexpearce.me/2012/04/simple-jekyll-searching/{% endcomment %}
+[
+  {% for section in site.api_index %}
+    {% if section.sub %}
+      {% for data in section.sub %}
+        {% include search_item.json %},
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+  null
+]

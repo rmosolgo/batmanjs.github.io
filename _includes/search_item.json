@@ -1,0 +1,6 @@
+{
+  "name": "{{ data.title }}",
+  "id": "{{ data.id }}",
+  "section": "{{ section.id }}",
+  "link": "{{ '/docs/api/' | append: section.id | append: '.html#' | append: data.id }}"
+}

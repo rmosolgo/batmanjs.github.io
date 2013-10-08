@@ -739,16 +739,20 @@ td + td > p, th + th {
   left: 0;
 }
 
-#api-search-results li a { color: inherit; }
-
 #api-search-results li {
   border-bottom: 1px solid #ddd;
   padding: 5px 10px;
 }
 
-#api-search-results li:hover {
+#api-search-results li:hover,
+#api-search-results .selected {
   background: #1f1f27;
   color: #a2a2ba;
+}
+
+#api-search-results .result-link {
+  display: block;
+  color: inherit;
 }
 
 .input-text {

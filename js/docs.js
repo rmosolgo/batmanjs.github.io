@@ -20,6 +20,8 @@ var API_SEARCH = (function() {
   var query = "";
   var selectedResult = 0;
 
+  var tmplSearchResultGroup;
+
   var nonSearchKeycodes = [40, 38, 13];
 
   // keyboard navigation
@@ -60,18 +62,17 @@ var API_SEARCH = (function() {
     resetSearch();
     if (!query) return;
 
-    var results = index.filter( filterResults ).slice(0, 7);
+    var sortedItems = _.chain(index)
+      .filter(filterResults)
+      .groupBy(function (result) { return result.section; })
+      .value();
 
-    results.forEach(function(result) {
-      var content = $('<a>')
-        .addClass('result-link')
-        .attr('href', result.link)
-        .html(result.name);
-
-      $('<li>').html(content).appendTo('#api-search-results');
+    _.each(sortedItems, function (results, section) {
+      var content = tmplSearchResultGroup({section: section, results: results});
+      document.getElementById('api-search-results').innerHTML += content;
     });
 
-    $('#api-search-results').children().eq(0).addClass('selected');
+    // $('#api-search-results').children().eq(0).addClass('selected');
   };
 
   var filterResults = function (item) {
@@ -85,11 +86,18 @@ var API_SEARCH = (function() {
     }
   };
 
+  var initTemplates = function() {
+    tmplSearchResultGroup = _.template(document.getElementById('tmplSearchResultGroup').innerHTML);
+  };
+
 
   // == | PUBLIC ===============================
 
   var init = function (searchIndex) {
     index = searchIndex;
+
+    initTemplates();
+
     $('.api-search-input').on('keyup', autocomplete);
     $('.api-search-input').on('keydown', resultSelector);
   };

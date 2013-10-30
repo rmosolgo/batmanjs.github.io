@@ -19,6 +19,7 @@ var API_SEARCH = (function() {
   var index = [];
   var query = "";
   var selectedResult = 0;
+  var renderedTemplatePartials = {};
 
   var tmplSearchResultGroup;
 
@@ -54,61 +55,67 @@ var API_SEARCH = (function() {
     $('#api-search-results').empty();
     $('#api-search-results').removeClass('active');
     selectedResult = 0;
+    renderedTemplatePartials = {};
   };
 
   var autocomplete = function (e) {
+    // don't capture if we're using arrows or enter key
     if (nonSearchKeycodes.indexOf(e.keyCode) >= 0) return;
 
-    query = $(this).val();
     resetSearch();
-    if (!query) return;
+
+    if ( !(query = $(this).val()) ) return;
 
     // filter relevant results
-    var sortedSections = _.chain(index)
-      .filter(filterResults)
-      .groupBy(function (result) { return result.section; })
+    results = _.chain(index)
+      .filter( filterResults )
+      .groupBy(function (result) { return result.section })
+      // calculate rank value per section and result
+      .map( rank )
+      // render partials in correct order based on rank
+      .map(function (resultSet) { return {rank: resultSet.rank, section: resultSet[0].section} })
+      .sortBy(function (data) { return -data.rank })
       .value();
 
-    var renderedTemplatePartials = {};
-    var hasResults = (sortedSections.length > 0);
+    // insert into DOM
+    _.each(results, function (data) {
+      document.getElementById('api-search-results').innerHTML += renderedTemplatePartials[data.section];
+    })
 
-    _.each(sortedSections, function (resultSet, sectionName) {
-      // individual ranking
-      var rankedResultSet = _.chain(resultSet)
-        .map(function (result) {
-          // case-insensitive
-          var indexable = result.name.toLowerCase();
-          var searchTerm = query.toLowerCase();
-
-          // 3pts - exact match
-          // 2pts - starts with
-          // 1pts - substr
-          result.rank = (indexable === searchTerm) ? 3 : (indexable.indexOf(searchTerm) === 0) ? 2 : 1;
-          return result;
-        })
-        .sortBy(function(result) { debugger; return -result.rank })
-        .value();
-
-      // group ranking
-      rankedResultSet.rank = rankedResultSet.reduce(function(prev, cur) { return prev + cur.rank }, 0);
-
-      var content = tmplSearchResultGroup({section: sectionName, results: rankedResultSet});
-      renderedTemplatePartials[sectionName] = content;
-    });
-
-    // render partials in correct order based on rank
-    _.chain(sortedSections)
-      .map(function (resultSet, sectionName) { return {rank: resultSet.rank, section: sectionName} })
-      .sortBy(function (data) { return -data.rank })
-      .each(function (data) {
-        document.getElementById('api-search-results').innerHTML += renderedTemplatePartials[data.section];
-      });
-
-    if (hasResults) {
+    // use correct styling
+    if (results.length) {
       $('#api-search-results').addClass('active');
     }
 
     // $('#api-search-results').children().eq(0).addClass('selected');
+  };
+
+  var rank = function (resultSet, sectionName) {
+    // individual ranking
+    var rankedResultSet = _.chain(resultSet)
+      .map(function (result) {
+        // case-insensitive
+        var indexable = result.name.toLowerCase();
+        var searchTerm = query.toLowerCase();
+
+        // 3pts - exact match
+        // 2pts - starts with
+        // 1pts - substr
+        result.rank = (indexable === searchTerm) ? 3 : (indexable.indexOf(searchTerm) === 0) ? 2 : 1;
+        return result;
+      })
+      .sortBy(function(result) { return -result.rank })
+      .value();
+
+    // group ranking
+    rankedResultSet.rank = rankedResultSet.reduce(function(prev, cur) { return prev + cur.rank }, 0);
+
+    // render template HTML
+    var content = tmplSearchResultGroup({section: sectionName, results: rankedResultSet});
+    renderedTemplatePartials[sectionName] = content;
+
+    // pass back ranked results
+    return rankedResultSet;
   };
 
   var filterResults = function (item) {

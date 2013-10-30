@@ -63,43 +63,46 @@ var API_SEARCH = (function() {
     resetSearch();
     if (!query) return;
 
+    // filter relevant results
     var sortedSections = _.chain(index)
       .filter(filterResults)
       .groupBy(function (result) { return result.section; })
       .value();
 
-    var hasResults = false;
     var renderedTemplatePartials = {};
+    var hasResults = (sortedSections.length > 0);
 
-    _.each(sortedSections, function (resultSet, section) {
-      _.each(resultSet, function(result) {
-        // case-insensitive
-        var indexable = result.name.toLowerCase();
-        var searchTerm = query.toLowerCase();
+    _.each(sortedSections, function (resultSet, sectionName) {
+      // individual ranking
+      var rankedResultSet = _.chain(resultSet)
+        .map(function (result) {
+          // case-insensitive
+          var indexable = result.name.toLowerCase();
+          var searchTerm = query.toLowerCase();
 
-        // 3pts - exact match
-        // 2pts - starts with
-        // 1pts - substr
-        result.rank = (indexable === searchTerm) ? 3 : (indexable.indexOf(searchTerm) === 0) ? 2 : 1;
+          // 3pts - exact match
+          // 2pts - starts with
+          // 1pts - substr
+          result.rank = (indexable === searchTerm) ? 3 : (indexable.indexOf(searchTerm) === 0) ? 2 : 1;
+          return result;
+        })
+        .sortBy(function(result) { debugger; return -result.rank })
+        .value();
+
+      // group ranking
+      rankedResultSet.rank = rankedResultSet.reduce(function(prev, cur) { return prev + cur.rank }, 0);
+
+      var content = tmplSearchResultGroup({section: sectionName, results: rankedResultSet});
+      renderedTemplatePartials[sectionName] = content;
+    });
+
+    // render partials in correct order based on rank
+    _.chain(sortedSections)
+      .map(function (resultSet, sectionName) { return {rank: resultSet.rank, section: sectionName} })
+      .sortBy(function (data) { return -data.rank })
+      .each(function (data) {
+        document.getElementById('api-search-results').innerHTML += renderedTemplatePartials[data.section];
       });
-
-      resultSet = _.sortBy(resultSet, function(result) { return -result.rank });
-
-      resultSet.rank = resultSet.reduce(function(prev, cur) { return prev + cur.rank }, 0);
-
-      var content = tmplSearchResultGroup({section: section, results: resultSet});
-      renderedTemplatePartials[section] = content;
-      // document.getElementById('api-search-results').innerHTML += content;
-
-      if (!hasResults) hasResults = true;
-    });
-
-    var renderOrderData = _.map(sortedSections, function(resultSet, section) { return {rank: resultSet.rank, section: section} });
-    var renderOrder = _.sortBy(renderOrderData, function(data) { return -data.rank });
-
-    _.each(renderOrder, function(data) {
-      document.getElementById('api-search-results').innerHTML += renderedTemplatePartials[data.section];
-    });
 
     if (hasResults) {
       $('#api-search-results').addClass('active');

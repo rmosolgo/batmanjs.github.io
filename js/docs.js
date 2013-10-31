@@ -19,6 +19,7 @@ var API_SEARCH = (function() {
   var index = [];
   var query = "";
   var selectedResult = 0;
+  var totalResultCount = 0;
   var renderedTemplatePartials = {};
 
   var tmplSearchResultGroup;
@@ -29,7 +30,8 @@ var API_SEARCH = (function() {
   var resultSelector = function (e) {
     if (nonSearchKeycodes.indexOf(e.keyCode) < 0) return;
 
-    var $selected = $('#api-search-results .selected');
+    var $domResults = $('.result-list-item');
+    var $selected = $domResults.eq(selectedResult);
 
     if (e.keyCode === 13) {
 
@@ -38,8 +40,11 @@ var API_SEARCH = (function() {
       resetSearch();
 
     } else {
+      selectedResult += (e.keyCode === 40) ? 1 : -1
+      if (selectedResult < 0) selectedResult = 0
+      else if (selectedResult > totalResultCount-1) selectedResult = totalResultCount - 1
 
-      var $next = (e.keyCode === 40) ? $selected.next() : $selected.prev();
+      var $next = $domResults.eq(selectedResult)
 
       if ($next.length) {
         $selected.removeClass('selected');
@@ -70,7 +75,7 @@ var API_SEARCH = (function() {
     results = _.chain(index)
       .filter( filterResults )
       .groupBy(function (result) { return result.section })
-      // calculate rank value per section and result
+      // calculate rank value per result, aggregate per section
       .map( rank )
       // render partials in correct order based on rank
       .map(function (resultSet) { return {rank: resultSet.rank, section: resultSet[0].section} })
@@ -87,6 +92,9 @@ var API_SEARCH = (function() {
       $('#api-search-results').addClass('active');
     }
 
+    var $domResults = $('.result-list-item');
+    totalResultCount = $domResults.length;
+    $domResults.eq(0).addClass('selected');
     // $('#api-search-results').children().eq(0).addClass('selected');
   };
 

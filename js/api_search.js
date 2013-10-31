@@ -1,4 +1,4 @@
-var API_SEARCH = (function() {
+var ApiSearch = (function() {
 
   // == | PRIVATE ===============================
 
@@ -8,14 +8,14 @@ var API_SEARCH = (function() {
   var renderedTemplatePartials = {};
   var tmplSearchResultGroup;
 
-  // arrow keys, enter key...
+  // arrows, enter, esc...
   // actions speak louder than words!
-  var nonSearchKeycodes = [40, 38, 13];
+  var nonQueryKeycodes = [40, 38, 13, 27];
 
   var redirectTo = function(href) {
     window.location = href;
     $('.api-search-input').val('');
-    resetSearch();
+    clearResults();
   }
 
   var nextInList = function(direction, $selected, $resultSet) {
@@ -31,37 +31,43 @@ var API_SEARCH = (function() {
     }
   }
 
-  // keyboard navigation
   var keyboardNavigation = function (e) {
-    if (nonSearchKeycodes.indexOf(e.keyCode) < 0) return;
+    if (nonQueryKeycodes.indexOf(e.keyCode) === -1) return;
 
     var $domResults = $('.result-list-item');
     var $selected = $domResults.eq(selectedResult);
 
-    // enter key
-    if (e.keyCode === 13) {
-      redirectTo($selected.children('a').eq(0).attr('href'))
-    // arrow keys
-    } else {
-      var direction = (e.keyCode === 40) ? 1 : -1;
-      nextInList(direction, $selected, $domResults)
+    switch (e.keyCode) {
+      // enter
+      case 13:
+        redirectTo( $selected.children('a').eq(0).attr('href') );
+        break;
+      // escape
+      case 27:
+        clearResults();
+        break;
+      // arrows
+      case 38:
+      case 40:
+        var direction = (e.keyCode === 40) ? 1 : -1;
+        nextInList(direction, $selected, $domResults);
     }
 
-    return false;
+    e.preventDefault();
   };
 
-  var resetSearch = function () {
+  var clearResults = function () {
     $('#api-search-results').empty();
     $('#api-search-results').removeClass('active');
-    selectedResult = 0;
+    selectedResult = totalResultCount = 0;
     renderedTemplatePartials = {};
   };
 
   var autocompleteSearch = function (e) {
     // don't capture if we're using arrows or enter key
-    if (nonSearchKeycodes.indexOf(e.keyCode) >= 0) return;
+    if (nonQueryKeycodes.indexOf(e.keyCode) >= 0) return;
 
-    resetSearch();
+    clearResults();
 
     if ( !(query = $(this).val()) ) return;
 
@@ -89,8 +95,9 @@ var API_SEARCH = (function() {
     }
 
     var $domResults = $('.result-list-item');
-    totalResultCount = $domResults.length;
     $domResults.eq(0).addClass('selected');
+
+    totalResultCount = $domResults.length;
   };
 
   var rank = function (resultSet, sectionName) {
@@ -137,7 +144,7 @@ var API_SEARCH = (function() {
 
   // == | PUBLIC ===============================
 
-  var init = function (searchIndex) {
+  var initialize = function (searchIndex) {
     index = searchIndex;
 
     initTemplates();
@@ -146,6 +153,9 @@ var API_SEARCH = (function() {
     $('.api-search-input').on('keydown', keyboardNavigation);
   };
 
-  return { init: init };
+  return {
+    initialize: initialize,
+    clear: clearResults
+  };
 
 })();

@@ -65,7 +65,7 @@ var ApiSearch = (function() {
     if ( !(query = $(this).val()) ) return;
 
     // filter relevant results
-    results = _.chain(index)
+    var results = _.chain(index)
       .filter( filterResults )
       .groupBy(function (result) { return result.section })
       // calculate rank value per result, aggregate per section

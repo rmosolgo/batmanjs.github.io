@@ -56,13 +56,6 @@ var ApiSearch = (function() {
     e.preventDefault();
   };
 
-  var clearResults = function () {
-    $('#api-search-results').empty();
-    $('#api-search-results').removeClass('active');
-    selectedResult = totalResultCount = 0;
-    renderedTemplatePartials = {};
-  };
-
   var autocompleteSearch = function (e) {
     // don't capture if we're using arrows or enter key
     if (nonQueryKeycodes.indexOf(e.keyCode) >= 0) return;
@@ -151,6 +144,13 @@ var ApiSearch = (function() {
 
     $('.api-search-input').on('keyup', autocompleteSearch);
     $('.api-search-input').on('keydown', keyboardNavigation);
+  };
+
+  var clearResults = function () {
+    $('#api-search-results').empty();
+    $('#api-search-results').removeClass('active');
+    selectedResult = totalResultCount = 0;
+    renderedTemplatePartials = {};
   };
 
   return {

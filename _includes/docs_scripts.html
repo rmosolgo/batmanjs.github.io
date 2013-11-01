@@ -1,0 +1,19 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+<script src="/js/api_search.js"></script>
+<script src="/js/docs.js"></script>
+
+
+<script type="text/x-underscore-template" id="tmplSearchResultGroup">
+
+  <h1 class="result-group"><%= section %></h1>
+
+  <ul class="result-list">
+  <% _.each(results, function (result) { %>
+    <li class="result-list-item">
+      <a class='result-link' href="<%= result.link %>"><%= result.name %></a>
+    </li>
+  <% }); %>
+  </ul>
+
+</script>

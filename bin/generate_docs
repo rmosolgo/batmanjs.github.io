@@ -49,6 +49,7 @@ writeTemplate = (template, destination, replacements) ->
   for key, replacement of replacements
     content = content.replace("#= #{key}", replacement)
 
+  console.log("generating #{destination}")
   fs.writeFileSync("#{__dirname}/../#{destination}", content)
 
 files = glob.sync("#{__dirname}/../docs/api/*.html")

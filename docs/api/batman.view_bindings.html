@@ -41,7 +41,7 @@ sub:
   - title: "data-addclass / data-removeclass"
     tokens: []
     id: "data-addclass_%2F_data-removeclass"
-    html: "<p><code>data-addclass</code> and <code>data-removeclass</code> bindings can be used to conditionally add or remove a class from a node based on a boolean keypath. Specify the class to add using the &quot;double dash&quot; syntax; for example,<code>data-addclass-big=&quot;some.keypath&quot;</code> on a node will add the &quot;big&quot; class to that node&#39;s classes if <code>some.keypath</code> is truthy. <code>data-removeclass</code> will remove a class (usually one which is present in the HTML) if the keypath passed to it is truthy.</p>\n<p>The outer span in the HTML below will have an &quot;error&quot; class when the <code>product.errors.length</code> keypath evaluates to anything other than 0, since 0 is falsy and other numbers are truthy.</p>\n<pre><code class=\"lang-html\">&lt;span data-addclass-error=<span class=\"string\">\"product.errors.length\"</span>&gt;This product has &lt;span data-bind=<span class=\"string\">\"product.errors.length\"</span>&gt;&lt;<span class=\"regexp\">/span&gt; errors.&lt;/</span>button&gt;</code></pre>\n"
+    html: "<p><code>data-addclass</code> and <code>data-removeclass</code> bindings can be used to conditionally add or remove a class from a node based on a boolean keypath. Specify the class to add using the &quot;double dash&quot; syntax; for example,<code>data-addclass-big=&quot;some.keypath&quot;</code> on a node will add the &quot;big&quot; class to that node&#39;s classes if <code>some.keypath</code> is truthy. <code>data-removeclass</code> will remove a class (usually one which is present in the HTML) if the keypath passed to it is truthy.</p>\n<p>The outer span in the HTML below will have an &quot;error&quot; class when the <code>product.errors.length</code> keypath evaluates to anything other than 0, since 0 is falsy and other numbers are truthy.</p>\n<pre><code class=\"lang-html\">&lt;p data-addclass-error=<span class=\"string\">\"product.errors.length\"</span>&gt;\n  This product has &lt;span data-bind=<span class=\"string\">\"product.errors.length\"</span>&gt;&lt;/span&gt; errors.\n&lt;/p&gt;</code></pre>\n"
   - title: "data-foreach"
     tokens: []
     id: "data-foreach"
@@ -70,30 +70,22 @@ sub:
     tokens: []
     id: "data-partial"
     html: "<p><code>data-partial</code> pulls in a partial template and renders it in the current context of the node the <code>data-partial</code> occurs in. <code>data-partial</code> expects the name of the view to render in the value of the HTML attribute. <strong>Warning</strong>: This value is not a keypath. The HTML attribute&#39;s value is interpreted as a string, and the template which resides at that view path will be rendered.</p>\n<p>If we have this HTML at <code>views/villains/_stub.html</code> in our app:</p>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"villain.name\"</span>&gt;&lt;/span&gt;</code></pre>\n<p>and in <code>views/villains/show.html</code> we have this HTML:</p>\n<pre><code class=\"lang-html\">&lt;h1&gt;A villain!&lt;/h1&gt;\n&lt;div data-partial=<span class=\"string\">\"villains/_stub\"</span>&gt;&lt;/div&gt;</code></pre>\n<p>the contents of the <code>stub</code> partial will be inserted and rendered in the <code>&lt;div&gt;</code> above.</p>\n"
-  - title: "data-mixin"
-    tokens: []
-    id: "data-mixin"
-    html: ""
   - title: "data-defineview"
     tokens: []
     id: "data-defineview"
-    html: ""
+    html: "<p><code>data-defineview</code> specifies that the content of the node defines the template for a particular view.</p>\n<p>The binding value should be a regular view path, i.e. &quot;#{resource_name}/#{controller_action}&quot;. For example:</p>\n<pre><code class=\"lang-html\">&lt;div data-defineview=<span class=\"string\">\"crimes/index\"</span>&gt;\n  &lt;ul class=<span class=\"string\">\"crimes\"</span>&gt;\n    &lt;li class=<span class=\"string\">\"crime\"</span> data-foreach-crime=<span class=\"string\">\"crimes\"</span>&gt;\n      &lt;span data-bind=<span class=\"string\">\"crime.name\"</span> data-addclass-heinous=<span class=\"string\">\"crime.heinous\"</span> /&gt;\n    &lt;/li&gt;\n  &lt;/ul&gt;\n&lt;/div&gt;</code></pre>\n<p>will be used by the <code>CrimesController</code>&#39;s  <code>index</code> action.</p>\n"
   - title: "data-renderif"
     tokens: []
     id: "data-renderif"
-    html: ""
+    html: "<p><code>data-renderif</code> defers parsing of a node&#39;s child bindings until its keypath updates to true. <code>data-renderif</code> should generally be combined with a <code>data-showif</code> or <code>data-insertif</code> to prevent it from being visible until it is ready.</p>\n<p>Deferring rendering can help prevent portions of the page updating many times while data is being loaded. It can also allow you to prevent features that are not yet ready from being used.</p>\n"
   - title: "data-yield"
     tokens: []
     id: "data-yield"
-    html: ""
+    html: "<p><code>data-yield</code> specifies that this node should be a render target for any view renderings that specify they should be rendered into a yield with this name. For example, <code>data-yield=&quot;myYieldNode&quot;</code> can be rendered into by using <code>new Batman.View(contentFor: &#39;myYieldNode&#39;)</code>. The special case of <code>data-yield=&quot;main&quot;</code> will be the render target for any view rendered by a controller action. This can mean the implicit render that happens by default at the end of a controller action or by explicitly calling <code>@render</code> inside a controller.</p>\n<p>You can also specify a render target inside your HTML using <code>data-contentfor</code>.</p>\n<pre><code class=\"lang-html\">&lt;div data-yield=<span class=\"string\">\"main\"</span>&gt;&lt;/div&gt;</code></pre>\n"
   - title: "data-contentfor"
     tokens: []
     id: "data-contentfor"
-    html: ""
-  - title: "data-replace"
-    tokens: []
-    id: "data-replace"
-    html: ""
+    html: "<p><code>data-contentfor</code> specifies that the content of this node should be rendered into a <code>yield</code> with the corresponding name.</p>\n<pre><code class=\"lang-html\">&lt;div data-contentfor=<span class=\"string\">\"header\"</span>&gt;&lt;h1 data-bind=<span class=\"string\">\"title\"</span>&gt;&lt;<span class=\"regexp\">/h1&gt;&lt;/</span>div&gt;\n&lt;div data-yield=<span class=\"string\">\"header\"</span>&gt;&lt;/div&gt;</code></pre>\n"
 tokens: []
 id: batman.view_bindings
 html: "<p>Batman&#39;s view bindings are how data gets shown and collected from the user. They center on the notion of &quot;bindings&quot;: that the view representation and the JavaScript land value are always guaranteed to be in sync, such that when one changes, the other will reflect it.</p>\n"
@@ -107,8 +99,7 @@ html: "<p>Batman&#39;s view bindings are how data gets shown and collected from 
     <h3 class="api-title">
       <a id="{{ s.id }}" class="anchor-target"></a>
       <a href="#{{ s.id }}" class="anchor-link">
-      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %} <span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>{% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type">: {{ s.meta.returnType }}</span>{% endif %}
-      </span>
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
       </a>
     </h3>
     {{ s.html }}

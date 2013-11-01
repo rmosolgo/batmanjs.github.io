@@ -41,7 +41,7 @@ sub:
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     id: class_function_controllers
-    html: "<p><code>@controllers</code> is a class level property containing the singleton <code>Batman.Controller</code> instances for each subclass in the application. This <code>controllers</code> directory puts these instances at the lowercase name of the controller. For example, the <code>TodosController</code> would be found at <code>controllers.todos</code>. <code>@controllers</code> ideally should never be bound to, but it is very useful for debugging in the console and other such workarounds.</p>\n<pre><code>test <span class=\"string\">\"App.controllers references a directory of controller instances\"</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Alfred</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">App</span></span>\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Alfred</span>.<span class=\"title\">TodosController</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Controller</span></span>\n  controller = Alfred.get(<span class=\"string\">'controllers.todos'</span>)\n  equal Batman._functionName(controller.constructor), <span class=\"string\">\"TodosController\"</span></code></pre>\n"
+    html: "<p><code>@controllers</code> is a class level property containing the singleton <code>Batman.Controller</code> instances for each subclass in the application. This <code>controllers</code> directory puts these instances at the lowercase name of the controller. For example, the <code>TodosController</code> would be found at <code>controllers.todos</code>. <code>@controllers</code> ideally should never be bound to, but it is very useful for debugging in the console and other such workarounds.</p>\n<pre><code>test <span class=\"string\">\"App.controllers references a directory of controller instances\"</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Alfred</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">App</span></span>\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Alfred</span>.<span class=\"title\">TodosController</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Controller</span></span>\n  controller = Alfred.get(<span class=\"string\">'controllers.todos'</span>)\n  equal Batman._functionName(controller.constructor), <span class=\"string\">\"TodosController\"</span>\n\ntest <span class=\"string\">\"Multi-word controller names have a lowercase first letter\"</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Alfred</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">App</span></span>\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Alfred</span>.<span class=\"title\">ReminderEmailsController</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Controller</span></span>\n  controller = Alfred.get(<span class=\"string\">'controllers.reminderEmails'</span>)\n  equal Batman._functionName(controller.constructor), <span class=\"string\">\"ReminderEmailsController\"</span></code></pre>\n"
   - title: layout
     tokens: []
     meta: 
@@ -50,7 +50,7 @@ sub:
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     id: class_function_layout
-    html: ""
+    html: "<p><code>@layout</code> is the base view of the entire view hierarchy. By default, it will parse any data-* attributes in the entire document, excluding any <code>data-yield</code>&#39;s, when <code>App.run()</code> is called. Use <code>MyApp.layout = null</code> to disable the creation of this default view.</p>\n"
   - title: currentParams
     tokens: []
     meta: 
@@ -59,7 +59,7 @@ sub:
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     id: class_function_currentparams
-    html: ""
+    html: "<p><code>@currentParams</code> contains the URL parameters for the current request, including the path relative to the app&#39;s base path (<code>Batman.config.pathToApp</code>). Some interesting parts to look at: <code>@currentParams.controller</code>, <code>@currentParams.action</code>.</p>\n"
   - title: paramsManager
     tokens: []
     meta: 
@@ -99,8 +99,7 @@ html: "<p><code>Batman.App</code> is the central object in any Batman applicatio
     <h3 class="api-title">
       <a id="{{ s.id }}" class="anchor-target"></a>
       <a href="#{{ s.id }}" class="anchor-link">
-      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %} <span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>{% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type">: {{ s.meta.returnType }}</span>{% endif %}
-      </span>
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
       </a>
     </h3>
     {{ s.html }}

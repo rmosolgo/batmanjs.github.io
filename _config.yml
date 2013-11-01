@@ -104,6 +104,8 @@ api_index:
         title: "toJSON() : object"
       - id: "hashkey()_%3A_string"
         title: "hashKey() : string"
+      - id: "batchaccessorchanges(key%2C_wrappedfunction)_%3A_string"
+        title: "batchAccessorChanges(key, wrappedFunction) : string"
       - id: "accessor(%5Bkeys...%5D%2C_objectorfunction)"
         title: "accessor([keys...], objectOrFunction)"
       - id: "mixin(objects...)_%3A_this"
@@ -131,9 +133,9 @@ api_index:
       - id: batman.eventemitter
         title: Batman.EventEmitter
       - id: prototype_function_on
-        title: on
+        title: "on"
       - id: prototype_function_off
-        title: off
+        title: "off"
       - id: prototype_function_fire
         title: fire
       - id: prototype_function_hasevent
@@ -255,14 +257,14 @@ api_index:
   - id: batman.app_routing
     title: Batman.App Routing
     sub: 
+      - id: class_function_route
+        title: route
       - id: class_function_resources
         title: resources
       - id: class_function_member
         title: member
       - id: class_function_collection
         title: collection
-      - id: class_function_route
-        title: route
       - id: class_function_root
         title: root
   - id: batman.controller
@@ -321,8 +323,8 @@ api_index:
         title: "id : value"
       - id: "dirtykeys_%3A_set"
         title: "dirtyKeys : Set"
-      - id: "errors_%3A_errorsset"
-        title: "errors : ErrorsSet"
+      - id: prototype_accessor_errors
+        title: errors
       - id: "constructor(idorattributes_%3D_%7B%7D)_%3A_model"
         title: "constructor(idOrAttributes = {}) : Model"
       - id: "isnew()_%3A_boolean"
@@ -347,14 +349,13 @@ api_index:
         title: "save(options = {}, callback)"
       - id: "destroy(options_%3D_%7B%7D%2C_callback)"
         title: "destroy(options = {}, callback)"
-      - id: validate(callback)
-        title: validate(callback)
+      - id: prototype_function_validate
+        title: validate
   - id: batman.validationerror
     title: Batman.ValidationError
-    sub: []
-  - id: batman.errorsset
-    title: Batman.ErrorsSet
-    sub: []
+    sub: 
+      - id: prototype_accessor_fullmessage
+        title: fullMessage
   - id: batman.model_associations
     title: Batman.Model Associations
     sub: 
@@ -440,8 +441,6 @@ api_index:
         title: "data-view"
       - id: "data-partial"
         title: "data-partial"
-      - id: "data-mixin"
-        title: "data-mixin"
       - id: "data-defineview"
         title: "data-defineview"
       - id: "data-renderif"
@@ -450,8 +449,6 @@ api_index:
         title: "data-yield"
       - id: "data-contentfor"
         title: "data-contentfor"
-      - id: "data-replace"
-        title: "data-replace"
   - id: batman.view_filters
     title: Batman.View Filters
     sub: 
@@ -501,8 +498,6 @@ api_index:
         title: "interpolate(string, valuesObject) : string"
       - id: "witharguments(function%2C_curriedarguments...)_%3A_function"
         title: "withArguments(function, curriedArguments...) : function"
-      - id: "routetoaction(model%2C_action)_%3A_string"
-        title: "routeToAction(model, action) : string"
       - id: "escape(value)_%3A_string"
         title: "escape(value) : string"
   - id: batman.dom

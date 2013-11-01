@@ -59,6 +59,10 @@ sub:
     tokens: []
     id: "hashkey()_%3A_string"
     html: "<p><code>hashKey</code> returns a unique string identifying this particular <code>Batman.Object</code>. No two <code>Batman.Object</code>s will have the same <code>hashKey</code>. Feel free to override the implmentation of this function on your objects if you have a better hashing scheme for a domain object of yours.</p>\n"
+  - title: "batchAccessorChanges(key, wrappedFunction) : string"
+    tokens: []
+    id: "batchaccessorchanges(key%2C_wrappedfunction)_%3A_string"
+    html: "<p>Prevents accessor from being recalculated while the specified function is called. Only after <code>wrappedFunction</code> is complete will the accessor be recomputed. Returns the result of <code>wrappedFunction</code>.</p>\n<p>This can be useful when making multiple changes, and only want a single change event fired after the modifications are in place.</p>\n"
   - title: "accessor([keys...], objectOrFunction)"
     tokens: []
     id: "accessor(%5Bkeys...%5D%2C_objectorfunction)"
@@ -124,7 +128,7 @@ sub:
       params: "key: string, observerCallback: Function"
       returnType: this
     id: prototype_function_observe
-    html: "<p>Adds a handler to call when the value of the property at the <code>key</code> changes upon <code>set</code>ting. Accepts keypaths.</p>\n<p><code>observe</code> is the very core of Batman&#39;s usefulness. As long as <code>set</code> is used everywhere to do property mutation, any object can be observed for changes to its properties. This is critical to the concept of bindings, which Batman uses for its views.</p>\n<p>The <code>observerCallback</code> gets called with the arguments <code>newValue, oldValue</code>, whenever the <code>key</code> changes.</p>\n<p>Returns the object <code>observe</code> was called upon.</p>\n<pre><code>test <span class=\"string\">\"observe attaches handlers which get called upon change\"</span>, -&gt;\n  result = <span class=\"literal\">null</span>\n  song = <span class=\"keyword\">new</span> Batman.Object({length: <span class=\"number\">340</span>, bpm: <span class=\"number\">120</span>})\n  song.observe <span class=\"string\">\"length\"</span>, (newValue, oldValue) -&gt; result = [newValue, oldValue]\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">200</span>), <span class=\"number\">200</span>\n  deepEqual result, [<span class=\"number\">200</span>, <span class=\"number\">340</span>]\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">300</span>), <span class=\"number\">300</span>\n  deepEqual result, [<span class=\"number\">300</span>, <span class=\"number\">200</span>]</code></pre>\n<p><em>Note</em>: <code>observe</code> works excellently on keypaths. If you attach a handler to a &quot;deep&quot; keypath, it will fire when any segment of the keypath changes, passing in the new value at the end of the keypath.</p>\n<pre><code>test <span class=\"string\">\"observe attaches handlers which get called upon change\"</span>, -&gt;\n  result = <span class=\"literal\">null</span>\n  author = <span class=\"keyword\">new</span> Batman.Object\n    name: <span class=\"string\">\"Harry\"</span>\n  post = <span class=\"keyword\">new</span> Batman.Object\n    text: <span class=\"string\">\"Hello World!\"</span>\n    author: author\n  post.observe <span class=\"string\">\"author.name\"</span>, (newName, oldName) -&gt; \n    result = [newName, oldName]\n  newAuthor = <span class=\"keyword\">new</span> Batman.Object({name: <span class=\"string\">\"James\"</span>})\n  post.set <span class=\"string\">\"author\"</span>, newAuthor\n  deepEqual result, [<span class=\"string\">\"James\"</span>, <span class=\"string\">\"Harry\"</span>], <span class=\"string\">\"The observer fired when the 'author' segment of the keypath changed.\"</span></code></pre>\n"
+    html: "<p>Adds a handler to call when the value of the property at the <code>key</code> changes upon <code>set</code>ting. Accepts keypaths.</p>\n<p><code>observe</code> is the very core of Batman&#39;s usefulness. As long as <code>set</code> is used everywhere to do property mutation, any object can be observed for changes to its properties. This is critical to the concept of bindings, which Batman uses for its views.</p>\n<p>The <code>observerCallback</code> gets called with the arguments <code>newValue, oldValue</code>, whenever the <code>key</code> changes.</p>\n<p>Returns the object <code>observe</code> was called upon.</p>\n<pre><code>test <span class=\"string\">\"observe attaches handlers which get called upon change\"</span>, -&gt;\n  result = <span class=\"literal\">null</span>\n  song = <span class=\"keyword\">new</span> Batman.Object({length: <span class=\"number\">340</span>, bpm: <span class=\"number\">120</span>})\n  song.observe <span class=\"string\">\"length\"</span>, (newValue, oldValue) -&gt; result = [newValue, oldValue]\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">200</span>), <span class=\"number\">200</span>\n  deepEqual result, [<span class=\"number\">200</span>, <span class=\"number\">340</span>]\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">300</span>), <span class=\"number\">300</span>\n  deepEqual result, [<span class=\"number\">300</span>, <span class=\"number\">200</span>]</code></pre>\n<p><em>Note</em>: <code>observe</code> works excellently on keypaths. If you attach a handler to a &quot;deep&quot; keypath, it will fire when any segment of the keypath changes, passing in the new value at the end of the keypath.</p>\n<pre><code>test <span class=\"string\">\"observe attaches handlers which get called upon change\"</span>, -&gt;\n  result = <span class=\"literal\">null</span>\n  author = <span class=\"keyword\">new</span> Batman.Object\n    name: <span class=\"string\">\"Harry\"</span>\n  post = <span class=\"keyword\">new</span> Batman.Object\n    text: <span class=\"string\">\"Hello World!\"</span>\n    author: author\n  post.observe <span class=\"string\">\"author.name\"</span>, (newName, oldName) -&gt;\n    result = [newName, oldName]\n  newAuthor = <span class=\"keyword\">new</span> Batman.Object({name: <span class=\"string\">\"James\"</span>})\n  post.set <span class=\"string\">\"author\"</span>, newAuthor\n  deepEqual result, [<span class=\"string\">\"James\"</span>, <span class=\"string\">\"Harry\"</span>], <span class=\"string\">\"The observer fired when the 'author' segment of the keypath changed.\"</span></code></pre>\n"
   - title: observeAndFire
     tokens: []
     meta: 
@@ -156,7 +160,7 @@ sub:
     tokens: []
     id: batman.eventemitter
     html: "<p><code>EventEmitter</code> is a mixin which can be applied to any object to give it the ability to fire events and accept listeners for those events. All <code>Batman.Object</code>s, their subclasses and instances are <code>EventEmitter</code>s by default.</p>\n"
-  - title: on
+  - title: "on"
     tokens: []
     meta: 
       type: function
@@ -165,7 +169,7 @@ sub:
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     id: prototype_function_on
     html: "<p>Attaches a function <code>handler</code> to each event in the provided <code>keys</code> collection. This function will be executed when one of the specified events is fired.</p>\n<pre><code>test <span class=\"string\">'event handlers are added with `on`'</span>, -&gt;\n  results = []\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  ok dynamite.<span class=\"literal\">on</span> <span class=\"string\">'detonate'</span>, -&gt; results.push <span class=\"string\">'detonated'</span>\n  dynamite.fire <span class=\"string\">'detonate'</span>\n  equal results[<span class=\"number\">0</span>], <span class=\"string\">'detonated'</span></code></pre>\n"
-  - title: off
+  - title: "off"
     tokens: []
     meta: 
       type: function
@@ -242,8 +246,8 @@ sub:
     meta: 
       type: function
       level: prototype
-      params: !<tag:yaml.org,2002:js/undefined> ""
-      returnType: "(wrappedFunction : Function)"
+      params: "wrappedFunction : Function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
     id: prototype_function_mutate
     html: "<p>Prevents change events from firing while the specified function is called. Only after <code>wrappedFunction</code> is complete will the <code>change</code> event be fired. Returns the result of <code>wrappedFunction</code>.</p>\n<p>This can be useful when making multiple changes, and only want a single change event fired after the modifications are in place.</p>\n<pre><code>test <span class=\"string\">'mutate fires a single change event, regardless of the logic in wrappedFunction'</span>, -&gt;\n  results = []\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'change'</span>, -&gt; results.push <span class=\"string\">'Change event was fired'</span>\n  <span class=\"function\"><span class=\"title\">mutateFunction</span></span> = -&gt;\n    dynamite.fire(<span class=\"string\">'change'</span>)\n    dynamite.fire(<span class=\"string\">'change'</span>)\n  dynamite.mutate(mutateFunction)\n  equal results.length, <span class=\"number\">1</span>\n\ntest <span class=\"string\">'mutate returns the result of wrappedFunction'</span>, -&gt;\n  results = []\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'change'</span>, -&gt; results.push <span class=\"string\">'Change event was fired'</span>\n  <span class=\"function\"><span class=\"title\">mutateFunction</span></span> = -&gt; <span class=\"string\">'BOOM!'</span>\n  mutateResult = dynamite.mutate(mutateFunction)\n  equal mutateResult, <span class=\"string\">'BOOM!'</span></code></pre>\n"
   - title: mutation
@@ -251,8 +255,8 @@ sub:
     meta: 
       type: function
       level: prototype
-      params: !<tag:yaml.org,2002:js/undefined> ""
-      returnType: "(wrappedFunction : Function)"
+      params: "wrappedFunction : Function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
     id: prototype_function_mutation
     html: "<p>A helper method that returns a function that will call <code>wrappedFunction</code> and fires the change event when complete (if it is present).</p>\n<p><em>Note</em>: the returned function does not block the change event from firing due to the logic in <code>wrappedFunction</code>. To ignore/block change events, use <code>prevent(&#39;change&#39;)</code>.</p>\n<pre><code>test <span class=\"string\">'mutation returns a function that wraps the provided wrappedFunction'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Person</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'person'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>\n    <span class=\"property\">@persist</span> TestStorageAdapter, storage: []\n\n    transform: <span class=\"property\">@mutation</span> -&gt;\n      <span class=\"property\">@name</span> = <span class=\"string\">'Batman'</span>\n\n  results = []\n  <span class=\"function\"><span class=\"title\">verifyTransformation</span></span> = -&gt;\n    equal <span class=\"property\">@name</span>, <span class=\"string\">'Batman'</span>\n\n  person = Person.findOrCreate({name: <span class=\"string\">'Bruce Wayne'</span>})\n  person.<span class=\"literal\">on</span> <span class=\"string\">'change'</span>, verifyTransformation\n  person.transform()</code></pre>\n"
   - title: isEventEmitter
@@ -277,8 +281,7 @@ html: "<p><code>Batman.Object</code> is the superclass for virtually all objects
     <h3 class="api-title">
       <a id="{{ s.id }}" class="anchor-target"></a>
       <a href="#{{ s.id }}" class="anchor-link">
-      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %} <span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>{% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type">: {{ s.meta.returnType }}</span>{% endif %}
-      </span>
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
       </a>
     </h3>
     {{ s.html }}

@@ -53,8 +53,9 @@ ol { list-style-type: decimal; padding-left: 20px; }
 code {
   font-family: Menlo, Monaco, Consolas, "Lucida Console", monospace;
   color: #333;
+  background: #fff;
   font-size: 85%;
-  font-weight: bold;
+  padding: 0 5px;
 }
 .code-highlight {
   background: #fff8d4;
@@ -123,7 +124,6 @@ div[class*="span"] {
 /* helpers */
 .clearfix:before,.clearfix:after{content:"\0020";display:block;height:0;visibility:hidden}.clearfix:after{clear:both}.clearfix{zoom:1}
 
-/*.p { padding: 10px; }*/
 .pp { padding: 20px; }
 .ppt { padding-top: 20px; }
 .ppr { padding-right: 20px; }
@@ -530,6 +530,12 @@ td + td > p, th + th {
   margin-bottom: 15px;
 }
 
+.content-wrapper .api-list {
+  padding: 0;
+}
+
+.api-list-item ul { padding-bottom: 0; }
+
 
 /* footer */
 .footer{
@@ -711,10 +717,6 @@ td + td > p, th + th {
 
 .api-title {
   border-bottom: 1px solid #D9D6F0;
-}
-
-.content-wrapper .api-list {
-  padding: 0;
 }
 
 .api-list-item {

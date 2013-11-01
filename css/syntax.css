@@ -1,16 +1,9 @@
 div.highlight {
-  /*background:#FFFFFF;*/
-  /*border:1px solid #E0E0E0;*/
   font-family:"Courier New",Courier,monospace;
   overflow: hidden;
-  /*padding: 9px;*/
   margin-top: 10px;
   margin-bottom: 25px;
-  /*box-shadow: inset 0px 0 3px #ccc;*/
-  /*border: 1px solid #C4B7D8;*/
 }
-
-.highlight code { font-size: 100%; }
 
 div.highlight pre{
   width: 100%;
@@ -23,29 +16,15 @@ div.highlight pre{
 }
 
 .highlight-children pre {
-  /*background: #FFFFFF;*/
-  /*border: 1px solid #E0E0E0;*/
   font-family:"Courier New",Courier,monospace;
   font-size: 14px;
   line-height: 20px;
   overflow-x: auto;
-  /*padding: 9px;*/
   margin-top: 10px;
   margin-bottom: 25px;
-  /*box-shadow: inset 0px 0 3px #ccc;*/
-  /*border: 1px solid #C4B7D8;*/
 }
 
 .highlight-children pre > code { font-weight: normal; }
-/*.highlight-children code .string { color: #dd1144; }
-.highlight-children code .literal { color: #333333; font-weight: 800; }
-.highlight-children code .variable { color: #008080; }
-.highlight-children code .keyword { color: #333333; }
-.highlight-children code .title { color: #333333; }
-.highlight-children code .constant { color: #008080; }
-.highlight-children code .number { color: #008080; }
-.highlight-children code .property { color: #0086bc; }*/
-
 
 
 /* Tomorrow Night Eighties Theme */

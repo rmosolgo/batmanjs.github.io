@@ -133,9 +133,9 @@ api_index:
       - id: batman.eventemitter
         title: Batman.EventEmitter
       - id: prototype_function_on
-        title: on
+        title: "on"
       - id: prototype_function_off
-        title: off
+        title: "off"
       - id: prototype_function_fire
         title: fire
       - id: prototype_function_hasevent
@@ -323,8 +323,8 @@ api_index:
         title: "id : value"
       - id: "dirtykeys_%3A_set"
         title: "dirtyKeys : Set"
-      - id: "errors_%3A_errorsset"
-        title: "errors : ErrorsSet"
+      - id: prototype_accessor_errors
+        title: errors
       - id: "constructor(idorattributes_%3D_%7B%7D)_%3A_model"
         title: "constructor(idOrAttributes = {}) : Model"
       - id: "isnew()_%3A_boolean"
@@ -349,14 +349,13 @@ api_index:
         title: "save(options = {}, callback)"
       - id: "destroy(options_%3D_%7B%7D%2C_callback)"
         title: "destroy(options = {}, callback)"
-      - id: validate(callback)
-        title: validate(callback)
+      - id: prototype_function_validate
+        title: validate
   - id: batman.validationerror
     title: Batman.ValidationError
-    sub: []
-  - id: batman.errorsset
-    title: Batman.ErrorsSet
-    sub: []
+    sub: 
+      - id: prototype_accessor_fullmessage
+        title: fullMessage
   - id: batman.model_associations
     title: Batman.Model Associations
     sub: 
@@ -442,8 +441,6 @@ api_index:
         title: "data-view"
       - id: "data-partial"
         title: "data-partial"
-      - id: "data-mixin"
-        title: "data-mixin"
       - id: "data-defineview"
         title: "data-defineview"
       - id: "data-renderif"

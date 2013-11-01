@@ -1,10 +1,19 @@
 ---
 layout: api_docs
 title: Batman.ValidationError
-sub: []
+sub: 
+  - title: fullMessage
+    tokens: []
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    id: prototype_accessor_fullmessage
+    html: "<p>Returns the human-readable attribute name and the validation message:</p>\n<pre><code>test <span class=\"string\">\"ValidationError should humanize attribute in the full message\"</span>, -&gt;\n  error = <span class=\"keyword\">new</span> Batman.ValidationError(<span class=\"string\">\"fooBarBaz\"</span>, <span class=\"string\">\"isn't valid\"</span>)\n  equal error.get(<span class=\"string\">'fullMessage'</span>), <span class=\"string\">\"Foo bar baz isn't valid\"</span></code></pre>\n"
 tokens: []
 id: batman.validationerror
-html: ""
+html: "<p><code>Batman.ValidationError</code>s represent a failure for a model&#39;s field to to pass validation.\nThey are usually accessed by getting a model&#39;s <a href=\"/docs/api/batman.model.html#prototype_accessor_errors\">errors</a>.</p>\n"
 
 ---
 

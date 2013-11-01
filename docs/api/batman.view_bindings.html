@@ -70,14 +70,10 @@ sub:
     tokens: []
     id: "data-partial"
     html: "<p><code>data-partial</code> pulls in a partial template and renders it in the current context of the node the <code>data-partial</code> occurs in. <code>data-partial</code> expects the name of the view to render in the value of the HTML attribute. <strong>Warning</strong>: This value is not a keypath. The HTML attribute&#39;s value is interpreted as a string, and the template which resides at that view path will be rendered.</p>\n<p>If we have this HTML at <code>views/villains/_stub.html</code> in our app:</p>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"villain.name\"</span>&gt;&lt;/span&gt;</code></pre>\n<p>and in <code>views/villains/show.html</code> we have this HTML:</p>\n<pre><code class=\"lang-html\">&lt;h1&gt;A villain!&lt;/h1&gt;\n&lt;div data-partial=<span class=\"string\">\"villains/_stub\"</span>&gt;&lt;/div&gt;</code></pre>\n<p>the contents of the <code>stub</code> partial will be inserted and rendered in the <code>&lt;div&gt;</code> above.</p>\n"
-  - title: "data-mixin"
-    tokens: []
-    id: "data-mixin"
-    html: ""
   - title: "data-defineview"
     tokens: []
     id: "data-defineview"
-    html: ""
+    html: "<p><code>data-defineview</code> specifies that the content of the node defines the template for a particular view.</p>\n<p>The binding value should be a regular view path, i.e. &quot;#{resource_name}/#{controller_action}&quot;. For example:</p>\n<pre><code class=\"lang-html\">&lt;div data-defineview=<span class=\"string\">\"crimes/index\"</span>&gt;\n  &lt;ul class=<span class=\"string\">\"crimes\"</span>&gt;\n    &lt;li class=<span class=\"string\">\"crime\"</span> data-foreach-crime=<span class=\"string\">\"crimes\"</span>&gt;\n      &lt;span data-bind=<span class=\"string\">\"crime.name\"</span> data-addclass-heinous=<span class=\"string\">\"crime.heinous\"</span> /&gt;\n    &lt;/li&gt;\n  &lt;/ul&gt;\n&lt;/div&gt;</code></pre>\n<p>will be used by the <code>CrimesController</code>&#39;s  <code>index</code> action.</p>\n"
   - title: "data-renderif"
     tokens: []
     id: "data-renderif"

@@ -109,7 +109,7 @@ var ApiSearch = (function() {
         var searchTerm = query.toLowerCase();
 
         // 3: exact match, 2: starts with, 1: substr
-        result.rank = (indexable === searchTerm) ? 3 : (indexable.indexOf(searchTerm) === 0) ? 2 : 1;
+        result.rank = (indexable === searchTerm) ? 5 : (indexable.indexOf(searchTerm) === 0) ? 3 : 1;
         return result;
       })
       .sortBy(function(result) { return -result.rank })

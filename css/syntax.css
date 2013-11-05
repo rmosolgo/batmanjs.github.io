@@ -71,6 +71,7 @@ pre code {
   border: 1px solid #000;
   padding: 10px;
   border-radius: 5px;
+  overflow-x: auto;
 }
 
 .highlight .hll { background-color: #515151 }

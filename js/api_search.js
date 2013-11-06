@@ -13,9 +13,11 @@ var ApiSearch = (function() {
   var nonQueryKeycodes = [40, 38, 13, 27];
 
   var redirectTo = function(href) {
-    window.location = href;
-    $('.api-search-input').val('');
-    clearResults();
+    if (href !== null && typeof(href) !== 'undefined') {
+      window.location = href;
+      $('.api-search-input').val('');
+      clearResults();
+    }
   }
 
   var nextInList = function(direction, $selected, $resultSet) {

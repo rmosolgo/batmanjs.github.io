@@ -131,10 +131,15 @@ sub:
     tokens: []
     id: "constructor(idorattributes_%3D_%7B%7D)_%3A_model"
     html: ""
-  - title: "isNew() : boolean"
+  - title: isNew
     tokens: []
-    id: "isnew()_%3A_boolean"
-    html: ""
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: boolean
+    id: prototype_function_isnew
+    html: "<p>Returns whether or not the instance represents a record that hasn&#39;t yet been persisted to the server. The default implementation simply checks if <code>@get(&#39;id&#39;)</code> is undefined, but you could override this on your own models.</p>\n<p>It is used to determine whether <code>record.save()</code> will perform a <code>create</code> action or a <code>save</code> action.</p>\n"
   - title: "updateAttributes(attributes) : Model"
     tokens: []
     id: "updateattributes(attributes)_%3A_model"
@@ -143,14 +148,24 @@ sub:
     tokens: []
     id: "tostring()_%3A_string"
     html: ""
-  - title: "toJSON() : Object"
+  - title: toJSON
     tokens: []
-    id: "tojson()_%3A_object"
-    html: ""
-  - title: "fromJSON() : Model"
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Object
+    id: prototype_function_tojson
+    html: "<p>Returns a JavaScript object containing the attributes of the record, using any specified encoders.</p>\n<pre><code>test <span class=\"string\">\"toJSON returns a JavaScript object with the record's attributes\"</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Criminal</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@encode</span> <span class=\"string\">\"name\"</span>, <span class=\"string\">\"notorious\"</span>\n\n  criminal = <span class=\"keyword\">new</span> Criminal(name: <span class=\"string\">\"Talia al Ghul\"</span>, notorious: <span class=\"literal\">true</span>)\n  criminal_json = criminal.toJSON()\n  equal criminal_json.name, <span class=\"string\">\"Talia al Ghul\"</span>\n  equal criminal_json.notorious, <span class=\"literal\">true</span></code></pre>\n"
+  - title: fromJSON
     tokens: []
-    id: "fromjson()_%3A_model"
-    html: ""
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Model
+    id: prototype_function_fromjson
+    html: "<p>Reloads attributes of a record from a JavaScript object.</p>\n<pre><code>test <span class=\"string\">'fromJSON overwrites existing attributes'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Criminal</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@encode</span> <span class=\"string\">\"name\"</span>, <span class=\"string\">\"notorious\"</span>\n\n  criminal = <span class=\"keyword\">new</span> Criminal(name: <span class=\"string\">\"Dr. Jonathan Crane\"</span>, notorious: <span class=\"literal\">false</span>)\n  new_params =\n    name: <span class=\"string\">\"Scarecrow\"</span>\n    notorious: <span class=\"literal\">true</span>\n  criminal.fromJSON(new_params)\n\n  equal criminal.get(<span class=\"string\">\"notorious\"</span>), <span class=\"literal\">true</span>\n  equal criminal.get(<span class=\"string\">\"name\"</span>), <span class=\"string\">\"Scarecrow\"</span></code></pre>\n"
   - title: "toParam() : value"
     tokens: []
     id: "toparam()_%3A_value"
@@ -163,18 +178,33 @@ sub:
     tokens: []
     id: "hasstorage()_%3A_boolean"
     html: ""
-  - title: "load(options = {}, callback)"
+  - title: load
     tokens: []
-    id: "load(options_%3D_%7B%7D%2C_callback)"
-    html: ""
-  - title: "save(options = {}, callback)"
+    meta: 
+      type: function
+      level: prototype
+      params: "options = {}, callback"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    id: prototype_function_load
+    html: "<p><code>Load</code> tries to read the record from its storage adapter. The options object will be passed to the storage adapter when it performs the <code>read</code> operation. The callback takes three parameters: error, the loaded record, and the environment. <code>Load</code>ing a record clears all errors on that record.</p>\n<p>If the read operation fails or if the record is in a state which doesn&#39;t permit <code>load</code>, (for example, calling <code>load</code> on a deleted record) the callback will be invoked with an error.</p>\n"
+  - title: save
     tokens: []
-    id: "save(options_%3D_%7B%7D%2C_callback)"
-    html: ""
-  - title: "destroy(options = {}, callback)"
+    meta: 
+      type: function
+      level: prototype
+      params: "options = {}, callback"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    id: prototype_function_save
+    html: "<p><code>Save</code> <a href=\"http://localhost:4000/docs/api/batman.model.html#prototype_function_validate\">validates</a> the record, and if it passes, fires the corresponding storage operation (defined by the <code>Batman.StorageAdapter</code> passed to  <a href=\"/docs/api/batman.model.html#class_function_persist\"><code>@persist</code></a>). When the storage operation is complete, the callback is invoked with two parameters: any JavaScript error and the record.</p>\n<p>If the record <a href=\"/docs/api/batman.model.html#prototype_function_isnew\"><code>isNew</code></a>, <code>save</code> performs a <code>create</code> operation. Otherwise, it performs a <code>save</code> operation.</p>\n<p>If the record is not valid, the <a href=\"/docs/api/batman.validationerror.html\">validation errors</a> will be passed to the first parameter of the callback function and the storage operation will not be performed.</p>\n"
+  - title: destroy
     tokens: []
-    id: "destroy(options_%3D_%7B%7D%2C_callback)"
-    html: ""
+    meta: 
+      type: function
+      level: prototype
+      params: "options = {}, callback"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    id: prototype_function_destroy
+    html: "<p><code>Destroy</code> fires the corresponding storage operation. The callback takes three arguments: JavaScript Error, the record, and the environment. If the operation is successful, the record is removed from its Model&#39;s <a href=\"/docs/api/batman.model.html#class_function_loaded\"><code>loaded</code></a> set.</p>\n<pre><code class=\"lang-coffeescript\">criminal = <span class=\"keyword\">new</span> Criminal name: <span class=\"string\">\"The penguin\"</span>\ncriminal.destroy (err, record, env) -&gt;\n  <span class=\"keyword\">if</span> err\n    console.log <span class=\"string\">\"Oh no! <span class=\"subst\">#{record.get('name')}</span> is still on the loose!\"</span></code></pre>\n<p>If the record&#39;s current lifecycle state doesn&#39;t allow the <code>destroy</code> action, the callback will be invoked with a <code>Batman.StateMachine.InvalidTransitionError</code>. For example, this could occur if <code>destroy</code> is called on an already-destroyed record.</p>\n"
   - title: validate
     tokens: []
     meta: 

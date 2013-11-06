@@ -133,9 +133,9 @@ api_index:
       - id: batman.eventemitter
         title: Batman.EventEmitter
       - id: prototype_function_on
-        title: "on"
+        title: on
       - id: prototype_function_off
-        title: "off"
+        title: off
       - id: prototype_function_fire
         title: fire
       - id: prototype_function_hasevent
@@ -327,28 +327,28 @@ api_index:
         title: errors
       - id: "constructor(idorattributes_%3D_%7B%7D)_%3A_model"
         title: "constructor(idOrAttributes = {}) : Model"
-      - id: "isnew()_%3A_boolean"
-        title: "isNew() : boolean"
+      - id: prototype_function_isnew
+        title: isNew
       - id: "updateattributes(attributes)_%3A_model"
         title: "updateAttributes(attributes) : Model"
       - id: "tostring()_%3A_string"
         title: "toString() : string"
-      - id: "tojson()_%3A_object"
-        title: "toJSON() : Object"
-      - id: "fromjson()_%3A_model"
-        title: "fromJSON() : Model"
+      - id: prototype_function_tojson
+        title: toJSON
+      - id: prototype_function_fromjson
+        title: fromJSON
       - id: "toparam()_%3A_value"
         title: "toParam() : value"
       - id: "state()_%3A_string"
         title: "state() : string"
       - id: "hasstorage()_%3A_boolean"
         title: "hasStorage() : boolean"
-      - id: "load(options_%3D_%7B%7D%2C_callback)"
-        title: "load(options = {}, callback)"
-      - id: "save(options_%3D_%7B%7D%2C_callback)"
-        title: "save(options = {}, callback)"
-      - id: "destroy(options_%3D_%7B%7D%2C_callback)"
-        title: "destroy(options = {}, callback)"
+      - id: prototype_function_load
+        title: load
+      - id: prototype_function_save
+        title: save
+      - id: prototype_function_destroy
+        title: destroy
       - id: prototype_function_validate
         title: validate
   - id: batman.validationerror

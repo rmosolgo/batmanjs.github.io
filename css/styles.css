@@ -715,6 +715,9 @@ td + td > p, th + th {
   color: #aaa;
 }
 
+.api-docs td {
+  padding: 2px 4px;
+}
 .api-title {
   border-bottom: 1px solid #D9D6F0;
 }

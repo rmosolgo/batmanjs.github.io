@@ -715,9 +715,24 @@ td + td > p, th + th {
   color: #aaa;
 }
 
-.api-docs td {
-  padding: 2px 4px;
+.api-docs td, .api-docs th {
+  padding: 4px 8px;
 }
+
+.api-docs th {
+  padding: 6px 8px;
+  font-size: 1.1em;
+}
+
+.api-docs table {
+  margin-bottom: 1em;
+  width: 100%;
+}
+
+.api-docs tr:nth-child(even), .api-docs thead tr {
+  background: #e8e7f4;
+}
+
 .api-title {
   border-bottom: 1px solid #D9D6F0;
 }

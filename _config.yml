@@ -219,6 +219,8 @@ api_index:
   - id: batman.request
     title: Batman.Request
     sub: 
+      - id: platform_request_implementation_libraries
+        title: Platform Request Implementation Libraries
       - id: .status
         title: .status
       - id: .response
@@ -369,6 +371,31 @@ api_index:
         title: hasOne
       - id: class_function_belongsto
         title: belongsTo
+  - id: batman.storageadapter
+    title: Batman.StorageAdapter
+    sub: 
+      - id: subclassing_batman.storageadapter
+        title: Subclassing Batman.StorageAdapter
+      - id: storage_operations
+        title: Storage Operations
+      - id: prototype_function_create
+        title: create
+      - id: prototype_function_read
+        title: read
+      - id: prototype_function_update
+        title: update
+      - id: prototype_function_destroy
+        title: destroy
+      - id: prototype_function_readall
+        title: readAll
+      - id: other_useful_methods
+        title: Other Useful Methods
+      - id: class_function_nextiferror
+        title: nextIfError
+      - id: prototype_function_before
+        title: before
+      - id: prototype_function_after
+        title: after
   - id: batman.view
     title: Batman.View
     sub: 

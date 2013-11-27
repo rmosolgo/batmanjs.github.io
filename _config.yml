@@ -390,8 +390,8 @@ api_index:
         title: readAll
       - id: other_useful_methods
         title: Other Useful Methods
-      - id: class_function_nextiferror
-        title: nextIfError
+      - id: class_function_skipiferror
+        title: skipIfError
       - id: prototype_function_before
         title: before
       - id: prototype_function_after

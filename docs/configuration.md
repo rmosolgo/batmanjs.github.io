@@ -36,7 +36,7 @@ The [`Batman.rails`](https://github.com/batmanjs/batman/blob/master/src/extras/b
 ### fetchRemoteHTML
 __Default: `true`__
 
-Batman fetches HTML for views which aren't loaded yet. If `fetchRemoteHTML` is false, Batman throws an error if needed HTML is not found in the DOM. (The [`data-view` binding](/docs/api/batman.view_bindings.html#data-view) may be used to provide HTML in the DOM.)
+Batman fetches HTML for views which aren't loaded yet. If `fetchRemoteHTML` is false, Batman throws an error if needed HTML is not found in the DOM. (The [`data-defineview` binding](/docs/api/batman.view_bindings.html#data-view) may be used to provide HTML in the DOM.)
 
 ### usePushState
 __Default: `true`__

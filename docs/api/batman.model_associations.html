@@ -2,44 +2,102 @@
 layout: api_docs
 title: Batman.Model Associations
 sub: 
-  - title: Batman.AssocationProxy
-    tokens: []
-    id: batman.assocationproxy
-    html: "<p>Association accessors won&#39;t always return a <code>Batman.Set</code>. Generally they will return a <code>Batman.AssocationProxy</code> named after the association type,\nsuch as <code>Batman.BelongsToAssociationProxy</code> or <code>Batman.HasManyAssociationProxy</code>.</p>\n<p><code>Batman.AssociationProxy</code> defines useful methods such as <code>@load</code>, <code>@toJSON</code>, <code>@loadFromLocal</code>. It also defines accessors such as <code>%loaded</code> and <code>%target</code>.</p>\n"
-  - title: Shared Options
-    tokens: []
-    id: shared_options
-    html: "<p>All assocations have a common set of options, as well as specific options for each type of relationship.</p>\n<h5><code>saveInline[= true] : boolean</code></h5>\n<p>Whether we should save the child objects as part of the parent object&#39;s JSON</p>\n<h5><code>autoload[= true] : boolean</code></h5>\n<p> Whether we should load the child objects when loading the parent object.</p>\n<h5><code>nestUrl[= false] : boolean</code></h5>\n<p>Whether the child models are persisted beneath the parent model&#39;s url structure.</p>\n<h5><code>name : string</code></h5>\n<p>The name of the child model for the association. (eg. App.Product)</p>\n<h5><code>inverseOf : string</code></h5>\n<p>The foreign association to set on load.</p>\n<h5><code>encoderKey : string</code></h5>\n<p>The key to encode and decode the assocation into/from JSON.</p>\n<h5><code>namespace[= Batman.currentApp] : string</code></h5>\n<p>The location of the model definition for the association.</p>\n<h5><code>polymorphic[= false] : boolean</code></h5>\n<p>Whether the association is polymorphic.</p>\n"
   - title: hasMany
     tokens: []
     meta: 
       type: function
       level: class
-      params: "label[, options]"
+      params: "label : string [, options : Object]"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     id: class_function_hasmany
-    html: "<p><code>hasMany</code> assocations are used for expressing one-to-many relationships on a <code>Batman.Model</code>.</p>\n<ul>\n<li><code>label : string</code></li>\n<li><code>options : Object</code><ul>\n<li><code>primaryKey : string</code></li>\n<li><code>foreignKey : string</code></li>\n<li><code>as : string</code><ul>\n<li>the parent association name on child objects in a polymorphic association</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>\n"
+    html: "<p><code>hasMany</code> expresses a one-to-many relationship on a <code>Batman.Model</code>.</p>\n"
   - title: hasOne
     tokens: []
     meta: 
       type: function
       level: class
-      params: "label[, options]"
+      params: "label : string [, options : Object]"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     id: class_function_hasone
-    html: "<p><code>hasOne</code> associations are used for expressing one-to-one relationships on a <code>Batman.Model</code>.</p>\n<ul>\n<li><code>label : string</code></li>\n<li><code>options : Object</code><ul>\n<li><code>primaryKey : string</code></li>\n<li><code>foreignKey : string</code></li>\n<li><code>as : string</code><ul>\n<li>the parent association name on child objects in a polymorphic association</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>\n"
+    html: "<p><code>hasOne</code> expresses a one-to-one relationship on a <code>Batman.Model</code> when this model contains the primary key (eg, <code>id</code>) and does not contain the foreign key. If this model contains the foreign key, use <code>belongsTo</code> instead.</p>\n"
   - title: belongsTo
     tokens: []
     meta: 
       type: function
       level: class
-      params: "label[, options]"
+      params: "label : string [, options : Object]"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     id: class_function_belongsto
-    html: "<p><code>belongsTo</code> associatons are used for expressing one-to-one child relationships on a <code>Batman.Model</code>.</p>\n<ul>\n<li><code>label : string</code></li>\n<li><code>options : Object</code><ul>\n<li><code>primaryKey : string</code></li>\n<li><code>foreignKey : string</code></li>\n<li><code>encodeForeignKey[= true] boolean</code><ul>\n<li>whether to encode the foreignKey value when persisting the model</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>\n"
+    html: "<p><code>belongsTo</code> expresses a one-to-one relationship on a <code>Batman.Model</code> when this model contains the foreign key (eg, <code>parent_id</code>). If the other model contains the foreign key, use <code>hasOne</code> instead. It often expresses inverse of a <code>hasMany</code> or <code>hasOne</code> association. You can declare this with the <code>inverseOf</code> option (see <a href=\"/docs/api/batman.model_associations.html#association_options\">options</a> below) so that both sides of the association are loaded from JSON.</p>\n"
+  - title: Batman.AssocationProxy
+    tokens: []
+    id: batman.assocationproxy
+    html: "<p>Association accessors won&#39;t always return a <code>Batman.AssociationSet</code> or <code>Batman.Model</code>. Generally they will return a <code>Batman.AssocationProxy</code> named after the association type, such as <code>Batman.BelongsToAssociationProxy</code> or <code>Batman.HasOneAssociationProxy</code>.</p>\n"
+  - title: load
+    tokens: []
+    meta: 
+      type: function
+      level: prototype
+      params: "callback : Function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    id: prototype_function_load
+    html: "<p>Called to load the associated record from storage, setting it as  <a href=\"/docs/api/batman.model_associations.html#prototype_accessor_target\"><code>target</code></a>. If a callback is passed, it is called with two arguments: any error and the loaded record. Also, when this function finishes, it sets <a href=\"/docs/api/batman.model_associations.html#prototype_accessor_loaded\"><code>loaded</code></a> to <code>true</code> and fires <code>loaded</code> on the record.</p>\n"
+  - title: toJSON
+    tokens: []
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Object
+    id: prototype_function_tojson
+    html: "<p>Returns a <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#toJSON_behavior\">stringifiable JavaScript object</a> for the target record, if the <a href=\"/docs/api/batman.model_associations.html#prototype_accessor_target\"><code>target</code></a> is present.</p>\n"
+  - title: target
+    tokens: []
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    id: prototype_accessor_target
+    html: "<p>The associated record. Getting <code>target</code> does not implicitly call <code>load</code> on the association.</p>\n"
+  - title: loaded
+    tokens: []
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    id: prototype_accessor_loaded
+    html: "<p><code>true</code> or <code>false</code>, whether or not the record has been loaded from storage.</p>\n"
+  - title: fetchFromLocal
+    tokens: []
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    id: prototype_function_fetchfromlocal
+    html: "<p>This method is called by <a href=\"/docs/api/batman.model_associations.html#prototype_function_load\"><code>load</code></a> to fetch the <a href=\"/docs/api/batman.model_associations.html#prototype_accessor_target\"><code>target</code></a> record(s). If this method returns a falsy value, then <a href=\"/docs/api/batman.model_associations.html#prototype_function_fetchfromremote\"><code>fetchFromRemote</code></a> is called.  <code>Batman.AssocationProxy</code> subclasses must implement this method.</p>\n"
+  - title: fetchFromRemote
+    tokens: []
+    meta: 
+      type: function
+      level: prototype
+      params: "[callback : Function]"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    id: prototype_function_fetchfromremote
+    html: "<p>If <a href=\"/docs/api/batman.model_associations.html#prototype_function_fetchfromlocal\"><code>fetchFromLocal</code></a> returns a falsy value, this method is called by <a href=\"/docs/api/batman.model_associations.html#prototype_function_load\"><code>load</code></a> to fetch the <a href=\"/docs/api/batman.model_associations.html#prototype_accessor_target\"><code>target</code></a> record(s). The <code>callback</code> is called with two arguments: any error and the fetched record(s). <code>Batman.AssocationProxy</code> subclasses must implement this method.</p>\n"
+  - title: Association Options
+    tokens: []
+    id: association_options
+    html: "<h5><code>primaryKey[= &quot;id&quot;] : string</code></h5>\n<p>The primary key for the association.</p>\n<h5><code>foreignKey[= &quot;#{label}_id&quot;] : string</code></h5>\n<p>The foreign key for the association.</p>\n<h5><code>saveInline[= true] : boolean</code></h5>\n<p>If true, this model&#39;s attributes will be included in the associated model&#39;s JSON. This means that when an associated record is saved, this record&#39;s attributes will be included in the JSON.  (An alternative might be to include the associations&#39; primary keys in the model&#39;s JSON with an <a href=\"/docs/api/batman.model.html#class_function_encode\">encoder</a>.)</p>\n<h5><code>autoload[= true] : boolean</code></h5>\n<p>If <code>true</code>, batman.js will automatically call <code>load</code> when the associated records are accessed. This is useful in view bindings, where binding to the associated records will automatically cause them to be loaded.</p>\n<h5><code>nestUrl[= false] : boolean</code></h5>\n<p>If <code>true</code>, this model&#39;s URL will be nested under the associated model:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">ChildItem</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@belongsTo</span> <span class=\"string\">'parentItem'</span>, nestUrl: <span class=\"literal\">true</span>\n\n<span class=\"comment\"># ...</span>\n\nchild = <span class=\"keyword\">new</span> ChildItem(parent_id: <span class=\"number\">1</span>, id: <span class=\"number\">5</span>)\nchild.url() <span class=\"comment\"># =&gt; 'parent_items/1/child_items/5'</span></code></pre>\n<p><code>nestUrl</code> only applies if the model is persisted with <code>Batman.RestStorage</code> (or a subclass).</p>\n<h5><code>name : string</code></h5>\n<p>By default, batman.js checks for a model with the singular, camel-case name of association&#39;s <code>label</code> attached to <code>Batman.currentApp</code>. If the associated model&#39;s name is different from that, use <code>name</code> to specify it.</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">ChildItem</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@belongsTo</span> <span class=\"string\">'parentItem'</span> <span class=\"comment\"># automatically finds App.ParentItem</span>\n  <span class=\"property\">@belongsTo</span> <span class=\"string\">'alternativeParentItem'</span>, name: <span class=\"string\">'ParentItem'</span> <span class=\"comment\"># also finds App.ParentItem</span></code></pre>\n<h5><code>inverseOf : string</code></h5>\n<p>The foreign association to set on load. If the associated model has an association with the same name as the <code>inverseOf</code> value, it will be populated when data is loaded from storage. For example:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">ParentItem</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@hasMany</span> <span class=\"string\">'childItems'</span>, saveInline: <span class=\"literal\">true</span>, inverseOf: <span class=\"string\">'parentItem'</span>\n\n<span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">ChildItem</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@belongsTo</span> <span class=\"string\">'parentItem'</span>, inverseOf: <span class=\"string\">'childItems'</span></code></pre>\n<p>would allow:</p>\n<pre><code class=\"lang-coffeescript\">App.ParentItem.find <span class=\"number\">1</span>, (err, parent) -&gt;\n  children = parent.get(<span class=\"string\">'childItems'</span>)\n  children.get(<span class=\"string\">'first.parentItem'</span>) == parent <span class=\"comment\"># =&gt; true</span>\n\nApp.ChildItem.find <span class=\"number\">5</span>, (err, childItem) -&gt;\n  childItem.get(<span class=\"string\">'parentItem'</span>).load (err, parent) -&gt;\n    parent.get(<span class=\"string\">'childItems'</span>).has(childItem) <span class=\"comment\"># =&gt; true</span></code></pre>\n<h5><code>encoderKey[= label] : string</code></h5>\n<p>Key that represents this association&#39;s records when in serialized form. For example,</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">ParentItem</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@hasMany</span> <span class=\"string\">'childItems'</span>, encoderKey: <span class=\"string\">'children'</span></code></pre>\n<p>will correctly decode this JSON:</p>\n<pre><code class=\"lang-javascript\">{id: <span class=\"number\">1</span>, children: [{ id: <span class=\"number\">5</span>, parent_id: <span class=\"number\">1</span> }, {id: <span class=\"number\">6</span>, parent_id: <span class=\"number\">1</span>}]}</code></pre>\n<p>It will also encode the <code>childItems</code> as <code>children</code> (unless <code>saveInline</code> is set to <code>false</code>).</p>\n<h5><code>namespace[= Batman.currentApp] : string</code></h5>\n<p>batman.js expects to find a model with the given <code>name</code> on <code>Batman.currentApp</code>. If your model is defined elsewhere, use <code>namespace</code> to specify where the model is defined.</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">Admin</span>.<span class=\"title\">Person</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@belongsTo</span> <span class=\"string\">'organization'</span>, namespace: App.Admin <span class=\"comment\"># finds App.Admin.Organization instead of App.Organization</span></code></pre>\n"
+  - title: Polymorphic Association Options
+    tokens: []
+    id: polymorphic_association_options
+    html: "<p>batman.js also supports <a href=\"http://guides.rubyonrails.org/association_basics.html#polymorphic-associations\">polymorphic associations</a>. For example:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">Superpower</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>\n  <span class=\"property\">@belongsTo</span> <span class=\"string\">'superpowerable'</span>, polymorphic: <span class=\"literal\">true</span>\n\n<span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">Hero</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@hasMany</span> <span class=\"string\">'superpowers'</span>, as: <span class=\"string\">'superpowerable'</span>, polymorphic: <span class=\"literal\">true</span>\n\n<span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">Villain</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@hasMany</span> <span class=\"string\">'superpowers'</span>, as: <span class=\"string\">'superpowerable'</span>, polymorphic: <span class=\"literal\">true</span></code></pre>\n<p>By default, attributes of the polymorphic association will be encoded according to the label. So, <code>hero.toJSON()</code> might return:</p>\n<pre><code class=\"lang-javascript\">{ id: <span class=\"number\">1</span>,\n  name: <span class=\"string\">'Superman'</span>,\n  superpowers: [\n    {id: <span class=\"number\">15</span>, superpowerable_id: <span class=\"number\">1</span>, superpowerable_type: <span class=\"string\">'hero'</span>, name: <span class=\"string\">'Super Strength'</span>},\n    {id: <span class=\"number\">16</span>, superpowerable_id: <span class=\"number\">1</span>, superpowerable_type: <span class=\"string\">'hero'</span>, name: <span class=\"string\">'Invincibility'</span>},\n  ]\n}</code></pre>\n<h5><code>polymorphic[= false] : boolean</code></h5>\n<p>Set to <code>true</code> when the association is <a href=\"http://guides.rubyonrails.org/association_basics.html#polymorphic-associations\">polymorphic</a>.</p>\n<h5><code>as : string</code></h5>\n<p>Specifies the name of the polymorphic interface.</p>\n<h5><code>foreignTypeKey[= &quot;#{label}_type&quot;] : string</code></h5>\n<p>Specifies the field which contains the <code>type</code> for a polymorphic record.</p>\n<h5><code>encodeForeignTypeKey[=true] : boolean</code></h5>\n<p>Set to <code>true</code> when the <code>foreignTypeKey</code> should be included in the JSON of the record.</p>\n"
 tokens: []
 id: batman.model_associations
-html: "<p>There are 3 types of assocations available on <code>Batman.Model</code>: <code>hasMany</code>, <code>belongsTo</code>, and <code>hasOne</code>.</p>\n"
+html: "<p>batman.js associations are modeled after <a href=\"http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html\">ActiveRecord Associations</a>. There are 3 types of assocations available on <code>Batman.Model</code>: <a href=\"/docs/api/batman.model_associations.html#class_function_hasmany\"><code>hasMany</code></a>, <a href=\"/docs/api/batman.model_associations.html#class_function_belongsto\"><code>belongsTo</code></a>, and <a href=\"/docs/api/batman.model_associations.html#class_function_hasone\"><code>hasOne</code></a>. batman.js also supports polymorphic associations through the use of <a href=\"/docs/api/batman.model_associations.html#polymorphic_association_options\">polymorphic-specific options</a>.</p>\n<p>To add associations to your models, declare them in your model definition. Association functions take a label (string) and options (Object). The label names the association and is used to provide smart defaults for several options. All available options are <a href=\"/docs/api/batman.model_associations.html#association_options\">detailed below</a>.</p>\n<p>For example:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">ParentItem</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@hasMany</span> <span class=\"string\">'childItems'</span>, inverseOf: <span class=\"string\">'parentItem'</span>, encoderKey: <span class=\"string\">'children'</span>\n\n<span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">ChildItem</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@belongsTo</span> <span class=\"string\">'parentItem'</span>, inverseOf: <span class=\"string\">'childItem'</span></code></pre>\n<p>Then, associated records will be available via accessors:</p>\n<pre><code class=\"lang-coffeescript\">  parent = <span class=\"keyword\">new</span> App.ParentItem\n  child = <span class=\"keyword\">new</span> App.ChildItem\n\n  child.set(<span class=\"string\">'parentItem'</span>, parent)\n  child.get(<span class=\"string\">'parentItem'</span>) <span class=\"comment\"># =&gt; parent</span></code></pre>\n<p>or,</p>\n<pre><code class=\"lang-coffeescript\">  parent = <span class=\"keyword\">new</span> App.ParentItem\n  child = <span class=\"keyword\">new</span> App.ChildItem\n  secondChild = <span class=\"keyword\">new</span> App.ChildItem\n  parent.get(<span class=\"string\">'childItems'</span>).add(child)\n  parent.get(<span class=\"string\">'childItems'</span>).add(secondChild)\n  parent.get(<span class=\"string\">'childItems'</span>) <span class=\"comment\"># =&gt; Batman.AssociationSet</span>\n  parent.get(<span class=\"string\">'childItems.length'</span>) <span class=\"comment\"># =&gt; 2</span></code></pre>\n"
 
 ---
 

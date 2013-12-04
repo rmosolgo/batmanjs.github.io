@@ -361,16 +361,30 @@ api_index:
   - id: batman.model_associations
     title: Batman.Model Associations
     sub: 
-      - id: batman.assocationproxy
-        title: Batman.AssocationProxy
-      - id: shared_options
-        title: Shared Options
       - id: class_function_hasmany
         title: hasMany
       - id: class_function_hasone
         title: hasOne
       - id: class_function_belongsto
         title: belongsTo
+      - id: batman.assocationproxy
+        title: Batman.AssocationProxy
+      - id: prototype_function_load
+        title: load
+      - id: prototype_function_tojson
+        title: toJSON
+      - id: prototype_accessor_target
+        title: target
+      - id: prototype_accessor_loaded
+        title: loaded
+      - id: prototype_function_fetchfromlocal
+        title: fetchFromLocal
+      - id: prototype_function_fetchfromremote
+        title: fetchFromRemote
+      - id: association_options
+        title: Association Options
+      - id: polymorphic_association_options
+        title: Polymorphic Association Options
   - id: batman.storageadapter
     title: Batman.StorageAdapter
     sub: 

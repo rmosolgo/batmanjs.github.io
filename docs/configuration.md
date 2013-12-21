@@ -5,7 +5,7 @@ prev_section: installation
 next_section: controllers
 ---
 
-batman.js accepts some global configurations that affect all apps running on the page. All configuration settings are attributes of `Batman.config`. Although configurations are checked at runtime, it's good practice to set them before defining your app:
+batman.js contains some settings affecting all apps running on the page. These settings are attributes of the global `Batman.config` object. It's good practice to set these values before defining your app, like so:
 
 {% highlight coffeescript %}
 Batman.config.pathToHTML = '/templates'
@@ -18,30 +18,30 @@ class MyApp extends Batman.App
 ### pathToApp
 __Default: `"/"`__
 
-Use this if your batman.js app is loaded at a specific path (rather than `/`). For example, if you load your app at `/app`, you'd configure batman.js:
+Use this if your batman.js app is loaded from a path other than `/`. For example, if you load your app at `/app`, you'd use:
 
 {% highlight coffeescript %}
   Batman.config.pathToApp = '/app'
 {% endhighlight %}
 
-Any batman.js-generated routes will be prefixed with `/app`.
+Any generated routes will be then be prefixed with `/app`.
 
 ### pathToHTML
 __Default: `"/html"`__
 
-If the app hasn't already loaded the HTML to render a view, it will request the HTML by AJAX. `pathToHTML` will be used as a prefix for batman.js's HTML requests.
+If the app hasn't already loaded the HTML to render a view, it will request the HTML with an AJAX request. `pathToHTML` is used as the prefix for these requests.
 
 The [`Batman.rails`](https://github.com/batmanjs/batman/blob/master/src/extras/batman.rails.coffee) extra sets `Batman.config.pathToHTML= '/assets/batman/html'`.
 
 ### fetchRemoteHTML
 __Default: `true`__
 
-batman.js fetches HTML for views which aren't loaded yet. If `fetchRemoteHTML` is false, batman.js throws an error if needed HTML is not found in the DOM. (The [`data-defineview` binding](/docs/api/batman.view_bindings.html#data-view) may be used to provide HTML in the DOM.)
+batman.js automatically fetches a view's HTML if it hasn't been loaded yet. If `fetchRemoteHTML` is false, an error will be thrown instead.
 
 ### usePushState
 __Default: `true`__
 
-Set to `false` to use batman.js's hashbang navigator instead of the (default) `pushState` navigator. (Don't worry, batman.js gracefully degrades to the hashbang navigator automatically if `pushState` isn't supported.)
+Set to `false` to use batman.js's hashbang navigator instead of the (default) `pushState` navigator. Note: the `pushState` navigator automatically degrades to the hashbang navigator if not supported by the browser.
 
 ### protectFromCSRF
 __Default: `false`__
@@ -53,7 +53,7 @@ The [`Batman.rails`](https://github.com/batmanjs/batman/blob/master/src/extras/b
 ### metaNameForCSRFToken
 __Default: `"csrf-token"`__
 
-If `protectFromCSRF` is true, this will be used to find the meta tag whose `contents` contain the CSRF token. This default is set in the [`Batman.rails`](https://github.com/batmanjs/batman/blob/master/src/extras/batman.rails.coffee) extra.
+If `protectFromCSRF` is true, the contents of the meta tag with this name will be used as the CSRF token. This default is set in the [`Batman.rails`](https://github.com/batmanjs/batman/blob/master/src/extras/batman.rails.coffee) extra.
 
 ### cacheViews
 __Default: `false`__

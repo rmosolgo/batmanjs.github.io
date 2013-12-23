@@ -321,14 +321,14 @@ api_index:
         title: create
       - id: class_function_findorcreate
         title: findOrCreate
-      - id: "id_%3A_value"
-        title: "id : value"
-      - id: "dirtykeys_%3A_set"
-        title: "dirtyKeys : Set"
+      - id: prototype_accessor_id
+        title: id
+      - id: prototype_accessor_dirtykeys
+        title: dirtyKeys
       - id: prototype_accessor_errors
         title: errors
-      - id: "constructor(idorattributes_%3D_%7B%7D)_%3A_model"
-        title: "constructor(idOrAttributes = {}) : Model"
+      - id: class_function_constructor
+        title: "constructor"
       - id: prototype_function_isnew
         title: isNew
       - id: "updateattributes(attributes)_%3A_model"
@@ -339,12 +339,10 @@ api_index:
         title: toJSON
       - id: prototype_function_fromjson
         title: fromJSON
-      - id: "toparam()_%3A_value"
-        title: "toParam() : value"
-      - id: "state()_%3A_string"
-        title: "state() : string"
-      - id: "hasstorage()_%3A_boolean"
-        title: "hasStorage() : boolean"
+      - id: prototype_function_toparam
+        title: toParam
+      - id: prototype_function_hasstorage
+        title: hasStorage
       - id: prototype_function_load
         title: load
       - id: prototype_function_save

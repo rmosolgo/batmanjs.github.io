@@ -55,10 +55,10 @@ sub:
     meta: 
       type: function
       level: prototype
-      params: "url: string"
+      params: "options: [string|Object]"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     id: prototype_function_redirect
-    html: "<p><code>redirect</code> will forward the user to a new route defined by <code>url</code> without hard-refreshing the page. This modifies the current page URL using pushState if supported, otherwise falling back to hash-bang fragment identifiers. The url can be obtained dynamically using <code>MyApp.get(&#39;routes&#39;).myResourceName().path()</code> or by manually passing a string, such as <code>@redirect(&#39;/test&#39;)</code>.</p>\n"
+    html: "<p>Properly handles the controller filter chain and loads a new page with <a href=\"/docs/api/batman.html#class_function_redirect\"><code>Batman.redirect</code></a>. See <a href=\"/docs/api/batman.html#class_function_redirect\"><code>Batman.redirect</code></a> for allowed <code>options</code>. If <code>options</code> is an object, the current controller will be added as the object&#39;s <code>controller</code> attribute (if it isn&#39;t already present), so calling <code>@redirect({action: &quot;show&quot;, id: itemId})</code> is equivalent to calling <code>@redirect({action: &#39;show&#39;, id: itemId, controller: &#39;items&#39;})</code>.</p>\n"
   - title: scrollToHash
     tokens: []
     meta: 

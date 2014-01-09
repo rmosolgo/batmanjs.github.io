@@ -64,6 +64,8 @@ api_index:
         title: getPath
       - id: class_function_escapehtml
         title: escapeHTML
+      - id: class_function_redirect
+        title: redirect
   - id: batman.helpers
     title: Batman.helpers
     sub: 

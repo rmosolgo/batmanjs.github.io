@@ -351,6 +351,19 @@ api_index:
         title: destroy
       - id: prototype_function_validate
         title: validate
+  - id: batman.validator
+    title: Batman.Validator
+    sub: 
+      - id: prototype_function_constructor
+        title: "constructor"
+      - id: class_function_triggers
+        title: triggers
+      - id: class_function_options
+        title: options
+      - id: prototype_function_validateeach
+        title: validateEach
+      - id: class_function_handleblank
+        title: handleBlank
   - id: batman.validationerror
     title: Batman.ValidationError
     sub: 

@@ -82,8 +82,73 @@ not.
 Views are useful for creating reusable, configurable components which can be
 instantiated from within templates.
 
-`<examples go here>`
+### Defining Custom Views
 
+A custom view is a subclass of [`Batman.View`](/docs/api/batman.view.html).
+You can specialize your own custom views by subclassing them again.
+For example, here's a custom view that uses [jQueryUI Autocomplete](http://jqueryui.com/autocomplete/):
+
+{% highlight coffeescript %}
+class App.AutocompleteView extends Batman.View
+  html: "<input type='text' />"
+  autocompleteSource: -> []
+  viewDidAppear: ->
+    $(@node).autocomplete
+      source: @autocompleteSource()
+{% endhighlight %}
+
+Obviously this isn't much use by itself, but we can extend it and provide more useful `autocompleteSource`s:
+
+{% highlight coffeescript %}
+class App.VillainAutocompleteView extends App.AutocompleteView
+  autocompleteSource: -> App.Villian.get('all').mapToProperty('name')
+{% endhighlight %}
+
+Now, when we instantiate `App.VillianAutocompleteView`, it will have more interesting options!
+
+### Providing HTML for Custom Views
+
+Your custom views can get HTML in three ways: bind to existing HTML, pass an HTML string, or point it at an HTML file.
+
+To _bind to existing HTML_, simply add a [`data-view` binding](/docs/api/batman.view_bindings.html#data-view) that points to the view you want to instiate:
+
+{% highlight html %}
+<div data-view='CustomListView'>
+  <ul>
+    <li data-foreach-item='items' data-bind='item.name'></li>
+  </ul>
+</div>
+{% endhighlight %}
+
+This will instantiate a new `CustomListView` with the `<div>` as its [`node`](/docs/api/batman.view.html#prototype_accessor_node). All the HTML inside the `CustomListView` will stay where it is.
+
+To _pass an HTML string_, set the [`html` attribute](/docs/api/batman.view.html#prototype_accessor_html) in your view class:
+
+{% highlight coffeescript %}
+class App.SearchView extends Batman.View
+  html: "<input type='text' id='search' placeholder='Enter a Search Temr'></input>"
+{% endhighlight %}
+
+The HTML you specify will be rendered inside a node with a `data-view="SearchView"` binding.
+
+To _point to an HTML file_,  set the [`source` attribute](/docs/api/batman.view.html#prototype_accessor_source) in your view class:
+
+{% highlight coffeescript %}
+class App.HeaderNavigationView extends Batman.View
+  source: 'layouts/_header_navigation' # expects a file at /batman/html/layouts/_header_navigation.html
+{% endhighlight %}
+
+Your app will try to load a file relative to [`Batman.config.pathToHTML`](/docs/configuration.html) to use as this view's HTML. Note that you don't need to add `.html` to the `source` string.
+
+### Binding to Custom Views
+
+To add a custom view, use the [`data-view` binding](/docs/api/batman.view_bindings.html#data-view) and pass the name of your view class, relative to your app's namespace. For example, to bind to `App.CustomInputView`, you would use:
+
+{% highlight html %}
+<div data-view='CustomInputView'>
+  <!-- your HTML here, or provided by CustomInputView#source or CustomInputView#html -->
+</div>
+{% endhighlight %}
 
 ## Backing Views
 
@@ -91,7 +156,6 @@ Some of the more complex bindings will create a new `View` (or many) to allow
 them to manage the DOM. Such views are called *backing views*. For example,
 using `data-foreach` will create a backing view for each item being iterated
 over, containing a reference to the item for that iteration.
-
 
 ## Loading Views
 
@@ -101,4 +165,3 @@ Instead, they're lazily loaded when you perform certain operations on them.
 - If a view is in the DOM, adding to its subview set will cause the subview and
   its entire subtree to be added to the DOM. Removing a subview will
 automatically remove it from the DOM.
-

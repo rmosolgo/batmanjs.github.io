@@ -534,7 +534,7 @@ td + td > p, th + th {
   padding: 0;
 }
 
-.api-list-item ul { padding-bottom: 0; }
+.api-list-item ul {  padding: 0px 15px; margin-top: 15px; color: #5c5c6e;}
 
 
 /* footer */

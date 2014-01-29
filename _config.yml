@@ -218,6 +218,35 @@ api_index:
         title: "indexedByUnique(key : String) : UniqueSetIndex"
       - id: "sortedby(key%3A_string_%5B%2C_order%3A_string%5D)_%3A_setsort"
         title: "sortedBy(key: String [, order: String]) : SetSort"
+  - id: batman.hash
+    title: Batman.Hash
+    sub: 
+      - id: prototype_function_constructor
+        title: "constructor"
+      - id: "get%2C_set%2C_unset%2C_and_%40accessor"
+        title: "get, set, unset, and @accessor"
+      - id: prototype_function_keys
+        title: keys
+      - id: prototype_function_isempty
+        title: isEmpty
+      - id: prototype_function_toarray
+        title: toArray
+      - id: prototype_function_foreach
+        title: forEach
+      - id: prototype_function_haskey
+        title: hasKey
+      - id: prototype_function_clear
+        title: clear
+      - id: prototype_function_merge
+        title: merge
+      - id: prototype_function_update
+        title: update
+      - id: prototype_function_replace
+        title: replace
+      - id: prototype_function_toobject
+        title: toObject
+      - id: prototype_function_tojson
+        title: toJSON
   - id: batman.request
     title: Batman.Request
     sub: 
@@ -323,6 +352,8 @@ api_index:
         title: create
       - id: class_function_findorcreate
         title: findOrCreate
+      - id: class_function_createfromjson
+        title: createFromJSON
       - id: prototype_accessor_id
         title: id
       - id: prototype_accessor_dirtykeys
@@ -434,6 +465,8 @@ api_index:
         title: setKeypath
       - id: prototype_accessor_node
         title: node
+      - id: prototype_accessor_source
+        title: source
       - id: prototype_accessor_html
         title: html
       - id: prototype_property_superview
@@ -491,14 +524,16 @@ api_index:
         title: "data-event"
       - id: "data-route"
         title: "data-route"
+      - id: "data-route-params"
+        title: "data-route-params"
       - id: "data-view"
         title: "data-view"
       - id: "data-partial"
         title: "data-partial"
       - id: "data-defineview"
         title: "data-defineview"
-      - id: "data-renderif"
-        title: "data-renderif"
+      - id: "data-renderif_%2F_data-deferif"
+        title: "data-renderif / data-deferif"
       - id: "data-yield"
         title: "data-yield"
       - id: "data-contentfor"

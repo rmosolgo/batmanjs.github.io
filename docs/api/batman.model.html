@@ -110,6 +110,15 @@ sub:
       returnType: Model
     id: class_function_findorcreate
     html: ""
+  - title: createFromJSON
+    tokens: []
+    meta: 
+      type: function
+      level: class
+      params: "attributes = {}"
+      returnType: Model
+    id: class_function_createfromjson
+    html: "<p>Returns an instance of the model based on <code>attributes</code>. If the <code>primaryKey</code> is present in <code>attributes</code>, the in-memory identity map will be searched for a match. If a match is found, it will be updated with <code>attributes</code> (without tracking) and returned. If the <code>primaryKey</code> isn&#39;t present, a new instance is added to the <code>loaded</code> set and returned.</p>\n<p>Since <code>createFromJSON</code> checks the identity map, it&#39;s a great way to load data without duplicating records in memory.</p>\n"
   - title: id
     tokens: []
     meta: 

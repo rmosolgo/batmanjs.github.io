@@ -847,8 +847,9 @@ td + td > p, th + th {
   .header-nav {
     float: left;
   }
-  .sidebar {
+  div.sidebar {
     position: static;
-    width: auto;
+    width: 100%;
+    padding-left: 0;
   }
 }

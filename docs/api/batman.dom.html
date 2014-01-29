@@ -86,7 +86,7 @@ sub:
       params: "e : Event"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     id: class_function_stoppropagation
-    html: "<p>Stops the event from propogating.  If the stopPropgation isn&#39;t a <code>function</code> then it will set <code>cancelBubble</code> to true</p>\n<pre><code>test <span class=\"string\">\"stopPropagation\"</span>, -&gt;\n  e = { cancelBubble: <span class=\"literal\">false</span> }\n  Batman.DOM.stopPropagation(e)\n  ok e.cancelBubble\n\n  e = {stopPropagation: -&gt; ok <span class=\"literal\">true</span> }\n  Batman.DOM.stopPropagation(e)</code></pre>\n<h3>The following methods are only available with the jQuery platform or a polyfill</h3>\n"
+    html: "<p>Stops the event from propogating.  If the stopPropgation isn&#39;t a <code>function</code> then it will set <code>cancelBubble</code> to true</p>\n<pre><code>test <span class=\"string\">\"stopPropagation\"</span>, -&gt;\n  e = { cancelBubble: <span class=\"literal\">false</span> }\n  Batman.DOM.stopPropagation(e)\n  ok e.cancelBubble\n\n  e = {stopPropagation: -&gt; ok <span class=\"literal\">true</span> }\n  Batman.DOM.stopPropagation(e)</code></pre>\n<h3 id=\"the-following-methods-are-only-available-with-the-jquery-platform-or-a-polyfill\">The following methods are only available with the jQuery platform or a polyfill</h3>\n"
   - title: querySelectorAll
     tokens: []
     meta: 
@@ -134,7 +134,7 @@ sub:
     html: "<p>Returns the string of the text contained in the node.</p>\n<pre><code>test <span class=\"string\">\"textContent\"</span>, -&gt;\n  node = document.createElement(<span class=\"string\">'div'</span>)\n  content = document.createTextNode(<span class=\"string\">\"FOO\"</span>)\n  node.appendChild(content)\n  equal Batman.DOM.textContent(node), <span class=\"string\">\"FOO\"</span></code></pre>\n"
 tokens: []
 id: batman.dom
-html: "<p>Batman includes some helper methods to assist in DOM manipulation.</p>\n<p>The following are included in the platform adapters:\n - <code>querySelector</code>\n - <code>querySelectorAll</code>\n - <code>destroyNode</code>\n - <code>setInnerHTML</code>\n - <code>textContent</code>\n - <code>addEventListener</code>\n - <code>removeEventListener</code></p>\n"
+html: "<p>Batman includes some helper methods to assist in DOM manipulation.</p>\n<p>The following are included in the platform adapters:</p>\n<ul>\n<li><code>querySelector</code></li>\n<li><code>querySelectorAll</code></li>\n<li><code>destroyNode</code></li>\n<li><code>setInnerHTML</code></li>\n<li><code>textContent</code></li>\n<li><code>addEventListener</code></li>\n<li><code>removeEventListener</code></li>\n</ul>\n"
 
 ---
 

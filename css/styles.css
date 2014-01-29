@@ -126,9 +126,13 @@ div.api-docs {
 .box-content {
   width:100%;
 }
-.sidebar {
+div.sidebar {
   position: fixed;
-  width: 300px;
+  padding: 0;
+}
+.sidebar-contents {
+  width: 280px;
+  position: absolute;
   right: 0;
 }
 
@@ -848,7 +852,7 @@ td + td > p, th + th {
   .header-nav {
     float: left;
   }
-  div.sidebar {
+  div.sidebar, .sidebar-contents {
     position: static;
     width: 100%;
     padding-left: 0;

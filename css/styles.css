@@ -114,26 +114,15 @@ div[class*="span"] {
 }
 
 div.api-docs {
-  width: 100%;
   min-height: 800px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -ms-box-sizing: border-box;
-  padding-right: 300px;
   padding-left: 0;
 }
 .box-content {
   width:100%;
-}
-div.sidebar {
-  position: fixed;
-  padding: 0;
-}
-.sidebar-contents {
-  width: 280px;
-  position: absolute;
-  right: 0;
 }
 
 .alt-row { background: #EAEBFA; }
@@ -833,24 +822,6 @@ td + td > p, th + th {
   }
 }
 
-@media (max-height: 870px) {
-  div.api-docs {
-      width: 66.6%;
-      padding-right: 0;
-  }
-  div.sidebar.wrapper, div.sidebar-contents {
-    position: static;
-    width: 300px;
-    max-width: 300px;
-    min-width: 300px;
-    padding-left: 20px;
-    float: left;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-}
-
 @media (max-width: 800px) {
   body {
     padding-top: 0;
@@ -863,6 +834,7 @@ td + td > p, th + th {
   }
   div.api-docs {
     padding-right: 0;
+    width: 100%;
   }
   .header, .header-site-title {
     min-width: 550px;
@@ -870,9 +842,28 @@ td + td > p, th + th {
   .header-nav {
     float: left;
   }
-  div.sidebar, .sidebar-contents {
+  div.sidebar, div.sidebar-contents {
     position: static;
     width: 100%;
     padding-left: 0;
+  }
+}
+
+@media (min-width: 800px) and (min-height: 870px) {
+  div.api-docs {
+    width: 100%;
+    padding-right: 300px;
+  }
+  div.sidebar {
+    position: fixed;
+    padding: 0;
+    width: 100%;
+    max-width: 1340px;
+    min-width: 800px;
+  }
+  div.sidebar-contents {
+    width: 280px;
+    position: absolute;
+    right: 0;
   }
 }

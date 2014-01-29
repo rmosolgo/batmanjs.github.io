@@ -115,6 +115,7 @@ div[class*="span"] {
 
 div.api-docs {
   width: 100%;
+  min-height: 800px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;

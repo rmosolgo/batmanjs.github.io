@@ -12,109 +12,135 @@ argv   = require('optimist')
            .demand('dir')
            .argv
 
-parseTokens = (tokens, options) ->
-  tokens.links = {}
-  options = _.extend({}, marked.defaults, options)
-  marked.Parser.parse(tokens, options)
+class DocGenerator
+  constructor: ->
+    @tokens = []
 
-generateId = (title) -> encodeURIComponent(title.replace(/\s/g, '_').toLowerCase())
+  addContent: (contentString) ->
+    @tokens = @tokens.concat(marked.lexer(contentString))
 
-parseHeading = (title) ->
-  if title.match(/^@/)
-    level = "class"
-    title = title.match(/^@(.*)/)[1]
-  else if title.match(/^::/)
-    level = "prototype"
-    title = title.match(/^::(.*)/)[1]
-  else return { title }
+  render: ->
+    sections = []
+    @tokens.forEach (token) =>
+      if token.type == 'heading' && token.depth == 1
+        sections.push(new DocSection(title: token.text, sub: [], tokens: [], index: sections.length, generator: @))
 
-  type = 'property' if title[0] is '.'
-  type = 'accessor' if title[0] is '%'
-  title = title.substr(1) if type
-  type ||= 'function'
+      else if token.type == 'heading' && token.depth == 2
+        section = _.last(sections)
+        section.sub.push(new DocSection(title: token.text, tokens: [], index: section.sub.length))
 
-  res = title.match(/(.+?)([[( :].*)/)
-  if res
-    [match, title, meta] = res
-    [match, params, returnType] = meta.match(/(?:\((.*)\))?\s*:?\s*(.*)/)
-    unless params?
-      [match, params, returnType] = meta.match(/(\[.*\])?\s*:?\s*(.*)/)
-
-    returnType = undefined unless returnType
-
-  {title, meta: {type, level, params, returnType}}
-
-writeTemplate = (template, destination, replacements) ->
-  content = fs.readFileSync("#{__dirname}/../_templates/#{template}").toString()
-  for key, replacement of replacements
-    content = content.replace("#= #{key}", replacement)
-
-  console.log("generating #{destination}")
-  fs.writeFileSync("#{__dirname}/../#{destination}", content)
-
-files = glob.sync("#{__dirname}/../docs/api/*.html")
-for file in files
-  fs.unlinkSync(file)
-
-sections = []
-files    = glob.sync("#{argv.dir}/**/*.litcoffee")
-options  = highlight: (code, lang) -> hljs.highlight('coffeescript', code).value
-
-files.forEach (f) ->
-  content = fs.readFileSync(f)
-  tokens  = marked.lexer(content.toString())
-
-  tokens.forEach (token) ->
-    if token.type == 'heading' && token.depth == 1
-      sections.push(title: token.text, sub: [], tokens: [])
-
-    else if token.type == 'heading' && token.depth == 2
-      section = _.last(sections)
-      section.sub.push(title: token.text, tokens: [])
-
-    else
-      section = _.last(sections)
-      sub     = _.last(section.sub)
-
-      if sub?
-        sub.tokens.push(token)
       else
-        section.tokens.push(token)
+        section = _.last(sections)
+        sub     = _.last(section.sub)
 
-sections.forEach (section, index) ->
-  # manually handle the index page
-  section.id = if index == 0
-    "index"
-  else
-    generateId(section.title)
-  section.html = parseTokens(section.tokens, options)
+        if sub?
+          sub.tokens.push(token)
+        else
+          section.tokens.push(token)
 
-  usedIds = {}
+    sections.forEach (section, index) -> section.render()
 
-  section.sub.forEach (sub, subIndex) ->
-    {title, meta} = parseHeading(sub.title)
+    index = sections.map (section) ->
+      subIndex = section.sub.map (sub) -> id: sub.id, title: sub.title
+      id: section.id, title: section.title, sub: subIndex
+    @writeTemplate('config.yml', '_config.yml', api_index: yaml.dump(api_index: index))
 
-    if meta
-      id = generateId("#{meta.level}_#{meta.type}_#{title}")
-      sub.meta = meta
+  writeTemplate: (template, destination, replacements) ->
+    content = fs.readFileSync("#{__dirname}/../_templates/#{template}").toString()
+    for key, replacement of replacements
+      content = content.replace("#= #{key}", replacement)
+
+    console.log("generating #{destination}")
+    fs.writeFileSync("#{__dirname}/../#{destination}", content)
+
+class DocSection
+  constructor: ({@title, @tokens, @sub, @index, @generator}) ->
+    @options  = highlight: (code, lang) -> hljs.highlight('coffeescript', code).value
+    # manually handle the index page
+    @id = if @index == 0
+      "index"
     else
-      id = generateId(title)
+      @_generateId(@title)
 
-    sub.id = id
-    offset = 0
-    while usedIds[sub.id]
-      offset++
-      sub.id = "#{id}_#{offset}"
+  parseSubs: ->
+    usedIds = {}
+    @sub?.forEach (sub, subIndex) =>
+      {title, meta} = @_parseHeading(sub.title)
 
-    usedIds[sub.id] = true
+      if meta
+        id = @_generateId("#{meta.level}_#{meta.type}_#{title}")
+        sub.meta = meta
+      else
+        id = @_generateId(title)
 
-    sub.title = title
-    sub.html = parseTokens(sub.tokens, options)
+      sub.id = id
+      offset = 0
+      while usedIds[sub.id]
+        offset++
+        sub.id = "#{id}_#{offset}"
 
-  writeTemplate('api.html', "docs/api/#{section.id}.html", api_doc: yaml.dump(section))
+      usedIds[sub.id] = true
 
-index = sections.map (section) ->
-  subIndex = section.sub.map (sub) -> id: sub.id, title: sub.title
-  id: section.id, title: section.title, sub: subIndex
+      sub.title = title
+      sub.html = @_parseTokens(sub.tokens, @options)
 
-writeTemplate('config.yml', '_config.yml', api_index: yaml.dump(api_index: index))
+  toObject: ->
+    obj = {@title}
+    if @sub?
+      obj.meta = @meta if @meta?
+      obj.sub = (s.toObject() for s in @sub) if @sub?.length?
+      obj.tokens = @tokens
+      obj.id = @id if @id?
+    else
+      obj.tokens = @tokens
+      obj.meta = @meta if @meta?
+      obj.id = @id if @id?
+    obj.html = @html
+    obj
+
+  render: ->
+    @html = @_parseTokens(@tokens, @options)
+    @parseSubs()
+    @generator.writeTemplate('api.html', "docs/api/#{@id}.html", api_doc: yaml.dump(@toObject()))
+
+  _generateId: (title) -> encodeURIComponent(title.replace(/\s/g, '_').toLowerCase())
+
+  _parseTokens: (tokens, options) ->
+    tokens.links = {}
+    options = _.extend({}, marked.defaults, options)
+    marked.Parser.parse(tokens, options)
+
+  _parseHeading: (title) ->
+    if title.match(/^@/)
+      level = "class"
+      title = title.match(/^@(.*)/)[1]
+    else if title.match(/^::/)
+      level = "prototype"
+      title = title.match(/^::(.*)/)[1]
+    else return { title }
+
+    type = 'property' if title[0] is '.'
+    type = 'accessor' if title[0] is '%'
+    title = title.substr(1) if type
+    type ||= 'function'
+
+    res = title.match(/(.+?)([[( :].*)/)
+    if res
+      [match, title, meta] = res
+      [match, params, returnType] = meta.match(/(?:\((.*)\))?\s*:?\s*(.*)/)
+      unless params?
+        [match, params, returnType] = meta.match(/(\[.*\])?\s*:?\s*(.*)/)
+
+      returnType = undefined unless returnType
+
+    {title, meta: {type, level, params, returnType}}
+
+
+files = glob.sync("#{argv.dir}/**/*.litcoffee")
+
+docGenerator = new DocGenerator
+for f in files
+  fileContent = fs.readFileSync(f).toString()
+  docGenerator.addContent(fileContent)
+
+docGenerator.render()

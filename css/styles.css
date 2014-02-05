@@ -811,6 +811,13 @@ td + td > p, th + th {
   padding-left: 13px;
 }
 
+.sidebar h5 {
+  text-transform: uppercase;
+  font-size: 80%;
+  margin-top: 1em;
+  margin-bottom: 0;
+}
+
 
 
 @media all and (min-width: 1340px) {

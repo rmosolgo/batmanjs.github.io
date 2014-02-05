@@ -6,7 +6,7 @@
   </div>
   {% for grouping in site.api_index %}
     {% if grouping[0] != 'Ungrouped' %}
-      <h3>{{ grouping[0] }}</h3>
+      <h5>{{ grouping[0] }}</h5>
     {% endif %}
     <ul>
       {% for doc in grouping[1] %}

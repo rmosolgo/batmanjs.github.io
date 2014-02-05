@@ -849,6 +849,10 @@ td + td > p, th + th {
   }
 }
 
+ul.sidebar-children {
+  margin-left: 20px;
+}
+
 @media (min-width: 800px) and (min-height: 870px) {
   div.api-docs {
     width: 100%;

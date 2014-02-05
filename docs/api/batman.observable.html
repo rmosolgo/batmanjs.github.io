@@ -1,0 +1,108 @@
+---
+layout: api_docs
+title: Batman.Observable
+meta: 
+  grouping: Data Structures
+  parent: Batman.Object
+sub: 
+  - title: isObservable
+    meta: 
+      type: property
+      level: prototype
+      params: "[= true]"
+      returnType: boolean
+    tokens: []
+    id: prototype_property_isobservable
+    html: "<p><code>isObservable</code> will return <code>true</code> when the current object is able to be observed, or <code>false</code> if it is not.</p>\n"
+  - title: get
+    meta: 
+      type: function
+      level: prototype
+      params: "keypath: string"
+      returnType: value
+    tokens: []
+    id: prototype_function_get
+    html: "<p>Retrieves the value at a <code>key</code> on an object. Accepts keypaths.</p>\n<p><em>Note</em>: <code>get</code> must be used for property access on any object in <code>Batman</code>&#39;s world. This is so that Batman can implement neat things like automatic dependency calculation for computed properties, property caching where it is safe, and smart storage mechanisms. With Batman, you must use <code>get</code> instead of the regular <code>.</code> for property access.</p>\n<pre><code>test <span class=\"string\">\"get retrieves properties on Batman objects\"</span>, -&gt;\n  song = <span class=\"keyword\">new</span> Batman.Object({length: <span class=\"number\">340</span>, bpm: <span class=\"number\">120</span>})\n  equal song.get(<span class=\"string\">\"length\"</span>), <span class=\"number\">340</span>\n  equal song.get(<span class=\"string\">\"bpm\"</span>), <span class=\"number\">120</span>\n\ntest <span class=\"string\">\"get retrieves properties on nested Batman objects using keypaths\"</span>, -&gt;\n  post = <span class=\"keyword\">new</span> Batman.Object\n    text: <span class=\"string\">\"Hello World!\"</span>\n    author: <span class=\"keyword\">new</span> Batman.Object\n      name: <span class=\"string\">\"Harry\"</span>\n  equal post.get(<span class=\"string\">\"author.name\"</span>), <span class=\"string\">\"Harry\"</span>\n\ntest <span class=\"string\">\"get retrieves properties on Batman objects when . property access doesn't\"</span>, -&gt;\n  song = <span class=\"keyword\">new</span> Batman.Model({length: <span class=\"number\">340</span>, bpm: <span class=\"number\">120</span>})\n  equal <span class=\"keyword\">typeof</span> song.length, <span class=\"string\">\"undefined\"</span>\n  equal song.get(<span class=\"string\">\"length\"</span>), <span class=\"number\">340</span></code></pre>\n"
+  - title: set
+    meta: 
+      type: function
+      level: prototype
+      params: "keypath: string, newValue"
+      returnType: newValue
+    tokens: []
+    id: prototype_function_set
+    html: "<p>Stores the <code>value</code> at a <code>key</code> on an object. Accepts keypaths. Returns the new value of the property.</p>\n<p><em>Note</em>: Once more, <code>set</code> must be used for property mutation on all objects in the <code>Batman</code> world. This is again so that Batman can implement useful functionality like cache busting, eager recalculation of computed properties, and smarter storage.</p>\n<p><em>Note</em>: Custom setters can mutate the value during setting, so the value which was passed to <code>set</code> and <code>set</code>&#39;s return value are not guaranteed to be identical.</p>\n<pre><code>test <span class=\"string\">\"set stores properties on batman objects.\"</span>, -&gt;\n  song = <span class=\"keyword\">new</span> Batman.Object({length: <span class=\"number\">340</span>, bpm: <span class=\"number\">120</span>})\n  equal song.get(<span class=\"string\">\"length\"</span>), <span class=\"number\">340</span>\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">1000</span>), <span class=\"number\">1000</span>\n  equal song.get(<span class=\"string\">\"length\"</span>), <span class=\"number\">1000</span>\n\ntest <span class=\"string\">\"set stores properties on nested Batman objects using keypaths\"</span>, -&gt;\n  author = <span class=\"keyword\">new</span> Batman.Object\n    name: <span class=\"string\">\"Harry\"</span>\n  post = <span class=\"keyword\">new</span> Batman.Object\n    text: <span class=\"string\">\"Hello World!\"</span>\n    author: author\n  equal post.set(<span class=\"string\">\"author.name\"</span>, <span class=\"string\">\"Nick\"</span>), <span class=\"string\">\"Nick\"</span>\n  equal author.get(<span class=\"string\">\"name\"</span>), <span class=\"string\">\"Nick\"</span>, <span class=\"string\">\"The value was set on the nested object.\"</span>\n\ntest <span class=\"string\">\"set is incompatible with '.' property mutation\"</span>, -&gt;\n  song = <span class=\"keyword\">new</span> Batman.Model({length: <span class=\"number\">340</span>, bpm: <span class=\"number\">120</span>})\n  equal song.get(<span class=\"string\">\"length\"</span>), <span class=\"number\">340</span>\n  equal song.length = <span class=\"number\">1000</span>, <span class=\"number\">1000</span>\n  equal song.get(<span class=\"string\">\"length\"</span>), <span class=\"number\">340</span>, <span class=\"string\">\"The song length reported by Batman is unchanged because set wasn't used to change the value.\"</span></code></pre>\n"
+  - title: unset
+    meta: 
+      type: function
+      level: prototype
+      params: "keypath: string"
+      returnType: value
+    tokens: []
+    id: prototype_function_unset
+    html: "<p>Removes the value at the given <code>keypath</code>, leaving it <code>undefined</code>. Accepts keypaths. Returns the value the property had before unsetting.</p>\n<p><code>unset</code> is roughly equivalent to <code>set(keypath, undefined)</code>, however, custom properties can define a nonstandard <code>unset</code> function, so it is best to use <code>unset</code> instead of <code>set(keypath, undefined)</code> wherever possible.</p>\n<pre><code>test <span class=\"string\">\"unset removes the property on Batman objects\"</span>, -&gt;\n  song = <span class=\"keyword\">new</span> Batman.Object({length: <span class=\"number\">340</span>, bpm: <span class=\"number\">120</span>})\n  equal song.get(<span class=\"string\">\"length\"</span>), <span class=\"number\">340</span>\n  equal song.unset(<span class=\"string\">\"length\"</span>), <span class=\"number\">340</span>\n  equal song.get(<span class=\"string\">\"length\"</span>), <span class=\"literal\">undefined</span>, <span class=\"string\">\"The value is unset.\"</span>\n\ntest <span class=\"string\">\"unset removes the property at a keypath\"</span>, -&gt;\n  author = <span class=\"keyword\">new</span> Batman.Object\n    name: <span class=\"string\">\"Harry\"</span>\n  post = <span class=\"keyword\">new</span> Batman.Object\n    text: <span class=\"string\">\"Hello World!\"</span>\n    author: author\n  equal post.unset(<span class=\"string\">\"author.name\"</span>), <span class=\"string\">\"Harry\"</span>\n  equal author.get(<span class=\"string\">\"name\"</span>), <span class=\"literal\">undefined</span>, <span class=\"string\">\"The value was unset on the nested object.\"</span></code></pre>\n"
+  - title: getOrSet
+    meta: 
+      type: function
+      level: prototype
+      params: "keypath: string, valueFunction: Function"
+      returnType: value
+    tokens: []
+    id: prototype_function_getorset
+    html: "<p>Assigns the <code>keypath</code> to the result of calling <code>valueFunction</code> if <code>keypath</code> is currently falsey. Returns the value of the property after the operation, whether it has changed or not. Equivalent to CoffeeScript&#39;s <code>||=</code> operator.</p>\n<pre><code>test <span class=\"string\">\"getOrSet doesn't set the property if it exists\"</span>, -&gt;\n  song = <span class=\"keyword\">new</span> Batman.Object({length: <span class=\"number\">340</span>, bpm: <span class=\"number\">120</span>})\n  equal song.getOrSet(<span class=\"string\">\"length\"</span>, -&gt; <span class=\"number\">500</span>), <span class=\"number\">340</span>\n  equal song.get(<span class=\"string\">\"length\"</span>), <span class=\"number\">340</span>\n\ntest <span class=\"string\">\"getOrSet sets the property if it is falsey\"</span>, -&gt;\n  song = <span class=\"keyword\">new</span> Batman.Object({length: <span class=\"number\">340</span>, bpm: <span class=\"number\">120</span>})\n  equal song.getOrSet(<span class=\"string\">\"artist\"</span>, -&gt; <span class=\"string\">\"Elvis\"</span>), <span class=\"string\">\"Elvis\"</span>\n  equal song.get(<span class=\"string\">\"artist\"</span>), <span class=\"string\">\"Elvis\"</span></code></pre>\n"
+  - title: observe
+    meta: 
+      type: function
+      level: prototype
+      params: "key: string, observerCallback: Function"
+      returnType: this
+    tokens: []
+    id: prototype_function_observe
+    html: "<p>Adds a handler to call when the value of the property at the <code>key</code> changes upon <code>set</code>ting. Accepts keypaths.</p>\n<p><code>observe</code> is the very core of Batman&#39;s usefulness. As long as <code>set</code> is used everywhere to do property mutation, any object can be observed for changes to its properties. This is critical to the concept of bindings, which Batman uses for its views.</p>\n<p>The <code>observerCallback</code> gets called with the arguments <code>newValue, oldValue</code>, whenever the <code>key</code> changes.</p>\n<p>Returns the object <code>observe</code> was called upon.</p>\n<pre><code>test <span class=\"string\">\"observe attaches handlers which get called upon change\"</span>, -&gt;\n  result = <span class=\"literal\">null</span>\n  song = <span class=\"keyword\">new</span> Batman.Object({length: <span class=\"number\">340</span>, bpm: <span class=\"number\">120</span>})\n  song.observe <span class=\"string\">\"length\"</span>, (newValue, oldValue) -&gt; result = [newValue, oldValue]\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">200</span>), <span class=\"number\">200</span>\n  deepEqual result, [<span class=\"number\">200</span>, <span class=\"number\">340</span>]\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">300</span>), <span class=\"number\">300</span>\n  deepEqual result, [<span class=\"number\">300</span>, <span class=\"number\">200</span>]</code></pre>\n<p><em>Note</em>: <code>observe</code> works excellently on keypaths. If you attach a handler to a &quot;deep&quot; keypath, it will fire when any segment of the keypath changes, passing in the new value at the end of the keypath.</p>\n<pre><code>test <span class=\"string\">\"observe attaches handlers which get called upon change\"</span>, -&gt;\n  result = <span class=\"literal\">null</span>\n  author = <span class=\"keyword\">new</span> Batman.Object\n    name: <span class=\"string\">\"Harry\"</span>\n  post = <span class=\"keyword\">new</span> Batman.Object\n    text: <span class=\"string\">\"Hello World!\"</span>\n    author: author\n  post.observe <span class=\"string\">\"author.name\"</span>, (newName, oldName) -&gt;\n    result = [newName, oldName]\n  newAuthor = <span class=\"keyword\">new</span> Batman.Object({name: <span class=\"string\">\"James\"</span>})\n  post.set <span class=\"string\">\"author\"</span>, newAuthor\n  deepEqual result, [<span class=\"string\">\"James\"</span>, <span class=\"string\">\"Harry\"</span>], <span class=\"string\">\"The observer fired when the 'author' segment of the keypath changed.\"</span></code></pre>\n"
+  - title: observeAndFire
+    meta: 
+      type: function
+      level: prototype
+      params: "key: string, observerCallback: Function"
+      returnType: this
+    tokens: []
+    id: prototype_function_observeandfire
+    html: "<p>Adds the <code>observerCallback</code> as an observer to <code>key</code>, and fires it immediately. Accepts the exact same arguments and follows the same semantics as <code>Observable::observe</code>, but the observer is fired with the current value of the keypath it observes synchronously during the call to <code>observeAndFire</code>.</p>\n<p><em>Note</em>: During the initial synchronous firing of the <code>callback</code>, the <code>newValue</code> and <code>oldValue</code> arguments will be the same value: the current value of the property. This is because the old value of the property is not cached and therefore unavailable. If your observer needs the old value of the property, you must attach it before the <code>set</code> on the property happens.</p>\n<pre><code>test <span class=\"string\">\"observeAndFire calls the observer upon attaching it with the currentValue of the property\"</span>, -&gt;\n  result = <span class=\"literal\">null</span>\n  song = <span class=\"keyword\">new</span> Batman.Object({length: <span class=\"number\">340</span>, bpm: <span class=\"number\">120</span>})\n  song.observeAndFire <span class=\"string\">\"length\"</span>, (newValue, oldValue) -&gt; result = [newValue, oldValue]\n  deepEqual result, [<span class=\"number\">340</span>, <span class=\"number\">340</span>]\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">300</span>), <span class=\"number\">300</span>\n  deepEqual result, [<span class=\"number\">300</span>, <span class=\"number\">340</span>]</code></pre>\n"
+  - title: observeOnce
+    meta: 
+      type: function
+      level: prototype
+      params: "key: string, observerCallback: Function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_observeonce
+    html: "<p>Behaves the same way as <code>Observable::observe</code>, except that once <code>observerCallback</code> has been executed for the first time, it will remove itself as an observer to <code>key</code>.</p>\n<pre><code>test <span class=\"string\">\"observeOnce only calls observerCallback when key is modified for the first time\"</span>, -&gt;\n  result = <span class=\"literal\">null</span>\n  song = <span class=\"keyword\">new</span> Batman.Object({length: <span class=\"number\">340</span>, bpm: <span class=\"number\">120</span>})\n  song.observeOnce <span class=\"string\">\"length\"</span>, (newValue, oldValue) -&gt; result = [newValue, oldValue]\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">200</span>), <span class=\"number\">200</span>\n  deepEqual result, [<span class=\"number\">200</span>, <span class=\"number\">340</span>]\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">300</span>), <span class=\"number\">300</span>\n  deepEqual result, [<span class=\"number\">200</span>, <span class=\"number\">340</span>], <span class=\"string\">\"The observer was not fired for the second update\"</span></code></pre>\n"
+  - title: forget
+    meta: 
+      type: function
+      level: prototype
+      params: "[key: string[, observerCallback: Function]]"
+      returnType: this
+    tokens: []
+    id: prototype_function_forget
+    html: "<p>If <code>observerCallback</code> and <code>key</code> are given, that observer is removed from the observers on <code>key</code>. If only a <code>key</code> is given, all observers on that key are removed. If no <code>key</code> is given, all observers on all keys are removed. Accepts keypaths.</p>\n<p>Returns the object on which <code>forget</code> was called.</p>\n<pre><code>test <span class=\"string\">\"forget removes an observer from a key if the key and the observer are given\"</span>, -&gt;\n  result = <span class=\"literal\">null</span>\n  song = <span class=\"keyword\">new</span> Batman.Object({length: <span class=\"number\">340</span>, bpm: <span class=\"number\">120</span>})\n  <span class=\"function\"><span class=\"title\">observer</span></span> = (newValue, oldValue) -&gt; result = [newValue, oldValue]\n  song.observe <span class=\"string\">\"length\"</span>, observer\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">200</span>), <span class=\"number\">200</span>\n  deepEqual result, [<span class=\"number\">200</span>, <span class=\"number\">340</span>]\n  song.forget <span class=\"string\">\"length\"</span>, observer\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">300</span>), <span class=\"number\">300</span>\n  deepEqual result, [<span class=\"number\">200</span>, <span class=\"number\">340</span>], <span class=\"string\">\"The logged values haven't changed because the observer hasn't fired again.\"</span>\n\ntest <span class=\"string\">\"forget removes all observers from a key if only the key is given\"</span>, -&gt;\n  results = []\n  song = <span class=\"keyword\">new</span> Batman.Object({length: <span class=\"number\">340</span>, bpm: <span class=\"number\">120</span>})\n  <span class=\"function\"><span class=\"title\">observerA</span></span> = ((newValue, oldValue) -&gt; results.push [newValue, oldValue])\n  <span class=\"function\"><span class=\"title\">observerB</span></span> = ((newValue, oldValue) -&gt; results.push [newValue, oldValue])\n  song.observe <span class=\"string\">\"length\"</span>, observerA\n  song.observe <span class=\"string\">\"length\"</span>, observerB\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">200</span>), <span class=\"number\">200</span>\n  equal results.length, <span class=\"number\">2</span>, <span class=\"string\">\"Both length observers fired.\"</span>\n  song.forget(<span class=\"string\">\"length\"</span>)\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">300</span>), <span class=\"number\">300</span>\n  equal results.length, <span class=\"number\">2</span>, <span class=\"string\">\"Nothing more has been added because neither observer fired.\"</span>\n\ntest <span class=\"string\">\"forget removes all observers from all keys if no key is given\"</span>, -&gt;\n  results = []\n  song = <span class=\"keyword\">new</span> Batman.Object({length: <span class=\"number\">340</span>, bpm: <span class=\"number\">120</span>})\n  <span class=\"function\"><span class=\"title\">observerA</span></span> = ((newValue, oldValue) -&gt; results.push [newValue, oldValue])\n  <span class=\"function\"><span class=\"title\">observerB</span></span> = ((newValue, oldValue) -&gt; results.push [newValue, oldValue])\n  song.observe <span class=\"string\">\"length\"</span>, observerA\n  song.observe <span class=\"string\">\"bpm\"</span>, observerB\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">200</span>), <span class=\"number\">200</span>\n  equal results.length, <span class=\"number\">1</span>, <span class=\"string\">\"The length observer fired.\"</span>\n  song.forget()\n  equal song.set(<span class=\"string\">\"length\"</span>, <span class=\"number\">300</span>), <span class=\"number\">300</span>\n  equal song.set(<span class=\"string\">\"bpm\"</span>, <span class=\"number\">130</span>), <span class=\"number\">130</span>\n  equal results.length, <span class=\"number\">1</span>, <span class=\"string\">\"Nothing more has been logged because neither observer fired.\"</span></code></pre>\n"
+tokens: []
+id: batman.observable
+html: "<p><code>Batman.Observable</code> is a mixin which gives objects the ability to notify subscribers to changes on its properties. <code>Observable</code> also adds functionality for observing <em>keypaths</em>: arbitrarily deeply nested properties on objects. All <code>Batman.Object</code>s, their subclasses and instances are observable by default.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

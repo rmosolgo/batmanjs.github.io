@@ -1,50 +1,53 @@
 ---
 layout: api_docs
 title: Batman.App Routing
+meta: 
+  grouping: App Components
+  parent: Batman.App
 sub: 
   - title: route
-    tokens: []
     meta: 
       type: function
       level: class
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_route
     html: "<p><code>@route</code> defines a custom route and can be pointed to a controller action directly. For example:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">window</span>.<span class=\"title\">Example</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">App</span></span>\n  <span class=\"property\">@route</span> <span class=\"string\">'comments'</span>, <span class=\"string\">'pages#comments'</span>\n\n<span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Example</span>.<span class=\"title\">PagesController</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Controller</span></span>\n  comments: -&gt;</code></pre>\n<p>Would result in <code>/comments</code> being added to the routing map, pointed to <code>PagesController#comments</code>.</p>\n"
   - title: resources
-    tokens: []
     meta: 
       type: function
       level: class
       params: "resourceName : String[, otherResourceNames... : String][, options : Object][, scopedCallback : Function]"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_resources
     html: "<p><code>@resources</code> is modeled after the Rails routing <code>resources</code> method. It automatically defines some routes and matches them to controller actions. For example,</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">App</span></span>\n  <span class=\"property\">@resources</span> <span class=\"string\">'pages'</span>\n\n<span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">PagesController</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Controller</span></span>\n  index: -&gt;\n    <span class=\"comment\"># ...</span>\n  <span class=\"keyword\">new</span>: -&gt;\n    <span class=\"comment\"># ...</span>\n  show: (params) -&gt;\n    App.Page.find params.id, (err, page) -&gt;\n      <span class=\"property\">@set</span>(<span class=\"string\">'currentPage'</span>, page)\n  edit: (params) -&gt;\n    App.Page.find params.id, (err, page) -&gt;\n      <span class=\"property\">@set</span>(<span class=\"string\">'currentPage'</span>, page)</code></pre>\n<p>Will set up these routes:</p>\n<table>\n<thead>\n<tr>\n<th>Path</th>\n<th>Controller Action</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>/pages</td>\n<td>App.PagesController#index</td>\n</tr>\n<tr>\n<td>/pages/new</td>\n<td>App.PagesController#new</td>\n</tr>\n<tr>\n<td>/pages/:id</td>\n<td>App.PagesController#show</td>\n</tr>\n<tr>\n<td>/pages/:id/edit</td>\n<td>App.PagesController#edit</td>\n</tr>\n</tbody>\n</table>\n<p>Note that unlike Rails, <code>destroy</code>, <code>update</code>, and <code>create</code> are not performed by controller actions in batman.js. Instead, call <code>save</code> or <code>destroy</code> on your records directly.\nTo access a generated route from within a view, use the <a href=\"batman.view_bindings.html#data-route\"><code>data-route</code> binding</a>.</p>\n<h3 id=\"nested-resources\">Nested Resources</h3>\n<p>You may also nest resources, as in Rails:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">App</span></span>\n  <span class=\"property\">@resources</span> <span class=\"string\">'pages'</span>, -&gt;\n    <span class=\"property\">@resources</span> <span class=\"string\">'comments'</span></code></pre>\n<p>Will set up these routes for <code>App.Comment</code>:</p>\n<table>\n<thead>\n<tr>\n<th>Path</th>\n<th>Controller Action</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>/pages/:page_id/comments</td>\n<td>App.CommentsController#index</td>\n</tr>\n<tr>\n<td>/pages/:page_id/comments/new</td>\n<td>App.CommentsController#new</td>\n</tr>\n<tr>\n<td>/pages/:page_id/comments/:id</td>\n<td>App.CommentsController#show</td>\n</tr>\n<tr>\n<td>/pages/:page_id/comments/:id/edit</td>\n<td>App.CommentsController#edit</td>\n</tr>\n</tbody>\n</table>\n"
   - title: member
-    tokens: []
     meta: 
       type: function
       level: class
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_member
     html: "<p><code>@member</code> defines a routable action you can call on a specific instance of a member of a collection resource. For example, if you have a collection of <code>Page</code> resources, and a user can post a comment on a specific page:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">window</span>.<span class=\"title\">Example</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">App</span></span>\n  <span class=\"property\">@resources</span> <span class=\"string\">'pages'</span>, -&gt;\n    <span class=\"property\">@member</span> <span class=\"string\">'comment'</span>\n\n<span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Example</span>.<span class=\"title\">PagesController</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Controller</span></span>\n  comment: (params) -&gt;</code></pre>\n<p>Would result in <code>/pages/:id/comment</code> being added to the routing map, pointed to <code>PagesController#comment</code>.</p>\n"
   - title: collection
-    tokens: []
     meta: 
       type: function
       level: class
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_collection
     html: "<p><code>@collection</code> is similar to <code>@member</code> in that it adds routable actions to a <code>@resources</code> set of routes. In this case the action would apply to the entire collection. For example, if you have a list of spam comments made across <em>all</em> your <code>Page</code> resources:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">window</span>.<span class=\"title\">Example</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">App</span></span>\n  <span class=\"property\">@resources</span> <span class=\"string\">'pages'</span>, -&gt;\n    <span class=\"property\">@collection</span> <span class=\"string\">'spam_comments'</span>\n\n<span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Example</span>.<span class=\"title\">PagesController</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Controller</span></span>\n  comments: -&gt;</code></pre>\n<p>Would result in <code>/pages/spam_comments</code> being added to the routing map, pointed to <code>PagesController#spam_comments</code>.</p>\n"
   - title: root
-    tokens: []
     meta: 
       type: function
       level: class
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_root
     html: "<p><code>@root</code> defines the root controller and action to be used when visiting the base application URL. For example:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">window</span>.<span class=\"title\">Example</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">App</span></span>\n  <span class=\"property\">@root</span> <span class=\"string\">'pages#index'</span>\n\n<span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Example</span>.<span class=\"title\">PagesController</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Controller</span></span>\n  index: -&gt;</code></pre>\n<p>Would result in <code>/</code> being pointed to <code>PagesController#index</code>.</p>\n"
 tokens: []

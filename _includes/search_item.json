@@ -1,6 +1,6 @@
 {
   "name": "{{ data.title }}",
   "id": "{{ data.id }}",
-  "section": "{{ section.id }}",
-  "link": "{{ '/docs/api/' | append: section.id | append: '.html#' | append: data.id }}"
+  "section": "{{ file.id }}",
+  "link": "{{ '/docs/api/' | append: file.id | append: '.html#' | append: data.id }}"
 }

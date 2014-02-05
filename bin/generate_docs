@@ -42,8 +42,22 @@ class DocGenerator
 
     index = sections.map (section) ->
       subIndex = section.sub.map (sub) -> id: sub.id, title: sub.title
-      id: section.id, title: section.title, sub: subIndex
-    @writeTemplate('config.yml', '_config.yml', api_index: yaml.dump(api_index: index))
+      id: section.id, title: section.title, sub: subIndex, meta: section.meta
+    groupings = {}
+    for entry in index
+      groupingName = entry.meta?.grouping ? "Ungrouped"
+      parentName = entry.meta?.parent
+      if parentName
+        console.log "Adding #{entry.title} to #{groupingName}, under #{parentName}"
+        parentEntry = _.findWhere(groupings[groupingName], {title: parentName})
+        parentEntry.children ?= []
+        parentEntry.children.push(entry)
+      else
+        console.log "Adding #{entry.title} to #{groupingName}"
+        groupings[groupingName] ?= []
+        groupings[groupingName].push(entry)
+
+    @writeTemplate('config.yml', '_config.yml', api_index: yaml.dump(api_index: groupings))
 
   writeTemplate: (template, destination, replacements) ->
     content = fs.readFileSync("#{__dirname}/../_templates/#{template}").toString()
@@ -56,16 +70,19 @@ class DocGenerator
 class DocSection
   constructor: ({@title, @tokens, @sub, @index, @generator}) ->
     @options  = highlight: (code, lang) -> hljs.highlight('coffeescript', code).value
+    if @title.substr(0, 5) is '/api/'
+      {@title, @meta} = HeadingParser.parse(@title)
     # manually handle the index page
     @id = if @index == 0
       "index"
     else
       @_generateId(@title)
 
+
   parseSubs: ->
     usedIds = {}
     @sub?.forEach (sub, subIndex) =>
-      {title, meta} = @_parseHeading(sub.title)
+      {title, meta} = HeadingParser.parse(sub.title)
 
       if meta
         id = @_generateId("#{meta.level}_#{meta.type}_#{title}")
@@ -86,15 +103,10 @@ class DocSection
 
   toObject: ->
     obj = {@title}
-    if @sub?
-      obj.meta = @meta if @meta?
-      obj.sub = (s.toObject() for s in @sub) if @sub?.length?
-      obj.tokens = @tokens
-      obj.id = @id if @id?
-    else
-      obj.tokens = @tokens
-      obj.meta = @meta if @meta?
-      obj.id = @id if @id?
+    obj.meta = @meta if @meta?
+    obj.sub = (s.toObject() for s in @sub) if @sub?.length?
+    obj.tokens = @tokens
+    obj.id = @id if @id?
     obj.html = @html
     obj
 
@@ -110,7 +122,23 @@ class DocSection
     options = _.extend({}, marked.defaults, options)
     marked.Parser.parse(tokens, options)
 
-  _parseHeading: (title) ->
+class HeadingParser
+  @parse: (title) ->
+    # Expects `/api/Data Structures/Batman.Set/SetIndex`
+    # or `::%length` etc
+    if title.match(/\/api\//)
+      @_parseFileHeading(title)
+    else
+      @_parseSectionHeading(title)
+
+  @_parseFileHeading: (title) ->
+    titleSegments = title.split("/")
+    fileTitle = titleSegments.pop()
+    titleSegments.splice(0,2) # trash '', 'api'
+    meta = {grouping: titleSegments[0], parent: titleSegments[1]}
+    {title: fileTitle, meta}
+
+  @_parseSectionHeading: (title) ->
     if title.match(/^@/)
       level = "class"
       title = title.match(/^@(.*)/)[1]

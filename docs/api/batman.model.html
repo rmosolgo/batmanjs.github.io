@@ -1,167 +1,170 @@
 ---
 layout: api_docs
 title: Batman.Model
+meta: 
+  grouping: App Components
+  parent: !<tag:yaml.org,2002:js/undefined> ""
 sub: 
   - title: primaryKey
-    tokens: []
     meta: 
       type: function
       level: class
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: string
+    tokens: []
     id: class_function_primarykey
     html: "<p><code>primaryKey</code> is a class level configuration option to change which key batman.js uses as the primary key. Change the option using <code>set</code>, like so:</p>\n<pre><code>test <span class=\"string\">'primary key can be set using @set'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Shop</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@set</span> <span class=\"string\">'primaryKey'</span>, <span class=\"string\">'shop_id'</span>\n\n  equal Shop.get(<span class=\"string\">'primaryKey'</span>), <span class=\"string\">'shop_id'</span></code></pre>\n<p>The <code>primaryKey</code> is what batman.js uses to compare instances to see if they represent the same domain-level object: if two records have the same value at the key specified by <code>primaryKey</code>, only one will be in the identity map. The key specified by <code>primaryKey</code> is also used by the associations system when determining if a record is related to another record, and by the remote storage adapters to generate URLs for records.</p>\n<p><em>Note</em>: The default primaryKey is &#39;id&#39;.</p>\n"
   - title: storageKey
-    tokens: []
     meta: 
       type: function
       level: class
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: string
+    tokens: []
     id: class_function_storagekey
     html: "<p><code>storageKey</code> is a class level option which gives the storage adapters something to interpolate into their specific key generation schemes. In the case of <code>LocalStorage</code> or <code>SessionStorage</code> adapters, the <code>storageKey</code> defines what namespace to store this record under in the <code>localStorage</code> or <code>sessionStorage</code> host objects, and with the case of the <code>RestStorage</code> family of adapters, the <code>storageKey</code> assists in URL generation. See the documentation for the storage adapter of your choice for more information.</p>\n<p>The default <code>storageKey</code> is <code>null</code>.</p>\n"
   - title: persist
-    tokens: []
     meta: 
       type: function
       level: class
       params: "mechanism : StorageAdapter"
       returnType: StorageAdapter
+    tokens: []
     id: class_function_persist
     html: "<p><code>@persist</code> is how a <code>Model</code> subclass is told to persist itself by means of a <code>StorageAdapter</code>. <code>@persist</code> accepts either a <code>StorageAdapter</code> class or instance and will return either the instantiated class or the instance passed to it for further modification.</p>\n<pre><code>test <span class=\"string\">'models can be told to persist via a storage adapter'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Shop</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'shop'</span>\n    <span class=\"property\">@persist</span> TestStorageAdapter\n\n  record = <span class=\"keyword\">new</span> Shop\n  ok record.hasStorage()\n\ntest <span class=\"string\">'@persist returns the instantiated storage adapter'</span>, -&gt;\n  adapter = <span class=\"literal\">false</span>\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Shop</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'shop'</span>\n    adapter = <span class=\"property\">@persist</span> TestStorageAdapter\n\n  ok adapter <span class=\"keyword\">instanceof</span> Batman.StorageAdapter\n\ntest <span class=\"string\">'@persist accepts already instantiated storage adapters'</span>, -&gt;\n  adapter = <span class=\"keyword\">new</span> Batman.StorageAdapter\n  adapter.someHandyConfigurationOption = <span class=\"literal\">true</span>\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Shop</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'shop'</span>\n    <span class=\"property\">@persist</span> adapter\n\n  record = <span class=\"keyword\">new</span> Shop\n  ok record.hasStorage()</code></pre>\n"
   - title: encode
-    tokens: []
     meta: 
       type: function
       level: class
       params: "keys...[, encoderObject : [Object|Function]]"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_encode
     html: "<p><code>@encode</code> specifies a list of <code>keys</code> a model should expect from and send back to a storage adapter, and any transforms to apply to those attributes as they enter and exit the world of batman.js in the optional <code>encoderObject</code>.</p>\n<p>The <code>encoderObject</code> should have an <code>encode</code> and/or a <code>decode</code> key which point to functions. The functions accept the &quot;raw&quot; data (the batman.js land value in the case of <code>encode</code>, and the backend land value in the case of <code>decode</code>), and should return the data suitable for the other side of the link. The functions should have the following signatures:</p>\n<pre><code>encoderObject = {\n  encode: (value, key, builtJSON, record) -&gt;\n  decode: (value, key, incomingJSON, outgoingObject, record) -&gt;\n}</code></pre>\n<p>By default these functions are the identity functions. They apply no transformation. The arguments for <code>encode</code> functions are as follows:</p>\n<ul>\n<li><code>value</code> is the client side value of the <code>key</code> on the <code>record</code></li>\n<li><code>key</code> is the key that <code>value</code> is stored under on the <code>record</code>. This is useful when passing the same <code>encoderObject</code> which needs to pivot on what key is being encoded to different calls to <code>encode</code>.</li>\n<li><code>builtJSON</code> is the object passed to and modified by each encoder, and eventually becomes the return value of the <code>toJSON</code> call.</li>\n<li><code>record</code> is the record on which <code>toJSON</code> has been called.</li>\n</ul>\n<p>For <code>decode</code> functions:</p>\n<ul>\n<li><code>value</code> is the raw value received from the storage adapter.</li>\n<li><code>key</code> is the key that <code>value</code> is stored under on the incoming data.</li>\n<li><code>incomingJSON</code> is the object which is being decoded into the <code>record</code>. This can be used to create compound key decoders.</li>\n<li><code>outgoingObject</code> is the object built up by the decoders and mixed into the record.</li>\n<li><code>record</code> is the record on which <code>fromJSON</code> has been called.</li>\n</ul>\n<p>The <code>encode</code> and <code>decode</code> keys can also be false to avoid using the default identity function encoder or decoder.</p>\n<p>To encode a <code>key</code> under a name which differs from that in the raw data, you can specify the <code>as</code> option with the raw key name. The <code>as</code> option can be either a string or function.</p>\n<p>If you specify the <code>as</code> option as a function it will receive the following arguments:</p>\n<ul>\n<li><code>key</code> is the name which the <code>value</code> is stored under in the raw data.</li>\n<li><code>value</code> is the <code>value</code> of the <code>key</code> which will end up on the <code>record</code>.</li>\n<li><code>data</code> is the object which is modified by each encoder or decoder.</li>\n<li><code>record</code> is the record on which <code>toJSON</code> or <code>fromJSON</code> has been called.</li>\n</ul>\n<p><em>Note</em>: <code>Batman.Model</code> subclasses have no encoders by default, except for one which automatically decodes the <code>primaryKey</code> of the model, which is usually <code>id</code>. To get any data into or out of your model, you must white-list the keys you expect from the server or storage attribute.</p>\n<pre><code>test <span class=\"string\">'@encode accepts a list of keys which are used during decoding'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Shop</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'shop'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>, <span class=\"string\">'url'</span>, <span class=\"string\">'email'</span>, <span class=\"string\">'country'</span>\n\n  json = {name: <span class=\"string\">\"Snowdevil\"</span>, url: <span class=\"string\">\"snowdevil.ca\"</span>}\n  record = <span class=\"keyword\">new</span> Shop()\n  record.fromJSON(json)\n  equal record.get(<span class=\"string\">'name'</span>), <span class=\"string\">\"Snowdevil\"</span>\n\ntest <span class=\"string\">'@encode accepts a list of keys which are used during encoding'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Shop</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'shop'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>, <span class=\"string\">'url'</span>, <span class=\"string\">'email'</span>, <span class=\"string\">'country'</span>\n\n  record = <span class=\"keyword\">new</span> Shop(name: <span class=\"string\">\"Snowdevil\"</span>, url: <span class=\"string\">\"snowdevil.ca\"</span>)\n  deepEqual record.toJSON(), {name: <span class=\"string\">\"Snowdevil\"</span>, url: <span class=\"string\">\"snowdevil.ca\"</span>}\n\ntest <span class=\"string\">'@encode accepts custom encoders'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Shop</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'shop'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>,\n      encode: (name) -&gt; name.toUpperCase()\n\n  record = <span class=\"keyword\">new</span> Shop(name: <span class=\"string\">\"Snowdevil\"</span>)\n  deepEqual record.toJSON(), {name: <span class=\"string\">\"SNOWDEVIL\"</span>}\n\ntest <span class=\"string\">'@encode accepts custom decoders'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Shop</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'shop'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>,\n      decode: (name) -&gt; name.replace(<span class=\"string\">'_'</span>, <span class=\"string\">' '</span>)\n\n  record = <span class=\"keyword\">new</span> Shop()\n  record.fromJSON {name: <span class=\"string\">\"Snow_devil\"</span>}\n  equal record.get(<span class=\"string\">'name'</span>), <span class=\"string\">\"Snow devil\"</span>\n\ntest <span class=\"string\">'@encode can be passed an encoderObject with false to prevent the default encoder or decoder'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Shop</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'shop'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>, {encode: <span class=\"literal\">false</span>, decode: (x) -&gt; x}\n    <span class=\"property\">@encode</span> <span class=\"string\">'url'</span>\n\n  record = <span class=\"keyword\">new</span> Shop()\n  record.fromJSON {name: <span class=\"string\">\"Snowdevil\"</span>, url: <span class=\"string\">\"snowdevil.ca\"</span>}\n  equal record.get(<span class=\"string\">'name'</span>), <span class=\"string\">'Snowdevil'</span>\n  equal record.get(<span class=\"string\">'url'</span>), <span class=\"string\">\"snowdevil.ca\"</span>\n  deepEqual record.toJSON(), {url: <span class=\"string\">\"snowdevil.ca\"</span>}, <span class=\"string\">'The name key is absent because of encode: false'</span>\n\ntest <span class=\"string\">'@encode accepts an as option to encode a key under a name which differs from that in the raw data'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Shop</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'shop'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'countryCode'</span>,\n      as: <span class=\"string\">'country_code'</span>\n      encode: <span class=\"property\">@defaultEncoder</span>.encode\n      decode: <span class=\"property\">@defaultEncoder</span>.decode\n\n  record = <span class=\"keyword\">new</span> Shop(countryCode: <span class=\"string\">'SE'</span>)\n  deepEqual record.toJSON(), {country_code: <span class=\"string\">'SE'</span>}</code></pre>\n<p>Some more handy examples:</p>\n<pre><code>test <span class=\"string\">'@encode can be used to turn comma separated values into arrays'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Post</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'post'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'tags'</span>,\n      decode: (string) -&gt; string.split(<span class=\"string\">', '</span>)\n      encode: (array) -&gt; array.join(<span class=\"string\">', '</span>)\n\n  record = <span class=\"keyword\">new</span> Post()\n  record.fromJSON({tags: <span class=\"string\">'new, hot, cool'</span>})\n  deepEqual record.get(<span class=\"string\">'tags'</span>), [<span class=\"string\">'new'</span>, <span class=\"string\">'hot'</span>, <span class=\"string\">'cool'</span>]\n  deepEqual record.toJSON(), {tags: <span class=\"string\">'new, hot, cool'</span>}\n\ntest <span class=\"string\">'@encode can be used to turn arrays into sets'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Post</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'post'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'tags'</span>,\n      decode: (array) -&gt; <span class=\"keyword\">new</span> Batman.Set(array...)\n      encode: (set) -&gt; set.toArray()\n\n  record = <span class=\"keyword\">new</span> Post()\n  record.fromJSON({tags: [<span class=\"string\">'new'</span>, <span class=\"string\">'hot'</span>, <span class=\"string\">'cool'</span>]})\n  ok record.get(<span class=\"string\">'tags'</span>) <span class=\"keyword\">instanceof</span> Batman.Set\n  deepEqual record.toJSON(), {tags: [<span class=\"string\">'new'</span>, <span class=\"string\">'hot'</span>, <span class=\"string\">'cool'</span>]}\n\ntest <span class=\"string\">'@encode accepts the as option as a function'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Shop</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'shop'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'countryCode'</span>,\n      as: (key) -&gt; Batman.helpers.underscore(key)\n      encode: <span class=\"property\">@defaultEncoder</span>.encode\n      decode: <span class=\"property\">@defaultEncoder</span>.decode\n\n  record = <span class=\"keyword\">new</span> Shop(countryCode: <span class=\"string\">'SE'</span>)\n  deepEqual record.toJSON(), {country_code: <span class=\"string\">'SE'</span>}</code></pre>\n"
   - title: validate
-    tokens: []
     meta: 
       type: function
       level: class
       params: "keys...[, options : [Object|Function]]"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_validate
     html: "<p>Validations allow a model to be marked as <code>valid</code> or <code>invalid</code> based on a set of programmatic rules. By validating a model&#39;s data before it gets to the server we can provide immediate feedback to the user about what they have entered and forgo waiting on a round trip to the server. <code>validate</code> allows the attachment of validations to the model on particular keys, where the validation is either a built in one (invoked by use of options to pass to them) or a custom one (invoked by use of a custom function as the second argument).</p>\n<p><em>Note</em>: Validation in batman.js is always asynchronous, despite the fact that none of the validations may use an asynchronous operation to check for validity. This is so that the API is consistent regardless of the validations used.</p>\n<p>Built in validators are attached by calling <code>@validate</code> with options designating how to calculate the validity of the key:</p>\n<pre><code>test <span class=\"string\">'@validate accepts options to check for validity'</span>, -&gt;\n  QUnit.expect(<span class=\"number\">0</span>)\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Post</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'post'</span>\n\n    <span class=\"property\">@validate</span> <span class=\"string\">'title'</span>, <span class=\"string\">'body'</span>, {presence: <span class=\"literal\">true</span>} <span class=\"comment\"># title and body must be present (not undefined nor '')</span>\n    <span class=\"property\">@validate</span> <span class=\"string\">'body'</span>, {minLength: <span class=\"number\">10</span>}           <span class=\"comment\"># body must be 10 characters long at least</span>\n    <span class=\"property\">@validate</span> <span class=\"string\">'title'</span>, {pattern: <span class=\"regexp\">/^[A-Z]/</span>}      <span class=\"comment\"># Title must start with an uppercase letter</span>\n    <span class=\"property\">@validate</span> <span class=\"string\">'author'</span>, {email: <span class=\"literal\">true</span>}           <span class=\"comment\"># the author field must contain a valid email address</span></code></pre>\n<p>The built in validation options are listed below:</p>\n<ul>\n<li><code>presence : boolean</code>: Assert that the string value is existent (not undefined or null) and has length greater than 0.</li>\n<li><code>numeric : true</code>: Assert that the value is or can be coerced into a number using <code>parseFloat</code>.</li>\n<li><code>greaterThan : number</code>: Assert that the value is greater than the given number.</li>\n<li><code>greaterThanOrEqualTo : number</code>: Assert that the value is greater than or equal to the given number.</li>\n<li><code>equalTo : number</code>: Assert that the value is equal to the given number.</li>\n<li><code>lessThan : number</code>: Assert that the value is less than the given number.</li>\n<li><code>lessThanOrEqualTo : number</code>: Assert that the value is less than or equal to the given number.</li>\n<li><code>minLength : number</code>: Assert that the value&#39;s <code>length</code> property is greater than the given number.</li>\n<li><code>maxLength : number</code>: Assert that the value&#39;s <code>length</code> property is less than the given number.</li>\n<li><code>length : number</code>: Assert that the value&#39;s <code>length</code> property is exactly the given number.</li>\n<li><code>lengthWithin : [number, number]</code> or <code>lengthIn : [number, number]</code>: Assert that the value&#39;s <code>length</code> property is within the ranger specified by the given array of two numbers, where the first number is the lower bound and the second number is the upper bound.</li>\n<li><code>inclusion : in : [list, of, acceptable, values]</code>: Assert that the value is equal to one of the values in an array.</li>\n<li><code>exclusion : in : [list, of, unacceptable, values]</code>: Assert that the value is not equal to any of the values in an array.</li>\n<li><code>regexp : /regexp/</code> : Assert that the value is matching the provided regular expression.</li>\n<li><code>email : true</code> : Assert that the value is an email address, per the <a href=\"http://www.w3.org/TR/html5/forms.html#valid-e-mail-address\">W3C HTML5 definition</a>.</li>\n</ul>\n<p>Custom validators should have the signature <code>(errors, record, key, callback)</code>. The arguments are as follows:</p>\n<ul>\n<li><code>errors</code>: an <code>ErrorsSet</code> instance which expects to have <code>add</code> called on it to add errors to the model</li>\n<li><code>record</code>: the record being validated</li>\n<li><code>key</code>: the key to which the validation has been attached</li>\n<li><code>callback</code>: a function to call once validation has been completed. Calling this function is <strong>mandatory</strong>.</li>\n</ul>\n<p>See <a href=\"/docs/api/batman.model.html#prototype_function_validate\"><code>Model::validate</code></a> for information on how to get a particular record&#39;s validity.</p>\n"
   - title: loaded
-    tokens: []
     meta: 
       type: function
       level: class
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: Set
+    tokens: []
     id: class_function_loaded
     html: "<p>The <code>loaded</code> set is available on every model class and holds every model instance seen by the system in order to function as an identity map. Successfully loading or saving individual records or batches of records will result in those records being added to the <code>loaded</code> set. Destroying instances will remove records from the identity set.</p>\n<pre><code>test <span class=\"string\">'the loaded set stores all records seen'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Post</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'post'</span>\n    <span class=\"property\">@persist</span> TestStorageAdapter\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>\n\n  ok Post.get(<span class=\"string\">'loaded'</span>) <span class=\"keyword\">instanceof</span> Batman.Set\n  equal Post.get(<span class=\"string\">'loaded.length'</span>), <span class=\"number\">0</span>\n  post = <span class=\"keyword\">new</span> Post()\n  post.save()\n  equal Post.get(<span class=\"string\">'loaded.length'</span>), <span class=\"number\">1</span>\n\ntest <span class=\"string\">'the loaded adds new records caused by loads and removes records caused by destroys'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Post</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'post'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>\n\n  adapter = <span class=\"keyword\">new</span> TestStorageAdapter(Post)\n  adapter.storage =\n      <span class=\"string\">'posts1'</span>: {name: <span class=\"string\">\"One\"</span>, id:<span class=\"number\">1</span>}\n      <span class=\"string\">'posts2'</span>: {name: <span class=\"string\">\"Two\"</span>, id:<span class=\"number\">2</span>}\n\n  Post.persist(adapter)\n  Post.load()\n  equal Post.get(<span class=\"string\">'loaded.length'</span>), <span class=\"number\">2</span>\n  post = <span class=\"literal\">false</span>\n  Post.find(<span class=\"number\">1</span>, (err, result) -&gt; post = result)\n  post.destroy()\n  equal Post.get(<span class=\"string\">'loaded.length'</span>), <span class=\"number\">1</span></code></pre>\n"
   - title: all
-    tokens: []
     meta: 
       type: function
       level: class
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: Set
+    tokens: []
     id: class_function_all
     html: "<p>The <code>all</code> set is an alias to the <code>loaded</code> set but with an added implicit <code>load</code> on the model. <code>Model.get(&#39;all&#39;)</code> will synchronously return the <code>loaded</code> set and asynchronously call <code>Model.load()</code> without options to load a batch of records and populate the set originally returned (the <code>loaded</code> set) with the records returned by the server.</p>\n<p><em>Note</em>: The notion of &quot;all the records&quot; is relative only to the client. It completely depends on the storage adapter in use and any backends which they may contact to determine what comes back during a <code>Model.load</code>. This means that if for example your API paginates records, the set found in <code>all</code> may hold on the first 50 records instead of the entire backend set.</p>\n<p><code>all</code> is useful for listing every instance of a model in a view, and since the <code>loaded</code> set will change when the <code>load</code> returns, it can be safely bound to.</p>\n<pre><code>asyncTest <span class=\"string\">'the all set asynchronously fetches records when gotten'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Post</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'post'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>\n\n  adapter = <span class=\"keyword\">new</span> AsyncTestStorageAdapter(Post)\n  adapter.storage =\n      <span class=\"string\">'posts1'</span>: {name: <span class=\"string\">\"One\"</span>, id:<span class=\"number\">1</span>}\n      <span class=\"string\">'posts2'</span>: {name: <span class=\"string\">\"Two\"</span>, id:<span class=\"number\">2</span>}\n\n  Post.persist(adapter)\n  equal Post.get(<span class=\"string\">'all.length'</span>), <span class=\"number\">0</span>, <span class=\"string\">\"The synchronously returned set is empty\"</span>\n  delay -&gt;\n    equal Post.get(<span class=\"string\">'all.length'</span>), <span class=\"number\">2</span>, <span class=\"string\">\"After the async load the set is populated\"</span></code></pre>\n"
   - title: clear
-    tokens: []
     meta: 
       type: function
       level: class
       params: ""
       returnType: Set
+    tokens: []
     id: class_function_clear
     html: "<p><code>Model.clear()</code> empties that <code>Model</code>&#39;s identity map. This is useful for tests and other unnatural situations where records new to the system are guaranteed to be as such.</p>\n<pre><code>test <span class=\"string\">'clearing a model removes all records from the identity map'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Post</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'post'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>\n\n  adapter = <span class=\"keyword\">new</span> TestStorageAdapter(Post)\n  adapter.storage =\n      <span class=\"string\">'posts1'</span>: {name: <span class=\"string\">\"One\"</span>, id:<span class=\"number\">1</span>}\n      <span class=\"string\">'posts2'</span>: {name: <span class=\"string\">\"Two\"</span>, id:<span class=\"number\">2</span>}\n  Post.persist(adapter)\n  Post.load()\n  equal Post.get(<span class=\"string\">'loaded.length'</span>), <span class=\"number\">2</span>\n  Post.clear()\n  equal Post.get(<span class=\"string\">'loaded.length'</span>), <span class=\"number\">0</span>, <span class=\"string\">\"After clear() the loaded set is empty\"</span></code></pre>\n"
   - title: find
-    tokens: []
     meta: 
       type: function
       level: class
       params: "id, callback : Function"
       returnType: Model
+    tokens: []
     id: class_function_find
     html: "<p><code>Model.find()</code> retrieves a record with the specified <code>id</code> from the storage adapter and calls back with an error if one occurred and the record if the operation was successful. <code>find</code> delegates to the storage adapter the <code>Model</code> has been <code>@persist</code>ed with, so it is up to the storage adapter&#39;s semantics to determine what type of errors may return and the timeline on which the callback may be called. The <code>callback</code> is a required function which should adopt the node style callback signature which accepts two arguments: an error, and the record asked for. <code>find</code> returns an &quot;unloaded&quot; record which, following the load completion, will be populated with the data from the storage adapter.</p>\n<p><em>Note</em>: <code>find</code> gives two results to calling code: one immediately, and one later. <code>find</code> returns a record synchronously as it is called and calls back with a record, and importantly these two records are <strong>not</strong> guaranteed to be the same instance. This is because batman.js maps the identities of incoming and outgoing records such that there is only ever one canonical instance representing a record, which is useful so bindings are always bound to the same thing. In practice, this means that calling code should use the record <code>find</code> calls back with if anything is going to bind to that object, which is most of the time. The returned record however remains useful for state inspection and bookkeeping.</p>\n<pre><code>asyncTest <span class=\"string\">'@find calls back the requested model if no error occurs'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Post</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'post'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>\n    <span class=\"property\">@persist</span> AsyncTestStorageAdapter,\n      storage:\n        <span class=\"string\">'posts2'</span>: {name: <span class=\"string\">\"Two\"</span>, id:<span class=\"number\">2</span>}\n\n  post = Post.find <span class=\"number\">2</span>, (err, result) -&gt;\n    <span class=\"keyword\">throw</span> err <span class=\"keyword\">if</span> err\n    post = result\n  equal post.get(<span class=\"string\">'name'</span>), <span class=\"literal\">undefined</span>\n  delay -&gt;\n    equal post.get(<span class=\"string\">'name'</span>), <span class=\"string\">\"Two\"</span></code></pre>\n<p><em>Note</em>: <code>find</code> must be passed a callback function. This is for two reasons: calling code must be aware that <code>find</code>&#39;s return value is not necessarily the canonical instance, and calling code must be able to handle errors.</p>\n<pre><code>asyncTest <span class=\"string\">'@find calls back with the error if an error occurs'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Post</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'post'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>\n    <span class=\"property\">@persist</span> AsyncTestStorageAdapter\n\n  error = <span class=\"literal\">false</span>\n  post = Post.find <span class=\"number\">3</span>, (err, result) -&gt;\n    error = err\n  delay -&gt;\n    ok error <span class=\"keyword\">instanceof</span> Error</code></pre>\n"
   - title: load
-    tokens: []
     meta: 
       type: function
       level: class
       params: "options = {}, callback : Function"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_load
     html: "<p><code>Model.load()</code> retrieves an array of records according to the given <code>options</code> from the storage adapter and calls back with an error if one occurred and the set of records if the operation was successful. <code>load</code> delegates to the storage adapter the <code>Model</code> has been <code>@persist</code>ed with, so it is up to the storage adapter&#39;s semantics to determine what the options do, what kind of errors may arise, and the timeline on which the callback may be called. The <code>callback</code> is a required function which should adopt the node style callback signature which accepts two arguments, an error, and the array of records. <code>load</code> returns undefined.</p>\n<p>For the two main <code>StorageAdapter</code>s batman.js provides, the <code>options</code> do different things:</p>\n<ul>\n<li>For <code>Batman.LocalStorage</code>, <code>options</code> act as a filter. The adapter will scan all the records in <code>localStorage</code> and return only those records which match all the key/value pairs given in the options.</li>\n<li>For <code>Batman.RestStorage</code>, <code>options</code> are serialized into query parameters on the <code>GET</code> request.</li>\n</ul>\n<p>It accepts a callback with two arguments: any error that occurred, and an array of loaded records.</p>\n<pre><code>asyncTest <span class=\"string\">'@load calls back an array of records retrieved from the storage adapter'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Post</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'post'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>\n    <span class=\"property\">@persist</span> TestStorageAdapter,\n      storage:\n        <span class=\"string\">'posts1'</span>: {name: <span class=\"string\">\"One\"</span>, id:<span class=\"number\">1</span>}\n        <span class=\"string\">'posts2'</span>: {name: <span class=\"string\">\"Two\"</span>, id:<span class=\"number\">2</span>}\n\n  posts = <span class=\"literal\">false</span>\n  Post.load (err, result) -&gt;\n    <span class=\"keyword\">throw</span> err <span class=\"keyword\">if</span> err\n    posts = result\n\n  delay -&gt;\n    equal posts.length, <span class=\"number\">2</span>\n    equal posts[<span class=\"number\">0</span>].get(<span class=\"string\">'name'</span>), <span class=\"string\">\"One\"</span>\n\nasyncTest <span class=\"string\">'@load calls back with an empty array if no records are found'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Post</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'post'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>\n    <span class=\"property\">@persist</span> TestStorageAdapter, storage: []\n\n  posts = <span class=\"literal\">false</span>\n  Post.load (err, result) -&gt;\n    <span class=\"keyword\">throw</span> err <span class=\"keyword\">if</span> err\n    posts = result\n\n  delay -&gt;\n    equal posts.length, <span class=\"number\">0</span></code></pre>\n"
   - title: create
-    tokens: []
     meta: 
       type: function
       level: class
       params: "attributes = {}, callback"
       returnType: Model
+    tokens: []
     id: class_function_create
     html: "<p><code>App.Model.create</code> is a convenience method that is essentially equivalent to\ncalling <code>(new App.Model).save()</code>:</p>\n<pre><code>asyncTest <span class=\"string\">\"@create instantiates a new record instance and saves it\"</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Post</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'post'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>\n    <span class=\"property\">@persist</span> TestStorageAdapter, storage: []\n\n  <span class=\"comment\"># Using new + save:</span>\n  record = <span class=\"keyword\">new</span> Post(name: <span class=\"string\">'aName'</span>)\n  record.save()\n\n  <span class=\"comment\"># Using create:</span>\n  otherRecord = Post.create name: <span class=\"string\">'aName'</span>, -&gt;\n\n  delay -&gt;\n    equal record.get(<span class=\"string\">'name'</span>), otherRecord.get(<span class=\"string\">'name'</span>)\n    equal record.isNew(), <span class=\"literal\">false</span>\n    equal otherRecord.isNew(), <span class=\"literal\">false</span></code></pre>\n<p><em>Note</em> : <code>attributes</code> is an empty object <code>{}</code> by default. This means the single-argument version of <code>create</code> accepts the callback, and not the attributes object.</p>\n"
   - title: findOrCreate
-    tokens: []
     meta: 
       type: function
       level: class
       params: "attributes = {}, callback"
       returnType: Model
+    tokens: []
     id: class_function_findorcreate
     html: ""
   - title: createFromJSON
-    tokens: []
     meta: 
       type: function
       level: class
       params: "attributes = {}"
       returnType: Model
+    tokens: []
     id: class_function_createfromjson
     html: "<p>Returns an instance of the model based on <code>attributes</code>. If the <code>primaryKey</code> is present in <code>attributes</code>, the in-memory identity map will be searched for a match. If a match is found, it will be updated with <code>attributes</code> (without tracking) and returned. If the <code>primaryKey</code> isn&#39;t present, a new instance is added to the <code>loaded</code> set and returned.</p>\n<p>Since <code>createFromJSON</code> checks the identity map, it&#39;s a great way to load data without duplicating records in memory.</p>\n"
   - title: id
-    tokens: []
     meta: 
       type: accessor
       level: prototype
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_accessor_id
     html: "<p>A universally accessible accessor to the record&#39;s primary key. If the record&#39;s\nprimary key is <code>id</code> (the default), getting/setting this accessor simply passes\nthe call through to <code>id</code>, otherwise it proxies the call to the custom primary key.</p>\n<pre><code>test <span class=\"string\">\"id proxies the primary key\"</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Post</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@primaryKey</span>: <span class=\"string\">'name'</span>\n\n  post = <span class=\"keyword\">new</span> Post(name: <span class=\"string\">'Witty title'</span>)\n  equal post.get(<span class=\"string\">'id'</span>), <span class=\"string\">'Witty title'</span>\n\n  post.set(<span class=\"string\">'id'</span>, <span class=\"string\">'Wittier title'</span>)\n  equal post.get(<span class=\"string\">'name'</span>), <span class=\"string\">'Wittier title'</span></code></pre>\n"
   - title: dirtyKeys
-    tokens: []
     meta: 
       type: accessor
       level: prototype
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: Set
+    tokens: []
     id: prototype_accessor_dirtykeys
     html: "<p>The set of keys which have been modified since the last time the record was saved.</p>\n"
   - title: errors
-    tokens: []
     meta: 
       type: accessor
       level: prototype
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: Batman.ErrorsSet
+    tokens: []
     id: prototype_accessor_errors
     html: "<p><code>errors</code> is a <code>Batman.ErrorsSet</code>, which is simply a <code>Batman.Set</code> of <a href=\"/docs/api/batman.validationerror.html\"><code>Batman.ValidationError</code></a>s present on the model instance.</p>\n<ul>\n<li><code>user.get(&#39;errors&#39;)</code> returns the errors on the <code>user</code> record</li>\n<li><code>user.get(&#39;errors.length&#39;)</code> returns the number of errors, total</li>\n</ul>\n<p>You can also access the errors for a specific attribute of the record:</p>\n<ul>\n<li><code>user.get(&#39;errors.email_address&#39;)</code> returns the errors on the <code>email_address</code> attribute</li>\n<li><code>user.get(&#39;errors.email_address.length&#39;)</code> returns the number of errors on the <code>email_address</code> attribute</li>\n</ul>\n"
   - title: "constructor"
-    tokens: []
     meta: 
       type: function
       level: class
       params: "idOrAttributes = {}"
       returnType: Model
+    tokens: []
     id: class_function_constructor
     html: ""
   - title: isNew
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: ""
       returnType: boolean
+    tokens: []
     id: prototype_function_isnew
     html: "<p>Returns true if the instance represents a record that hasn&#39;t yet been persisted to storage. The default implementation simply checks if <code>@get(&#39;id&#39;)</code> is undefined, but you can override this on your own models.</p>\n<p><code>isNew</code> is used to determine whether <code>record.save()</code> will perform a <code>create</code> action or a <code>save</code> action.</p>\n"
   - title: "updateAttributes(attributes) : Model"
@@ -173,75 +176,75 @@ sub:
     id: "tostring()_%3A_string"
     html: "<p>Returns a string representation suitable for debugging. By default this just contains the model&#39;s <code>resourceName</code> and <code>id</code></p>\n"
   - title: toJSON
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: ""
       returnType: Object
+    tokens: []
     id: prototype_function_tojson
     html: "<p>Returns a JavaScript object containing the attributes of the record, using any specified encoders.</p>\n<pre><code>test <span class=\"string\">\"toJSON returns a JavaScript object with the record's attributes\"</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Criminal</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@encode</span> <span class=\"string\">\"name\"</span>, <span class=\"string\">\"notorious\"</span>\n\n  criminal = <span class=\"keyword\">new</span> Criminal(name: <span class=\"string\">\"Talia al Ghul\"</span>, notorious: <span class=\"literal\">true</span>)\n  criminal_json = criminal.toJSON()\n  equal criminal_json.name, <span class=\"string\">\"Talia al Ghul\"</span>\n  equal criminal_json.notorious, <span class=\"literal\">true</span></code></pre>\n"
   - title: fromJSON
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: ""
       returnType: Model
+    tokens: []
     id: prototype_function_fromjson
     html: "<p>Loads attributes from a bare object into this instance.</p>\n<pre><code>test <span class=\"string\">'fromJSON overwrites existing attributes'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Criminal</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@encode</span> <span class=\"string\">\"name\"</span>, <span class=\"string\">\"notorious\"</span>\n\n  criminal = <span class=\"keyword\">new</span> Criminal(name: <span class=\"string\">\"Dr. Jonathan Crane\"</span>, notorious: <span class=\"literal\">false</span>)\n  new_params =\n    name: <span class=\"string\">\"Scarecrow\"</span>\n    notorious: <span class=\"literal\">true</span>\n  criminal.fromJSON(new_params)\n\n  equal criminal.get(<span class=\"string\">\"notorious\"</span>), <span class=\"literal\">true</span>\n  equal criminal.get(<span class=\"string\">\"name\"</span>), <span class=\"string\">\"Scarecrow\"</span></code></pre>\n"
   - title: toParam
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: ""
       returnType: value
+    tokens: []
     id: prototype_function_toparam
     html: "<p>Returns a representation of the model suitable for use in a URL. By default, this is the record&#39;s <code>id</code>.</p>\n<p>This method is used by the routing system for serializing records into a URL.</p>\n"
   - title: hasStorage
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: ""
       returnType: boolean
+    tokens: []
     id: prototype_function_hasstorage
     html: "<p>True when the record has a storage adapter defined.</p>\n"
   - title: load
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "options = {}, callback"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_load
     html: "<p><code>Load</code> tries to read the record from its storage adapter. The options object will be passed to the storage adapter when it performs the <code>read</code> operation. The callback takes three parameters: error, the loaded record, and the environment. <code>Load</code>ing a record clears all errors on that record.</p>\n<p>If the read operation fails or if the record is in a state which doesn&#39;t permit <code>load</code>, (for example, calling <code>load</code> on a deleted record) the callback will be invoked with an error.</p>\n"
   - title: save
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "options = {}, callback"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_save
     html: "<p><code>Save</code> <a href=\"http://localhost:4000/docs/api/batman.model.html#prototype_function_validate\">validates</a> the record, and if it passes, fires the corresponding storage operation (defined by the <code>Batman.StorageAdapter</code> passed to  <a href=\"/docs/api/batman.model.html#class_function_persist\"><code>@persist</code></a>). When the storage operation is complete, the callback is invoked with two parameters: any JavaScript error and the record.</p>\n<p>If the record <a href=\"/docs/api/batman.model.html#prototype_function_isnew\"><code>isNew</code></a>, <code>save</code> performs a <code>create</code> operation. Otherwise, it performs a <code>save</code> operation.</p>\n<p>If the record is not valid, the <a href=\"/docs/api/batman.validationerror.html\">validation errors</a> will be passed to the first parameter of the callback function and the storage operation will not be performed.</p>\n<p>Available options include:</p>\n<ul>\n<li><code>only</code>: A whitelist that will submit only the specified model attributes from the storage adapter.  This is useful when you want to do partial updates of a model without sending the full model content.  e.g., <code>options = {only: [&#39;name&#39;, &#39;bio&#39;]}</code></li>\n<li><code>except</code>: A blacklist that will prevent specified model attributes from being transmitted from the storage adapter.  e.g., <code>options = {except: [&#39;sensitive_data&#39;]}</code></li>\n</ul>\n"
   - title: destroy
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "options = {}, callback"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_destroy
     html: "<p><code>Destroy</code> fires the corresponding storage operation. The callback takes three arguments: JavaScript Error, the record, and the environment. If the operation is successful, the record is removed from its Model&#39;s <a href=\"/docs/api/batman.model.html#class_function_loaded\"><code>loaded</code></a> set.</p>\n<pre><code class=\"lang-coffeescript\">criminal = <span class=\"keyword\">new</span> Criminal name: <span class=\"string\">\"The penguin\"</span>\ncriminal.destroy (err, record, env) -&gt;\n  <span class=\"keyword\">if</span> err\n    console.log <span class=\"string\">\"Oh no! <span class=\"subst\">#{record.get('name')}</span> is still on the loose!\"</span></code></pre>\n<p>If the record&#39;s current lifecycle state doesn&#39;t allow the <code>destroy</code> action, the callback will be invoked with a <code>Batman.StateMachine.InvalidTransitionError</code>. For example, this could occur if <code>destroy</code> is called on an already-destroyed record.</p>\n"
   - title: validate
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: callback
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_validate
     html: "<p><code>Model::validate</code> checks the model against the validations declared in the model definition (with <a href=\"/docs/api/batman.model.html#class_function_validate\"><code>Model@validate</code></a>). This method accepts a callback with two arguments: any JS error that occurred within the validator function, and the set of <a href=\"/docs/api/batman.validationerror.html\"><code>Batman.ValidationError</code></a>s that the input generated.</p>\n<p>For example:</p>\n<pre><code>test <span class=\"string\">\"validate(callback) will call the callback only after all keys have been validated\"</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Product</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@validate</span> <span class=\"string\">'name'</span>, <span class=\"string\">'price'</span>, presence: <span class=\"literal\">yes</span>\n\n  newProduct = <span class=\"keyword\">new</span> Product\n  newProduct.validate (javascriptError, validationErrors) -&gt;\n    <span class=\"keyword\">throw</span> javascriptError <span class=\"keyword\">if</span> javascriptError\n    equal validationErrors.length, <span class=\"number\">2</span>\n    equal newProduct.get(<span class=\"string\">'errors.length'</span>), <span class=\"number\">2</span>\n    equal newProduct.get(<span class=\"string\">'errors.name.length'</span>), <span class=\"number\">1</span>\n    equal newProduct.get(<span class=\"string\">'errors.price.length'</span>), <span class=\"number\">1</span></code></pre>\n"
 tokens: []

@@ -1,14 +1,17 @@
 ---
 layout: api_docs
 title: Batman.Hash
+meta: 
+  grouping: Data Structures
+  parent: !<tag:yaml.org,2002:js/undefined> ""
 sub: 
   - title: "constructor"
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "obj: Object"
       returnType: Hash
+    tokens: []
     id: prototype_function_constructor
     html: "<p>Creates a new <code>Hash</code> with the key-value pairs in <code>obj</code>.</p>\n"
   - title: "get, set, unset, and @accessor"
@@ -16,102 +19,102 @@ sub:
     id: "get%2C_set%2C_unset%2C_and_%40accessor"
     html: "<p>By default, <code>get</code>, <code>set</code> and <code>unset</code> change values in the <code>Hash</code>&#39;s storage. If you define your own accessors with <code>@accessor</code>, <code>get</code> and <code>set</code> for that key will be handled by the custom accessor.</p>\n<pre><code>test <span class=\"string\">'custom accessors take precedence over Hash storage'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">CustomHash</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Hash</span></span>\n    <span class=\"property\">@accessor</span> <span class=\"string\">'timesTwo'</span>,\n      set: (key, value) -&gt; <span class=\"property\">@_customValue</span> = value\n      get: -&gt; <span class=\"property\">@_customValue</span> * <span class=\"number\">2</span>\n\n  customHash = <span class=\"keyword\">new</span> CustomHash\n  customHash.set(<span class=\"string\">'normalKey'</span>,  <span class=\"string\">'value'</span>)\n  customHash.set(<span class=\"string\">'timesTwo'</span>,  <span class=\"number\">4</span>)\n  equal customHash.get(<span class=\"string\">'normalKey'</span>), <span class=\"string\">'value'</span>, <span class=\"string\">\"The default accessor is used\"</span>\n  equal customHash.get(<span class=\"string\">'timesTwo'</span>), <span class=\"number\">8</span>, <span class=\"string\">\"The custom accessor is used\"</span>\n  equal customHash.hasKey(<span class=\"string\">'timesTwo'</span>), <span class=\"literal\">false</span>, <span class=\"string\">\"The custom accessor doesn't use hash storage\"</span></code></pre>\n"
   - title: keys
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: ""
       returnType: Array
+    tokens: []
     id: prototype_function_keys
     html: "<p>Returns an array of the keys in the <code>Hash</code>.</p>\n"
   - title: isEmpty
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: ""
       returnType: Boolean
+    tokens: []
     id: prototype_function_isempty
     html: "<p>Returns true if the <code>Hash</code>&#39;s length is 0.</p>\n"
   - title: toArray
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: ""
       returnType: Array
+    tokens: []
     id: prototype_function_toarray
     html: "<p>Returns an array of keys in the <code>Hash</code>.</p>\n"
   - title: forEach
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "func : Function"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_foreach
     html: "<p>Calls <code>func(key, value)</code> for each pair in the <code>Hash</code>.</p>\n"
   - title: hasKey
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "testKey : String "
       returnType: Boolean
+    tokens: []
     id: prototype_function_haskey
     html: "<p>Returns <code>true</code> if <code>testKey</code> exists on the <code>Hash</code>.</p>\n"
   - title: clear
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: ""
       returnType: Array
+    tokens: []
     id: prototype_function_clear
     html: "<p>Unsets all keys, then fires an <code>itemsWereRemoved</code> event with the removed keys and values. It returns all values that were in the <code>Hash</code>.</p>\n"
   - title: merge
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "hashes... : Hash"
       returnType: Hash
+    tokens: []
     id: prototype_function_merge
     html: "<p>Creates a <strong>new <code>Hash</code></strong> by merging pairs from <code>hashes</code> into the <code>Hash</code> and returns the merged result.</p>\n"
   - title: update
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "obj: Object"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_update
     html: "<p>For each key-value pair in <code>obj</code>, the keys in the <code>Hash</code> are updated with the provided values.</p>\n<ul>\n<li>If any of the keys in <code>obj</code> were not in the <code>Hash</code> before, an <code>itemsWereAdded</code> event is fired with the new keys and new values.</li>\n<li>If any of the keys in <code>obj</code> were already present in the <code>Hash</code>, an <code>itemsWereChanged</code> event is fired with the other keys, their new values (from <code>obj</code>) and their previous values.</li>\n</ul>\n"
   - title: replace
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "obj: Object"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_replace
     html: "<p>The key-value pairs in <code>Hash</code> are completely replaced with those in <code>obj</code>.</p>\n<ul>\n<li>If there were any keys in <code>obj</code> that weren&#39;t previously in the <code>Hash</code>, an <code>itemsWereAdded</code> event is fired with the new keys and their values.</li>\n<li>If any keys were present in the <code>Hash</code> but weren&#39;t present in <code>obj</code> then those keys are unset on <code>Hash</code> and an <code>itemsWereRemoved</code> event is fired with the removed keys and their values.</li>\n<li>If any keys were present in the <code>Hash</code> and in <code>obj</code>, then an <code>itemsWereChanged</code> event is fired with those keys, their previous values and their new values.</li>\n</ul>\n"
   - title: toObject
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: ""
       returnType: Object
+    tokens: []
     id: prototype_function_toobject
     html: "<p>Returns a plain JavaScript Object with the contents of the <code>Hash</code>.</p>\n"
   - title: toJSON
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: ""
       returnType: Object
+    tokens: []
     id: prototype_function_tojson
     html: "<p>Returns a plain JavaScript Object, like <code>toObject</code>, but calls <code>toJSON</code> on the each value, if it has a <code>toJSON</code> method.</p>\n"
 tokens: []

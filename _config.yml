@@ -30,596 +30,665 @@ doc_boxes:
         link: testing
 
 api_index: 
-  - id: index
-    title: Using This Reference
-    sub: []
-  - id: batman
-    title: Batman
-    sub: 
-      - id: container
-        title: container
-      - id: class_function_typeof
-        title: typeOf
-      - id: class_function_mixin
-        title: mixin
-      - id: class_function_unmixin
-        title: unmixin
-      - id: class_function_functionname
-        title: functionName
-      - id: class_function_ischildof
-        title: isChildOf
-      - id: class_function_setimmediate
-        title: setImmediate
-      - id: class_function_clearimmediate
-        title: clearImmediate
-      - id: class_function_foreach
-        title: forEach
-      - id: class_function_objecthaskey
-        title: objectHasKey
-      - id: class_function_contains
-        title: contains
-      - id: class_function_get
-        title: get
-      - id: class_function_getpath
-        title: getPath
-      - id: class_function_escapehtml
-        title: escapeHTML
-      - id: class_function_redirect
-        title: redirect
-  - id: batman.helpers
-    title: Batman.helpers
-    sub: 
-      - id: class_function_ordinalize
-        title: ordinalize
-      - id: class_function_singularize
-        title: singularize
-      - id: class_function_pluralize
-        title: pluralize
-      - id: class_function_camelize
-        title: camelize
-      - id: class_function_underscore
-        title: underscore
-      - id: class_function_capitalize
-        title: capitalize
-      - id: class_function_trim
-        title: trim
-      - id: class_function_interpolate
-        title: interpolate
-      - id: class_function_humanize
-        title: humanize
-  - id: batman.object
-    title: Batman.Object
-    sub: 
-      - id: class_function_accessor
-        title: accessor
-      - id: class_function_classaccessor
-        title: classAccessor
-      - id: class_function_mixin
-        title: mixin
-      - id: class_function_classmixin
-        title: classMixin
-      - id: class_function_observeall
-        title: observeAll
-      - id: constructor(objects...)
-        title: constructor(objects...)
-      - id: "tojson()_%3A_object"
-        title: "toJSON() : object"
-      - id: "hashkey()_%3A_string"
-        title: "hashKey() : string"
-      - id: "batchaccessorchanges(key%2C_wrappedfunction)_%3A_string"
-        title: "batchAccessorChanges(key, wrappedFunction) : string"
-      - id: "accessor(%5Bkeys...%5D%2C_objectorfunction)"
-        title: "accessor([keys...], objectOrFunction)"
-      - id: "mixin(objects...)_%3A_this"
-        title: "mixin(objects...) : this"
-      - id: batman.observable
-        title: Batman.Observable
-      - id: prototype_property_isobservable
-        title: isObservable
-      - id: prototype_function_get
-        title: get
-      - id: prototype_function_set
-        title: set
-      - id: prototype_function_unset
-        title: unset
-      - id: prototype_function_getorset
-        title: getOrSet
-      - id: prototype_function_observe
-        title: observe
-      - id: prototype_function_observeandfire
-        title: observeAndFire
-      - id: prototype_function_observeonce
-        title: observeOnce
-      - id: prototype_function_forget
-        title: forget
-      - id: batman.eventemitter
-        title: Batman.EventEmitter
-      - id: prototype_function_on
-        title: "on"
-      - id: prototype_function_off
-        title: "off"
-      - id: prototype_function_fire
-        title: fire
-      - id: prototype_function_hasevent
-        title: hasEvent
-      - id: prototype_function_once
-        title: once
-      - id: prototype_function_prevent
-        title: prevent
-      - id: prototype_function_allow
-        title: allow
-      - id: prototype_function_allowandfire
-        title: allowAndFire
-      - id: prototype_function_isprevented
-        title: isPrevented
-      - id: prototype_function_mutate
-        title: mutate
-      - id: prototype_function_mutation
-        title: mutation
-      - id: prototype_property_iseventemitter
-        title: isEventEmitter
-  - id: batman.enumerable
-    title: Batman.Enumerable
-    sub: 
-      - id: prototype_property_length
-        title: length
-      - id: prototype_function_foreach
-        title: forEach
-      - id: prototype_function_map
-        title: map
-      - id: prototype_function_maptoproperty
-        title: mapToProperty
-      - id: prototype_function_every
-        title: every
-      - id: prototype_function_some
-        title: some
-      - id: prototype_function_reduce
-        title: reduce
-      - id: prototype_function_filter
-        title: filter
-      - id: prototype_function_count
-        title: count
-      - id: "implementing_your_own_%60batman.enumerable%60"
-        title: "Implementing your own `Batman.Enumerable`"
-  - id: batman.set
-    title: Batman.Set
-    sub: 
-      - id: constructor(items...)
-        title: constructor(items...)
-      - id: "length_%3A_number"
-        title: "length : number"
-      - id: "isempty_%3A_boolean"
-        title: "isEmpty : boolean"
-      - id: "toarray_%3A_array"
-        title: "toArray : Array"
-      - id: "has(item)_%3A_boolean"
-        title: "has(item) : Boolean"
-      - id: add(items...)
-        title: add(items...)
-      - id: remove(items...)
-        title: remove(items...)
-      - id: "find(testfunction_%3A_function)_%3A_%5Bobject%5D"
-        title: "find(testFunction : function) : [Object]"
-      - id: "foreach(iteratorfunction_%3A_function%5B%2C_context%3A_object%5D)"
-        title: "forEach(iteratorFunction : function[, context: Object])"
-      - id: "isempty()_%3A_boolean"
-        title: "isEmpty() : boolean"
-      - id: "clear()_%3A_array"
-        title: "clear() : Array"
-      - id: "replace(collection_%3A_enumerable)_%3A_array"
-        title: "replace(collection : Enumerable) : Array"
-      - id: "toarray()_%3A_array"
-        title: "toArray() : Array"
-      - id: "merge(collections..._%3A_enumerable)_%3A_set"
-        title: "merge(collections... : Enumerable) : Set"
-      - id: "indexedby(key_%3A_string)_%3A_setindex"
-        title: "indexedBy(key : String) : SetIndex"
-      - id: "indexedbyunique(key_%3A_string)_%3A_uniquesetindex"
-        title: "indexedByUnique(key : String) : UniqueSetIndex"
-      - id: "sortedby(key%3A_string_%5B%2C_order%3A_string%5D)_%3A_setsort"
-        title: "sortedBy(key: String [, order: String]) : SetSort"
-  - id: batman.hash
-    title: Batman.Hash
-    sub: 
-      - id: prototype_function_constructor
-        title: "constructor"
-      - id: "get%2C_set%2C_unset%2C_and_%40accessor"
-        title: "get, set, unset, and @accessor"
-      - id: prototype_function_keys
-        title: keys
-      - id: prototype_function_isempty
-        title: isEmpty
-      - id: prototype_function_toarray
-        title: toArray
-      - id: prototype_function_foreach
-        title: forEach
-      - id: prototype_function_haskey
-        title: hasKey
-      - id: prototype_function_clear
-        title: clear
-      - id: prototype_function_merge
-        title: merge
-      - id: prototype_function_update
-        title: update
-      - id: prototype_function_replace
-        title: replace
-      - id: prototype_function_toobject
-        title: toObject
-      - id: prototype_function_tojson
-        title: toJSON
-  - id: batman.request
-    title: Batman.Request
-    sub: 
-      - id: platform_request_implementation_libraries
-        title: Platform Request Implementation Libraries
-      - id: .status
-        title: .status
-      - id: .response
-        title: .response
-      - id: ".responseheaders_%3A_object"
-        title: ".responseHeaders : object"
-      - id: class_function_request
-        title: Request
-      - id: prototype_function_send
-        title: send
-  - id: batman.app
-    title: Batman.App
-    sub: 
-      - id: batman.currentapp
-        title: Batman.currentApp
-      - id: class_function_run
-        title: run
-      - id: class_function_stop
-        title: stop
-      - id: class_function_routes
-        title: routes
-      - id: class_function_controllers
-        title: controllers
-      - id: class_function_layout
-        title: layout
-      - id: class_function_currentparams
-        title: currentParams
-      - id: class_function_paramsmanager
-        title: paramsManager
-      - id: class_function_paramspusher
-        title: paramsPusher
-      - id: "'run'_class_event"
-        title: "'run' class event"
-      - id: "'ready'_class_event"
-        title: "'ready' class event"
-  - id: batman.app_routing
-    title: Batman.App Routing
-    sub: 
-      - id: class_function_route
-        title: route
-      - id: class_function_resources
-        title: resources
-      - id: class_function_member
-        title: member
-      - id: class_function_collection
-        title: collection
-      - id: class_function_root
-        title: root
-  - id: batman.controller
-    title: Batman.Controller
-    sub: 
-      - id: controller_directory
-        title: Controller Directory
-      - id: actions
-        title: Actions
-      - id: routingkey_and_minification
-        title: routingKey and Minification
-      - id: prototype_function_render
-        title: render
-      - id: class_function_beforeaction
-        title: beforeAction
-      - id: class_function_afteraction
-        title: afterAction
-      - id: prototype_function_executeaction
-        title: executeAction
-      - id: prototype_function_redirect
-        title: redirect
-      - id: prototype_function_scrolltohash
-        title: scrollToHash
-      - id: prototype_property_autoscrolltohash
-        title: autoScrollToHash
-      - id: prototype_property_defaultrenderyield
-        title: defaultRenderYield
-  - id: batman.model
-    title: Batman.Model
-    sub: 
-      - id: class_function_primarykey
-        title: primaryKey
-      - id: class_function_storagekey
-        title: storageKey
-      - id: class_function_persist
-        title: persist
-      - id: class_function_encode
-        title: encode
-      - id: class_function_validate
-        title: validate
-      - id: class_function_loaded
-        title: loaded
-      - id: class_function_all
-        title: all
-      - id: class_function_clear
-        title: clear
-      - id: class_function_find
-        title: find
-      - id: class_function_load
-        title: load
-      - id: class_function_create
-        title: create
-      - id: class_function_findorcreate
-        title: findOrCreate
-      - id: class_function_createfromjson
-        title: createFromJSON
-      - id: prototype_accessor_id
-        title: id
-      - id: prototype_accessor_dirtykeys
-        title: dirtyKeys
-      - id: prototype_accessor_errors
-        title: errors
-      - id: class_function_constructor
-        title: "constructor"
-      - id: prototype_function_isnew
-        title: isNew
-      - id: "updateattributes(attributes)_%3A_model"
-        title: "updateAttributes(attributes) : Model"
-      - id: "tostring()_%3A_string"
-        title: "toString() : string"
-      - id: prototype_function_tojson
-        title: toJSON
-      - id: prototype_function_fromjson
-        title: fromJSON
-      - id: prototype_function_toparam
-        title: toParam
-      - id: prototype_function_hasstorage
-        title: hasStorage
-      - id: prototype_function_load
-        title: load
-      - id: prototype_function_save
-        title: save
-      - id: prototype_function_destroy
-        title: destroy
-      - id: prototype_function_validate
-        title: validate
-  - id: batman.validator
-    title: Batman.Validator
-    sub: 
-      - id: prototype_function_constructor
-        title: "constructor"
-      - id: class_function_triggers
-        title: triggers
-      - id: class_function_options
-        title: options
-      - id: prototype_function_validateeach
-        title: validateEach
-      - id: class_function_handleblank
-        title: handleBlank
-  - id: batman.validationerror
-    title: Batman.ValidationError
-    sub: 
-      - id: prototype_accessor_fullmessage
-        title: fullMessage
-  - id: batman.model_associations
-    title: Batman.Model Associations
-    sub: 
-      - id: class_function_hasmany
-        title: hasMany
-      - id: class_function_hasone
-        title: hasOne
-      - id: class_function_belongsto
-        title: belongsTo
-      - id: batman.assocationproxy
-        title: Batman.AssocationProxy
-      - id: prototype_function_load
-        title: load
-      - id: prototype_function_tojson
-        title: toJSON
-      - id: prototype_accessor_target
-        title: target
-      - id: prototype_accessor_loaded
-        title: loaded
-      - id: prototype_function_fetchfromlocal
-        title: fetchFromLocal
-      - id: prototype_function_fetchfromremote
-        title: fetchFromRemote
-      - id: association_options
-        title: Association Options
-      - id: polymorphic_association_options
-        title: Polymorphic Association Options
-  - id: batman.storageadapter
-    title: Batman.StorageAdapter
-    sub: 
-      - id: subclassing_batman.storageadapter
-        title: Subclassing Batman.StorageAdapter
-      - id: storage_operations
-        title: Storage Operations
-      - id: prototype_function_create
-        title: create
-      - id: prototype_function_read
-        title: read
-      - id: prototype_function_update
-        title: update
-      - id: prototype_function_destroy
-        title: destroy
-      - id: prototype_function_readall
-        title: readAll
-      - id: other_useful_methods
-        title: Other Useful Methods
-      - id: class_function_skipiferror
-        title: skipIfError
-      - id: prototype_function_before
-        title: before
-      - id: prototype_function_after
-        title: after
-  - id: batman.view
-    title: Batman.View
-    sub: 
-      - id: prototype_function_constructor
-        title: "constructor"
-      - id: prototype_function_lookupkeypath
-        title: lookupKeypath
-      - id: prototype_function_setkeypath
-        title: setKeypath
-      - id: prototype_accessor_node
-        title: node
-      - id: prototype_accessor_source
-        title: source
-      - id: prototype_accessor_html
-        title: html
-      - id: prototype_property_superview
-        title: superview
-      - id: prototype_property_subviews
-        title: subviews
-      - id: prototype_function_subviews.add
-        title: subviews.add
-      - id: prototype_function_subviews.remove
-        title: subviews.remove
-      - id: prototype_function_removefromsuperview
-        title: removeFromSuperview
-      - id: prototype_function_die
-        title: die
-      - id: prototype_property_isdead
-        title: isDead
-      - id: prototype_function_destroysubviews
-        title: destroySubviews
-      - id: prototype_function_propagatetosubviews
-        title: propagateToSubviews
-      - id: class_function_viewfornode
-        title: viewForNode
-      - id: prototype_function_filter
-        title: filter
-  - id: batman.view_bindings
-    title: Batman.View Bindings
-    sub: 
-      - id: how_to_use_bindings
-        title: How to use bindings
-      - id: binding_keypaths
-        title: Binding Keypaths
-      - id: binding_contexts
-        title: Binding Contexts
-      - id: keypath_filters
-        title: Keypath Filters
-      - id: keypath_literals
-        title: Keypath Literals
-      - id: "data-bind"
-        title: "data-bind"
-      - id: "data-source"
-        title: "data-source"
-      - id: "data-target"
-        title: "data-target"
-      - id: "data-showif_%2F_data-hideif"
-        title: "data-showif / data-hideif"
-      - id: "data-addclass_%2F_data-removeclass"
-        title: "data-addclass / data-removeclass"
-      - id: "data-foreach"
-        title: "data-foreach"
-      - id: "data-formfor"
-        title: "data-formfor"
-      - id: "data-context"
-        title: "data-context"
-      - id: "data-event"
-        title: "data-event"
-      - id: "data-route"
-        title: "data-route"
-      - id: "data-route-params"
-        title: "data-route-params"
-      - id: "data-view"
-        title: "data-view"
-      - id: "data-partial"
-        title: "data-partial"
-      - id: "data-defineview"
-        title: "data-defineview"
-      - id: "data-renderif_%2F_data-deferif"
-        title: "data-renderif / data-deferif"
-      - id: "data-yield"
-        title: "data-yield"
-      - id: "data-contentfor"
-        title: "data-contentfor"
-  - id: batman.view_filters
-    title: Batman.View Filters
-    sub: 
-      - id: "raw(value)_%3A_string"
-        title: "raw(value) : string"
-      - id: "get(value%2C_key)_%3A_value"
-        title: "get(value, key) : value"
-      - id: "value%5Bkey%5D_%3A_value"
-        title: "value[key] : value"
-      - id: "equals(left%2C_right)_%3A_boolean"
-        title: "equals(left, right) : boolean"
-      - id: "not(value)_%3A_boolean"
-        title: "not(value) : boolean"
-      - id: "matches(value%2C_string)_%3A_boolean"
-        title: "matches(value, string) : boolean"
-      - id: "truncate(value%2C_length%2C_end_%3D_'...')_%3A_string"
-        title: "truncate(value, length, end = '...') : string"
-      - id: "default(value%2C_defaultvalue)_%3A_value"
-        title: "default(value, defaultValue) : value"
-      - id: "prepend(value%2C_string)_%3A_string"
-        title: "prepend(value, string) : string"
-      - id: "append(value%2C_string)_%3A_string"
-        title: "append(value, string) : string"
-      - id: "replace(value%2C_searchstring%2C_replacestring%5B%2C_flags%5D)_%3A_string"
-        title: "replace(value, searchString, replaceString[, flags]) : string"
-      - id: "downcase(value)_%3A_string"
-        title: "downcase(value) : string"
-      - id: "upcase(value)_%3A_string"
-        title: "upcase(value) : string"
-      - id: "pluralize(value%2C_count)_%3A_string"
-        title: "pluralize(value, count) : string"
-      - id: "humanize(string)_%3A_string"
-        title: "humanize(string) : string"
-      - id: "join(value%2C_separator_%3D_'')_%3A_string"
-        title: "join(value, separator = '') : string"
-      - id: "sort(value)_%3A_value"
-        title: "sort(value) : value"
-      - id: "map(iterable)_%3A_value"
-        title: "map(iterable) : value"
-      - id: "has(iterable%2C_item)_%3A_boolean"
-        title: "has(iterable, item) : boolean"
-      - id: "first(iterable)_%3A_value"
-        title: "first(iterable) : value"
-      - id: "meta(value%2C_keypath)_%3A_value"
-        title: "meta(value, keypath) : value"
-      - id: "interpolate(string%2C_valuesobject)_%3A_string"
-        title: "interpolate(string, valuesObject) : string"
-      - id: "witharguments(function%2C_curriedarguments...)_%3A_function"
-        title: "withArguments(function, curriedArguments...) : function"
-      - id: "escape(value)_%3A_string"
-        title: "escape(value) : string"
-  - id: batman.dom
-    title: Batman.DOM
-    sub: 
-      - id: class_function_scrollintoview
-        title: scrollIntoView
-      - id: class_function_setstyleproperty
-        title: setStyleProperty
-      - id: class_function_valuefornode
-        title: valueForNode
-      - id: class_function_nodeiseditable
-        title: nodeIsEditable
-      - id: class_function_addeventlistener
-        title: addEventListener
-      - id: class_function_removeeventlistener
-        title: removeEventListener
-      - id: class_function_cleanupnode
-        title: cleanupNode
-      - id: ".hasaddeventlistener_%3A_boolean"
-        title: ".hasAddEventListener : boolean"
-      - id: class_function_preventdefault
-        title: preventDefault
-      - id: class_function_stoppropagation
-        title: stopPropagation
-      - id: class_function_queryselectorall
-        title: querySelectorAll
-      - id: class_function_queryselector
-        title: querySelector
-      - id: class_function_destroynode
-        title: destroyNode
-      - id: class_function_setinnerhtml
-        title: setInnerHtml
-      - id: class_function_textcontent
-        title: textContent
+  Ungrouped: 
+    - id: index
+      title: Using This Reference
+      sub: []
+      meta: !<tag:yaml.org,2002:js/undefined> ""
+    - id: batman
+      title: Batman
+      sub: 
+        - id: container
+          title: container
+        - id: class_function_typeof
+          title: typeOf
+        - id: class_function_mixin
+          title: mixin
+        - id: class_function_unmixin
+          title: unmixin
+        - id: class_function_functionname
+          title: functionName
+        - id: class_function_ischildof
+          title: isChildOf
+        - id: class_function_setimmediate
+          title: setImmediate
+        - id: class_function_clearimmediate
+          title: clearImmediate
+        - id: class_function_foreach
+          title: forEach
+        - id: class_function_objecthaskey
+          title: objectHasKey
+        - id: class_function_contains
+          title: contains
+        - id: class_function_get
+          title: get
+        - id: class_function_getpath
+          title: getPath
+        - id: class_function_escapehtml
+          title: escapeHTML
+        - id: class_function_redirect
+          title: redirect
+      meta: !<tag:yaml.org,2002:js/undefined> ""
+    - id: batman.helpers
+      title: Batman.helpers
+      sub: 
+        - id: class_function_ordinalize
+          title: ordinalize
+        - id: class_function_singularize
+          title: singularize
+        - id: class_function_pluralize
+          title: pluralize
+        - id: class_function_camelize
+          title: camelize
+        - id: class_function_underscore
+          title: underscore
+        - id: class_function_capitalize
+          title: capitalize
+        - id: class_function_trim
+          title: trim
+        - id: class_function_interpolate
+          title: interpolate
+        - id: class_function_humanize
+          title: humanize
+      meta: !<tag:yaml.org,2002:js/undefined> ""
+  Data Structures: 
+    - id: batman.object
+      title: Batman.Object
+      sub: 
+        - id: class_function_accessor
+          title: accessor
+        - id: class_function_classaccessor
+          title: classAccessor
+        - id: class_function_mixin
+          title: mixin
+        - id: class_function_classmixin
+          title: classMixin
+        - id: class_function_observeall
+          title: observeAll
+        - id: constructor(objects...)
+          title: constructor(objects...)
+        - id: "tojson()_%3A_object"
+          title: "toJSON() : object"
+        - id: "hashkey()_%3A_string"
+          title: "hashKey() : string"
+        - id: "batchaccessorchanges(key%2C_wrappedfunction)_%3A_string"
+          title: "batchAccessorChanges(key, wrappedFunction) : string"
+        - id: "accessor(%5Bkeys...%5D%2C_objectorfunction)"
+          title: "accessor([keys...], objectOrFunction)"
+        - id: "mixin(objects...)_%3A_this"
+          title: "mixin(objects...) : this"
+      meta: 
+        grouping: Data Structures
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+      children: 
+        - id: batman.observable
+          title: Batman.Observable
+          sub: 
+            - id: prototype_property_isobservable
+              title: isObservable
+            - id: prototype_function_get
+              title: get
+            - id: prototype_function_set
+              title: set
+            - id: prototype_function_unset
+              title: unset
+            - id: prototype_function_getorset
+              title: getOrSet
+            - id: prototype_function_observe
+              title: observe
+            - id: prototype_function_observeandfire
+              title: observeAndFire
+            - id: prototype_function_observeonce
+              title: observeOnce
+            - id: prototype_function_forget
+              title: forget
+          meta: 
+            grouping: Data Structures
+            parent: Batman.Object
+        - id: batman.eventemitter
+          title: Batman.EventEmitter
+          sub: 
+            - id: prototype_function_on
+              title: "on"
+            - id: prototype_function_off
+              title: "off"
+            - id: prototype_function_fire
+              title: fire
+            - id: prototype_function_hasevent
+              title: hasEvent
+            - id: prototype_function_once
+              title: once
+            - id: prototype_function_prevent
+              title: prevent
+            - id: prototype_function_allow
+              title: allow
+            - id: prototype_function_allowandfire
+              title: allowAndFire
+            - id: prototype_function_isprevented
+              title: isPrevented
+            - id: prototype_function_mutate
+              title: mutate
+            - id: prototype_function_mutation
+              title: mutation
+            - id: prototype_property_iseventemitter
+              title: isEventEmitter
+          meta: 
+            grouping: Data Structures
+            parent: Batman.Object
+    - id: batman.enumerable
+      title: Batman.Enumerable
+      sub: 
+        - id: prototype_property_length
+          title: length
+        - id: prototype_function_foreach
+          title: forEach
+        - id: prototype_function_map
+          title: map
+        - id: prototype_function_maptoproperty
+          title: mapToProperty
+        - id: prototype_function_every
+          title: every
+        - id: prototype_function_some
+          title: some
+        - id: prototype_function_reduce
+          title: reduce
+        - id: prototype_function_filter
+          title: filter
+        - id: prototype_function_count
+          title: count
+        - id: "implementing_your_own_%60batman.enumerable%60"
+          title: "Implementing your own `Batman.Enumerable`"
+      meta: 
+        grouping: Data Structures
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+    - id: batman.set
+      title: Batman.Set
+      sub: 
+        - id: constructor(items...)
+          title: constructor(items...)
+        - id: "length_%3A_number"
+          title: "length : number"
+        - id: "isempty_%3A_boolean"
+          title: "isEmpty : boolean"
+        - id: "toarray_%3A_array"
+          title: "toArray : Array"
+        - id: "has(item)_%3A_boolean"
+          title: "has(item) : Boolean"
+        - id: add(items...)
+          title: add(items...)
+        - id: remove(items...)
+          title: remove(items...)
+        - id: "find(testfunction_%3A_function)_%3A_%5Bobject%5D"
+          title: "find(testFunction : function) : [Object]"
+        - id: "foreach(iteratorfunction_%3A_function%5B%2C_context%3A_object%5D)"
+          title: "forEach(iteratorFunction : function[, context: Object])"
+        - id: "isempty()_%3A_boolean"
+          title: "isEmpty() : boolean"
+        - id: "clear()_%3A_array"
+          title: "clear() : Array"
+        - id: "replace(collection_%3A_enumerable)_%3A_array"
+          title: "replace(collection : Enumerable) : Array"
+        - id: "toarray()_%3A_array"
+          title: "toArray() : Array"
+        - id: "merge(collections..._%3A_enumerable)_%3A_set"
+          title: "merge(collections... : Enumerable) : Set"
+        - id: "indexedby(key_%3A_string)_%3A_setindex"
+          title: "indexedBy(key : String) : SetIndex"
+        - id: "indexedbyunique(key_%3A_string)_%3A_uniquesetindex"
+          title: "indexedByUnique(key : String) : UniqueSetIndex"
+        - id: "sortedby(key%3A_string_%5B%2C_order%3A_string%5D)_%3A_setsort"
+          title: "sortedBy(key: String [, order: String]) : SetSort"
+      meta: 
+        grouping: Data Structures
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+    - id: batman.hash
+      title: Batman.Hash
+      sub: 
+        - id: prototype_function_constructor
+          title: "constructor"
+        - id: "get%2C_set%2C_unset%2C_and_%40accessor"
+          title: "get, set, unset, and @accessor"
+        - id: prototype_function_keys
+          title: keys
+        - id: prototype_function_isempty
+          title: isEmpty
+        - id: prototype_function_toarray
+          title: toArray
+        - id: prototype_function_foreach
+          title: forEach
+        - id: prototype_function_haskey
+          title: hasKey
+        - id: prototype_function_clear
+          title: clear
+        - id: prototype_function_merge
+          title: merge
+        - id: prototype_function_update
+          title: update
+        - id: prototype_function_replace
+          title: replace
+        - id: prototype_function_toobject
+          title: toObject
+        - id: prototype_function_tojson
+          title: toJSON
+      meta: 
+        grouping: Data Structures
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+  App Components: 
+    - id: batman.request
+      title: Batman.Request
+      sub: 
+        - id: platform_request_implementation_libraries
+          title: Platform Request Implementation Libraries
+        - id: .status
+          title: .status
+        - id: .response
+          title: .response
+        - id: ".responseheaders_%3A_object"
+          title: ".responseHeaders : object"
+        - id: class_function_request
+          title: Request
+        - id: prototype_function_send
+          title: send
+      meta: 
+        grouping: App Components
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+    - id: batman.app
+      title: Batman.App
+      sub: 
+        - id: batman.currentapp
+          title: Batman.currentApp
+        - id: class_function_run
+          title: run
+        - id: class_function_stop
+          title: stop
+        - id: class_function_routes
+          title: routes
+        - id: class_function_controllers
+          title: controllers
+        - id: class_function_layout
+          title: layout
+        - id: class_function_currentparams
+          title: currentParams
+        - id: class_function_paramsmanager
+          title: paramsManager
+        - id: class_function_paramspusher
+          title: paramsPusher
+        - id: "'run'_class_event"
+          title: "'run' class event"
+        - id: "'ready'_class_event"
+          title: "'ready' class event"
+      meta: 
+        grouping: App Components
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+      children: 
+        - id: batman.app_routing
+          title: Batman.App Routing
+          sub: 
+            - id: class_function_route
+              title: route
+            - id: class_function_resources
+              title: resources
+            - id: class_function_member
+              title: member
+            - id: class_function_collection
+              title: collection
+            - id: class_function_root
+              title: root
+          meta: 
+            grouping: App Components
+            parent: Batman.App
+    - id: batman.controller
+      title: Batman.Controller
+      sub: 
+        - id: controller_directory
+          title: Controller Directory
+        - id: actions
+          title: Actions
+        - id: routingkey_and_minification
+          title: routingKey and Minification
+        - id: prototype_function_render
+          title: render
+        - id: class_function_beforeaction
+          title: beforeAction
+        - id: class_function_afteraction
+          title: afterAction
+        - id: prototype_function_executeaction
+          title: executeAction
+        - id: prototype_function_redirect
+          title: redirect
+        - id: prototype_function_scrolltohash
+          title: scrollToHash
+        - id: prototype_property_autoscrolltohash
+          title: autoScrollToHash
+        - id: prototype_property_defaultrenderyield
+          title: defaultRenderYield
+      meta: 
+        grouping: App Components
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+    - id: batman.model
+      title: Batman.Model
+      sub: 
+        - id: class_function_primarykey
+          title: primaryKey
+        - id: class_function_storagekey
+          title: storageKey
+        - id: class_function_persist
+          title: persist
+        - id: class_function_encode
+          title: encode
+        - id: class_function_validate
+          title: validate
+        - id: class_function_loaded
+          title: loaded
+        - id: class_function_all
+          title: all
+        - id: class_function_clear
+          title: clear
+        - id: class_function_find
+          title: find
+        - id: class_function_load
+          title: load
+        - id: class_function_create
+          title: create
+        - id: class_function_findorcreate
+          title: findOrCreate
+        - id: class_function_createfromjson
+          title: createFromJSON
+        - id: prototype_accessor_id
+          title: id
+        - id: prototype_accessor_dirtykeys
+          title: dirtyKeys
+        - id: prototype_accessor_errors
+          title: errors
+        - id: class_function_constructor
+          title: "constructor"
+        - id: prototype_function_isnew
+          title: isNew
+        - id: "updateattributes(attributes)_%3A_model"
+          title: "updateAttributes(attributes) : Model"
+        - id: "tostring()_%3A_string"
+          title: "toString() : string"
+        - id: prototype_function_tojson
+          title: toJSON
+        - id: prototype_function_fromjson
+          title: fromJSON
+        - id: prototype_function_toparam
+          title: toParam
+        - id: prototype_function_hasstorage
+          title: hasStorage
+        - id: prototype_function_load
+          title: load
+        - id: prototype_function_save
+          title: save
+        - id: prototype_function_destroy
+          title: destroy
+        - id: prototype_function_validate
+          title: validate
+      meta: 
+        grouping: App Components
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+      children: 
+        - id: batman.validator
+          title: Batman.Validator
+          sub: 
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: class_function_triggers
+              title: triggers
+            - id: class_function_options
+              title: options
+            - id: prototype_function_validateeach
+              title: validateEach
+            - id: class_function_handleblank
+              title: handleBlank
+          meta: 
+            grouping: App Components
+            parent: Batman.Model
+        - id: batman.validationerror
+          title: Batman.ValidationError
+          sub: 
+            - id: prototype_accessor_fullmessage
+              title: fullMessage
+          meta: 
+            grouping: App Components
+            parent: Batman.Model
+        - id: batman.model_associations
+          title: Batman.Model Associations
+          sub: 
+            - id: class_function_hasmany
+              title: hasMany
+            - id: class_function_hasone
+              title: hasOne
+            - id: class_function_belongsto
+              title: belongsTo
+            - id: batman.assocationproxy
+              title: Batman.AssocationProxy
+            - id: prototype_function_load
+              title: load
+            - id: prototype_function_tojson
+              title: toJSON
+            - id: prototype_accessor_target
+              title: target
+            - id: prototype_accessor_loaded
+              title: loaded
+            - id: prototype_function_fetchfromlocal
+              title: fetchFromLocal
+            - id: prototype_function_fetchfromremote
+              title: fetchFromRemote
+            - id: association_options
+              title: Association Options
+            - id: polymorphic_association_options
+              title: Polymorphic Association Options
+          meta: 
+            grouping: App Components
+            parent: Batman.Model
+    - id: batman.storageadapter
+      title: Batman.StorageAdapter
+      sub: 
+        - id: subclassing_batman.storageadapter
+          title: Subclassing Batman.StorageAdapter
+        - id: storage_operations
+          title: Storage Operations
+        - id: prototype_function_create
+          title: create
+        - id: prototype_function_read
+          title: read
+        - id: prototype_function_update
+          title: update
+        - id: prototype_function_destroy
+          title: destroy
+        - id: prototype_function_readall
+          title: readAll
+        - id: other_useful_methods
+          title: Other Useful Methods
+        - id: class_function_skipiferror
+          title: skipIfError
+        - id: prototype_function_before
+          title: before
+        - id: prototype_function_after
+          title: after
+      meta: 
+        grouping: App Components
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+    - id: batman.view
+      title: Batman.View
+      sub: 
+        - id: prototype_function_constructor
+          title: "constructor"
+        - id: prototype_function_lookupkeypath
+          title: lookupKeypath
+        - id: prototype_function_setkeypath
+          title: setKeypath
+        - id: prototype_accessor_node
+          title: node
+        - id: prototype_accessor_source
+          title: source
+        - id: prototype_accessor_html
+          title: html
+        - id: prototype_property_superview
+          title: superview
+        - id: prototype_property_subviews
+          title: subviews
+        - id: prototype_function_subviews.add
+          title: subviews.add
+        - id: prototype_function_subviews.remove
+          title: subviews.remove
+        - id: prototype_function_removefromsuperview
+          title: removeFromSuperview
+        - id: prototype_function_die
+          title: die
+        - id: prototype_property_isdead
+          title: isDead
+        - id: prototype_function_destroysubviews
+          title: destroySubviews
+        - id: prototype_function_propagatetosubviews
+          title: propagateToSubviews
+        - id: class_function_viewfornode
+          title: viewForNode
+        - id: prototype_function_filter
+          title: filter
+      meta: 
+        grouping: App Components
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+      children: 
+        - id: batman.view_bindings
+          title: Batman.View Bindings
+          sub: 
+            - id: how_to_use_bindings
+              title: How to use bindings
+            - id: binding_keypaths
+              title: Binding Keypaths
+            - id: binding_contexts
+              title: Binding Contexts
+            - id: keypath_filters
+              title: Keypath Filters
+            - id: keypath_literals
+              title: Keypath Literals
+            - id: "data-bind"
+              title: "data-bind"
+            - id: "data-source"
+              title: "data-source"
+            - id: "data-target"
+              title: "data-target"
+            - id: "data-showif_%2F_data-hideif"
+              title: "data-showif / data-hideif"
+            - id: "data-addclass_%2F_data-removeclass"
+              title: "data-addclass / data-removeclass"
+            - id: "data-foreach"
+              title: "data-foreach"
+            - id: "data-formfor"
+              title: "data-formfor"
+            - id: "data-context"
+              title: "data-context"
+            - id: "data-event"
+              title: "data-event"
+            - id: "data-route"
+              title: "data-route"
+            - id: "data-route-params"
+              title: "data-route-params"
+            - id: "data-view"
+              title: "data-view"
+            - id: "data-partial"
+              title: "data-partial"
+            - id: "data-defineview"
+              title: "data-defineview"
+            - id: "data-renderif_%2F_data-deferif"
+              title: "data-renderif / data-deferif"
+            - id: "data-yield"
+              title: "data-yield"
+            - id: "data-contentfor"
+              title: "data-contentfor"
+          meta: 
+            grouping: App Components
+            parent: Batman.View
+        - id: batman.view_filters
+          title: Batman.View Filters
+          sub: 
+            - id: "raw(value)_%3A_string"
+              title: "raw(value) : string"
+            - id: "get(value%2C_key)_%3A_value"
+              title: "get(value, key) : value"
+            - id: "value%5Bkey%5D_%3A_value"
+              title: "value[key] : value"
+            - id: "equals(left%2C_right)_%3A_boolean"
+              title: "equals(left, right) : boolean"
+            - id: "not(value)_%3A_boolean"
+              title: "not(value) : boolean"
+            - id: "matches(value%2C_string)_%3A_boolean"
+              title: "matches(value, string) : boolean"
+            - id: "truncate(value%2C_length%2C_end_%3D_'...')_%3A_string"
+              title: "truncate(value, length, end = '...') : string"
+            - id: "default(value%2C_defaultvalue)_%3A_value"
+              title: "default(value, defaultValue) : value"
+            - id: "prepend(value%2C_string)_%3A_string"
+              title: "prepend(value, string) : string"
+            - id: "append(value%2C_string)_%3A_string"
+              title: "append(value, string) : string"
+            - id: "replace(value%2C_searchstring%2C_replacestring%5B%2C_flags%5D)_%3A_string"
+              title: "replace(value, searchString, replaceString[, flags]) : string"
+            - id: "downcase(value)_%3A_string"
+              title: "downcase(value) : string"
+            - id: "upcase(value)_%3A_string"
+              title: "upcase(value) : string"
+            - id: "pluralize(value%2C_count)_%3A_string"
+              title: "pluralize(value, count) : string"
+            - id: "humanize(string)_%3A_string"
+              title: "humanize(string) : string"
+            - id: "join(value%2C_separator_%3D_'')_%3A_string"
+              title: "join(value, separator = '') : string"
+            - id: "sort(value)_%3A_value"
+              title: "sort(value) : value"
+            - id: "map(iterable)_%3A_value"
+              title: "map(iterable) : value"
+            - id: "has(iterable%2C_item)_%3A_boolean"
+              title: "has(iterable, item) : boolean"
+            - id: "first(iterable)_%3A_value"
+              title: "first(iterable) : value"
+            - id: "meta(value%2C_keypath)_%3A_value"
+              title: "meta(value, keypath) : value"
+            - id: "interpolate(string%2C_valuesobject)_%3A_string"
+              title: "interpolate(string, valuesObject) : string"
+            - id: "witharguments(function%2C_curriedarguments...)_%3A_function"
+              title: "withArguments(function, curriedArguments...) : function"
+            - id: "escape(value)_%3A_string"
+              title: "escape(value) : string"
+          meta: 
+            grouping: App Components
+            parent: Batman.View
+    - id: batman.dom
+      title: Batman.DOM
+      sub: 
+        - id: class_function_scrollintoview
+          title: scrollIntoView
+        - id: class_function_setstyleproperty
+          title: setStyleProperty
+        - id: class_function_valuefornode
+          title: valueForNode
+        - id: class_function_nodeiseditable
+          title: nodeIsEditable
+        - id: class_function_addeventlistener
+          title: addEventListener
+        - id: class_function_removeeventlistener
+          title: removeEventListener
+        - id: class_function_cleanupnode
+          title: cleanupNode
+        - id: ".hasaddeventlistener_%3A_boolean"
+          title: ".hasAddEventListener : boolean"
+        - id: class_function_preventdefault
+          title: preventDefault
+        - id: class_function_stoppropagation
+          title: stopPropagation
+        - id: class_function_queryselectorall
+          title: querySelectorAll
+        - id: class_function_queryselector
+          title: querySelector
+        - id: class_function_destroynode
+          title: destroyNode
+        - id: class_function_setinnerhtml
+          title: setInnerHtml
+        - id: class_function_textcontent
+          title: textContent
+      meta: 
+        grouping: App Components
+        parent: !<tag:yaml.org,2002:js/undefined> ""
 

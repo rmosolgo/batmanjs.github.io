@@ -1,32 +1,35 @@
 ---
 layout: api_docs
 title: Batman.Model Associations
+meta: 
+  grouping: App Components
+  parent: Batman.Model
 sub: 
   - title: hasMany
-    tokens: []
     meta: 
       type: function
       level: class
       params: "label : string [, options : Object]"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_hasmany
     html: "<p><code>hasMany</code> expresses a one-to-many relationship on a <code>Batman.Model</code>.</p>\n"
   - title: hasOne
-    tokens: []
     meta: 
       type: function
       level: class
       params: "label : string [, options : Object]"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_hasone
     html: "<p><code>hasOne</code> expresses a one-to-one relationship on a <code>Batman.Model</code> when this model contains the primary key (eg, <code>id</code>) and does not contain the foreign key. If this model contains the foreign key, use <code>belongsTo</code> instead.</p>\n"
   - title: belongsTo
-    tokens: []
     meta: 
       type: function
       level: class
       params: "label : string [, options : Object]"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_belongsto
     html: "<p><code>belongsTo</code> expresses a one-to-one relationship on a <code>Batman.Model</code> when this model contains the foreign key (eg, <code>parent_id</code>). If the other model contains the foreign key, use <code>hasOne</code> instead. It often expresses inverse of a <code>hasMany</code> or <code>hasOne</code> association. You can declare this with the <code>inverseOf</code> option (see <a href=\"/docs/api/batman.model_associations.html#association_options\">options</a> below) so that both sides of the association are loaded from JSON.</p>\n"
   - title: Batman.AssocationProxy
@@ -34,57 +37,57 @@ sub:
     id: batman.assocationproxy
     html: "<p>Association accessors won&#39;t always return a <code>Batman.AssociationSet</code> or <code>Batman.Model</code>. Generally they will return a <code>Batman.AssocationProxy</code> named after the association type, such as <code>Batman.BelongsToAssociationProxy</code> or <code>Batman.HasOneAssociationProxy</code>.</p>\n"
   - title: load
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "callback : Function"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_load
     html: "<p>Called to load the associated record from storage, setting it as  <a href=\"/docs/api/batman.model_associations.html#prototype_accessor_target\"><code>target</code></a>. If a callback is passed, it is called with two arguments: any error and the loaded record. Also, when this function finishes, it sets <a href=\"/docs/api/batman.model_associations.html#prototype_accessor_loaded\"><code>loaded</code></a> to <code>true</code> and fires <code>loaded</code> on the record.</p>\n"
   - title: toJSON
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: ""
       returnType: Object
+    tokens: []
     id: prototype_function_tojson
     html: "<p>Returns a <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#toJSON_behavior\">stringifiable JavaScript object</a> for the target record, if the <a href=\"/docs/api/batman.model_associations.html#prototype_accessor_target\"><code>target</code></a> is present.</p>\n"
   - title: target
-    tokens: []
     meta: 
       type: accessor
       level: prototype
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_accessor_target
     html: "<p>The associated record. Getting <code>target</code> does not implicitly call <code>load</code> on the association.</p>\n"
   - title: loaded
-    tokens: []
     meta: 
       type: accessor
       level: prototype
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_accessor_loaded
     html: "<p><code>true</code> or <code>false</code>, whether or not the record has been loaded from storage.</p>\n"
   - title: fetchFromLocal
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: ""
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_fetchfromlocal
     html: "<p>This method is called by <a href=\"/docs/api/batman.model_associations.html#prototype_function_load\"><code>load</code></a> to fetch the <a href=\"/docs/api/batman.model_associations.html#prototype_accessor_target\"><code>target</code></a> record(s). If this method returns a falsy value, then <a href=\"/docs/api/batman.model_associations.html#prototype_function_fetchfromremote\"><code>fetchFromRemote</code></a> is called.  <code>Batman.AssocationProxy</code> subclasses must implement this method.</p>\n"
   - title: fetchFromRemote
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "[callback : Function]"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_fetchfromremote
     html: "<p>If <a href=\"/docs/api/batman.model_associations.html#prototype_function_fetchfromlocal\"><code>fetchFromLocal</code></a> returns a falsy value, this method is called by <a href=\"/docs/api/batman.model_associations.html#prototype_function_load\"><code>load</code></a> to fetch the <a href=\"/docs/api/batman.model_associations.html#prototype_accessor_target\"><code>target</code></a> record(s). The <code>callback</code> is called with two arguments: any error and the fetched record(s). <code>Batman.AssocationProxy</code> subclasses must implement this method.</p>\n"
   - title: Association Options

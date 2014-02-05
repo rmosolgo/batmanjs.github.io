@@ -7,129 +7,129 @@ sub:
     id: container
     html: "<p><code>Batman.container</code> points to either the <code>window</code> object if running in the browser, or the <code>global</code> object if running in node. This is useful if you want to add something to the global scope in all environments.</p>\n"
   - title: typeOf
-    tokens: []
     meta: 
       type: function
       level: class
       params: object
       returnType: string
+    tokens: []
     id: class_function_typeof
     html: "<p><code>typeOf</code> determines a more specific type of an <code>object</code> than the native <code>typeof</code> operator in JavaScript. This is useful for a number of situations like dealing with <code>Object</code> promoted strings and numbers, or arrays which look like <code>object</code>s to <code>typeof</code>. Use <code>typeOf</code> when you need more than <code>&quot;object&quot;</code> from <code>typeof</code>.</p>\n<p><em>Note</em>: <code>typeOf</code> is substantially slower than <code>typeof</code>. <code>typeOf</code> works in a somewhat hackish manner by getting the <code>Object::toString</code> representation of the object and slicing it to retrieve the name of the constructor.</p>\n<pre><code>test <span class=\"string\">'typeOf returns \"String\" for both strings and Object strings'</span>, -&gt;\n  primitive = <span class=\"string\">\"test\"</span>\n  objectified = <span class=\"keyword\">new</span> String(<span class=\"string\">\"test\"</span>)\n  equal <span class=\"keyword\">typeof</span> primitive, <span class=\"string\">\"string\"</span>\n  equal <span class=\"keyword\">typeof</span> objectified, <span class=\"string\">\"object\"</span>\n  equal Batman.typeOf(primitive), <span class=\"string\">\"String\"</span>\n  equal Batman.typeOf(objectified), <span class=\"string\">\"String\"</span>\n\ntest <span class=\"string\">'typeOf returns Array for arrays'</span>, -&gt;\n  array = [];\n  equal <span class=\"keyword\">typeof</span> array, <span class=\"string\">\"object\"</span>\n  equal Batman.typeOf(array), <span class=\"string\">\"Array\"</span></code></pre>\n"
   - title: mixin
-    tokens: []
     meta: 
       type: function
       level: class
       params: "subject, objects..."
       returnType: subject
+    tokens: []
     id: class_function_mixin
     html: "<p><code>mixin</code>, occasionally known elsewhere as <code>extend</code> or <code>merge</code>, flattens a series of objects onto the subject. Key/value pairs on objects passed as later arguments (arguments with a higher index) take precedence over earlier arguments. Returns the <code>subject</code> passed in with the new values.</p>\n<p><code>mixin</code> also has special properties that make it different than the canonical <code>extend</code> functions:</p>\n<ol>\n<li>If the <code>subject</code> has a <code>set</code> function, <code>subject.set(key, value)</code> will be used to apply keys instead of <code>subject[key] = value</code>. This means that if the subject is a <code>Batman.Object</code>, observers and thus bindings on the object will be notified when other (Batmanified or not) objects are mixed into it.</li>\n<li>If a mixed-in <code>object</code> has an <code>initialize</code> function defined, that function will be called and passed the <code>subject</code>. This is useful for custom extension logic, similar to <code>self.included</code> in Ruby. For this reason, the keys <code>initialize</code> and <code>uninitialize</code> are skipped by <code>mixin</code>.</li>\n<li><code>mixin</code> only iterates over keys for which the <code>hasOwnProperty</code> test passes.</li>\n</ol>\n<p><em>Note</em>: <code>mixin</code> is destructive to (only) the first argument. If you need a non-destructive version of <code>mixin</code>, just pass an empty object as the first object, and all keys from the successive arguments will be applied to the empty object.</p>\n<pre><code>test <span class=\"string\">'mixin merges argument objects'</span>, -&gt;\n  subject = {}\n  deepEqual Batman.mixin(subject, {fit: <span class=\"literal\">true</span>}, {fly: <span class=\"literal\">true</span>}, {funky: <span class=\"literal\">true</span>}), {fit: <span class=\"literal\">true</span>, fly: <span class=\"literal\">true</span>, funky: <span class=\"literal\">true</span>}, <span class=\"string\">\"mixin returns the subject\"</span>\n  deepEqual subject, {fit: <span class=\"literal\">true</span>, fly: <span class=\"literal\">true</span>, funky: <span class=\"literal\">true</span>}, <span class=\"string\">\"the subject is modified destructively\"</span>\n\ntest <span class=\"string\">'mixin merges argument objects'</span>, -&gt;\n  unmodified = {fit: <span class=\"literal\">true</span>}\n  deepEqual Batman.mixin({}, unmodified, {fly: <span class=\"literal\">true</span>}, {funky: <span class=\"literal\">true</span>}), {fit: <span class=\"literal\">true</span>, fly: <span class=\"literal\">true</span>, funky: <span class=\"literal\">true</span>}, <span class=\"string\">\"mixin returns the subject\"</span>\n  deepEqual unmodified, {fit: <span class=\"literal\">true</span>}, <span class=\"string\">\"argument objects are untouched allowing non-destructive merge\"</span>\n\ntest <span class=\"string\">'mixed in objects passed as higher indexed arguments take precedence'</span>, -&gt;\n  subject = {}\n  deepEqual Batman.mixin(subject, {x: <span class=\"number\">1</span>, y: <span class=\"number\">1</span>}, {x: <span class=\"number\">2</span>}), {x: <span class=\"number\">2</span>, y: <span class=\"number\">1</span>}</code></pre>\n"
   - title: unmixin
-    tokens: []
     meta: 
       type: function
       level: class
       params: "subject, objects..."
       returnType: subject
+    tokens: []
     id: class_function_unmixin
     html: "<p><code>unmixin</code> &quot;unmerges&quot; the passed objects from the <code>subject</code>. If a key exists on any of the <code>objects</code> it will be <code>delete</code>d from the <code>subject</code>. Returns the <code>subject</code>.</p>\n<p><code>unmixin</code>, similar to <code>mixin</code>, supports calling an <code>uninitialize</code> function for each of the <code>objects</code> being unmixed in. If an <code>uninitialize</code> function exists on each</p>\n<pre><code>test <span class=\"string\">'unmixin removes keys found on the unmixined objects on the subject'</span>, -&gt;\n  subject = {fit: <span class=\"literal\">true</span>, fly: <span class=\"literal\">true</span>, funky: <span class=\"literal\">true</span>}\n  deepEqual Batman.unmixin(subject, {fit: <span class=\"literal\">true</span>}, {fly: <span class=\"literal\">true</span>}), {funky: <span class=\"literal\">true</span>}, <span class=\"string\">\"unmixin returns the subject\"</span>\n  deepEqual subject, {funky: <span class=\"literal\">true</span>}, <span class=\"string\">\"the subject is destructively modified.\"</span></code></pre>\n"
   - title: functionName
-    tokens: []
     meta: 
       type: function
       level: class
       params: function
       returnType: string
+    tokens: []
     id: class_function_functionname
     html: "<p><code>functionName</code> returns the name of a given function, if any. Works with Internet Explorer 7/8/9, FireFox, Chrome, and Safari.</p>\n<pre><code>test <span class=\"string\">'functionName returns the name of a given function'</span>, -&gt;\n  equal Batman.functionName(<span class=\"string\">\"\"</span>.toString), <span class=\"string\">'toString'</span></code></pre>\n"
   - title: isChildOf
-    tokens: []
     meta: 
       type: function
       level: class
       params: "parent : HTMLElement, child : HTMLElement"
       returnType: boolean
+    tokens: []
     id: class_function_ischildof
     html: "<p><code>isChildOf</code> is a simple DOM helper which returns a boolean describing if the passed <code>child</code> node can be found in the descendants of the passed <code>parent</code> node.</p>\n"
   - title: setImmediate
-    tokens: []
     meta: 
       type: function
       level: class
       params: "callback : Function"
       returnType: object
+    tokens: []
     id: class_function_setimmediate
     html: "<p><code>setImmediate</code> (and its sister <code>clearImmediate</code>) are a more efficient version of <code>setTimeout(callback, 0)</code>. Due to timer resolution issues, setTimeout passed a timeout of 0 doesn&#39;t actually execute the function as soon as the JS execution stack has been emptied, but at minimum 4ms and maxmium 25ms after. For this reason Batman provides a cross browser implementation of <code>setImmediate</code> which does its best to call the callback immediately after the stack empties. Batman&#39;s <code>setImmediate</code> polyfill uses the native version if available, <code>window.postmessage</code> trickery if supported, and falls back on <code>setTimeout(-&gt;, 0)</code>.</p>\n<p><code>setImmediate</code> returns a handle which can be passed to <code>clearImmediate</code> to cancel the future calling of the callback.</p>\n"
   - title: clearImmediate
-    tokens: []
     meta: 
       type: function
       level: class
       params: handle
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_clearimmediate
     html: "<p><code>clearImmediate</code> stops the calling of a callback in the future when passed its <code>handle</code> (which is returned from the <code>setImmediate</code> call used to enqueue it).</p>\n"
   - title: forEach
-    tokens: []
     meta: 
       type: function
       level: class
       params: "iterable : object, iterator : Function[, context : Object]"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_foreach
     html: "<p>The <code>forEach</code> Batman helper is a universal iteration helper. When passed an <code>iterable</code> object, the helper will call the <code>iterator</code> (optionally in the <code>context</code>) for each item in the <code>iterable</code>. The <code>iterable</code> can be:</p>\n<ol>\n<li>something which has its own <code>forEach</code>, in which case the <code>iterator</code> will just be passed to <code>iterable.forEach</code>.</li>\n<li>an array like object, in which case a JavaScript <code>for(;;)</code> loop will be used to iterate over each entry</li>\n<li>or an object, in which case a JavaScript <code>for-in</code> loop will be used to iterate over each entry.</li>\n</ol>\n<p>The <code>forEach</code> helper is useful for iterating over objects when the type of those objects isn&#39;t guaranteed.</p>\n<pre><code>test <span class=\"string\">'forEach iterates over objects with forEach defined'</span>, -&gt;\n  results = []\n  set = <span class=\"keyword\">new</span> Batman.SimpleSet(<span class=\"string\">'a'</span>)\n  Batman.forEach(set, (x) -&gt; results.push(x))\n  deepEqual results, [<span class=\"string\">'a'</span>]\n\ntest <span class=\"string\">'forEach iterates over array like objects'</span>, -&gt;\n  results = []\n  <span class=\"function\"><span class=\"title\">ArrayLike</span></span> = -&gt;\n  ArrayLike:: = []\n  imitation = <span class=\"keyword\">new</span> ArrayLike\n  Array::push.call(imitation, <span class=\"string\">\"a\"</span>)\n  Array::push.call(imitation, <span class=\"string\">\"b\"</span>)\n  Batman.forEach(imitation, (x) -&gt; results.push(x))\n  deepEqual results, [<span class=\"string\">'a'</span>, <span class=\"string\">'b'</span>]\n\ntest <span class=\"string\">'forEach iterates over objects'</span>, -&gt;\n  result = {}\n  object = {x: <span class=\"literal\">true</span>}\n  Batman.forEach(object, (key, val) -&gt; result[key] = val)\n  deepEqual result, object</code></pre>\n"
   - title: objectHasKey
-    tokens: []
     meta: 
       type: function
       level: class
       params: "object, key"
       returnType: boolean
+    tokens: []
     id: class_function_objecthaskey
     html: "<p><code>objectHasKey</code> returns a boolean describing the presence of the <code>key</code> in the passed <code>object</code>. <code>objectHasKey</code> delegates to the <code>object</code>&#39;s <code>hasKey</code> function if present, and otherwise just does a check using the JavaScript <code>in</code> operator.</p>\n<pre><code>test <span class=\"string\">'objectHasKey verifies if a key is present in an object'</span>, -&gt;\n  subject = {fit: <span class=\"literal\">true</span>}\n  ok Batman.objectHasKey(subject, <span class=\"string\">'fit'</span>)\n  equal Batman.objectHasKey(subject, <span class=\"string\">'flirty'</span>), <span class=\"literal\">false</span>\n\ntest <span class=\"string\">'objectHasKey verifies if a key is present in an object with `hasKey` defined'</span>, -&gt;\n  subject = <span class=\"keyword\">new</span> Batman.SimpleHash {fit: <span class=\"literal\">true</span>}\n  ok Batman.objectHasKey(subject, <span class=\"string\">'fit'</span>)\n  equal Batman.objectHasKey(subject, <span class=\"string\">'flirty'</span>), <span class=\"literal\">false</span></code></pre>\n"
   - title: contains
-    tokens: []
     meta: 
       type: function
       level: class
       params: "object, item"
       returnType: boolean
+    tokens: []
     id: class_function_contains
     html: "<p><code>contains</code> returns a boolean describing if the given <code>object</code> has member <code>item</code>. Membership in this context is defined as:</p>\n<ul>\n<li>the result of <code>object.has(item)</code> if the <code>object</code> has a <code>has</code> function defined</li>\n<li>the result of <code>item in object</code> if the <code>object</code> is arraylike</li>\n<li>the result of the Batman.objectHasKey otherwise</li>\n</ul>\n<p><em>Note</em>: When passed an object without a <code>has</code> function, <code>contains</code> will return <code>true</code> if the <code>object</code> has <code>item</code> as a <em><code>key</code></em>, not as a value at any key.</p>\n<p><code>contains</code> is useful for checking item membership when the type of the object can&#39;t be relied on.</p>\n"
   - title: get
-    tokens: []
     meta: 
       type: function
       level: class
       params: "object, key"
       returnType: value
+    tokens: []
     id: class_function_get
     html: "<p><code>get</code> is a general purpose function for retrieving the value from a <code>key</code> on an <code>object</code> of an indeterminate type. This is useful if code needs to work with both <code>Batman.Object</code>s and Plain Old JavaScript Objects. <code>get</code> has the following semantics:</p>\n<ul>\n<li>if the <code>object</code> has a <code>get</code> function defined, return the result of <code>object.get(key)</code></li>\n<li>if the object does not have a <code>get</code> function defined, use an ephemeral <code>Batman.Property</code> to retrieve the key. This is equivalent to <code>object[key]</code> for single segment <code>key</code>s, but if the <code>key</code> is multi-segment (example: &#39;product.customer.name&#39;), <code>get</code> will do nested gets until the either <code>undefined</code> or the end of the keypath is reached.</li>\n</ul>\n<!-- tests -->\n\n<pre><code>test <span class=\"string\">'get returns the value at a key on a POJO'</span>, -&gt;\n  subject = {fit: <span class=\"literal\">true</span>}\n  equal Batman.get(subject, <span class=\"string\">'fit'</span>), <span class=\"literal\">true</span>\n  equal Batman.get(subject, <span class=\"string\">'flirty'</span>), <span class=\"literal\">undefined</span>\n\ntest <span class=\"string\">'get returns the value at a key on a Batman.Object'</span>, -&gt;\n  subject = Batman {fit: <span class=\"literal\">true</span>}\n  equal Batman.get(subject, <span class=\"string\">'fit'</span>), <span class=\"literal\">true</span>\n  equal Batman.get(subject, <span class=\"string\">'flirty'</span>), <span class=\"literal\">undefined</span>\n\ntest <span class=\"string\">'get returns the value at a deep key on a POJO'</span>, -&gt;\n  subject = {customer: {name: <span class=\"string\">\"Joe\"</span>}}\n  equal Batman.get(subject, <span class=\"string\">'customer.name'</span>), <span class=\"string\">\"Joe\"</span>\n  equal Batman.get(subject, <span class=\"string\">'customer.age'</span>), <span class=\"literal\">undefined</span>\n\ntest <span class=\"string\">'get returns the value at a deep key on a Batman.Object'</span>, -&gt;\n  subject = Batman {customer: {name: <span class=\"string\">\"Joe\"</span>}}\n  equal Batman.get(subject, <span class=\"string\">'customer.name'</span>), <span class=\"string\">\"Joe\"</span>\n  equal Batman.get(subject, <span class=\"string\">'customer.age'</span>), <span class=\"literal\">undefined</span></code></pre>\n"
   - title: getPath
-    tokens: []
     meta: 
       type: function
       level: class
       params: "base, segments"
       returnType: string
+    tokens: []
     id: class_function_getpath
     html: "<p><code>getPath</code> returns the hash value denoted by the specified path, which consists of an array of nested hash keys. See examples below for more detail.</p>\n<pre><code>test <span class=\"string\">\"takes a base and an array of keys and returns the corresponding nested value\"</span>, -&gt;\n  <span class=\"property\">@complexObject</span> = <span class=\"keyword\">new</span> Batman.Object\n    hash: <span class=\"keyword\">new</span> Batman.Hash\n      foo: <span class=\"keyword\">new</span> Batman.Object(bar: <span class=\"string\">'nested value'</span>),\n      <span class=\"string\">\"foo.bar\"</span>: <span class=\"string\">'flat value'</span>\n  equal Batman.getPath(<span class=\"property\">@complexObject</span>, [<span class=\"string\">'hash'</span>, <span class=\"string\">'foo'</span>, <span class=\"string\">'bar'</span>]), <span class=\"string\">'nested value'</span>\n  equal Batman.getPath(<span class=\"property\">@complexObject</span>, [<span class=\"string\">'hash'</span>, <span class=\"string\">'foo.bar'</span>]), <span class=\"string\">'flat value'</span>\n  strictEqual Batman.getPath(<span class=\"property\">@complexObject</span>, [<span class=\"string\">'hash'</span>, <span class=\"string\">'not-foo'</span>, <span class=\"string\">'bar'</span>]), <span class=\"literal\">undefined</span>\n\ntest <span class=\"string\">\"returns just the base if the key array is empty\"</span>, -&gt;\n  <span class=\"property\">@complexObject</span> = <span class=\"keyword\">new</span> Batman.Object\n    hash: <span class=\"keyword\">new</span> Batman.Hash\n      foo: <span class=\"keyword\">new</span> Batman.Object(bar: <span class=\"string\">'nested value'</span>),\n      <span class=\"string\">\"foo.bar\"</span>: <span class=\"string\">'flat value'</span>\n  strictEqual Batman.getPath(<span class=\"property\">@complexObject</span>, []), <span class=\"property\">@complexObject</span>\n  strictEqual Batman.getPath(<span class=\"literal\">null</span>, []), <span class=\"literal\">null</span>\n\ntest <span class=\"string\">\"returns undefined if the base is null-ish\"</span>, -&gt;\n  <span class=\"property\">@complexObject</span> = <span class=\"keyword\">new</span> Batman.Object\n    hash: <span class=\"keyword\">new</span> Batman.Hash\n      foo: <span class=\"keyword\">new</span> Batman.Object(bar: <span class=\"string\">'nested value'</span>),\n      <span class=\"string\">\"foo.bar\"</span>: <span class=\"string\">'flat value'</span>\n  strictEqual Batman.getPath(<span class=\"literal\">null</span>, [<span class=\"string\">'foo'</span>]), <span class=\"literal\">undefined</span>\n  strictEqual Batman.getPath(<span class=\"literal\">undefined</span>, [<span class=\"string\">'foo'</span>]), <span class=\"literal\">undefined</span>\n\ntest <span class=\"string\">\"returns falsy values\"</span>, -&gt;\n  <span class=\"property\">@complexObject</span> = <span class=\"keyword\">new</span> Batman.Object\n    hash: <span class=\"keyword\">new</span> Batman.Hash\n      foo: <span class=\"keyword\">new</span> Batman.Object(bar: <span class=\"string\">'nested value'</span>),\n      <span class=\"string\">\"foo.bar\"</span>: <span class=\"string\">'flat value'</span>\n  strictEqual Batman.getPath(num: <span class=\"number\">0</span>, [<span class=\"string\">'num'</span>]), <span class=\"number\">0</span>\n  strictEqual Batman.getPath(thing: <span class=\"literal\">null</span>, [<span class=\"string\">'thing'</span>]), <span class=\"literal\">null</span></code></pre>\n"
   - title: escapeHTML
-    tokens: []
     meta: 
       type: function
       level: class
       params: input
       returnType: string
+    tokens: []
     id: class_function_escapehtml
     html: "<p><code>escapeHTML</code> takes a string of unknown origin and makes it safe for display on a web page by encoding control characters in HTML into their HTML entities.</p>\n<p><em>Warning</em>: Do not rely on <code>escapeHTML</code> to purge unsafe data from user submitted content. While <code>escapeHTML</code> is applied to every binding&#39;s contents by default, it should not be your only line of defence against script injection attacks.</p>\n<pre><code>test <span class=\"string\">'escapeHTML encodes special characters into HTML entities'</span>, -&gt;\n  equal Batman.escapeHTML(<span class=\"string\">\"&amp; &lt; &gt; \\\" '\"</span>), <span class=\"string\">\"&amp;amp; &amp;lt; &amp;gt; &amp;#34; &amp;#39;\"</span></code></pre>\n"
   - title: redirect
-    tokens: []
     meta: 
       type: function
       level: class
       params: "options: [string|Object]"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_redirect
     html: "<p>Redirects to a new path with either pushState or hashbang navigation, depending on your <a href=\"/docs/configuration.html\">configuration</a>. <code>options</code> may be:</p>\n<ul>\n<li>a string, which is treated as the target path (eg, <code>&quot;/posts&quot;</code>)</li>\n<li>a <code>Batman.Model</code> class, which redirects to &quot;index&quot; (eg, <code>Batman.redirect(MyApp.Post)</code> redirects to <code>&quot;/posts&quot;</code>)</li>\n<li>a <code>Batman.Model</code> instance, which redirects to &quot;show&quot; (eg, <code>Batman.redirect(thisPost)</code> redirects to <code>&quot;/posts/#{thisPost.toParam()}&quot;</code>)</li>\n<li>an object containing params:<ul>\n<li><code>Batman.redirect({controller: &quot;posts&quot;, action: &quot;index&quot;})</code> redirects to  <code>&quot;/posts&quot;</code></li>\n<li><code>Batman.redirect({controller: &quot;posts&quot;, action: &quot;edit&quot;, id: 6})</code> redirects to <code>&quot;/posts/6/edit&quot;</code></li>\n</ul>\n</li>\n</ul>\n"
 tokens: []

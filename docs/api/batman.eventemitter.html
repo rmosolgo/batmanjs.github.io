@@ -1,0 +1,135 @@
+---
+layout: api_docs
+title: Batman.EventEmitter
+meta: 
+  grouping: Data Structures
+  parent: Batman.Object
+sub: 
+  - title: "on"
+    meta: 
+      type: function
+      level: prototype
+      params: "keys... : [string|Array], handler : Function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_on
+    html: "<p>Attaches a function <code>handler</code> to each event in the provided <code>keys</code> collection. This function will be executed when one of the specified events is fired.</p>\n<pre><code>test <span class=\"string\">'event handlers are added with `on`'</span>, -&gt;\n  results = []\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  ok dynamite.<span class=\"literal\">on</span> <span class=\"string\">'detonate'</span>, -&gt; results.push <span class=\"string\">'detonated'</span>\n  dynamite.fire <span class=\"string\">'detonate'</span>\n  equal results[<span class=\"number\">0</span>], <span class=\"string\">'detonated'</span></code></pre>\n"
+  - title: "off"
+    meta: 
+      type: function
+      level: prototype
+      params: "keys... : [string|Array], handler : Function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_off
+    html: "<p>Removes the <code>handler</code> function from the events specified in <code>keys</code>. If <code>handler</code> is not provided, all handlers will be removed from the specified event keys.</p>\n<pre><code>test <span class=\"string\">'event handlers are removed with off'</span>, -&gt;\n  results = []\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  <span class=\"function\"><span class=\"title\">handler</span></span> = -&gt; results.push <span class=\"string\">'This should not fire'</span>\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'detonate'</span>, handler\n  dynamite.<span class=\"literal\">off</span> <span class=\"string\">'detonate'</span>, handler\n  dynamite.fire <span class=\"string\">'detonate'</span>\n\n  deepEqual results, []\n\ntest <span class=\"string\">'If no `handler` is provided, off will remove all handlers from the specified events'</span>, -&gt;\n  results = []\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  <span class=\"function\"><span class=\"title\">handler</span></span> = -&gt; results.push <span class=\"string\">'This should not fire'</span>\n  <span class=\"function\"><span class=\"title\">anotherHandler</span></span> = -&gt; results.push <span class=\"string\">'Neither should this'</span>\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'detonate'</span>, handler\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'detonate'</span>, anotherHandler\n  dynamite.<span class=\"literal\">off</span> <span class=\"string\">'detonate'</span>\n  dynamite.fire <span class=\"string\">'detonate'</span>\n\n  deepEqual results, []</code></pre>\n"
+  - title: fire
+    meta: 
+      type: function
+      level: prototype
+      params: "key : string, arguments... : Array"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_fire
+    html: "<p>Calls all previously attached handlers on the event with name <code>key</code>. All handlers will receive the passed <code>arguments</code>.</p>\n<p><em>Note</em>: Calling <code>fire</code> doesn&#39;t guarantee the event will fire since firing can be prevented with <code>prevent</code>.</p>\n<pre><code>test <span class=\"string\">'event handlers are fired'</span>, -&gt;\n  results = []\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'detonate'</span>, (noise) -&gt; results.push <span class=\"string\">\"detonated with noise <span class=\"subst\">#{noise}</span>\"</span>\n  dynamite.fire <span class=\"string\">'detonate'</span>, <span class=\"string\">\"BOOM!\"</span>\n  equal results[<span class=\"number\">0</span>], <span class=\"string\">\"detonated with noise BOOM!\"</span></code></pre>\n"
+  - title: hasEvent
+    meta: 
+      type: function
+      level: prototype
+      params: "key : string"
+      returnType: boolean
+    tokens: []
+    id: prototype_function_hasevent
+    html: "<p>Asks if the <code>EventEmitter</code> has an event with the given <code>key</code>.</p>\n<pre><code>test <span class=\"string\">'events can be tested for presence'</span>, -&gt;\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'detonate'</span>, -&gt; log <span class=\"string\">\"detonated\"</span>\n  ok dynamite.hasEvent(<span class=\"string\">'detonate'</span>)\n  equal dynamite.hasEvent(<span class=\"string\">'click'</span>), <span class=\"literal\">false</span></code></pre>\n"
+  - title: once
+    meta: 
+      type: function
+      level: prototype
+      params: "key : string, handler : Function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_once
+    html: "<p>Allows the specified handler to be fired only once before it is removed</p>\n<pre><code>test <span class=\"string\">'handlers added using `once` are removed after they are fired'</span>, -&gt;\n  results = []\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  dynamite.once <span class=\"string\">'detonate'</span>, -&gt; results.push <span class=\"string\">'BOOM!'</span>\n  ok dynamite.hasEvent(<span class=\"string\">'detonate'</span>)\n  dynamite.fire <span class=\"string\">'detonate'</span>\n  equal results[<span class=\"number\">0</span>], <span class=\"string\">'BOOM!'</span>\n  dynamite.fire <span class=\"string\">'detonate'</span>\n  equal results[<span class=\"number\">1</span>], <span class=\"literal\">undefined</span></code></pre>\n"
+  - title: prevent
+    meta: 
+      type: function
+      level: prototype
+      params: "key : string"
+      returnType: EventEmitter
+    tokens: []
+    id: prototype_function_prevent
+    html: "<p>Prevents the event with name <code>key</code> from firing, even if <code>fire</code> is called. This is useful if you need to guarantee a precondition has been fulfilled before allowing event handlers to execute. Returns the event emitting object.</p>\n<p>Undo event prevention with <code>allow</code> or <code>allowAndFire</code>.</p>\n<p><em>Note</em>: <code>prevent</code> can be called more than once to effectively &quot;nest&quot; preventions. <code>allow</code> or <code>allowAndFire</code> must be called the same number of times or more for events to fire once more.</p>\n<pre><code>test <span class=\"string\">'events can be prevented'</span>, -&gt;\n  results = []\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  dynamite.prevent(<span class=\"string\">'detonate'</span>)\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'detonate'</span>, -&gt; results.push <span class=\"string\">\"This shouldn't fire\"</span>\n  dynamite.fire(<span class=\"string\">'detonate'</span>)\n  equal results[<span class=\"number\">0</span>], <span class=\"literal\">undefined</span>, <span class=\"string\">\"The event handler wasn't fired.\"</span>\n\ntest <span class=\"string\">'prevent returns the event emitter'</span>, -&gt;\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  equal dynamite, dynamite.prevent(<span class=\"string\">'detonate'</span>)</code></pre>\n"
+  - title: allow
+    meta: 
+      type: function
+      level: prototype
+      params: "key : string"
+      returnType: EventEmitter
+    tokens: []
+    id: prototype_function_allow
+    html: "<p>Allows the event with name <code>key</code> to fire, after <code>prevent</code> had been called. <code>allow</code> will not fire the event when called, regardless of whether or not the event can now be fired or if an attempt to fire it was made while the event was prevented. Returns the event emitting object.</p>\n<p><em>Note</em>: <code>prevent</code> can be called more than once to effectively &quot;nest&quot; preventions. <code>allow</code> or <code>allowAndFire</code> must be called the same number of times or more for events to fire once more.</p>\n<pre><code>test <span class=\"string\">'events can be allowed after prevention'</span>, -&gt;\n  results = []\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  dynamite.prevent(<span class=\"string\">'detonate'</span>)\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'detonate'</span>, -&gt; results.push <span class=\"string\">\"This will only fire once\"</span>\n\n  dynamite.fire(<span class=\"string\">'detonate'</span>)\n  equal results.length, <span class=\"number\">0</span>, <span class=\"string\">\"The event handler wasn't fired.\"</span>\n  dynamite.allow(<span class=\"string\">'detonate'</span>)\n  dynamite.fire(<span class=\"string\">'detonate'</span>)\n  equal results.length, <span class=\"number\">1</span>, <span class=\"string\">\"The event handler was fired.\"</span>\n\ntest <span class=\"string\">'events must be allowed the same number of times they have been prevented'</span>, -&gt;\n  results = []\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  dynamite.prevent(<span class=\"string\">'detonate'</span>)\n  dynamite.prevent(<span class=\"string\">'detonate'</span>)\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'detonate'</span>, -&gt; results.push <span class=\"string\">\"This will only fire once\"</span>\n  dynamite.fire(<span class=\"string\">'detonate'</span>)\n  equal results.length, <span class=\"number\">0</span>, <span class=\"string\">\"The event handler wasn't fired, the prevent count is at 2.\"</span>\n  dynamite.allow(<span class=\"string\">'detonate'</span>)\n  dynamite.fire(<span class=\"string\">'detonate'</span>)\n  equal results.length, <span class=\"number\">0</span>, <span class=\"string\">\"The event handler still wasn't fired, but the prevent count is now at 1.\"</span>\n  dynamite.allow(<span class=\"string\">'detonate'</span>)\n  dynamite.fire(<span class=\"string\">'detonate'</span>)\n  equal results.length, <span class=\"number\">1</span>, <span class=\"string\">\"The event handler was fired.\"</span>\n\ntest <span class=\"string\">'allow returns the event emitter'</span>, -&gt;\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  equal dynamite, dynamite.allow(<span class=\"string\">'detonate'</span>)</code></pre>\n"
+  - title: allowAndFire
+    meta: 
+      type: function
+      level: prototype
+      params: "key : string"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_allowandfire
+    html: "<p>Allows the event with name <code>key</code> to fire once more, and tries to fire it. <code>allowAndFire</code> may fail to fire the event if <code>prevent</code> has been called more times for this event than <code>allow</code> or <code>allowAndFire</code> have.</p>\n<pre><code>test <span class=\"string\">'events can be allowed and fired after prevention'</span>, -&gt;\n  results = []\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'detonate'</span>, -&gt; results.push <span class=\"string\">\"This will only fire once\"</span>\n  dynamite.prevent(<span class=\"string\">'detonate'</span>)\n  dynamite.fire(<span class=\"string\">'detonate'</span>)\n  equal results.length, <span class=\"number\">0</span>, <span class=\"string\">\"The event handler wasn't fired.\"</span>\n  dynamite.allowAndFire(<span class=\"string\">'detonate'</span>)\n  equal results.length, <span class=\"number\">1</span>, <span class=\"string\">\"The event handler was fired.\"</span>\n\ntest <span class=\"string\">'events must be allowed and fired the same number of times they have been prevented'</span>, -&gt;\n  results = []\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'detonate'</span>, -&gt; results.push <span class=\"string\">\"This will only fire once\"</span>\n  dynamite.prevent(<span class=\"string\">'detonate'</span>)\n  dynamite.prevent(<span class=\"string\">'detonate'</span>)\n  dynamite.allowAndFire(<span class=\"string\">'detonate'</span>)\n  equal results.length, <span class=\"number\">0</span>, <span class=\"string\">\"The event handler wasn't fired.\"</span>\n  dynamite.allowAndFire(<span class=\"string\">'detonate'</span>)\n  equal results.length, <span class=\"number\">1</span>, <span class=\"string\">\"The event handler was fired.\"</span></code></pre>\n"
+  - title: isPrevented
+    meta: 
+      type: function
+      level: prototype
+      params: "key : string"
+      returnType: boolean
+    tokens: []
+    id: prototype_function_isprevented
+    html: "<p>Asks if the specified event is currently being prevented from firing</p>\n<pre><code>test <span class=\"string\">'isPrevented is true after prevent is called'</span>, -&gt;\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'detonate'</span>, -&gt; results.push <span class=\"string\">\"This will only fire once\"</span>\n  dynamite.prevent(<span class=\"string\">'detonate'</span>)\n  equal dynamite.isPrevented(<span class=\"string\">'detonate'</span>), <span class=\"literal\">true</span>\n\ntest <span class=\"string\">'isPrevented is false if all prevents have been nullified using `allow`'</span>, -&gt;\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'detonate'</span>, -&gt; results.push <span class=\"string\">\"This will only fire once\"</span>\n  dynamite.prevent(<span class=\"string\">'detonate'</span>)\n  equal dynamite.isPrevented(<span class=\"string\">'detonate'</span>), <span class=\"literal\">true</span>\n  dynamite.allow(<span class=\"string\">'detonate'</span>)\n  equal dynamite.isPrevented(<span class=\"string\">'detonate'</span>), <span class=\"literal\">false</span></code></pre>\n"
+  - title: mutate
+    meta: 
+      type: function
+      level: prototype
+      params: "wrappedFunction : Function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_mutate
+    html: "<p>Prevents change events from firing while the specified function is called. Only after <code>wrappedFunction</code> is complete will the <code>change</code> event be fired. Returns the result of <code>wrappedFunction</code>.</p>\n<p>This can be useful when making multiple changes, and only want a single change event fired after the modifications are in place.</p>\n<pre><code>test <span class=\"string\">'mutate fires a single change event, regardless of the logic in wrappedFunction'</span>, -&gt;\n  results = []\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'change'</span>, -&gt; results.push <span class=\"string\">'Change event was fired'</span>\n  <span class=\"function\"><span class=\"title\">mutateFunction</span></span> = -&gt;\n    dynamite.fire(<span class=\"string\">'change'</span>)\n    dynamite.fire(<span class=\"string\">'change'</span>)\n  dynamite.mutate(mutateFunction)\n  equal results.length, <span class=\"number\">1</span>\n\ntest <span class=\"string\">'mutate returns the result of wrappedFunction'</span>, -&gt;\n  results = []\n  dynamite = Batman.mixin {}, Batman.EventEmitter\n  dynamite.<span class=\"literal\">on</span> <span class=\"string\">'change'</span>, -&gt; results.push <span class=\"string\">'Change event was fired'</span>\n  <span class=\"function\"><span class=\"title\">mutateFunction</span></span> = -&gt; <span class=\"string\">'BOOM!'</span>\n  mutateResult = dynamite.mutate(mutateFunction)\n  equal mutateResult, <span class=\"string\">'BOOM!'</span></code></pre>\n"
+  - title: mutation
+    meta: 
+      type: function
+      level: prototype
+      params: "wrappedFunction : Function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_mutation
+    html: "<p>A helper method that returns a function that will call <code>wrappedFunction</code> and fires the change event when complete (if it is present).</p>\n<p><em>Note</em>: the returned function does not block the change event from firing due to the logic in <code>wrappedFunction</code>. To ignore/block change events, use <code>prevent(&#39;change&#39;)</code>.</p>\n<pre><code>test <span class=\"string\">'mutation returns a function that wraps the provided wrappedFunction'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Person</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@resourceName</span>: <span class=\"string\">'person'</span>\n    <span class=\"property\">@encode</span> <span class=\"string\">'name'</span>\n    <span class=\"property\">@persist</span> TestStorageAdapter, storage: []\n\n    transform: <span class=\"property\">@mutation</span> -&gt;\n      <span class=\"property\">@name</span> = <span class=\"string\">'Batman'</span>\n\n  results = []\n  <span class=\"function\"><span class=\"title\">verifyTransformation</span></span> = -&gt;\n    equal <span class=\"property\">@name</span>, <span class=\"string\">'Batman'</span>\n\n  person = Person.findOrCreate({name: <span class=\"string\">'Bruce Wayne'</span>})\n  person.<span class=\"literal\">on</span> <span class=\"string\">'change'</span>, verifyTransformation\n  person.transform()</code></pre>\n"
+  - title: isEventEmitter
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_property_iseventemitter
+    html: "<p>Always true. Useful for testing whether a specific object instance uses the EventEmitter mixin.</p>\n"
+tokens: []
+id: batman.eventemitter
+html: "<p><code>EventEmitter</code> is a mixin which can be applied to any object to give it the ability to fire events and accept listeners for those events. All <code>Batman.Object</code>s, their subclasses and instances are <code>EventEmitter</code>s by default.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

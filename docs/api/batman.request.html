@@ -1,6 +1,9 @@
 ---
 layout: api_docs
 title: Batman.Request
+meta: 
+  grouping: App Components
+  parent: !<tag:yaml.org,2002:js/undefined> ""
 sub: 
   - title: Platform Request Implementation Libraries
     tokens: []
@@ -19,21 +22,21 @@ sub:
     id: ".responseheaders_%3A_object"
     html: "<p>An key/value object with the response headers</p>\n<pre><code>test <span class=\"string\">\"responseHeaders\"</span>, <span class=\"number\">1</span>, -&gt;\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; responseHeaders: { FOO: <span class=\"string\">\"bar\"</span> } )\n\n  <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    success: (response) -&gt;\n      deepEqual <span class=\"property\">@responseHeaders</span>,{ FOO: <span class=\"string\">\"bar\"</span> }</code></pre>\n"
   - title: Request
-    tokens: []
     meta: 
       type: function
       level: class
       params: "options : object"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_request
     html: "<p>Constructs a new <code>Batman.Request</code> with the supplied options</p>\n<h3 id=\"-options-description\"><code>options</code> description</h3>\n<ol>\n<li><p><code>url : String</code>: A string containing the URL to which the request is sent.  Mandatory</p>\n</li>\n<li><p><code>method : String</code>: The type of request to make eg. <code>GET</code>, <code>POST</code>.  Default is <code>GET</code>.</p>\n<pre><code> test <span class=\"string\">\"method test\"</span>, -&gt;\n   Batman.Request.setupMockedResponse()\n   Batman.Request.addMockedResponse(<span class=\"string\">\"POST\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; response : { FOO: <span class=\"string\">\"BAR\"</span> })\n   <span class=\"keyword\">new</span> Batman.Request\n     url: <span class=\"string\">\"http://batmanjs.org\"</span>\n     method: <span class=\"string\">\"POST\"</span>\n     data: { some: <span class=\"string\">\"data\"</span> }\n     success: (response) -&gt;\n       ok <span class=\"literal\">true</span></code></pre>\n</li>\n<li><p><code>data</code>: Data to be sent to the server. It is converted to a query string, if not already a string. It&#39;s appended to the url for GET-requests.</p>\n</li>\n<li><p><code>contentType</code>: the content type to send, defaults to <code>application/x-www-form-urlencoded</code></p>\n<pre><code> test <span class=\"string\">\"contentType default\"</span>, -&gt;\n    req = <span class=\"keyword\">new</span> Batman.Request\n    equal req.contentType, <span class=\"string\">\"application/x-www-form-urlencoded\"</span></code></pre>\n</li>\n<li><p><code>autosend</code>: controls whether the request will be sent automatically, defaults to <code>true</code></p>\n<pre><code> test <span class=\"string\">\"autosend test\"</span>, -&gt;\n   response_sent = <span class=\"literal\">false</span>\n   Batman.Request.setupMockedResponse()\n   Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; {} )\n   req = <span class=\"keyword\">new</span> Batman.Request\n     url: <span class=\"string\">\"http://batmanjs.org\"</span>\n     autosend: <span class=\"literal\">false</span>\n     success: (response) -&gt;\n       response_sent = <span class=\"literal\">true</span>\n   ok !response_sent\n   req.send()\n   ok response_sent</code></pre>\n</li>\n<li><p><code>username</code>: username for authentication</p>\n</li>\n<li><p><code>password</code>: password for authentication</p>\n</li>\n<li><p><code>type</code>: The type of data you&#39;re expecting from the server, defaults to <code>json</code></p>\n</li>\n</ol>\n"
   - title: send
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "[data]"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_send
     html: "<p>If <code>autosend</code> is <code>false</code>, this will initiate the request.  The data object passed in will take priority over the one specified in the <code>options</code> object</p>\n<pre><code>test <span class=\"string\">\"request.send()\"</span>, -&gt;\n  <span class=\"function\"><span class=\"title\">beforeResponse</span></span> = (req, data) -&gt;\n    deepEqual data, { other: <span class=\"string\">\"thing\"</span> }\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; {beforeResponse: beforeResponse} )\n  req = <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    autosend: <span class=\"literal\">false</span>\n    data: { some: <span class=\"string\">\"data\"</span> }\n  req.send( { other: <span class=\"string\">\"thing\"</span> } )</code></pre>\n"
 tokens: []

@@ -1,6 +1,9 @@
 ---
 layout: api_docs
 title: Batman.StorageAdapter
+meta: 
+  grouping: App Components
+  parent: !<tag:yaml.org,2002:js/undefined> ""
 sub: 
   - title: Subclassing Batman.StorageAdapter
     tokens: []
@@ -11,48 +14,48 @@ sub:
     id: storage_operations
     html: "<p>Any <code>StorageAdapter</code> must implement these operations as instance methods, for example:</p>\n<pre><code><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">ModifiedStorageAdapter</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">RestStorage</span></span>\n  destroy: (env, next) -&gt;\n    <span class=\"comment\"># your custom destroy operation</span>\n    next()</code></pre>\n<p>When a record is saved, destroyed or loaded, <code>Batman.StorageAdapter</code> invokes these methods. Although you may reimplement them, you probably don&#39;t need to call them in your application code.</p>\n"
   - title: create
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "env : Object, next : Function"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_create
     html: "<p>Called to save a new record. When <code>save</code> is called on a record and <code>isNew</code> returns <code>true</code>, the storage adapter&#39;s <code>create</code> method is called.</p>\n"
   - title: read
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "env : Object, next : Function"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_read
     html: "<p>Called to load a record from storage.</p>\n"
   - title: update
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "env : Object, next : Function"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_update
     html: "<p>Called to update an existing record. When <code>save</code> is called on a record and <code>isNew</code> returns <code>false</code>, the storage adapter&#39;s <code>update</code> method is called.</p>\n"
   - title: destroy
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "env : Object, next : Function"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_destroy
     html: "<p>Called to destroy an existing record.</p>\n"
   - title: readAll
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: "env : Object, next : Function"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: prototype_function_readall
     html: "<p>Called to load all records of a particular type from storage.</p>\n"
   - title: Other Useful Methods
@@ -60,30 +63,30 @@ sub:
     id: other_useful_methods
     html: ""
   - title: skipIfError
-    tokens: []
     meta: 
       type: function
       level: class
       params: "wrappedFunction : Function "
       returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
     id: class_function_skipiferror
     html: "<p>Wraps a function, bypassing the function body and calling next() if an error has already occurred.</p>\n<pre><code>test <span class=\"string\">\"StorageAdapter@skipIfError doesn't call the function if env.error?\"</span>, -&gt;\n  insideFunction = createSpy()\n  nextFunction = createSpy()\n\n  functionWithWrapper = Batman.LocalStorage.skipIfError (env, next) -&gt;\n    insideFunction()\n\n  dummyEnv = {error: <span class=\"literal\">true</span>}\n\n  functionWithWrapper(dummyEnv, nextFunction)\n\n  equal dummyEnv.error?, <span class=\"literal\">true</span>, <span class=\"string\">'an error is present'</span>\n  equal insideFunction.called, <span class=\"literal\">false</span>, <span class=\"string\">'insideFunction was skipped'</span>\n  equal nextFunction.called, <span class=\"literal\">true</span>, <span class=\"string\">'nextFunction was called'</span></code></pre>\n<p>Inside a storage adapter definition, this function is referenced as <code>@skipIfError</code>, for example:</p>\n<pre><code><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">SpecialStorageAdapter</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">RestStorage</span></span>\n  @::before <span class=\"string\">'create'</span>, <span class=\"property\">@skipIfError</span> (env, next) -&gt;\n    console.log(<span class=\"string\">\"This will be skipped if env.error? is true!\"</span>)\n    next()</code></pre>\n"
   - title: before
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: "(keys... : Strings, filter : Function)"
+    tokens: []
     id: prototype_function_before
     html: "<p>Registers <code>filter</code> as a before-operation callback for the storage operations named by <code>keys...</code>.</p>\n"
   - title: after
-    tokens: []
     meta: 
       type: function
       level: prototype
       params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: "(keys... : Strings, filter : Function)"
+    tokens: []
     id: prototype_function_after
     html: "<p>Registers <code>filter</code> as a after-operation callback for the storage operations named by <code>keys...</code>.</p>\n"
 tokens: []

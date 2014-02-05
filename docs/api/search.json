@@ -2,12 +2,25 @@
 ---
 {% comment %}http://alexpearce.me/2012/04/simple-jekyll-searching/{% endcomment %}
 [
-  {% for section in site.api_index %}
-    {% if section.sub %}
-      {% for data in section.sub %}
-        {% include search_item.json %},
-      {% endfor %}
-    {% endif %}
+  {% for grouping in site.api_index %}
+    {% for section in grouping[1] %}
+      {% if section.sub %}
+        {% for data in section.sub %}
+          {% assign file = section %}
+          {% include search_item.json %},
+        {% endfor %}
+      {% endif %}
+      {% if section.children %}
+        {% for child in section.children %}
+          {% if child.sub %}
+            {% for data in child.sub %}
+              {% assign file = child %}
+              {% include search_item.json %},
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
   {% endfor %}
   null
 ]

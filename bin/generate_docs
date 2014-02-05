@@ -86,15 +86,10 @@ class DocSection
 
   toObject: ->
     obj = {@title}
-    if @sub?
-      obj.meta = @meta if @meta?
-      obj.sub = (s.toObject() for s in @sub) if @sub?.length?
-      obj.tokens = @tokens
-      obj.id = @id if @id?
-    else
-      obj.tokens = @tokens
-      obj.meta = @meta if @meta?
-      obj.id = @id if @id?
+    obj.meta = @meta if @meta?
+    obj.sub = (s.toObject() for s in @sub) if @sub?.length?
+    obj.tokens = @tokens
+    obj.id = @id if @id?
     obj.html = @html
     obj
 

@@ -860,7 +860,7 @@ ul.sidebar-children {
   margin-left: 20px;
 }
 
-@media (min-width: 800px) and (min-height: 870px) {
+@media (min-width: 800px) and (min-height: 1165px) {
   div.api-docs {
     width: 100%;
     padding-right: 300px;

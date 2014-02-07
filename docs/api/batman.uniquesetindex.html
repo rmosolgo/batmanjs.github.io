@@ -1,0 +1,36 @@
+---
+layout: api_docs
+title: Batman.UniqueSetIndex
+meta: 
+  grouping: Data Structures
+  parent: Batman.Set
+sub: 
+  - title: get
+    meta: 
+      type: function
+      level: prototype
+      params: "value : String"
+      returnType: Object
+    tokens: []
+    id: prototype_function_get
+    html: "<p>Returns the first matching member whose indexed <code>key</code> is equal to <code>value</code>.</p>\n"
+tokens: []
+id: batman.uniquesetindex
+html: "<p><code>Batman.UniqueSetIndex</code> extends <a href=\"/docs/api/batman.setindex.html\"><code>SetIndex</code></a> but adds a new consideration: its index contains <em>first matching item</em> for each value of the <code>key</code> (rather than all matching items).</p>\n<pre><code>test <span class=\"string\">'UniqueSetIndex takes the first matching item'</span>, -&gt;\n  batarang = <span class=\"keyword\">new</span> Batman.Object(name: <span class=\"string\">\"Batarang\"</span>, type: <span class=\"string\">\"ranged\"</span>)\n  fists = <span class=\"keyword\">new</span> Batman.Object(name: <span class=\"string\">\"Fists\"</span>, type: <span class=\"string\">\"melee\"</span>)\n\n  weapons = <span class=\"keyword\">new</span> Batman.Set(batarang,  fists)\n\n  <span class=\"comment\"># Three ways to make a UniqueSetIndex:</span>\n  weaponsByUniqueType1 = weapons.indexedByUnique(<span class=\"string\">'type'</span>)\n  weaponsByUniqueType2 = weapons.get(<span class=\"string\">'indexedByUnique.type'</span>)\n  weaponsByUniqueType3 = <span class=\"keyword\">new</span> Batman.UniqueSetIndex(weapons, <span class=\"string\">'type'</span>)\n\n  <span class=\"comment\"># additions to the base Set are tracked by the SetIndex</span>\n  grappleGun = <span class=\"keyword\">new</span> Batman.Object(name: <span class=\"string\">\"Grapple Gun\"</span>, type: <span class=\"string\">\"ranged\"</span>)\n  weapons.add(grappleGun)\n\n  <span class=\"keyword\">for</span> uniqueSetIndex <span class=\"keyword\">in</span> [weaponsByUniqueType1, weaponsByUniqueType2, weaponsByUniqueType3]\n    equal uniqueSetIndex.get(<span class=\"string\">'ranged'</span>).get(<span class=\"string\">'name'</span>), <span class=\"string\">\"Batarang\"</span>\n    equal uniqueSetIndex.get(<span class=\"string\">'melee'</span>).get(<span class=\"string\">'name'</span>), <span class=\"string\">\"Fists\"</span></code></pre>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

@@ -1,0 +1,44 @@
+---
+layout: api_docs
+title: Batman.SetProxy
+meta: 
+  grouping: Data Structures
+  parent: Batman.Set
+sub: 
+  - title: "constructor"
+    meta: 
+      type: function
+      level: prototype
+      params: "base : Set"
+      returnType: SetProxy
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>Returns a new <code>SetProxy</code> tracking <code>base</code>.</p>\n"
+  - title: Methods delegated to base
+    tokens: []
+    id: methods_delegated_to_base
+    html: "<ul>\n<li><code>add</code></li>\n<li><code>insert</code></li>\n<li><code>insertWithIndexes</code></li>\n<li><code>remove</code></li>\n<li><code>removeWithIndexes</code></li>\n<li><code>at</code></li>\n<li><code>find</code></li>\n<li><code>clear</code></li>\n<li><code>has</code></li>\n<li><code>merge</code></li>\n<li><code>replace</code></li>\n<li><code>filter</code></li>\n<li><code>toArray</code></li>\n<li><code>isEmpty</code></li>\n<li><code>indexedBy</code></li>\n<li><code>indexedByUnique</code></li>\n<li><code>sortedBy</code></li>\n</ul>\n"
+  - title: Accessors delegated to base
+    tokens: []
+    id: accessors_delegated_to_base
+    html: "<ul>\n<li><code>first</code></li>\n<li><code>last</code></li>\n<li><code>isEmpty</code></li>\n<li><code>toArray</code></li>\n<li><code>length</code></li>\n<li><code>indexedBy</code></li>\n<li><code>indexedByUnique</code></li>\n<li><code>sortedBy</code></li>\n<li><code>sortedByDescending</code></li>\n</ul>\n"
+tokens: []
+id: batman.setproxy
+html: "<p><code>Batman.SetProxy</code> provides a wrapper around a <code>Batman.Set</code> which delegates most methods and accessors to the base <code>Set</code>. <code>SetProxy</code> extends <a href=\"/docs/api/batman.object.html\"><code>Batman.Object</code></a> and <a href=\"/docs/api/batman.enumerable.html\"><code>Batman.Enumerable</code></a>. To see <code>Batman.SetProxy</code> in action, see <a href=\"/docs/api/batman.setsort.html\"><code>Batman.SetSort</code></a>.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

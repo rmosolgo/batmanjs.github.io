@@ -241,6 +241,65 @@ api_index:
       meta: 
         grouping: Data Structures
         parent: !<tag:yaml.org,2002:js/undefined> ""
+      children: 
+        - id: batman.setproxy
+          title: Batman.SetProxy
+          sub: 
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: methods_delegated_to_base
+              title: Methods delegated to base
+            - id: accessors_delegated_to_base
+              title: Accessors delegated to base
+          meta: 
+            grouping: Data Structures
+            parent: Batman.Set
+        - id: batman.setsort
+          title: Batman.SetSort
+          sub: 
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: prototype_property_issorted
+              title: isSorted
+            - id: prototype_property_descending
+              title: descending
+            - id: prototype_function_find
+              title: find
+            - id: prototype_function_foreach
+              title: forEach
+            - id: prototype_function_toarray
+              title: toArray
+            - id: prototype_function_merge
+              title: merge
+            - id: prototype_function_compare
+              title: compare
+            - id: prototype_function_compareelements
+              title: compareElements
+          meta: 
+            grouping: Data Structures
+            parent: Batman.Set
+        - id: batman.setindex
+          title: Batman.SetIndex
+          sub: 
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: prototype_function_get
+              title: get
+            - id: prototype_function_toarray
+              title: toArray
+            - id: prototype_function_foreach
+              title: forEach
+          meta: 
+            grouping: Data Structures
+            parent: Batman.Set
+        - id: batman.uniquesetindex
+          title: Batman.UniqueSetIndex
+          sub: 
+            - id: prototype_function_get
+              title: get
+          meta: 
+            grouping: Data Structures
+            parent: Batman.Set
     - id: batman.hash
       title: Batman.Hash
       sub: 
@@ -273,6 +332,39 @@ api_index:
       meta: 
         grouping: Data Structures
         parent: !<tag:yaml.org,2002:js/undefined> ""
+    - id: batman.statemachine
+      title: Batman.StateMachine
+      sub: 
+        - id: prototype_function_constructor
+          title: "constructor"
+        - id: class_function_transitions
+          title: transitions
+        - id: prototype_property_transitiontable
+          title: transitionTable
+        - id: prototype_accessor_state
+          title: state
+      meta: 
+        grouping: Data Structures
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+      children: 
+        - id: batman.statemachine.invalidtransitionerror
+          title: Batman.StateMachine.InvalidTransitionError
+          sub: 
+            - id: prototype_function_constructor
+              title: "constructor"
+          meta: 
+            grouping: Data Structures
+            parent: Batman.StateMachine
+        - id: batman.delegatingstatemachine
+          title: Batman.DelegatingStateMachine
+          sub: 
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: prototype_function_fire
+              title: fire
+          meta: 
+            grouping: Data Structures
+            parent: Batman.StateMachine
   App Components: 
     - id: batman.request
       title: Batman.Request

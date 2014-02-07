@@ -1,0 +1,63 @@
+---
+layout: api_docs
+title: Batman.SetIndex
+meta: 
+  grouping: Data Structures
+  parent: Batman.Set
+sub: 
+  - title: "constructor"
+    meta: 
+      type: function
+      level: prototype
+      params: "base : Set, key : String "
+      returnType: SetIndex
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>A <code>SetIndex</code> is made with a <code>base</code> and a <code>key</code>. Items in the <code>base</code> set will be grouped according to their value for <code>key</code>. The resulting <code>SetIndex</code> observes its <code>base</code>, so any items added to the <code>base</code> are also added (and indexed) in the <code>SetIndex</code></p>\n"
+  - title: get
+    meta: 
+      type: function
+      level: prototype
+      params: "value : String"
+      returnType: Set
+    tokens: []
+    id: prototype_function_get
+    html: "<p>Returns a <code>Batman.Set</code> of items whose indexed <code>key</code> matches <code>value</code>. It returns an empty set if no items match <code>value</code>, but if any matching items are added to the <code>base</code> set, they will also be added to this set.</p>\n"
+  - title: toArray
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Array
+    tokens: []
+    id: prototype_function_toarray
+    html: "<p>Returns an array with the distinct values of <code>key</code> provided to the constructor.</p>\n"
+  - title: forEach
+    meta: 
+      type: function
+      level: prototype
+      params: func
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_foreach
+    html: "<p>Calls <code>func(key, group)</code> for each group in the SetIndex.</p>\n"
+tokens: []
+id: batman.setindex
+html: "<p><code>Batman.SetIndex</code> is a grouped collection of items derived from a <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a> filled with <a href=\"/docs/api/batman.object.html\"><code>Batman.Object</code></a>s. It extends <code>Batman.Object</code> and <a href=\"/docs/api/batman.enumerable.html\"><code>Batman.Enumerable</code></a>, so it inherits methods from them, too. In short, a <code>SetIndex</code> tracks its base <code>Set</code> and contains &quot;buckets&quot; of items from that <code>Set</code>, grouped by the provided key.</p>\n<pre><code>test <span class=\"string\">'SetIndex groups items by values'</span>, -&gt;\n  batarang = <span class=\"keyword\">new</span> Batman.Object(name: <span class=\"string\">\"Batarang\"</span>, type: <span class=\"string\">\"ranged\"</span>)\n  fists = <span class=\"keyword\">new</span> Batman.Object(name: <span class=\"string\">\"Fists\"</span>, type: <span class=\"string\">\"melee\"</span>)\n\n  weapons = <span class=\"keyword\">new</span> Batman.Set(batarang, fists)\n  <span class=\"comment\"># Three ways to create a SetIndex:</span>\n  weaponsByType1 = weapons.indexedBy(<span class=\"string\">'type'</span>)\n  weaponsByType2 = weapons.get(<span class=\"string\">'indexedBy.type'</span>)\n  weaponsByType3 = <span class=\"keyword\">new</span> Batman.SetIndex(weapons, <span class=\"string\">'type'</span>)\n\n  <span class=\"comment\"># additions to the base Set are tracked by the SetIndex</span>\n  grappleGun = <span class=\"keyword\">new</span> Batman.Object(name: <span class=\"string\">\"Grapple Gun\"</span>, type: <span class=\"string\">\"ranged\"</span>)\n  weapons.add(grappleGun)\n\n  <span class=\"keyword\">for</span> setIndex <span class=\"keyword\">in</span> [weaponsByType1, weaponsByType2, weaponsByType3]\n    equal setIndex.get(<span class=\"string\">'ranged'</span>).get(<span class=\"string\">'length'</span>), <span class=\"number\">2</span>\n    equal setIndex.get(<span class=\"string\">'melee'</span>).get(<span class=\"string\">'length'</span>), <span class=\"number\">1</span>\n    deepEqual setIndex.get(<span class=\"string\">'ranged'</span>).mapToProperty(<span class=\"string\">'name'</span>), [<span class=\"string\">\"Batarang\"</span>, <span class=\"string\">\"Grapple Gun\"</span>]\n    deepEqual setIndex.toArray(), [<span class=\"string\">\"ranged\"</span>, <span class=\"string\">\"melee\"</span>]</code></pre>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

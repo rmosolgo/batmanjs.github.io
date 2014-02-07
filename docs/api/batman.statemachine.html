@@ -1,0 +1,63 @@
+---
+layout: api_docs
+title: Batman.StateMachine
+meta: 
+  grouping: Data Structures
+  parent: !<tag:yaml.org,2002:js/undefined> ""
+sub: 
+  - title: "constructor"
+    meta: 
+      type: function
+      level: prototype
+      params: "startState : String"
+      returnType: StateMachine
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>Returns a new <code>StateMachine</code> in state <code>startState</code>.</p>\n"
+  - title: transitions
+    meta: 
+      type: function
+      level: class
+      params: "transitionTable : object"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: class_function_transitions
+    html: "<p>Defines the transition table for the <code>StateMachine</code>. Each key-value pair of <code>transitionTable</code> defines an input event for the <code>StateMachine</code>. It should have the form:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">StateMachineSubclass</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">StateMachine</span></span>\n  <span class=\"property\">@transitions</span>\n    inputEvent:\n      from: [<span class=\"string\">\"startingState\"</span>, <span class=\"string\">\"otherStartingState\"</span>] <span class=\"comment\"># any number of valid starting states</span>\n      to: <span class=\"string\">\"endingState\"</span></code></pre>\n<p>For each input event in <code>transitionTable</code>, prototype function <code>inputEvent</code> is created. Given <code>StateMachine</code> instance <code>stateMachineInstance</code>, calling <code>stateMachineInstance.inputEvent()</code> tries to transition from <code>stateMachineInstance</code>&#39;s current state to the <code>to</code> state defined in <code>transitionTable</code>. The transition is successful if <code>stateMachineInstance.state</code> is a member of <code>inputEvent</code>&#39;s <code>from</code> states in <code>transitionTable</code>. It returns <code>true</code> if the transition was successful, otherwise it returns false. For example:</p>\n<pre><code class=\"lang-coffeescript\">stateMachineInstance = <span class=\"keyword\">new</span> StateMachineSubclass(<span class=\"string\">'startingState'</span>)\nstateMachineInstance.get(<span class=\"string\">'state'</span>) <span class=\"comment\"># =&gt; 'startingState'</span>\nstateMachineInstance.inputEvent() <span class=\"comment\"># =&gt; true</span>\nstateMachineInstance.get(<span class=\"string\">'state'</span>) <span class=\"comment\"># =&gt; 'endingState'</span>\nstateMachineInstance.inputEvent() <span class=\"comment\"># =&gt; false, because 'endingState' not in ['startingState', 'otherStartingState']</span></code></pre>\n<p> <code>StateMachine</code> doesn&#39;t automatically throw <a href=\"/docs/api/batman.statemachine.invalidtransitionerror.html\"><code>StateMachine.InvalidTransitionError</code></a>s.</p>\n<p>For each state defined in <code>from</code> and <code>to</code>, an <code>&quot;is#{capitalize(state)}&quot;</code> accessor is available on the <code>StateMachine</code> which returns <code>true</code>, <code>false</code>, or <code>undefined</code>. For example:</p>\n<pre><code class=\"lang-coffeescript\">stateMachineInstance.get(<span class=\"string\">'state'</span>)              <span class=\"comment\"># =&gt; 'endingState'</span>\nstateMachineInstance.get(<span class=\"string\">'isEndingState'</span>)      <span class=\"comment\"># =&gt; true</span>\nstateMachineInstance.get(<span class=\"string\">'isStartingState'</span>)    <span class=\"comment\"># =&gt; false</span>\nstateMachineInstance.get(<span class=\"string\">'isUnspecifiedState'</span>) <span class=\"comment\"># =&gt; undefined</span></code></pre>\n"
+  - title: transitionTable
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: object
+    tokens: []
+    id: prototype_property_transitiontable
+    html: "<p>Returns a representation of the <code>StateMachine</code>&#39;s transition table. For example, an instance of <code>BatsuitStateMachine</code> above would return:</p>\n<pre><code class=\"lang-coffeescript\">removeSuit:\n  wearingPants: <span class=\"string\">\"unsuited\"</span>\n  wearingShoes: <span class=\"string\">\"unsuited\"</span>\nputOnPants:\n  unsuited: <span class=\"string\">\"wearingPants\"</span>\nputOnShoes:\n  wearingPants: <span class=\"string\">\"wearingShoes\"</span></code></pre>\n"
+  - title: state
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_accessor_state
+    html: "<p>Returns the current state of the <code>StateMachine</code>.</p>\n"
+tokens: []
+id: batman.statemachine
+html: "<p><code>Batman.StateMachine</code> implements the <a href=\"http://en.wikipedia.org/wiki/Finite-state_machine\">finite-state machine</a> model. In batman.js, it is used to track a record&#39;s lifecycle. To use <code>Batman.StateMachine</code>, extend it and define a transition table with <code>@transitions</code>. For example:</p>\n<pre><code>test <span class=\"string\">'StateMachine defines valid transitions'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">BatsuitStateMachine</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">StateMachine</span></span>\n    <span class=\"property\">@transitions</span>\n      removeSuit:\n        from: [<span class=\"string\">'wearingPants'</span>, <span class=\"string\">'wearingShoes'</span>]\n        to: <span class=\"string\">'unsuited'</span>\n      putOnPants:\n        from: [<span class=\"string\">'unsuited'</span>]\n        to: <span class=\"string\">'wearingPants'</span>\n      putOnShoes:\n        from: [<span class=\"string\">'wearingPants'</span>]\n        to: <span class=\"string\">'wearingShoes'</span>\n\n  ok BatsuitStateMachine::putOnShoes, <span class=\"string\">\"Transition names are prototype functions\"</span>\n\n  batsuit = <span class=\"keyword\">new</span> BatsuitStateMachine(<span class=\"string\">'unsuited'</span>)\n  equal batsuit.get(<span class=\"string\">'state'</span>), <span class=\"string\">'unsuited'</span>, <span class=\"string\">\"It starts with the provided state\"</span>\n  equal batsuit.get(<span class=\"string\">'isUnsuited'</span>), <span class=\"literal\">true</span>, <span class=\"string\">\"State names are accessors with 'is'\"</span>\n  equal batsuit.get(<span class=\"string\">'isWearingShoes'</span>), <span class=\"literal\">false</span>, <span class=\"string\">\"State names are accessors with 'is'\"</span>\n\n  equal batsuit.putOnPants(), <span class=\"literal\">true</span>, <span class=\"string\">\"Successful transitions return true\"</span>\n\n  batsuit = <span class=\"keyword\">new</span> BatsuitStateMachine(<span class=\"string\">'unsuited'</span>)\n  equal batsuit.putOnShoes(), <span class=\"literal\">false</span>, <span class=\"string\">\"Don't put on your shoes before putting on your pants!\"</span></code></pre>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

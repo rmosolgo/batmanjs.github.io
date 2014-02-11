@@ -1,0 +1,75 @@
+---
+layout: api_docs
+title: Batman.StorageAdapter Errors
+meta: 
+  grouping: App Components
+  parent: Batman.StorageAdapter
+sub: 
+  - title: Storage Errors and HTTP Status Codes
+    tokens: []
+    id: storage_errors_and_http_status_codes
+    html: "<p><code>Batman.RestStorage</code> (and, by inheritance, <code>Batman.RailsStorage</code>) throws storage errors according to to the HTTP status codes. Each code is mapped to an error:</p>\n<table>\n<thead>\n<tr>\n<th>HTTP Code</th>\n<th>Storage Error</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>0</code></td>\n<td><code>Batman.StorageAdapter.CommunicationError</code></td>\n</tr>\n<tr>\n<td><code>401</code></td>\n<td><code>Batman.StorageAdapter.UnauthorizedError</code></td>\n</tr>\n<tr>\n<td><code>403</code></td>\n<td><code>Batman.StorageAdapter.NotAllowedError</code></td>\n</tr>\n<tr>\n<td><code>404</code></td>\n<td><code>Batman.StorageAdapter.NotFoundError</code></td>\n</tr>\n<tr>\n<td><code>406</code></td>\n<td><code>Batman.StorageAdapter.NotAcceptableError</code></td>\n</tr>\n<tr>\n<td><code>409</code></td>\n<td><code>Batman.StorageAdapter.RecordExistsError</code></td>\n</tr>\n<tr>\n<td><code>413</code></td>\n<td><code>Batman.StorageAdapter.EntityTooLargeError</code></td>\n</tr>\n<tr>\n<td><code>422</code></td>\n<td><code>Batman.StorageAdapter.UnprocessableRecordError</code></td>\n</tr>\n<tr>\n<td><code>500</code></td>\n<td><code>Batman.StorageAdapter.InternalStorageError</code></td>\n</tr>\n<tr>\n<td><code>501</code></td>\n<td><code>Batman.StorageAdapter.NotImplementedError</code></td>\n</tr>\n<tr>\n<td><code>502</code></td>\n<td><code>Batman.StorageAdapter.BadGatewayError</code></td>\n</tr>\n</tbody>\n</table>\n"
+  - title: Batman.StorageAdapter.StorageError
+    tokens: []
+    id: batman.storageadapter.storageerror
+    html: "<p>The base class for all other storage errors.</p>\n"
+  - title: Batman.StorageAdapter.RecordExistsError
+    tokens: []
+    id: batman.storageadapter.recordexistserror
+    html: "<p>Default message: <code>&quot;Can&#39;t create this record because it already exists in the store!&quot;</code>.</p>\n"
+  - title: Batman.StorageAdapter.NotFoundError
+    tokens: []
+    id: batman.storageadapter.notfounderror
+    html: "<p>Default message: <code>&quot;Record couldn&#39;t be found in storage!&quot;</code>.</p>\n"
+  - title: Batman.StorageAdapter.UnauthorizedError
+    tokens: []
+    id: batman.storageadapter.unauthorizederror
+    html: "<p>Default message: <code>&quot;Storage operation denied due to invalid credentials!&quot;</code>.</p>\n"
+  - title: Batman.StorageAdapter.NotAllowedError
+    tokens: []
+    id: batman.storageadapter.notallowederror
+    html: "<p>Default message: <code>&quot;Storage operation denied access to the operation!&quot;</code>.</p>\n"
+  - title: Batman.StorageAdapter.NotAcceptableError
+    tokens: []
+    id: batman.storageadapter.notacceptableerror
+    html: "<p>Default message: <code>&quot;Storage operation permitted but the request was malformed!&quot;</code>.</p>\n"
+  - title: Batman.StorageAdapter.EntityTooLargeError
+    tokens: []
+    id: batman.storageadapter.entitytoolargeerror
+    html: "<p>Default message: <code>&quot;Storage operation denied due to size constraints!&quot;</code>.</p>\n"
+  - title: Batman.StorageAdapter.UnprocessableRecordError
+    tokens: []
+    id: batman.storageadapter.unprocessablerecorderror
+    html: "<p>Default message: <code>&quot;Storage adapter could not process the record!&quot;</code>.</p>\n"
+  - title: Batman.StorageAdapter.InternalStorageError
+    tokens: []
+    id: batman.storageadapter.internalstorageerror
+    html: "<p>Default message: <code>&quot;An error occurred during the storage operation!&quot;</code>.</p>\n"
+  - title: Batman.StorageAdapter.NotImplementedError
+    tokens: []
+    id: batman.storageadapter.notimplementederror
+    html: "<p>Default message: <code>&quot;This operation is not implemented by the storage adapter!&quot;</code>.</p>\n"
+  - title: Batman.StorageAdapter.BadGatewayError
+    tokens: []
+    id: batman.storageadapter.badgatewayerror
+    html: "<p>Default message: <code>&quot;Storage operation failed due to unavailability of the backend!&quot;</code>.</p>\n"
+tokens: []
+id: batman.storageadapter_errors
+html: "<p>When a <a href=\"/docs/api/batman.storageadapter.html\"><code>Batman.StorageAdapter</code></a> fails to complete an operation, it throws a specific error. <code>Batman.Controller</code> can set up handlers for these errors with <code>@catchError</code>. Each error class prototype has:</p>\n<ul>\n<li><code>name</code>, which matches its class name (eg, <code>Batman.StorageAdapter.RecordExistsError::name</code> is <code>&quot;RecordExistsError&quot;</code>)</li>\n<li><code>message</code>, which describes the error</li>\n</ul>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

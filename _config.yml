@@ -494,13 +494,19 @@ api_index:
           title: createFromJSON
         - id: prototype_accessor_id
           title: id
+        - id: prototype_function_isdirty
+          title: isDirty
+        - id: prototype_accessor_isdirty
+          title: isDirty
         - id: prototype_accessor_dirtykeys
           title: dirtyKeys
         - id: prototype_accessor_errors
           title: errors
-        - id: class_function_constructor
+        - id: prototype_function_constructor
           title: "constructor"
         - id: prototype_function_isnew
+          title: isNew
+        - id: prototype_accessor_isnew
           title: isNew
         - id: "updateattributes(attributes)_%3A_model"
           title: "updateAttributes(attributes) : Model"
@@ -644,6 +650,8 @@ api_index:
     - id: batman.view
       title: Batman.View
       sub: 
+        - id: accessors_and_event_handlers
+          title: Accessors and Event Handlers
         - id: prototype_function_constructor
           title: "constructor"
         - id: prototype_function_lookupkeypath
@@ -656,14 +664,14 @@ api_index:
           title: source
         - id: prototype_accessor_html
           title: html
+        - id: class_function_filter
+          title: filter
+        - id: class_function_option
+          title: option
         - id: prototype_property_superview
           title: superview
         - id: prototype_property_subviews
           title: subviews
-        - id: prototype_function_subviews.add
-          title: subviews.add
-        - id: prototype_function_subviews.remove
-          title: subviews.remove
         - id: prototype_function_removefromsuperview
           title: removeFromSuperview
         - id: prototype_function_die
@@ -676,8 +684,6 @@ api_index:
           title: propagateToSubviews
         - id: class_function_viewfornode
           title: viewForNode
-        - id: prototype_function_filter
-          title: filter
       meta: 
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""

@@ -9,11 +9,11 @@ sub:
     meta: 
       type: function
       level: class
-      params: !<tag:yaml.org,2002:js/undefined> ""
+      params: "[= \"id\"]"
       returnType: string
     tokens: []
     id: class_function_primarykey
-    html: "<p><code>primaryKey</code> is a class level configuration option to change which key batman.js uses as the primary key. Change the option using <code>set</code>, like so:</p>\n<pre><code>test <span class=\"string\">'primary key can be set using @set'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Shop</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@set</span> <span class=\"string\">'primaryKey'</span>, <span class=\"string\">'shop_id'</span>\n\n  equal Shop.get(<span class=\"string\">'primaryKey'</span>), <span class=\"string\">'shop_id'</span></code></pre>\n<p>The <code>primaryKey</code> is what batman.js uses to compare instances to see if they represent the same domain-level object: if two records have the same value at the key specified by <code>primaryKey</code>, only one will be in the identity map. The key specified by <code>primaryKey</code> is also used by the associations system when determining if a record is related to another record, and by the remote storage adapters to generate URLs for records.</p>\n<p><em>Note</em>: The default primaryKey is &#39;id&#39;.</p>\n"
+    html: "<p>Defines the <code>Model</code>&#39;s primary key. This attribute will be used for determining:</p>\n<ul>\n<li>record identity (ie, records with the same <code>primaryKey</code> are assumed to be the same record)</li>\n<li>whether a record <a href=\"/docs/api/batman.model.html#prototype_function_isnew\"><code>isNew</code></a></li>\n<li>whether records are related (see <a href=\"/docs/api/batman.model_associations.html\"><code>Batman.Model</code> Associations</a>)</li>\n<li>URL parameters via <a href=\"/docs/api/batman.model.html#prototype_function_toparam\"><code>toParam</code></a></li>\n</ul>\n<p>Change the option using <code>set</code>, like so:</p>\n<pre><code>test <span class=\"string\">'primary key can be set using @set'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Shop</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@set</span> <span class=\"string\">'primaryKey'</span>, <span class=\"string\">'shop_id'</span>\n  equal Shop.get(<span class=\"string\">'primaryKey'</span>), <span class=\"string\">'shop_id'</span></code></pre>\n"
   - title: storageKey
     meta: 
       type: function
@@ -131,6 +131,24 @@ sub:
     tokens: []
     id: prototype_accessor_id
     html: "<p>A universally accessible accessor to the record&#39;s primary key. If the record&#39;s\nprimary key is <code>id</code> (the default), getting/setting this accessor simply passes\nthe call through to <code>id</code>, otherwise it proxies the call to the custom primary key.</p>\n<pre><code>test <span class=\"string\">\"id proxies the primary key\"</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Post</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@primaryKey</span>: <span class=\"string\">'name'</span>\n\n  post = <span class=\"keyword\">new</span> Post(name: <span class=\"string\">'Witty title'</span>)\n  equal post.get(<span class=\"string\">'id'</span>), <span class=\"string\">'Witty title'</span>\n\n  post.set(<span class=\"string\">'id'</span>, <span class=\"string\">'Wittier title'</span>)\n  equal post.get(<span class=\"string\">'name'</span>), <span class=\"string\">'Wittier title'</span></code></pre>\n"
+  - title: isDirty
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Boolean
+    tokens: []
+    id: prototype_function_isdirty
+    html: "<p>Returns <code>true</code> if any keys have been changed since the record was initialized or saved.</p>\n"
+  - title: isDirty
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Boolean
+    tokens: []
+    id: prototype_accessor_isdirty
+    html: "<p>A bindable accessor on <a href=\"/docs/api/batman.model.html#prototype_function_isdirty\"><code>isDirty</code></a>.</p>\n"
   - title: dirtyKeys
     meta: 
       type: accessor
@@ -139,7 +157,7 @@ sub:
       returnType: Set
     tokens: []
     id: prototype_accessor_dirtykeys
-    html: "<p>The set of keys which have been modified since the last time the record was saved.</p>\n"
+    html: "<p>The <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a> of keys which have been modified since the last time the record was saved.</p>\n"
   - title: errors
     meta: 
       type: accessor
@@ -148,16 +166,16 @@ sub:
       returnType: Batman.ErrorsSet
     tokens: []
     id: prototype_accessor_errors
-    html: "<p><code>errors</code> is a <code>Batman.ErrorsSet</code>, which is simply a <code>Batman.Set</code> of <a href=\"/docs/api/batman.validationerror.html\"><code>Batman.ValidationError</code></a>s present on the model instance.</p>\n<ul>\n<li><code>user.get(&#39;errors&#39;)</code> returns the errors on the <code>user</code> record</li>\n<li><code>user.get(&#39;errors.length&#39;)</code> returns the number of errors, total</li>\n</ul>\n<p>You can also access the errors for a specific attribute of the record:</p>\n<ul>\n<li><code>user.get(&#39;errors.email_address&#39;)</code> returns the errors on the <code>email_address</code> attribute</li>\n<li><code>user.get(&#39;errors.email_address.length&#39;)</code> returns the number of errors on the <code>email_address</code> attribute</li>\n</ul>\n"
+    html: "<p><code>errors</code> is a <code>Batman.ErrorsSet</code>, which is simply a <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a> of <a href=\"/docs/api/batman.validationerror.html\"><code>Batman.ValidationError</code></a>s present on the model instance.</p>\n<ul>\n<li><code>user.get(&#39;errors&#39;)</code> returns the errors on the <code>user</code> record</li>\n<li><code>user.get(&#39;errors.length&#39;)</code> returns the number of errors, total</li>\n</ul>\n<p>You can also access the errors for a specific attribute of the record:</p>\n<ul>\n<li><code>user.get(&#39;errors.email_address&#39;)</code> returns the errors on the <code>email_address</code> attribute</li>\n<li><code>user.get(&#39;errors.email_address.length&#39;)</code> returns the number of errors on the <code>email_address</code> attribute</li>\n</ul>\n"
   - title: "constructor"
     meta: 
       type: function
-      level: class
+      level: prototype
       params: "idOrAttributes = {}"
       returnType: Model
     tokens: []
-    id: class_function_constructor
-    html: ""
+    id: prototype_function_constructor
+    html: "<p>If <code>idOrAttributes</code> is an object, the values are mixed into the new record. Otherwise, <code>idOrAttrubutes</code> is set to the new record&#39;s <a href=\"/docs/api/batman.model.html#prototype_accessor_id\"><code>id</code></a>.</p>\n"
   - title: isNew
     meta: 
       type: function
@@ -167,6 +185,15 @@ sub:
     tokens: []
     id: prototype_function_isnew
     html: "<p>Returns true if the instance represents a record that hasn&#39;t yet been persisted to storage. The default implementation simply checks if <code>@get(&#39;id&#39;)</code> is undefined, but you can override this on your own models.</p>\n<p><code>isNew</code> is used to determine whether <code>record.save()</code> will perform a <code>create</code> action or a <code>save</code> action.</p>\n"
+  - title: isNew
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Boolean
+    tokens: []
+    id: prototype_accessor_isnew
+    html: "<p>A bindable accessor on <a href=\"/docs/api/batman.model.html#prototype_function_isnew\"><code>isNew</code></a>.</p>\n"
   - title: "updateAttributes(attributes) : Model"
     tokens: []
     id: "updateattributes(attributes)_%3A_model"

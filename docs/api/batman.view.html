@@ -5,33 +5,37 @@ meta:
   grouping: App Components
   parent: !<tag:yaml.org,2002:js/undefined> ""
 sub: 
+  - title: Accessors and Event Handlers
+    tokens: []
+    id: accessors_and_event_handlers
+    html: "<p><a href=\"/docs/api/batman.view_bindings.html\">View bindings</a> have access to the views they&#39;re rendered by, so custom views are a great place to define view-specific accessors and event handlers. Then, you can connect them to your HTML with view bindings. For example, define a view:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">CoffeeView</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">View</span></span>\n  <span class=\"property\">@accessor</span> <span class=\"string\">'coffeeOfTheDay'</span>, -&gt; <span class=\"string\">\"Guatemalan\"</span>\n  drinkCoffee: -&gt; alert(<span class=\"string\">\"Yum!!\"</span>)</code></pre>\n<p>then apply it to some HTML:</p>\n<pre><code class=\"lang-html\">&lt;div data-view=<span class=\"string\">'CoffeeView'</span>&gt;\n  &lt;span data-bind=<span class=\"string\">'coffeeOfTheDay'</span>&gt;&lt;/span&gt;\n  &lt;button data-event-click=<span class=\"string\">'drinkCoffee'</span>&gt; Take a sip! &lt;/button&gt;\n&lt;div&gt;</code></pre>\n<p>Data bindings look for keys on their closest views first, so these bindings will be handled by <code>CoffeeView</code>.</p>\n"
   - title: "constructor"
     meta: 
       type: function
       level: prototype
       params: "options = {}"
-      returnType: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Batman.View
     tokens: []
     id: prototype_function_constructor
-    html: "<p>A <code>View</code> is a <code>Batman.Object</code>, so any options you pass are mixed in. Use this\nto set <code>html</code>, <code>node</code>, <code>superview</code>, <code>parentNode</code> and/or your custom data.</p>\n<pre><code>test <span class=\"string\">'constructor mixes in options'</span>, -&gt;\n  view = <span class=\"keyword\">new</span> Batman.View(animal: <span class=\"string\">'cat'</span>)\n  equal <span class=\"string\">'cat'</span>, view.get(<span class=\"string\">'animal'</span>)\n\ntest <span class=\"string\">'constructor automatically adds to the superview if supplied'</span>, -&gt;\n  superview = <span class=\"keyword\">new</span> Batman.View()\n  view = <span class=\"keyword\">new</span> Batman.View(superview: superview)\n  equal <span class=\"number\">1</span>, superview.subviews.length</code></pre>\n"
+    html: "<p>Returns a new <code>Batman.View</code>. Since <code>Batman.View</code> extends <code>Batman.Object</code>, all <code>options</code> are mixed in to the new instance. Use this to override <code>html</code>, <code>node</code>, <code>superview</code>, <code>parentNode</code>, and/or your custom data.</p>\n"
   - title: lookupKeypath
     meta: 
       type: function
       level: prototype
-      params: keypath
-      returnType: Object
+      params: "keypath : String"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
     tokens: []
     id: prototype_function_lookupkeypath
-    html: "<p>Traverses up the view tree searching for the specified keypath, and returns the\nresult. This is equivalent to performing a <code>Batman.get</code> for each view above\n<code>this</code> in the tree, until a defined result is returned. The path it takes is as\nfollows:</p>\n<p>current view → chain of superviews → layout view → active controller → app →\nwindow</p>\n<p>If there is no match, <code>undefined</code> is returned. However, if used in an accessor\nor binding, the entire path to the root will be registered as a potential\nsource of data. Consequently, if the keypath is later set on any part of the\nchain, the data will be correctly bound.</p>\n<p><code>lookupKeypath</code> is the function invoked to locate data when evaluating a\nbinding.</p>\n<pre><code>test <span class=\"string\">'lookupKeypath returns the value if defined on the view'</span>, -&gt;\n  view = <span class=\"keyword\">new</span> Batman.View(animal: <span class=\"string\">'cat'</span>)\n  equal <span class=\"string\">'cat'</span>, view.lookupKeypath(<span class=\"string\">'animal'</span>)\n\ntest <span class=\"string\">'lookupKeypath returns the value if defined on an ancestor'</span>, -&gt;\n  superview = <span class=\"keyword\">new</span> Batman.View(animal: <span class=\"string\">'cat'</span>)\n  subview = <span class=\"keyword\">new</span> Batman.View(superview: superview)\n  equal <span class=\"string\">'cat'</span>, subview.lookupKeypath(<span class=\"string\">'animal'</span>)</code></pre>\n"
+    html: "<p>Traverses up the view tree searching for <code>keypath</code> and returns the first\nresult or <code>undefined</code> if no match is found. The path it takes is:</p>\n<p>current view → chain of superviews → layout view → active controller → app →\nwindow</p>\n<pre><code>test <span class=\"string\">'lookupKeypath returns the value if defined on the view or on an ancestor'</span>, -&gt;\n  superview = <span class=\"keyword\">new</span> Batman.View(cat: <span class=\"string\">'Meowie'</span>)\n  subview = <span class=\"keyword\">new</span> Batman.View(superview: superview, dog: <span class=\"string\">'Fido'</span>)\n  equal <span class=\"string\">'Fido'</span>, subview.lookupKeypath(<span class=\"string\">'dog'</span>), <span class=\"string\">\"finds an accessor on itself\"</span>\n  equal <span class=\"string\">'Meowie'</span>, subview.lookupKeypath(<span class=\"string\">'cat'</span>), <span class=\"string\">\"finds an accessor on its superview\"</span>\n  equal <span class=\"literal\">undefined</span>, subview.lookupKeypath(<span class=\"string\">'bogusKeypath'</span>), <span class=\"string\">\"returns undefined if the keypath isn't defined\"</span></code></pre>\n<p>If used in an accessor, <code>keypath</code> is registered as source and will be correctly bound. <code>lookupKeypath</code> is used by <a href=\"/docs/api/batman.view_bindings.html\">view bindings</a> to get data.</p>\n"
   - title: setKeypath
     meta: 
       type: function
       level: prototype
       params: "keypath, value"
-      returnType: Object
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
     tokens: []
     id: prototype_function_setkeypath
-    html: "<p>Traverses the View tree searching for the specified keypath, and sets the value\non the nearest ancestor which defines it. If no ancestor view defines the given\nkeypath, it will be set on the nearest ancestor which is not a\nbacking view.</p>\n<p><code>setKeypath</code> is the function invoked to set data when using an input binding.</p>\n<pre><code>test <span class=\"string\">'setKeypath sets the value if defined on the view'</span>, -&gt;\n  view = <span class=\"keyword\">new</span> Batman.View(animal: <span class=\"string\">'dog'</span>)\n\n  view.setKeypath(<span class=\"string\">'animal'</span>, <span class=\"string\">'cat'</span>)\n  equal <span class=\"string\">'cat'</span>, view.get(<span class=\"string\">'animal'</span>)\n\ntest <span class=\"string\">'setKeypath sets the value if defined on an ancestor'</span>, -&gt;\n  superview = <span class=\"keyword\">new</span> Batman.View(animal: <span class=\"string\">'dog'</span>)\n  subview = <span class=\"keyword\">new</span> Batman.View(superview: superview)\n\n  subview.setKeypath(<span class=\"string\">'animal'</span>, <span class=\"string\">'cat'</span>)\n  equal <span class=\"string\">'cat'</span>, superview.get(<span class=\"string\">'animal'</span>)\n\ntest <span class=\"string\">'setKeypath sets the value on the nearest non-backing view when not defined anywhere'</span>, -&gt;\n  superview = <span class=\"keyword\">new</span> Batman.View()\n  view = <span class=\"keyword\">new</span> Batman.View(superview: superview)\n  backingView = <span class=\"keyword\">new</span> Batman.BackingView(superview: view)\n\n  backingView.setKeypath(<span class=\"string\">'animal'</span>, <span class=\"string\">'cat'</span>)\n  equal <span class=\"string\">'cat'</span>, view.get(<span class=\"string\">'animal'</span>)</code></pre>\n"
+    html: "<p>Traverses the view tree searching for the specified keypath and sets the value\non the nearest ancestor which defines it. If no ancestor view defines the given\nkeypath, it will be set on the nearest ancestor which is not a\nbacking view.</p>\n<p><code>setKeypath</code> is used by <a href=\"/docs/api/batman.view_bindings.html\">view bindings</a> to set data.</p>\n<pre><code>test <span class=\"string\">'setKeypath sets the value if defined on the view or on an ancestor'</span>, -&gt;\n  superview = <span class=\"keyword\">new</span> Batman.View(cat: <span class=\"string\">'Meowie'</span>)\n  subview = <span class=\"keyword\">new</span> Batman.View(superview: superview, dog: <span class=\"string\">'Fido'</span>)\n  subview.setKeypath(<span class=\"string\">'cat'</span>, <span class=\"string\">'Mittens'</span>)\n  equal <span class=\"string\">'Mittens'</span>, superview.get(<span class=\"string\">'cat'</span>), <span class=\"string\">\"updates an accessor on its superview\"</span>\n  subview.setKeypath(<span class=\"string\">'dog'</span>, <span class=\"string\">'Lassie'</span>)\n  equal <span class=\"string\">'Lassie'</span>, subview.get(<span class=\"string\">'dog'</span>), <span class=\"string\">\"updates an accessor on itself\"</span>\n\ntest <span class=\"string\">'setKeypath sets the value on the nearest non-backing view when not defined anywhere'</span>, -&gt;\n  superview = <span class=\"keyword\">new</span> Batman.View()\n  view = <span class=\"keyword\">new</span> Batman.View(superview: superview)\n  backingView = <span class=\"keyword\">new</span> Batman.BackingView(superview: view)\n\n  backingView.setKeypath(<span class=\"string\">'animal'</span>, <span class=\"string\">'cat'</span>)\n  equal <span class=\"string\">'cat'</span>, view.get(<span class=\"string\">'animal'</span>)</code></pre>\n"
   - title: node
     meta: 
       type: accessor
@@ -40,7 +44,7 @@ sub:
       returnType: Node
     tokens: []
     id: prototype_accessor_node
-    html: "<p>A reference to the DOM node that this view encapsulates. The entire tree\nbeneath this node is also the responsibility of this view and/or its subviews.</p>\n<p>Accessing <code>node</code> will load and parse the template on demand if it isn&#39;t already\nloaded.</p>\n<pre><code>test <span class=\"string\">'node parses the template'</span>, -&gt;\n  view = <span class=\"keyword\">new</span> Batman.View(html: <span class=\"string\">'&lt;div&gt;cat&lt;/div&gt;'</span>)\n\n  node = view.get(<span class=\"string\">'node'</span>)\n  equal <span class=\"string\">'cat'</span>, node.firstChild.innerHTML</code></pre>\n<p>You can also access a view&#39;s <code>node</code> in its methods, for example, activating jQuery plugins:</p>\n<pre><code><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">SearchBarView</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">View</span></span>\n  viewDidAppear: -&gt;\n    $node = $(<span class=\"property\">@get</span>(<span class=\"string\">'node'</span>))\n    $node.typeahead() <span class=\"comment\"># &lt;= whatever jQuery plugin you want!</span></code></pre>\n"
+    html: "<p>Returns the DOM node that this view encapsulates.</p>\n<p>Accessing <code>node</code> will load and parse the template if it isn&#39;t already\nloaded.</p>\n<pre><code>test <span class=\"string\">'node parses the template'</span>, -&gt;\n  view = <span class=\"keyword\">new</span> Batman.View(html: <span class=\"string\">'&lt;div&gt;cat&lt;/div&gt;'</span>)\n\n  node = view.get(<span class=\"string\">'node'</span>)\n  equal <span class=\"string\">'cat'</span>, node.firstChild.innerHTML</code></pre>\n<p>You can also access a view&#39;s <code>node</code> in its methods, for example, activating jQuery plugins:</p>\n<pre><code><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">SearchBarView</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">View</span></span>\n  viewDidAppear: -&gt;\n    $node = $(<span class=\"property\">@get</span>(<span class=\"string\">'node'</span>))\n    $node.typeahead() <span class=\"comment\"># &lt;= whatever jQuery plugin you want!</span></code></pre>\n"
   - title: source
     meta: 
       type: accessor
@@ -59,6 +63,24 @@ sub:
     tokens: []
     id: prototype_accessor_html
     html: "<p>The HTML source for the view&#39;s template. Setting this will parse the template\nand build bindings automatically, but it will not be inserted into the DOM\nuntil the view is added to a superview. You can specify a view&#39;s HTML when you define the class:</p>\n<pre><code><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">SearchBarView</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">View</span></span>\n  html: <span class=\"string\">\"&lt;input type='text' placeholder='Enter a search term' /&gt;\"</span></code></pre>\n<p>If you don&#39;t explicitly set <code>html</code> but you do set <code>source</code>, then getting <code>html</code>\nwill automatically fetch the template source from the local template store.</p>\n<pre><code>test <span class=\"string\">'setting a source loads the correct template'</span>, -&gt;\n  Batman.View.store.set(<span class=\"string\">'/animals'</span>, <span class=\"string\">'&lt;div&gt;cat&lt;/div&gt;'</span>)\n  view = <span class=\"keyword\">new</span> Batman.View(source: <span class=\"string\">'/animals'</span>)\n\n  node = view.get(<span class=\"string\">'node'</span>)\n  equal <span class=\"string\">'cat'</span>, node.firstChild.innerHTML</code></pre>\n"
+  - title: filter
+    meta: 
+      type: function
+      level: class
+      params: "label : string, filter : function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: class_function_filter
+    html: "<p>Defines a custom <a href=\"/docs/api/batman.view_filters.html\">view filter</a> for use within the <code>View</code>.</p>\n<p><code>filter</code> will be invoked with the pre-filter <code>value</code> and any arguments passed to the view filter. For example:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">MultiplierView</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">View</span></span>\n  <span class=\"property\">@filter</span> <span class=\"string\">'multiplyBy'</span>, (value, multiplier) -&gt; value * multiplier</code></pre>\n<p>would handle:</p>\n<pre><code class=\"lang-html\">&lt;div data-view=<span class=\"string\">'MultiplierView'</span> data-context-amount=<span class=\"string\">'100'</span>&gt;\n  &lt;span data-bind=<span class=\"string\">'amount | multiplyBy 6'</span>&gt;\n    &lt;!-- would render to <span class=\"string\">\"600\"</span> --&gt;\n  &lt;/span&gt;\n&lt;/div&gt;</code></pre>\n<p><em>Note</em>: If the <code>View</code>&#39;s HTML is loaded before the view is instantiated, this filter won&#39;t have been defined yet and batman.js will throw an error. Avoid this by defining your custom filter at app-level or by defining the <code>View</code>&#39;s HTML with <a href=\"/docs/api/batman.view.html#prototype_accessor_source\"><code>::source</code></a> or <a href=\"/docs/api/batman.view.html#prototype_accessor_html\"><code>::html</code></a>.</p>\n"
+  - title: option
+    meta: 
+      type: function
+      level: class
+      params: keys...
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: class_function_option
+    html: "<p>Defines a custom option for the <code>View</code>. <code>@option</code> allows you to initialize your view with data from its context. For example, you can define some options:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">MultiplierView</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">View</span></span>\n  <span class=\"property\">@option</span> <span class=\"string\">'amount'</span>, <span class=\"string\">'multiplier'</span>\n  <span class=\"property\">@accessor</span> <span class=\"string\">'finalAmount'</span>, -&gt; <span class=\"property\">@get</span>(<span class=\"string\">'amount'</span>) * <span class=\"property\">@get</span>(<span class=\"string\">'multiplier'</span>)</code></pre>\n<p>then pass in keypaths or <a href=\"/docs/api/batman.view_bindings.html#keypath_literals\">keypath literals</a>:</p>\n<pre><code class=\"lang-html\">&lt;div data-context-ten=<span class=\"string\">'10'</span>&gt; &lt;!-- sets <span class=\"number\">10</span> <span class=\"literal\">on</span> keypath <span class=\"string\">\"ten\"</span> --&gt;\n  &lt;div data-view=<span class=\"string\">'MultiplierView'</span> data-view-amount=<span class=\"string\">'ten'</span> data-view-multiplier=<span class=\"string\">'8'</span>&gt;\n    &lt;span data-bind=<span class=\"string\">'finalAmount'</span>&gt;\n      &lt;!-- would render to <span class=\"number\">80</span> !--&gt;\n    &lt;/span&gt;\n  &lt;/div&gt;\n&lt;/div&gt;</code></pre>\n"
   - title: superview
     meta: 
       type: property
@@ -67,7 +89,7 @@ sub:
       returnType: Batman.View
     tokens: []
     id: prototype_property_superview
-    html: "<p>A reference to the current superview (the direct ancestor in the tree). This is\nused for traversing the tree when searching for data, as in\n<code>View::lookupKeypath</code>.</p>\n"
+    html: "<p>Returns the view&#39;s superview. Every view except an app&#39;s <code>LayoutView</code> has a superview.</p>\n"
   - title: subviews
     meta: 
       type: property
@@ -76,25 +98,7 @@ sub:
       returnType: Batman.Set
     tokens: []
     id: prototype_property_subviews
-    html: "<p>The set of direct children of a <code>View</code>. To manipulate the view tree, you should\noperate directly on this set — batman.js will automatically keep the DOM in\nsync with the logical tree.</p>\n"
-  - title: subviews.add
-    meta: 
-      type: function
-      level: prototype
-      params: view
-      returnType: !<tag:yaml.org,2002:js/undefined> ""
-    tokens: []
-    id: prototype_function_subviews.add
-    html: "<p>Adding to a view&#39;s subview set will automatically update the tree, and parse\nthe template and bindings. If the superview is already in the DOM, this will\ninsert the current view&#39;s node into the DOM.</p>\n<pre><code>test <span class=\"string\">'adding to a superview parses bindings'</span>, -&gt;\n  superview = <span class=\"keyword\">new</span> Batman.View()\n  view = <span class=\"keyword\">new</span> Batman.View(html: <span class=\"string\">'&lt;div data-bind=\"animal\"&gt;&lt;/div&gt;'</span>, animal: <span class=\"string\">'cat'</span>)\n\n  superview.subviews.add(view)\n  equal <span class=\"string\">'cat'</span>, view.get(<span class=\"string\">'node'</span>).firstChild.innerHTML</code></pre>\n"
-  - title: subviews.remove
-    meta: 
-      type: function
-      level: prototype
-      params: view
-      returnType: !<tag:yaml.org,2002:js/undefined> ""
-    tokens: []
-    id: prototype_function_subviews.remove
-    html: "<p>Removing from a view&#39;s subview set will automatically remove the subview from\nthe DOM.</p>\n<pre><code>test <span class=\"string\">'removing from the current superview removes the node from the DOM'</span>, -&gt;\n  superview = <span class=\"keyword\">new</span> Batman.View(html: <span class=\"string\">''</span>, parentNode: document.body)\n  superview.get(<span class=\"string\">'node'</span>)\n  view = <span class=\"keyword\">new</span> Batman.View(html: <span class=\"string\">''</span>, superview: superview)\n\n  ok Batman.DOM.containsNode(superview.get(<span class=\"string\">'node'</span>), view.get(<span class=\"string\">'node'</span>))\n\n  superview.subviews.remove(view)\n  ok <span class=\"keyword\">not</span> Batman.DOM.containsNode(superview.get(<span class=\"string\">'node'</span>), view.get(<span class=\"string\">'node'</span>))</code></pre>\n"
+    html: "<p>The set of direct children of this <code>View</code>. Since it&#39;s a <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a>, you can operate directly on this set and batman.js will automatically keep the DOM in sync.</p>\n<p>Adding to a view&#39;s subviews will automatically update the tree and parse\nthe template and bindings. If the superview is in the DOM, this will\ninsert the current view&#39;s node into the DOM.</p>\n<pre><code>test <span class=\"string\">'adding to a superview parses bindings'</span>, -&gt;\n  superview = <span class=\"keyword\">new</span> Batman.View()\n  view = <span class=\"keyword\">new</span> Batman.View(html: <span class=\"string\">'&lt;div data-bind=\"animal\"&gt;&lt;/div&gt;'</span>, animal: <span class=\"string\">'cat'</span>)\n\n  superview.subviews.add(view)\n  equal <span class=\"string\">'cat'</span>, view.get(<span class=\"string\">'node'</span>).firstChild.innerHTML</code></pre>\n<p>Removing from a view&#39;s subviews will automatically remove the subview from\nthe DOM.</p>\n<pre><code>test <span class=\"string\">'removing from the current superview removes the node from the DOM'</span>, -&gt;\n  superview = <span class=\"keyword\">new</span> Batman.View(html: <span class=\"string\">''</span>, parentNode: document.body)\n  superview.get(<span class=\"string\">'node'</span>)\n  view = <span class=\"keyword\">new</span> Batman.View(html: <span class=\"string\">''</span>, superview: superview)\n\n  ok Batman.DOM.containsNode(superview.get(<span class=\"string\">'node'</span>), view.get(<span class=\"string\">'node'</span>))\n\n  superview.subviews.remove(view)\n  ok <span class=\"keyword\">not</span> Batman.DOM.containsNode(superview.get(<span class=\"string\">'node'</span>), view.get(<span class=\"string\">'node'</span>))</code></pre>\n"
   - title: removeFromSuperview
     meta: 
       type: function
@@ -103,7 +107,7 @@ sub:
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     tokens: []
     id: prototype_function_removefromsuperview
-    html: "<p>Removes this view from its parent, without killing it.</p>\n<pre><code>test <span class=\"string\">'removing from the current superview removes the node from the DOM'</span>, -&gt;\n  superview = <span class=\"keyword\">new</span> Batman.View()\n  view = <span class=\"keyword\">new</span> Batman.View(superview: superview)\n\n  view.removeFromSuperview()\n  ok <span class=\"keyword\">not</span> superview.subviews.has(view)</code></pre>\n"
+    html: "<p>Removes this view from its parent (and from the DOM), without killing it.</p>\n<pre><code>test <span class=\"string\">'removing from the current superview removes the node from the DOM'</span>, -&gt;\n  superview = <span class=\"keyword\">new</span> Batman.View()\n  view = <span class=\"keyword\">new</span> Batman.View(superview: superview)\n\n  view.removeFromSuperview()\n  ok <span class=\"keyword\">not</span> superview.subviews.has(view)</code></pre>\n"
   - title: die
     meta: 
       type: function
@@ -112,7 +116,7 @@ sub:
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     tokens: []
     id: prototype_function_die
-    html: "<p>Kills this view, which renders it to forever unusable. This has the\nfollowing implications:</p>\n<ul>\n<li>The view is removed from its superview</li>\n<li>The view&#39;s node is removed from the DOM</li>\n<li>The view&#39;s bindings are destroyed</li>\n<li><p>The view&#39;s current subviews are killed</p>\n<p>  test &#39;die kills the view&#39;, -&gt;</p>\n<pre><code>superview = <span class=\"keyword\">new</span> Batman.View()\nview = <span class=\"keyword\">new</span> Batman.View(superview: superview)\n\nview.die()\nequal <span class=\"literal\">true</span>, view.isDead\nequal <span class=\"number\">0</span>, superview.subviews.length</code></pre>\n</li>\n</ul>\n"
+    html: "<p>Kills this view, which renders it to forever unusable. This has the\nfollowing implications:</p>\n<ul>\n<li>The view is removed from its superview</li>\n<li>The view&#39;s node is removed from the DOM</li>\n<li>The view&#39;s bindings are destroyed</li>\n<li><p>The view&#39;s current subviews are killed</p>\n<pre><code>test <span class=\"string\">'die kills the view'</span>, -&gt;\n  superview = <span class=\"keyword\">new</span> Batman.View()\n  view = <span class=\"keyword\">new</span> Batman.View(superview: superview)\n\n  view.die()\n  equal <span class=\"literal\">true</span>, view.isDead\n  equal <span class=\"number\">0</span>, superview.subviews.length</code></pre>\n</li>\n</ul>\n"
   - title: isDead
     meta: 
       type: property
@@ -149,18 +153,9 @@ sub:
     tokens: []
     id: class_function_viewfornode
     html: "<p>Finds the view acting as the current context for a node — i.e. perform the\nreverse mapping of the view tree to the DOM. If you pass <code>false</code> for\n<code>climbTree</code>, it won&#39;t traverse up the DOM, and will return <code>undefined</code> unless\nthe node is the view&#39;s root.</p>\n"
-  - title: filter
-    meta: 
-      type: function
-      level: prototype
-      params: "label : string, filter : function"
-      returnType: !<tag:yaml.org,2002:js/undefined> ""
-    tokens: []
-    id: prototype_function_filter
-    html: "<p>Defines a filter on the <code>View</code> class for use within the <code>View</code> during rendering.</p>\n"
 tokens: []
 id: batman.view
-html: "<p>For a general explanation of <code>Batman.View</code> and how it works, see <a href=\"/docs/views.html\">the guide</a>.</p>\n"
+html: "<p><code>Batman.View</code>s connect a batman.js app to the DOM. This includes rendering HTML, handling DOM events, and maintaining view bindings. <code>Batman.View</code> extends <code>Batman.Object</code>. When subclassing <code>Batman.View</code>, you can create reusable UI components by defining attributes of the new view:</p>\n<ul>\n<li><a href=\"/docs/api/batman.view.html#prototype_accessor_source\"><code>::source</code></a> or <a href=\"/docs/api/batman.view.html#prototype_accessor_html\"><code>::html</code></a> define the view&#39;s HTML.</li>\n<li><a href=\"/docs/api/batman.view.html#class_function_option\"><code>@option</code></a> adds context-based initialization options.</li>\n<li><a href=\"/docs/api/batman.view.html#class_function_filter\"><code>@filter</code></a> adds custom view filters.</li>\n<li><a href=\"/docs/views.html\">Lifecycle hooks</a> fire when the view is loaded, rendered, or destroyed.</li>\n</ul>\n<p>For more information about views, see <a href=\"/docs/views.html\">the guide</a>.</p>\n"
 
 ---
 

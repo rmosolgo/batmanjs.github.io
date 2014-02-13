@@ -4,6 +4,20 @@ layout: api_docs
 ---
 
 {{ page.html }}
+
+<h2><a id='#methods'></a><a href='#methods'>{{page.title}} Methods: </a></h2>
+<ul class="api-table-of-contents">
+{% for s in page.sub %}
+  {% if s.meta %}
+    <li>
+      <a href="#{{ s.id }}">
+        <span class='batman-class'>{{page.title}}</span>{% if s.meta.level == 'class' %}.{% else %}::{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </li>
+  {% endif %}
+{% endfor %}
+</ul>
+
 <ul class="api-list">
 {% for s in page.sub %}
   <li class="api-list-item">

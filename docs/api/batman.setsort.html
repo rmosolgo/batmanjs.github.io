@@ -23,6 +23,15 @@ sub:
     tokens: []
     id: prototype_property_issorted
     html: "<p>Returns <code>true</code>.</p>\n"
+  - title: key
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: String
+    tokens: []
+    id: prototype_property_key
+    html: "<p>Returns the key used to sort members of the <code>SetSort</code>, as defined in the constructor.</p>\n"
   - title: descending
     meta: 
       type: property
@@ -31,7 +40,7 @@ sub:
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     tokens: []
     id: prototype_property_descending
-    html: "<p><code>true</code> if <code>&quot;desc&quot;</code> was passed to as <code>order</code> to the constructor, otherwise <code>false</code>.\nDescending <code>SetSort</code>s may also be made by getting <code>sortedByDescending</code> from a <code>Set</code>:</p>\n<pre><code>test <span class=\"string\">\"get sortedByDescending creates a descending SetSort\"</span>, -&gt;\n  batmobile = <span class=\"keyword\">new</span> Batman.Object(name: <span class=\"string\">\"Batmobile\"</span>, wheelCount: <span class=\"number\">4</span>)\n  batcycle = <span class=\"keyword\">new</span> Batman.Object(name: <span class=\"string\">\"Batcycle\"</span>, wheelCount: <span class=\"number\">2</span>)\n  vehicles = <span class=\"keyword\">new</span> Batman.Set(batmobile, batcycle)\n\n  vehiclesByWheelCountDescending1 = <span class=\"keyword\">new</span> Batman.SetSort(vehicles, <span class=\"string\">'wheelCount'</span>, <span class=\"string\">'desc'</span>)\n  vehiclesByWheelCountDescending2 = vehicles.get(<span class=\"string\">'sortedByDescending.wheelCount'</span>)\n\n  <span class=\"keyword\">for</span> descendingSetSort <span class=\"keyword\">in</span> [vehiclesByWheelCountDescending1, vehiclesByWheelCountDescending2]\n    equal descendingSetSort.descending, <span class=\"literal\">true</span>\n    deepEqual descendingSetSort.mapToProperty(<span class=\"string\">'wheelCount'</span>), [<span class=\"number\">4</span>, <span class=\"number\">2</span>]</code></pre>\n"
+    html: "<p><code>true</code> if <code>&quot;desc&quot;</code> was passed to as <code>order</code> to the constructor, otherwise <code>false</code>. Descending <code>SetSort</code>s may also be made by getting <code>sortedByDescending</code> from a <code>Set</code>:</p>\n<pre><code>test <span class=\"string\">\"get sortedByDescending creates a descending SetSort\"</span>, -&gt;\n  batmobile = <span class=\"keyword\">new</span> Batman.Object(name: <span class=\"string\">\"Batmobile\"</span>, wheelCount: <span class=\"number\">4</span>)\n  batcycle = <span class=\"keyword\">new</span> Batman.Object(name: <span class=\"string\">\"Batcycle\"</span>, wheelCount: <span class=\"number\">2</span>)\n  vehicles = <span class=\"keyword\">new</span> Batman.Set(batmobile, batcycle)\n\n  vehiclesByWheelCountDescending1 = <span class=\"keyword\">new</span> Batman.SetSort(vehicles, <span class=\"string\">'wheelCount'</span>, <span class=\"string\">'desc'</span>)\n  vehiclesByWheelCountDescending2 = vehicles.get(<span class=\"string\">'sortedByDescending.wheelCount'</span>)\n\n  <span class=\"keyword\">for</span> descendingSetSort <span class=\"keyword\">in</span> [vehiclesByWheelCountDescending1, vehiclesByWheelCountDescending2]\n    equal descendingSetSort.descending, <span class=\"literal\">true</span>\n    deepEqual descendingSetSort.mapToProperty(<span class=\"string\">'wheelCount'</span>), [<span class=\"number\">4</span>, <span class=\"number\">2</span>]</code></pre>\n"
   - title: find
     meta: 
       type: function

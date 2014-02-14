@@ -261,6 +261,8 @@ api_index:
               title: "constructor"
             - id: prototype_property_issorted
               title: isSorted
+            - id: prototype_property_key
+              title: key
             - id: prototype_property_descending
               title: descending
             - id: prototype_function_find

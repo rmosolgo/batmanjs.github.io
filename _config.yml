@@ -690,6 +690,30 @@ api_index:
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""
       children: 
+        - id: batman.view_lifecycle
+          title: Batman.View Lifecycle
+          sub: 
+            - id: viewwillappear
+              title: viewWillAppear
+            - id: viewdidappear
+              title: viewDidAppear
+            - id: viewdidload
+              title: viewDidLoad
+            - id: ready
+              title: ready
+            - id: viewwilldisappear
+              title: viewWillDisappear
+            - id: viewdiddisappear
+              title: viewDidDisappear
+            - id: destroy
+              title: destroy
+            - id: viewdidmovetosuperview
+              title: viewDidMoveToSuperview
+            - id: viewwillremovefromsuperview
+              title: viewWillRemoveFromSuperview
+          meta: 
+            grouping: App Components
+            parent: Batman.View
         - id: batman.view_bindings
           title: Batman.View Bindings
           sub: 

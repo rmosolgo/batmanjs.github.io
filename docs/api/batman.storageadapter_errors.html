@@ -55,7 +55,7 @@ sub:
     html: "<p>Default message: <code>&quot;Storage operation failed due to unavailability of the backend!&quot;</code>.</p>\n"
 tokens: []
 id: batman.storageadapter_errors
-html: "<p>When a <a href=\"/docs/api/batman.storageadapter.html\"><code>Batman.StorageAdapter</code></a> fails to complete an operation, it throws a specific error. <code>Batman.Controller</code> can set up handlers for these errors with <code>@catchError</code>. Each error class prototype has:</p>\n<ul>\n<li><code>name</code>, which matches its class name (eg, <code>Batman.StorageAdapter.RecordExistsError::name</code> is <code>&quot;RecordExistsError&quot;</code>)</li>\n<li><code>message</code>, which describes the error</li>\n</ul>\n"
+html: "<p>When a <a href=\"/docs/api/batman.storageadapter.html\"><code>Batman.StorageAdapter</code></a> fails to complete an operation, it throws a specific error. <a href=\"/docs/api/batman.controller.html\"><code>Batman.Controller</code></a> can set up handlers for these errors with <code>@catchError</code>. Each error class prototype has:</p>\n<ul>\n<li><code>name</code>, which matches its class name (eg, <code>Batman.StorageAdapter.RecordExistsError::name</code> is <code>&quot;RecordExistsError&quot;</code>)</li>\n<li><code>message</code>, which describes the error</li>\n</ul>\n"
 
 ---
 

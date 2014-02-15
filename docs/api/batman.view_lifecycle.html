@@ -1,0 +1,63 @@
+---
+layout: api_docs
+title: Batman.View Lifecycle
+meta: 
+  grouping: App Components
+  parent: Batman.View
+sub: 
+  - title: viewWillAppear
+    tokens: []
+    id: viewwillappear
+    html: "<p>The view is about to be attached to the DOM. It has a <a href=\"/docs/api/batman.view.html#prototype_property_superview\"><code>superview</code></a>.</p>\n"
+  - title: viewDidAppear
+    tokens: []
+    id: viewdidappear
+    html: "<p>The view has just been attached to the DOM. Its <a href=\"/docs/api/batman.view.html#prototype_accessor_node\"><code>node</code></a> is on the page and can be selected with <code>document.querySelector</code>.</p>\n"
+  - title: viewDidLoad
+    tokens: []
+    id: viewdidload
+    html: "<p>The view&#39;s <a href=\"/docs/api/batman.view.html#prototype_accessor_node\"><code>node</code></a> has been loaded from its <a href=\"/docs/api/batman.view.html#prototype_accessor_html\"><code>html</code></a>). It may not be in the DOM yet.</p>\n"
+  - title: ready
+    tokens: []
+    id: ready
+    html: "<p>The view&#39;s bindings have been initialized. The view may or may not be in the DOM. <code>ready</code> is a one-shot event.</p>\n"
+  - title: viewWillDisappear
+    tokens: []
+    id: viewwilldisappear
+    html: "<p>The view is about to be detached from the DOM. It still has a <a href=\"/docs/api/batman.view.html#prototype_property_superview\"><code>superview</code></a> and its <a href=\"/docs/api/batman.view.html#prototype_accessor_node\"><code>node</code></a> is still selectable.</p>\n"
+  - title: viewDidDisappear
+    tokens: []
+    id: viewdiddisappear
+    html: "<p>The view has been detached from the DOM. It still has a <a href=\"/docs/api/batman.view.html#prototype_property_superview\"><code>superview</code></a> but its <a href=\"/docs/api/batman.view.html#prototype_accessor_node\"><code>node</code></a> is not selectable.</p>\n"
+  - title: destroy
+    tokens: []
+    id: destroy
+    html: "<p><a href=\"/docs/api/batman.view.html#prototype_function_die\"><code>die</code></a> was called on this view. It will be removed from its superview, removed from the DOM, and have all of its properties set to <code>null</code>.</p>\n"
+  - title: viewDidMoveToSuperview
+    tokens: []
+    id: viewdidmovetosuperview
+    html: "<p>The view has been attached to its <a href=\"/docs/api/batman.view.html#prototype_property_superview\"><code>superview</code></a>, but it is not yet in the DOM.</p>\n"
+  - title: viewWillRemoveFromSuperview
+    tokens: []
+    id: viewwillremovefromsuperview
+    html: "<p>The view is about removed from its <a href=\"/docs/api/batman.view.html#prototype_property_superview\"><code>superview</code></a>, then it will be detached from the DOM.</p>\n"
+tokens: []
+id: batman.view_lifecycle
+html: "<p>When <a href=\"/docs/api/batman.view.html\"><code>Batman.View</code></a> is rendered, it goes through many steps. Lifecycle callbacks allow you to hook into those steps and control or respond to the rendering process.</p>\n<h3 id=\"listening-for-lifecycle-events\">Listening for Lifecycle Events</h3>\n<p>To set up handlers for a <code>View</code>&#39;s lifecycle, You can either call <a href=\"/docs/api/batman.eventemitter.html#prototype_function_on\"><code>on</code></a> on the <code>View</code>&#39;s  prototype:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">MyApp</span>.<span class=\"title\">FadingView</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">View</span></span>\n  @::<span class=\"literal\">on</span> <span class=\"string\">'viewWillAppear'</span>, -&gt; $(<span class=\"property\">@get</span>(<span class=\"string\">'node'</span>)).hide()\n\n  @::<span class=\"literal\">on</span> <span class=\"string\">'viewDidAppear'</span>, -&gt; $(<span class=\"property\">@get</span>(<span class=\"string\">'node'</span>)).fadeIn(<span class=\"string\">'fast'</span>)\n\n  @::<span class=\"literal\">on</span> <span class=\"string\">'viewWillDisappear'</span>, -&gt; $(<span class=\"property\">@get</span>(<span class=\"string\">'node'</span>)).fadeOut(<span class=\"string\">'fast'</span>)</code></pre>\n<p>or define functions with the same name as the events:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">MyApp</span>.<span class=\"title\">FadingView</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">View</span></span>\n  viewWillAppear: -&gt; $(<span class=\"property\">@get</span>(<span class=\"string\">'node'</span>)).hide()\n\n  viewDidAppear: -&gt; $(<span class=\"property\">@get</span>(<span class=\"string\">'node'</span>)).fadeIn(<span class=\"string\">'fast'</span>)\n\n  viewWillDisappear: -&gt; $(<span class=\"property\">@get</span>(<span class=\"string\">'node'</span>)).fadeOut(<span class=\"string\">'fast'</span>)</code></pre>\n<h3 id=\"lifecycle-events-and-subviews\">Lifecycle Events and Subviews</h3>\n<p>A <code>View</code> propagates its lifecycle events to its <a href=\"/docs/api/batman.view.html#prototype_property_subviews\"><code>subviews</code></a>, so it&#39;s likely that a lifecycle event will be called more than once. <code>ready</code> is an exception -- it&#39;s a one-shot event.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

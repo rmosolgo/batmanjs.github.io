@@ -12,6 +12,27 @@ argv   = require('optimist')
            .demand('dir')
            .argv
 
+class Autolink
+  @CANDIDATE_REGEXP = ///
+              (`                          # Wrapped in ``
+                Batman                    # starts with Batman
+                (?:\.[A-Z][A-Za-z]+?)     # Has CamelCased words which joined by leading .
+                {1,}                      # One or more of them ^
+              `)
+              (?!\s*[\]\(])               # not already a link (followed by "](")
+            ///g                          # all of them
+  @insertLinks: (text="") ->
+    replaces = 0
+    newText = text.replace @CANDIDATE_REGEXP, (match, className, offset, string) ->
+      replaces += 1
+      path = "/docs/api/" + DocSection::_generateId(className.replace(/`/g, '')) + ".html"
+      link = "[#{className}](#{path})"
+      console.log "-------------------  #{className} => #{link}"
+      link
+    newText
+
+
+
 class DocGenerator
   constructor: ->
     @tokens = []
@@ -43,6 +64,7 @@ class DocGenerator
     index = sections.map (section) ->
       subIndex = section.sub.map (sub) -> id: sub.id, title: sub.title
       id: section.id, title: section.title, sub: subIndex, meta: section.meta
+
     groupings = {}
     for entry in index
       groupingName = entry.meta?.grouping ? "Ungrouped"
@@ -118,6 +140,10 @@ class DocSection
   _generateId: (title) -> encodeURIComponent(title.replace(/\s/g, '_').toLowerCase())
 
   _parseTokens: (tokens, options) ->
+    tokens.forEach (t) ->
+      if t.type is "paragraph"
+        t.text = Autolink.insertLinks(t.text)
+
     tokens.links = {}
     options = _.extend({}, marked.defaults, options)
     marked.Parser.parse(tokens, options)

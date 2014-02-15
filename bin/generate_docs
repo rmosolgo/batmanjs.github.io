@@ -21,14 +21,19 @@ class Autolink
               `)
               (?!\s*[\]\(])               # not already a link (followed by "](")
             ///g                          # all of them
-  @insertLinks: (text="") ->
+  @insertLinks: (text="", generator) ->
     replaces = 0
     newText = text.replace @CANDIDATE_REGEXP, (match, className, offset, string) ->
       replaces += 1
-      path = "/docs/api/" + DocSection::_generateId(className.replace(/`/g, '')) + ".html"
-      link = "[#{className}](#{path})"
-      console.log "-------------------  #{className} => #{link}"
-      link
+      pageId = DocSection::_generateId(className.replace(/`/g, ''))
+      if generator.hasId(pageId)
+        path = "/docs/api/" + pageId + ".html"
+        link = "[#{className}](#{path})"
+        # console.log "-------------------  #{className} => #{link}"
+        link
+      else
+        console.warn "No API Documentation for #{className}"
+        className
     newText
 
 
@@ -36,6 +41,12 @@ class Autolink
 class DocGenerator
   constructor: ->
     @tokens = []
+    @allIds = []
+
+  registerId: (id) ->
+    @allIds.push(id)
+  hasId: (id) ->
+    id in @allIds
 
   addContent: (contentString) ->
     @tokens = @tokens.concat(marked.lexer(contentString))
@@ -48,7 +59,7 @@ class DocGenerator
 
       else if token.type == 'heading' && token.depth == 2
         section = _.last(sections)
-        section.sub.push(new DocSection(title: token.text, tokens: [], index: section.sub.length))
+        section.sub.push(new DocSection(title: token.text, tokens: [], index: section.sub.length, generator: @))
 
       else
         section = _.last(sections)
@@ -70,12 +81,12 @@ class DocGenerator
       groupingName = entry.meta?.grouping ? "Ungrouped"
       parentName = entry.meta?.parent
       if parentName
-        console.log "Adding #{entry.title} to #{groupingName}, under #{parentName}"
+        # console.log "Adding #{entry.title} to #{groupingName}, under #{parentName}"
         parentEntry = _.findWhere(groupings[groupingName], {title: parentName})
         parentEntry.children ?= []
         parentEntry.children.push(entry)
       else
-        console.log "Adding #{entry.title} to #{groupingName}"
+        # console.log "Adding #{entry.title} to #{groupingName}"
         groupings[groupingName] ?= []
         groupings[groupingName].push(entry)
 
@@ -99,6 +110,8 @@ class DocSection
       "index"
     else
       @_generateId(@title)
+
+    @generator.registerId(@id) # to make sure we're linking real pages
 
 
   parseSubs: ->
@@ -140,9 +153,9 @@ class DocSection
   _generateId: (title) -> encodeURIComponent(title.replace(/\s/g, '_').toLowerCase())
 
   _parseTokens: (tokens, options) ->
-    tokens.forEach (t) ->
+    tokens.forEach (t) =>
       if t.type is "paragraph"
-        t.text = Autolink.insertLinks(t.text)
+        t.text = Autolink.insertLinks(t.text, @generator)
 
     tokens.links = {}
     options = _.extend({}, marked.defaults, options)

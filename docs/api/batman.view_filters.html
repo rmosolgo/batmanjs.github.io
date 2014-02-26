@@ -5,6 +5,30 @@ meta:
   grouping: App Components
   parent: Batman.View
 sub: 
+  - title: "ceil(value) : string"
+    tokens: []
+    id: "ceil(value)_%3A_string"
+    html: "<p>The <code>ceil</code> filter will run <code>Math.ceil</code> on the input value. Value can be either a <code>string</code> or <code>integer</code></p>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"someValue | ceil\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+  - title: "floor(value) : string"
+    tokens: []
+    id: "floor(value)_%3A_string"
+    html: "<p>The <code>floor</code> filter will run <code>Math.floor</code> on the input value. Value can be either a <code>string</code> or <code>integer</code></p>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"someValue | floor\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+  - title: "round(value) : string"
+    tokens: []
+    id: "round(value)_%3A_string"
+    html: "<p>The <code>round</code> filter will run <code>Math.round</code> on the input value. Value can be either a <code>string</code> or <code>integer</code></p>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"someValue | round\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+  - title: "percision(value, toPlace) : string"
+    tokens: []
+    id: "percision(value%2C_toplace)_%3A_string"
+    html: "<p>The <code>precision</code> filter will run <code>toPrecision()</code> on the input value. Value can be either a <code>string</code> or <code>integer</code></p>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"someValue | precision\"</span>&gt;&lt;/span&gt;\n&lt;span data-bind=<span class=\"string\">\"someValue | precision 3\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+  - title: "fixed(value, toPlace) : string"
+    tokens: []
+    id: "fixed(value%2C_toplace)_%3A_string"
+    html: "<p>The <code>fixed</code> filter will run <code>toFixed()</code> on the input value. Value can be either a <code>string</code> or <code>integer</code></p>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"someValue | fixed\"</span>&gt;&lt;/span&gt;\n&lt;span data-bind=<span class=\"string\">\"someValue | fixed 3\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+  - title: "delimitNumber(value) : string"
+    tokens: []
+    id: "delimitnumber(value)_%3A_string"
+    html: "<p>The <code>delimitNumber</code> filter will comma delimit a &#39;number&#39;. Value can be either a <code>string</code> or <code>integer</code></p>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"someValue | delimitNumber\"</span>&gt;&lt;/span&gt;</code></pre>\n"
   - title: "raw(value) : string"
     tokens: []
     id: "raw(value)_%3A_string"

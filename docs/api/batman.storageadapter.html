@@ -75,6 +75,24 @@ sub:
     tokens: []
     id: class_function_skipiferror
     html: "<p>Wraps a function, bypassing the function body and calling next() if an error has already occurred.</p>\n<pre><code>test <span class=\"string\">\"StorageAdapter@skipIfError doesn't call the function if env.error?\"</span>, -&gt;\n  insideFunction = createSpy()\n  nextFunction = createSpy()\n\n  functionWithWrapper = Batman.LocalStorage.skipIfError (env, next) -&gt;\n    insideFunction()\n\n  dummyEnv = {error: <span class=\"literal\">true</span>}\n\n  functionWithWrapper(dummyEnv, nextFunction)\n\n  equal dummyEnv.error?, <span class=\"literal\">true</span>, <span class=\"string\">'an error is present'</span>\n  equal insideFunction.called, <span class=\"literal\">false</span>, <span class=\"string\">'insideFunction was skipped'</span>\n  equal nextFunction.called, <span class=\"literal\">true</span>, <span class=\"string\">'nextFunction was called'</span></code></pre>\n<p>Inside a storage adapter definition, this function is referenced as <code>@skipIfError</code>, for example:</p>\n<pre><code><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">SpecialStorageAdapter</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">RestStorage</span></span>\n  @::before <span class=\"string\">'create'</span>, <span class=\"property\">@skipIfError</span> (env, next) -&gt;\n    console.log(<span class=\"string\">\"This will be skipped if env.error? is true!\"</span>)\n    next()</code></pre>\n"
+  - title: "constructor"
+    meta: 
+      type: function
+      level: prototype
+      params: "model: Function"
+      returnType: StorageAdapter
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>Returns a <code>StorageAdapter</code> attached to <code>model</code>, which should be a subclass of <a href=\"/docs/api/batman.model.html\"><code>Batman.Model</code></a>.</p>\n"
+  - title: model
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Function
+    tokens: []
+    id: prototype_property_model
+    html: "<p>Returns the <a href=\"/docs/api/batman.model.html\"><code>Batman.Model</code></a> passed to the constructor.</p>\n"
   - title: before
     meta: 
       type: function
@@ -93,6 +111,24 @@ sub:
     tokens: []
     id: prototype_function_after
     html: "<p>Registers <code>filter</code> as a after-operation callback for the storage operations named by <code>keys...</code>.</p>\n"
+  - title: getRecordFromData
+    meta: 
+      type: function
+      level: prototype
+      params: "attributes: Object, constructor[=@model] : Function"
+      returnType: Model
+    tokens: []
+    id: prototype_function_getrecordfromdata
+    html: "<p>Finds or creates an instance of <code>constructor</code> with <code>attributes</code> and returns it. Delegated to <code>Model.createFromJSON</code>.</p>\n"
+  - title: getRecordsFromData
+    meta: 
+      type: function
+      level: prototype
+      params: "attributesArray: Array, constructor[=@model] : Function"
+      returnType: Array
+    tokens: []
+    id: prototype_function_getrecordsfromdata
+    html: "<p>Finds or creates instances of <code>constructor</code> for each item in <code>attributesArray</code> and returns the resulting records. Delegated to <code>Model.createMultipleFromJSON</code>.</p>\n"
 tokens: []
 id: batman.storageadapter
 html: "<p><a href=\"/docs/api/batman.storageadapter.html\"><code>Batman.StorageAdapter</code></a>s handle persistence of <a href=\"/docs/api/batman.model.html\"><a href=\"/docs/api/batman.model.html\"><code>Batman.Model</code></a>s</a>. Any <a href=\"/docs/api/batman.model.html\"><code>Batman.Model</code></a> which will be created, read, updated or deleted must have a storage adapter, which is declared with <a href=\"/docs/api/batman.model.html#class_function_persist\"><code>Batman.Model@persist</code></a>:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">Superhero</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@persist</span> Batman.RestStorage <span class=\"comment\"># a StorageAdapter subclass</span></code></pre>\n<p><strong>Note:</strong> <code>@persist</code> instantiates a StorageAdapter instance during model definition, so it will use <code>@storageKey</code> and <code>@resourceName</code> from the model where it was instantiated, but it won&#39;t play well with inheritance. For example:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">Model</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@storageKey</span>: <span class=\"string\">'model'</span>\n  <span class=\"property\">@persist</span> Batman.LocalStorage\n\n<span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">Superhero</span> <span class=\"keyword\">extends</span> <span class=\"title\">App</span>.<span class=\"title\">Model</span></span>\n  <span class=\"comment\"># have to do it again here, or else it will use @storageKey of 'model'</span>\n  <span class=\"property\">@storageKey</span>: <span class=\"string\">'superhero'</span>\n  <span class=\"property\">@persist</span> Batman.LocalStorage</code></pre>\n<h3 id=\"batman-s-included-storageadapters\">Batman&#39;s Included StorageAdapters</h3>\n<p>Batman ships with a few storage adapters to get you up and coding quickly:</p>\n<ul>\n<li><code>Batman.LocalStorage</code> uses <a href=\"https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage#localStorage\"><code>window.localStorage</code></a> to persist records.</li>\n<li><code>Batman.SessionStorage</code> extends <code>Batman.LocalStorage</code> and uses <a href=\"https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage#sessionStorage\"><code>window.sessionStorage</code></a> to persist records.</li>\n<li><code>Batman.RestStorage</code> uses <a href=\"http://en.wikipedia.org/wiki/REST\">HTTP REST</a> to persist records, mapping HTTP verbs to storage operations and handling HTTP response codes appropriately. <em>Note: Because <code>Batman.RestStorage</code> depends on <a href=\"/docs/api/batman.request.html\"><code>Batman.Request</code></a>, you&#39;ll need a <a href=\"/docs/api/batman.request.html#platform_request_implementation_libraries\">platform library</a> to implement <code>Batman.Request</code>.</em></li>\n</ul>\n<h3 id=\"batman-railsstorage\">Batman.RailsStorage</h3>\n<p>Also, <code>Batman.RailsStorage</code> (available in separate file: <a href=\"https://github.com/batmanjs/batman/blob/master/src/extras/batman.rails.coffee\">Coffee</a>, JS) extends <code>Batman.RestStorage</code> and provides some helpful Rails integrations:</p>\n<ul>\n<li>If the response&#39;s status code is 422 (<code>Unprocessable Entity</code>), Any <code>errors</code> defined in the JSON response will be added to the <code>Batman.Model</code>&#39;s <a href=\"/docs/api/batman.model.html#prototype_accessor_errors\">errors</a>.</li>\n<li>By default, Batman will get the Rails CSRF token from the <code>&lt;head&gt;</code>and send it as a request header. (This can be prevented by setting <code>Batman.config.protectFromCSRF = false</code>.)</li>\n<li>If a record&#39;s URL doesn&#39;t end in <code>.json</code> and doesn&#39;t include a query string, <code>.json</code> is automatically appended to the URL.</li>\n</ul>\n<p><em>Note: Like <code>Batman.RestStorage</code>, <code>Batman.RailsStorage</code> depends on <a href=\"/docs/api/batman.request.html\"><code>Batman.Request</code></a>, so you&#39;ll need a <a href=\"/docs/api/batman.request.html#platform_request_implementation_libraries\">platform library</a> to implement <a href=\"/docs/api/batman.request.html\"><code>Batman.Request</code></a>.</em></p>\n<p>If you&#39;re using Batman and Rails, be sure to check out the <a href=\"https://github.com/batmanjs/batman-rails\">batman-rails</a> gem.</p>\n"

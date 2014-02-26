@@ -1,0 +1,45 @@
+---
+layout: api_docs
+title: Batman.PropertyEvent
+meta: 
+  grouping: Data Structures
+  parent: Batman.Event
+sub: 
+  - title: eachHandler
+    meta: 
+      type: function
+      level: prototype
+      params: "iterator: Function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_eachhandler
+    html: "<p>Passes <code>iterator</code> to <code>eachObserver</code>, where the iterator will be invoked with each observer on the <code>PropertyEvent</code>.</p>\n"
+  - title: handlerContext
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_handlercontext
+    html: "<p>Returns the <code>PropertyEvent</code>&#39;s <code>base</code>.</p>\n"
+tokens: []
+id: batman.propertyevent
+html: "<p><a href=\"/docs/api/batman.propertyevent.html\"><code>Batman.PropertyEvent</code></a> extends <a href=\"/docs/api/batman.event.html\"><code>Batman.Event</code></a>.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

@@ -1,0 +1,436 @@
+---
+layout: api_docs
+title: Batman.Property
+meta: 
+  grouping: Data Structures
+  parent: Batman.Event
+sub: 
+  - title: Source Tracking by Batman.Property
+    tokens: []
+    id: source_tracking_by_batman.property
+    html: "<p>When you define an <code>@accessor</code> on a <a href=\"/docs/api/batman.object.html\"><code>Batman.Object</code></a>, the accessor&#39;s <code>get</code> function is actually wrapped in source tracking by <a href=\"/docs/api/batman.property.html\"><code>Batman.Property</code></a>. Source tracking is implemented by a global source tracker stack, <code>SOURCE_TRACKER_STACK</code>, which is inside <a href=\"/docs/api/batman.property.html\"><code>Batman.Property</code></a>&#39;s closure scope. The source tracker stack&#39;s members are arrays of source objects. For example:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"comment\">## SOURCE_TRACKER_STACK</span>\n[\n  [&lt;Batman.Property <span class=\"number\">1</span>&gt;, &lt;Batman.Property <span class=\"number\">2</span>&gt;], <span class=\"comment\"># a set of sources</span>\n  [&lt;Batman.Property <span class=\"number\">3</span>&gt;, &lt;Batman.Property <span class=\"number\">4</span>&gt;], <span class=\"comment\"># another set of sources</span>\n  [ &lt; ... &gt; ]\n]</code></pre>\n<p>Calling <code>get</code> signals to batman.js that a new source set may be added (via a variable inside <a href=\"/docs/api/batman.property.html\"><code>Batman.Property</code></a>&#39;s closure scope, <code>SOURCE_TRACKER_STACK_VALID</code>). At the onset of a subsequent <code>get</code>:</p>\n<ul>\n<li>a new, empty source set is pushed to the global tracker if needed</li>\n<li>the property pushes itself to the current set of sources</li>\n<li>the <code>get</code> signals that a new source set may be added.</li>\n</ul>\n<p>At the completion of each <code>get</code>:</p>\n<ul>\n<li>the last item of the global source tracker is popped off and stored as the <code>Property</code>&#39;s <code>@sources</code>.</li>\n</ul>\n<p>So, the global source tracker stack grows until a <code>get</code> doesn&#39;t depend on any other <a href=\"/docs/api/batman.property.html\"><code>Batman.Property</code></a> objects, then it starts to shrink. As it shrinks, each set of sources is attached to the <code>Property</code> which put it on the stack.</p>\n"
+  - title: "constructor"
+    meta: 
+      type: function
+      level: prototype
+      params: "base, key: String"
+      returnType: Property
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>Returns a new <code>Property</code> on <code>base</code> named <code>key</code>.</p>\n"
+  - title: base
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_property_base
+    html: "<p>Returns <code>base</code> specified in the constructor. Represents the object the <code>Property</code> belongs to.</p>\n"
+  - title: key
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_property_key
+    html: "<p>Returns the <code>key</code> specified in the constructor. Represents the name of property.</p>\n"
+  - title: defaultAccessor
+    meta: 
+      type: property
+      level: class
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Object
+    tokens: []
+    id: class_property_defaultaccessor
+    html: "<p>A JavaScript object implementing the <a href=\"/docs/api/batman.object_accessors.html\"><code>Batman.Object.accessor</code></a> pattern by storing the value on the <code>Property</code> directly.</p>\n"
+  - title: defaultAccessorForBase
+    meta: 
+      type: function
+      level: class
+      params: base
+      returnType: Object
+    tokens: []
+    id: class_function_defaultaccessorforbase
+    html: "<p>Returns the <code>base</code>s <code>&#39;defualtAccessor&#39;</code> if present, otherwise returns <code>Batman.Property.defaultAccessor</code>.</p>\n"
+  - title: accessorForBaseAndKey
+    meta: 
+      type: function
+      level: class
+      params: "base, key: String"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: class_function_accessorforbaseandkey
+    html: "<p>Checks <code>base</code> and its ancestors for an accessor for <code>string</code> and returns it if found, otherwise returns <code>Batman.Property.defaultAccessor</code>.</p>\n"
+  - title: forBaseAndKey
+    meta: 
+      type: function
+      level: class
+      params: "base, key: String"
+      returnType: Property
+    tokens: []
+    id: class_function_forbaseandkey
+    html: "<p>If <code>base.isObservable</code>, delegates to the object&#39;s <code>property</code> function to return a <code>Property</code> for key, otherwise returns a new <a href=\"/docs/api/batman.keypath.html\"><code>Batman.Keypath</code></a> for <code>base</code> and <code>key</code>.</p>\n"
+  - title: wrapTrackingPrevention
+    meta: 
+      type: function
+      level: class
+      params: "block: Function"
+      returnType: Function
+    tokens: []
+    id: class_function_wraptrackingprevention
+    html: "<p>Creates a new function by wrapping <code>block</code> in <em>tracking prevention</em> and returns it. When changes are wrapped in tracking prevention, they won&#39;t cause updates to other properties.</p>\n"
+  - title: withoutTracking
+    meta: 
+      type: function
+      level: class
+      params: "block: Function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: class_function_withouttracking
+    html: "<p>Wraps <code>block</code> in tracking prevention and calls it.</p>\n"
+  - title: registerSource
+    meta: 
+      type: function
+      level: class
+      params: object
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: class_function_registersource
+    html: "<p>If <code>object</code> is a <a href=\"/docs/api/batman.eventemitter.html\"><code>Batman.EventEmitter</code></a> or a <a href=\"/docs/api/batman.property.html\"><code>Batman.Property</code></a>, registers <code>object</code> in the current set in the global source tracker. Otherwise, it does nothing.</p>\n"
+  - title: pushSourceTracker
+    meta: 
+      type: function
+      level: class
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: class_function_pushsourcetracker
+    html: "<p>Adds a new set to the global source tracker.</p>\n"
+  - title: popSourceTracker
+    meta: 
+      type: function
+      level: class
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: class_function_popsourcetracker
+    html: "<p>Gets the last set from the global source tracker.</p>\n"
+  - title: pushDummySourceTracker
+    meta: 
+      type: function
+      level: class
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: class_function_pushdummysourcetracker
+    html: "<p>Adds a dummy set to the global source tracker. Used for preventing source tracking.</p>\n"
+  - title: cached
+    meta: 
+      type: property
+      level: prototype
+      params: "[=false]"
+      returnType: Boolean
+    tokens: []
+    id: prototype_property_cached
+    html: "<p>Returns <code>true</code> if the value was retrieved from the accessor and the cache hasn&#39;t been busted.</p>\n"
+  - title: value
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_property_value
+    html: "<p>Returns the value last retrieved from the accessor.</p>\n"
+  - title: sources
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Array
+    tokens: []
+    id: prototype_property_sources
+    html: "<p>Returns the dependencies of the <code>Property</code>, set automatically by <code>updateSourcesFromTracker</code>. Each source maybe a <code>Batman.EventEmitter</code> (which responds to <code>on</code>/<code>off</code>), or a function (which is managed with <code>addHandler</code>/<code>removeHandler</code>).</p>\n"
+  - title: isProperty
+    meta: 
+      type: property
+      level: prototype
+      params: "[=true]"
+      returnType: Boolean
+    tokens: []
+    id: prototype_property_isproperty
+    html: "<p>Returns <code>true</code>.</p>\n"
+  - title: isDead
+    meta: 
+      type: property
+      level: prototype
+      params: "[=false]"
+      returnType: Boolean
+    tokens: []
+    id: prototype_property_isdead
+    html: "<p>Returns <code>false</code> unless <code>die</code> was called on the <code>Property</code>.</p>\n"
+  - title: isBatchingChanges
+    meta: 
+      type: property
+      level: prototype
+      params: "[=false]"
+      returnType: Boolean
+    tokens: []
+    id: prototype_property_isbatchingchanges
+    html: "<p>If set to <code>true</code>, source changes won&#39;t cause the <code>Property</code> to <code>refresh</code> itself.</p>\n"
+  - title: registerAsMutableSource
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_registerasmutablesource
+    html: "<p>Registers the property as a source with <code>Batman.Property.registerSource</code>.</p>\n"
+  - title: isEqual
+    meta: 
+      type: function
+      level: prototype
+      params: "other: Property"
+      returnType: Boolean
+    tokens: []
+    id: prototype_function_isequal
+    html: "<p>Returns <code>true</code> if <code>other</code>&#39;s <code>constructor</code>, <code>base</code>, and <code>key</code> match the <code>Property</code>&#39;s <code>constructor</code>, <code>base</code>, and <code>key</code>.</p>\n"
+  - title: hashKey
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: String
+    tokens: []
+    id: prototype_function_hashkey
+    html: "<p>Returns a string representation of the <code>Property</code>.</p>\n"
+  - title: accessor
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Object
+    tokens: []
+    id: prototype_function_accessor
+    html: "<p>Returns the accessor object for the <code>Property</code> by using <code>Batman.Property.accessorForBaseAndKey</code> for the <code>Property</code>&#39;s <code>base</code> and <code>key</code>.</p>\n"
+  - title: eachObserver
+    meta: 
+      type: function
+      level: prototype
+      params: "iterator: Function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_eachobserver
+    html: "<p>Calls <code>iterator(handler)</code> for each handler on the <code>Property</code> and each of its <code>Observable</code> ancestors.</p>\n"
+  - title: observers
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Array
+    tokens: []
+    id: prototype_function_observers
+    html: "<p>Returns handlers from the <code>Property</code> and each of its <code>Observable</code> ancestors.</p>\n"
+  - title: hasObservers
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Boolean
+    tokens: []
+    id: prototype_function_hasobservers
+    html: "<p>Returns <code>true</code> if it has any observers.</p>\n"
+  - title: updateSourcesFromTracker
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_updatesourcesfromtracker
+    html: "<p>Pops sources off the global tracker and replaces the <code>Property</code>&#39;s current sources with the new ones, using <code>off</code>/<code>on</code> or <code>removeHandler</code>/<code>addHandler</code> as appropriate.</p>\n"
+  - title: getValue
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_getvalue
+    html: "<p>Registers itself as a mutable source, and if isn&#39;t cached,retrieves the value form the accessor and keeps other properties updated. Returns the retrieved value.</p>\n"
+  - title: isCachable
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Boolean
+    tokens: []
+    id: prototype_function_iscachable
+    html: "<p>Returns <code>true</code> if the <code>Property.isFinal()</code> or if the <code>Property</code>&#39;s accessor doesn&#39;t specify <code>cache: false</code>.</p>\n"
+  - title: isCached
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Boolean
+    tokens: []
+    id: prototype_function_iscached
+    html: "<p>Returns <code>true</code> if <code>isCachable()</code> and <code>cached</code> are <code>true</code>.</p>\n"
+  - title: isFinal
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Boolean
+    tokens: []
+    id: prototype_function_isfinal
+    html: "<p>Returns <code>true</code> if the accessor specifies <code>final: true</code>.</p>\n"
+  - title: refresh
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_refresh
+    html: "<p>Reloads the value from the accessor and, if the value has changed, fires itself with <code>value</code>, <code>previousValue</code>, <code>@key</code>. If the new value isn&#39;t undefined and <code>isFinal()</code> is true, it locks the value with <code>lockValue</code>.</p>\n<p><em>Note:</em> For a <a href=\"/docs/api/batman.keypath.html\"><code>Batman.Keypath</code></a>, these two are not equivalent:</p>\n<pre><code>someObject.property(<span class=\"string\">'nestedObject.someNestedProperty'</span>).refresh()        <span class=\"comment\"># refreshes the Keypath on someObject</span>\nsomeObject.get(<span class=\"string\">'nestedObject'</span>).property(<span class=\"string\">'someNestedProperty'</span>).refresh() <span class=\"comment\"># refreshes the Property on nestedObject</span></code></pre>\n"
+  - title: sourceChangeHandler
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Function
+    tokens: []
+    id: prototype_function_sourcechangehandler
+    html: "<p>Returns the function to be called when any of the <code>Property</code>&#39;s sources change. By default, this function implements several of <a href=\"/docs/api/batman.property.html\"><code>Batman.Property</code></a>&#39;s features:</p>\n<ul>\n<li>the <code>Property</code> is refreshed when its sources change</li>\n<li>If <code>@isBatchingChanges</code>, the <code>Property</code> isn&#39;t refreshed</li>\n<li>If the <code>Property</code> <code>isIsolated</code>, it isn&#39;t refreshed</li>\n<li>Dead properties aren&#39;t updated</li>\n</ul>\n"
+  - title: valueFromAccessor
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_valuefromaccessor
+    html: "<p>Calls the accessor&#39;s <code>get</code> function with <code>base</code> and <code>key</code>, returning the result.</p>\n"
+  - title: setValue
+    meta: 
+      type: function
+      level: prototype
+      params: value
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_setvalue
+    html: "<p>If the <code>Property</code>&#39;s accessor has a <code>set</code> function, calls that function on <code>base</code> with <code>key</code> and <code>value</code>. This update is wrapped in source tracking, so other properties will be updated.</p>\n"
+  - title: unsetValue
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_unsetvalue
+    html: "<p>If the <code>Property</code>&#39;s accessor has a <code>unset</code> function, calls that function on <code>base</code> with <code>key</code>. This update is wrapped in source tracking, so other properties will be updated.</p>\n"
+  - title: forget
+    meta: 
+      type: function
+      level: prototype
+      params: "[handler: Function]"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_forget
+    html: "<p>If <code>handler</code> is passed, removes <code>handler</code> from the <code>Property</code>&#39;s handlers, otherwise removes all handlers from the <code>Property</code>.</p>\n"
+  - title: observeAndFire
+    meta: 
+      type: function
+      level: prototype
+      params: "handler: Function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_observeandfire
+    html: "<p>Adds <code>handler</code> to the <code>Property</code>&#39;s handlers and fires it once. The handler will be called with <code>oldValue</code>, <code>newValue</code>, but for the first firing, <code>oldValue</code> and <code>newValue</code> are both the <code>Property</code>&#39;s current value.</p>\n"
+  - title: observe
+    meta: 
+      type: function
+      level: prototype
+      params: "handler: Function"
+      returnType: Property
+    tokens: []
+    id: prototype_function_observe
+    html: "<p>Adds <code>handler</code> to the <code>Property</code>&#39;s handlers. The handler will be called with <code>oldValue</code>, <code>newValue</code>.</p>\n"
+  - title: observeOnce
+    meta: 
+      type: function
+      level: prototype
+      params: "handler: Function"
+      returnType: Property
+    tokens: []
+    id: prototype_function_observeonce
+    html: "<p>Adds the <code>handler</code> to the <code>Property</code>&#39;s handlers, but removes it after being fired once. The handler will be called with <code>oldValue</code>, <code>newValue</code>.</p>\n"
+  - title: lockValue
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_lockvalue
+    html: "<p>Prevents changes to the <code>Property</code> by:</p>\n<ul>\n<li>removing handlers on the <code>Property</code></li>\n<li>overriding <code>@getValue</code> to return the current value</li>\n<li>overriding <code>@setValue</code>, <code>@unsetValue</code>, <code>@refresh</code>, and <code>@observe</code> to be no-ops.</li>\n</ul>\n"
+  - title: die
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_die
+    html: "<p>Kills the <code>Property</code> by removing handlers, unsetting itself, forgetting its <code>base</code> and setting <code>isDead = true</code>.</p>\n"
+  - title: isolate
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_isolate
+    html: "<p>Isolates the <code>Property</code> from other properties. If the property is changed, it won&#39;t update its dependents until it&#39;s exposed. If its sources change, it won&#39;t refresh itself until it&#39;s exposed. <code>expose</code> must be called once for each time <code>isolate</code> is called, so if <code>isolate</code> is called twice, <code>expose</code> must be called twice.</p>\n"
+  - title: expose
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_expose
+    html: "<p>Exposes the <code>Property</code> to its dependents. If its sources have changed since it was isolated, it refreshes itself. Then, if its own value changed since it was isolated, it updates its dependents.</p>\n"
+  - title: isIsolated
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Boolean
+    tokens: []
+    id: prototype_function_isisolated
+    html: "<p>Returns <code>true</code> if the <code>Property</code> if <code>isolate</code> has been called more times than <code>expose</code>.</p>\n"
+tokens: []
+id: batman.property
+html: "<p><a href=\"/docs/api/batman.property.html\"><code>Batman.Property</code></a> extends <code>Batman.PropertyEvent</code> (which extends <a href=\"/docs/api/batman.event.html\"><code>Batman.Event</code></a>). <a href=\"/docs/api/batman.property.html\"><code>Batman.Property</code></a> is home to batman.js&#39;s powerful source tracking capabilities.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

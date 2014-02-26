@@ -1,0 +1,234 @@
+---
+layout: api_docs
+title: Batman.Event
+meta: 
+  grouping: Data Structures
+  parent: !<tag:yaml.org,2002:js/undefined> ""
+sub: 
+  - title: "constructor"
+    meta: 
+      type: function
+      level: prototype
+      params: "base, key: String"
+      returnType: Event
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>Returns a new <code>Event</code> with <code>base</code> and <code>key</code>.</p>\n"
+  - title: base
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_property_base
+    html: "<p>Returns <code>base</code> specified in the constructor. <code>base</code> represents the object the <code>Event</code> happens <em>on</em>.</p>\n"
+  - title: key
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_property_key
+    html: "<p>Returns <code>key</code> specified in the constructor. <code>key</code> is like the <em>name</em> of the <code>Event</code>.</p>\n"
+  - title: handlers
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Array
+    tokens: []
+    id: prototype_property_handlers
+    html: "<p>Returns all <code>handlers</code> on the <code>Event</code>. May return <code>undefined</code> if no handlers have been added.</p>\n"
+  - title: oneShot
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Boolean
+    tokens: []
+    id: prototype_property_oneshot
+    html: ""
+  - title: forBaseAndKey
+    meta: 
+      type: function
+      level: class
+      params: "base, key: String"
+      returnType: Event
+    tokens: []
+    id: class_function_forbaseandkey
+    html: "<p>If <code>base.isEventEmitter</code>, gets an <code>Event</code> from <code>base.event(key)</code>, otherwise constructs a new <code>Event</code> with <code>base</code> and key`.</p>\n"
+  - title: isEvent
+    meta: 
+      type: function
+      level: prototype
+      params: "[=true ]"
+      returnType: Boolean
+    tokens: []
+    id: prototype_function_isevent
+    html: "<p>Returns <code>true</code>.</p>\n"
+  - title: isEqual
+    meta: 
+      type: function
+      level: prototype
+      params: "other: Event"
+      returnType: Boolean
+    tokens: []
+    id: prototype_function_isequal
+    html: "<p>Returns <code>true</code> if <code>other</code>&#39;s <code>constructor</code>, <code>base</code>, and <code>key</code> match the <code>Event</code>&#39;s <code>constructor</code>, <code>base</code>, and <code>key</code>.</p>\n"
+  - title: hashKey
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: String
+    tokens: []
+    id: prototype_function_hashkey
+    html: "<p>Returns a string representation of the <code>Event</code>.</p>\n"
+  - title: addHandler
+    meta: 
+      type: function
+      level: prototype
+      params: "handler: Function"
+      returnType: Event
+    tokens: []
+    id: prototype_function_addhandler
+    html: "<p>Adds <code>handler</code> to the <code>Event</code>&#39;s <code>handlers</code> if it isn&#39;t already present. If <code>oneShot</code> is <code>true</code> the <code>Event</code> will pass the handler to <code>autofireHandler</code>.</p>\n"
+  - title: removeHandler
+    meta: 
+      type: function
+      level: prototype
+      params: "handler: Function"
+      returnType: Event
+    tokens: []
+    id: prototype_function_removehandler
+    html: "<p>Removes <code>handler</code> from the <code>Event</code>&#39;s <code>handlers</code> if it present.</p>\n"
+  - title: eachHandler
+    meta: 
+      type: function
+      level: prototype
+      params: "iterator: Function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_eachhandler
+    html: "<p>Calls <code>iterator(handler)</code> for each item in <code>handlers</code>. If <code>base.isEventEmitter</code>, also checks for <code>_batman.ancestors()</code> and calls <code>iterator(handler)</code> for handlers on ancestors.</p>\n"
+  - title: clearHandlers
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_clearhandlers
+    html: "<p>Sets <code>handlers</code> to <code>undefined</code>.</p>\n"
+  - title: handlerContext
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_handlercontext
+    html: "<p>Returns <code>base</code>.</p>\n"
+  - title: prevent
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_prevent
+    html: "<p>Prevents <code>Event</code> from being fired. <code>Event</code> must be <code>allow</code>ed once for each time it was <code>prevent</code>ed, so if <code>prevent</code> was called twice, <code>allow</code> must be called twice.</p>\n"
+  - title: allow
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_allow
+    html: "<p>Allows <code>Event</code> to be fired if it was prevented.</p>\n"
+  - title: isPrevented
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Boolean
+    tokens: []
+    id: prototype_function_isprevented
+    html: "<p>Returns <code>true</code> if <code>Event</code> had been <code>prevent</code>ed more than it has been <code>allow</code>ed.</p>\n"
+  - title: autofireHandler
+    meta: 
+      type: function
+      level: prototype
+      params: "handler: Function"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_autofirehandler
+    html: "<p>If <code>Event.oneShot</code> was <code>true</code> when it was fired, calls <code>handler</code> with context and arguments from when it was fired.</p>\n"
+  - title: resetOneShot
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_resetoneshot
+    html: "<p>Resets a <code>oneShot</code> <code>Event</code> so that it may be fired again.</p>\n"
+  - title: fire
+    meta: 
+      type: function
+      level: prototype
+      params: args
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_fire
+    html: "<p>Fires the event on <code>base</code>, passing <code>args</code> to all handlers.</p>\n"
+  - title: fireWithContext
+    meta: 
+      type: function
+      level: prototype
+      params: "context, args"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_firewithcontext
+    html: "<p>Fires the event on <code>context</code>, passing <code>args</code> to all handlers.</p>\n"
+  - title: allowAndFire
+    meta: 
+      type: function
+      level: prototype
+      params: args
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_allowandfire
+    html: "<p>Allows and fires the event on <code>base</code>, passing <code>args</code> to all handlers. If <code>prevent</code> was called more than once, the <code>Event</code> may still be prevented.</p>\n"
+  - title: allowAndFireWithContext
+    meta: 
+      type: function
+      level: prototype
+      params: "context, args"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_allowandfirewithcontext
+    html: "<p>Allows and fires the event on <code>context</code>, passing <code>args</code> to all handlers. If <code>prevent</code> was called more than once, the <code>Event</code> may still be prevented.</p>\n"
+tokens: []
+id: batman.event
+html: "<p><a href=\"/docs/api/batman.event.html\"><code>Batman.Event</code></a>s are the events which are managed by <a href=\"/docs/api/batman.eventemitter.html\"><code>Batman.EventEmitter</code></a>s.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

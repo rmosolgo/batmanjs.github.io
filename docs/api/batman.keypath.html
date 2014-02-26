@@ -1,0 +1,99 @@
+---
+layout: api_docs
+title: Batman.Keypath
+meta: 
+  grouping: Data Structures
+  parent: Batman.Event
+sub: 
+  - title: "constructor"
+    meta: 
+      type: function
+      level: prototype
+      params: "base, key"
+      returnType: Keypath
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>Returns a new <a href=\"/docs/api/batman.keypath.html\"><code>Batman.Keypath</code></a> on <code>base</code>, tracking <code>key</code>.</p>\n"
+  - title: segments
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Array
+    tokens: []
+    id: prototype_property_segments
+    html: "<p><code>key</code> passed to the constructor, split on <code>&quot;.&quot;</code></p>\n"
+  - title: depth
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Number
+    tokens: []
+    id: prototype_property_depth
+    html: "<p>The number of segments in <code>key</code> passed to the constructor.</p>\n"
+  - title: isCachable
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Boolean
+    tokens: []
+    id: prototype_function_iscachable
+    html: "<p>Returns <code>true</code> if <code>depth</code> is greater than one, otherwise calls <code>super</code> (<code>Batman.Property::isCachable</code>).</p>\n"
+  - title: terminalProperty
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Keypath
+    tokens: []
+    id: prototype_function_terminalproperty
+    html: "<p>Looks up items in <code>segments</code> and returns the <code>Keypath</code> for the <code>base</code> and <code>key</code> of the last item in <code>segments</code>. This property is the one that is actually <code>get</code> and <code>set</code> by the <code>Keypath</code>.</p>\n"
+  - title: valueFromAccessor
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_valuefromaccessor
+    html: "<p>Returns the value of the last property in <code>segments</code>.</p>\n"
+  - title: setValue
+    meta: 
+      type: function
+      level: prototype
+      params: value
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_setvalue
+    html: "<p>Sets the value of the last property in <code>segments</code> and returns the value.</p>\n"
+  - title: unsetValue
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_unsetvalue
+    html: "<p>Unsets the value of the last property in <code>segments</code>.</p>\n<p>Multiply all the things with 111</p>\n<pre><code>module.<span class=\"function\"><span class=\"title\">exports</span></span> = (n) -&gt; n * <span class=\"number\">111</span></code></pre>\n<p>Here is a bat</p>\n<pre><code>console.log(require <span class=\"string\">'./bat.js'</span>)</code></pre>\n"
+tokens: []
+id: batman.keypath
+html: "<p><a href=\"/docs/api/batman.keypath.html\"><code>Batman.Keypath</code></a> extends <a href=\"/docs/api/batman.property.html\"><code>Batman.Property</code></a>, adding the ability to track nested properies as defined with <code>&quot;.&quot;</code>. Properties on <a href=\"/docs/api/batman.object.html\"><code>Batman.Object</code></a>s are <code>Keypath</code>s.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

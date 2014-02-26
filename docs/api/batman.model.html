@@ -122,6 +122,15 @@ sub:
     tokens: []
     id: class_function_createfromjson
     html: "<p>Returns an instance of the model based on <code>attributes</code>. If the <code>primaryKey</code> is present in <code>attributes</code>, the in-memory identity map will be searched for a match. If a match is found, it will be updated with <code>attributes</code> (without tracking) and returned. If the <code>primaryKey</code> isn&#39;t present, a new instance is added to the <code>loaded</code> set and returned.</p>\n<p>Since <code>createFromJSON</code> checks the identity map, it&#39;s a great way to load data without duplicating records in memory.</p>\n"
+  - title: createMultipleFromJSON
+    meta: 
+      type: function
+      level: class
+      params: "attributesArray: Array"
+      returnType: Array
+    tokens: []
+    id: class_function_createmultiplefromjson
+    html: "<p>Loads data from JSON like <code>Model.createFromJSON</code>, but <code>attributesArray</code> is an array of objects and returns an array of records. <code>createMultipleFromJSON</code> loads new records all at once, so <code>Model.loaded.itemsWereAdded</code> is only fired once.</p>\n"
   - title: id
     meta: 
       type: accessor

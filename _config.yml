@@ -367,6 +367,189 @@ api_index:
           meta: 
             grouping: Data Structures
             parent: Batman.StateMachine
+    - id: batman.event
+      title: Batman.Event
+      sub: 
+        - id: prototype_function_constructor
+          title: "constructor"
+        - id: prototype_property_base
+          title: base
+        - id: prototype_property_key
+          title: key
+        - id: prototype_property_handlers
+          title: handlers
+        - id: prototype_property_oneshot
+          title: oneShot
+        - id: class_function_forbaseandkey
+          title: forBaseAndKey
+        - id: prototype_function_isevent
+          title: isEvent
+        - id: prototype_function_isequal
+          title: isEqual
+        - id: prototype_function_hashkey
+          title: hashKey
+        - id: prototype_function_addhandler
+          title: addHandler
+        - id: prototype_function_removehandler
+          title: removeHandler
+        - id: prototype_function_eachhandler
+          title: eachHandler
+        - id: prototype_function_clearhandlers
+          title: clearHandlers
+        - id: prototype_function_handlercontext
+          title: handlerContext
+        - id: prototype_function_prevent
+          title: prevent
+        - id: prototype_function_allow
+          title: allow
+        - id: prototype_function_isprevented
+          title: isPrevented
+        - id: prototype_function_autofirehandler
+          title: autofireHandler
+        - id: prototype_function_resetoneshot
+          title: resetOneShot
+        - id: prototype_function_fire
+          title: fire
+        - id: prototype_function_firewithcontext
+          title: fireWithContext
+        - id: prototype_function_allowandfire
+          title: allowAndFire
+        - id: prototype_function_allowandfirewithcontext
+          title: allowAndFireWithContext
+      meta: 
+        grouping: Data Structures
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+      children: 
+        - id: batman.propertyevent
+          title: Batman.PropertyEvent
+          sub: 
+            - id: prototype_function_eachhandler
+              title: eachHandler
+            - id: prototype_function_handlercontext
+              title: handlerContext
+          meta: 
+            grouping: Data Structures
+            parent: Batman.Event
+        - id: batman.property
+          title: Batman.Property
+          sub: 
+            - id: source_tracking_by_batman.property
+              title: Source Tracking by Batman.Property
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: prototype_property_base
+              title: base
+            - id: prototype_property_key
+              title: key
+            - id: class_property_defaultaccessor
+              title: defaultAccessor
+            - id: class_function_defaultaccessorforbase
+              title: defaultAccessorForBase
+            - id: class_function_accessorforbaseandkey
+              title: accessorForBaseAndKey
+            - id: class_function_forbaseandkey
+              title: forBaseAndKey
+            - id: class_function_wraptrackingprevention
+              title: wrapTrackingPrevention
+            - id: class_function_withouttracking
+              title: withoutTracking
+            - id: class_function_registersource
+              title: registerSource
+            - id: class_function_pushsourcetracker
+              title: pushSourceTracker
+            - id: class_function_popsourcetracker
+              title: popSourceTracker
+            - id: class_function_pushdummysourcetracker
+              title: pushDummySourceTracker
+            - id: prototype_property_cached
+              title: cached
+            - id: prototype_property_value
+              title: value
+            - id: prototype_property_sources
+              title: sources
+            - id: prototype_property_isproperty
+              title: isProperty
+            - id: prototype_property_isdead
+              title: isDead
+            - id: prototype_property_isbatchingchanges
+              title: isBatchingChanges
+            - id: prototype_function_registerasmutablesource
+              title: registerAsMutableSource
+            - id: prototype_function_isequal
+              title: isEqual
+            - id: prototype_function_hashkey
+              title: hashKey
+            - id: prototype_function_accessor
+              title: accessor
+            - id: prototype_function_eachobserver
+              title: eachObserver
+            - id: prototype_function_observers
+              title: observers
+            - id: prototype_function_hasobservers
+              title: hasObservers
+            - id: prototype_function_updatesourcesfromtracker
+              title: updateSourcesFromTracker
+            - id: prototype_function_getvalue
+              title: getValue
+            - id: prototype_function_iscachable
+              title: isCachable
+            - id: prototype_function_iscached
+              title: isCached
+            - id: prototype_function_isfinal
+              title: isFinal
+            - id: prototype_function_refresh
+              title: refresh
+            - id: prototype_function_sourcechangehandler
+              title: sourceChangeHandler
+            - id: prototype_function_valuefromaccessor
+              title: valueFromAccessor
+            - id: prototype_function_setvalue
+              title: setValue
+            - id: prototype_function_unsetvalue
+              title: unsetValue
+            - id: prototype_function_forget
+              title: forget
+            - id: prototype_function_observeandfire
+              title: observeAndFire
+            - id: prototype_function_observe
+              title: observe
+            - id: prototype_function_observeonce
+              title: observeOnce
+            - id: prototype_function_lockvalue
+              title: lockValue
+            - id: prototype_function_die
+              title: die
+            - id: prototype_function_isolate
+              title: isolate
+            - id: prototype_function_expose
+              title: expose
+            - id: prototype_function_isisolated
+              title: isIsolated
+          meta: 
+            grouping: Data Structures
+            parent: Batman.Event
+        - id: batman.keypath
+          title: Batman.Keypath
+          sub: 
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: prototype_property_segments
+              title: segments
+            - id: prototype_property_depth
+              title: depth
+            - id: prototype_function_iscachable
+              title: isCachable
+            - id: prototype_function_terminalproperty
+              title: terminalProperty
+            - id: prototype_function_valuefromaccessor
+              title: valueFromAccessor
+            - id: prototype_function_setvalue
+              title: setValue
+            - id: prototype_function_unsetvalue
+              title: unsetValue
+          meta: 
+            grouping: Data Structures
+            parent: Batman.Event
   App Components: 
     - id: batman.request
       title: Batman.Request
@@ -494,6 +677,8 @@ api_index:
           title: findOrCreate
         - id: class_function_createfromjson
           title: createFromJSON
+        - id: class_function_createmultiplefromjson
+          title: createMultipleFromJSON
         - id: prototype_accessor_id
           title: id
         - id: prototype_function_isdirty
@@ -611,10 +796,18 @@ api_index:
           title: Other Useful Methods
         - id: class_function_skipiferror
           title: skipIfError
+        - id: prototype_function_constructor
+          title: "constructor"
+        - id: prototype_property_model
+          title: model
         - id: prototype_function_before
           title: before
         - id: prototype_function_after
           title: after
+        - id: prototype_function_getrecordfromdata
+          title: getRecordFromData
+        - id: prototype_function_getrecordsfromdata
+          title: getRecordsFromData
       meta: 
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""
@@ -767,6 +960,18 @@ api_index:
         - id: batman.view_filters
           title: Batman.View Filters
           sub: 
+            - id: "ceil(value)_%3A_string"
+              title: "ceil(value) : string"
+            - id: "floor(value)_%3A_string"
+              title: "floor(value) : string"
+            - id: "round(value)_%3A_string"
+              title: "round(value) : string"
+            - id: "percision(value%2C_toplace)_%3A_string"
+              title: "percision(value, toPlace) : string"
+            - id: "fixed(value%2C_toplace)_%3A_string"
+              title: "fixed(value, toPlace) : string"
+            - id: "delimitnumber(value)_%3A_string"
+              title: "delimitNumber(value) : string"
             - id: "raw(value)_%3A_string"
               title: "raw(value) : string"
             - id: "get(value%2C_key)_%3A_value"

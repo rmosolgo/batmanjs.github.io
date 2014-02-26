@@ -33,6 +33,7 @@ class Autolink
       else if !@_undocumented[className]
         @_undocumented[className] = true
         console.warn "-----> No API Documentation for #{className}"
+        className
 
     newText
 

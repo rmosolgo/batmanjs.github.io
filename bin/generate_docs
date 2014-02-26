@@ -13,22 +13,27 @@ argv   = require('optimist')
            .argv
 
 class Autolink
-  @CANDIDATE_REGEXP = ///
+  @CANDIDATE_REGEXP = ///                   # "test" : http://rubular.com/r/pynVX0zm9B
+              (?!\[)                        # not already a link (preceded by "[")
               (`                            # Wrapped in ``
                 Batman                      # starts with Batman
-                (?:\.[A-Z][A-Za-z]+)+      # Has one or more CamelCased words which are joined by .
+                (?:\.[A-Z][A-Za-z]+)+       # Has one or more CamelCased words which are joined by .
               `)
               (?!\s*[\]\(])                 # not already a link (followed by "](")
             ///g                            # all of them
+
+  @_undocumented: {}
+
   @insertLinks: (text="", generator) ->
-    newText = text.replace @CANDIDATE_REGEXP, (match, className, offset, string) ->
+    newText = text.replace @CANDIDATE_REGEXP, (match, className, offset, string) =>
       pageId = DocSection::generateId(className.replace(/`/g, ''))
       if generator.hasId(pageId)
         path = "/docs/api/" + pageId + ".html"
         link = "[#{className}](#{path})"
-      else
-        console.warn "No API Documentation for #{className}"
-        className
+      else if !@_undocumented[className]
+        @_undocumented[className] = true
+        console.warn "-----> No API Documentation for #{className}"
+
     newText
 
 
@@ -147,7 +152,7 @@ class DocSection
 
   _parseTokens: (tokens, options) ->
     tokens.forEach (t) =>
-      if t.type is "paragraph"
+      if t.type in ["paragraph", "listitem"]
         t.text = Autolink.insertLinks(t.text, @generator)
 
     tokens.links = {}

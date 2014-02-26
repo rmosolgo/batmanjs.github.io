@@ -13,13 +13,13 @@ argv   = require('optimist')
            .argv
 
 class Autolink
-  @CANDIDATE_REGEXP = ///                   # "test" : http://rubular.com/r/pynVX0zm9B
+  @CANDIDATE_REGEXP = ///                   # "test" : http://rubular.com/r/aCUg3nq6fC
               (?!\[)                        # not already a link (preceded by "[")
               (`                            # Wrapped in ``
                 Batman                      # starts with Batman
                 (?:\.[A-Z][A-Za-z]+)+       # Has one or more CamelCased words which are joined by .
               `)
-              (?!\s*[\]\(])                 # not already a link (followed by "](")
+              (?![\s\w]*[\]\(])             # not already a link (followed by " some topic](")
             ///g                            # all of them
 
   @_undocumented: {}

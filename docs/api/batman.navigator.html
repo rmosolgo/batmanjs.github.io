@@ -1,0 +1,139 @@
+---
+layout: api_docs
+title: Batman.Navigator
+meta: 
+  grouping: App Components
+  parent: !<tag:yaml.org,2002:js/undefined> ""
+sub: 
+  - title: Subclassing Batman.Navigator
+    tokens: []
+    id: subclassing_batman.navigator
+    html: "<p>A <code>Navigator</code> subclass must implement:</p>\n<ul>\n<li><code>startWatching</code>: called inside a valid <code>start</code></li>\n<li><code>stopWatching</code>: called by <code>stop</code></li>\n<li><code>replaceState</code> : called by <code>::redirect</code> to replace the current history entry</li>\n<li><code>pushState</code>: called by <code>::redirect</code> to create a new history entry</li>\n<li><code>handleLocation</code>: called during routing</li>\n</ul>\n<p><a href=\"/docs/api/batman.pushstatenavigator.html\"><code>Batman.PushStateNavigator</code></a> and <a href=\"/docs/api/batman.hashbangnavigator.html\"><code>Batman.HashbangNavigator</code></a> both implement <a href=\"/docs/api/batman.navigator.html\"><code>Batman.Navigator</code></a>.</p>\n"
+  - title: "constructor"
+    meta: 
+      type: function
+      level: prototype
+      params: "app : Batman.App"
+      returnType: Navigator
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>Invoked by <a href=\"/docs/api/batman.app.html\"><code>Batman.App</code></a> via <code>Navigator.forApp</code> so that configurations are taken into account. <code>app</code> must return a <code>Batman.Dispatcher</code> from <code>app.get(&#39;dispatcher&#39;)</code>.</p>\n"
+  - title: start
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_start
+    html: "<p>If <code>started</code> is false and <code>window</code> is defined, calls <code>startWatching</code> on the <code>Navigator</code>. If <code>Batman.currentApp</code> is defined (calling <code>MyApp.run</code> sets this value), it calls <code>handleCurrentLocation</code> on itself and fires <code>ready</code> on the <code>App</code>.</p>\n<p><code>start</code> is called automatically on <code>App.run</code>.</p>\n"
+  - title: stop
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_stop
+    html: "<p>Calls <code>stopWatching</code> and sets <code>started</code> to <code>false</code>. <code>stop</code> is called by <code>App.stop</code>.</p>\n"
+  - title: handleLocation
+    meta: 
+      type: function
+      level: prototype
+      params: "location : Object"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_handlelocation
+    html: "<p>Gets path information from <code>location</code> and calls <code>dispatch</code>. <code>location</code> is an object like <code>window.location</code>.</p>\n"
+  - title: handleCurrentLocation
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_handlecurrentlocation
+    html: "<p>Passes <code>window.location</code> to <code>handleLocation</code>.</p>\n"
+  - title: dispatch
+    meta: 
+      type: function
+      level: prototype
+      params: "params : Object"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_dispatch
+    html: "<p>Calls <code>dispatch</code> on the <code>Navigator</code>&#39;s <code>Dispatcher</code>, controlling for the presence of a hashbang as needed.</p>\n"
+  - title: redirect
+    meta: 
+      type: function
+      level: prototype
+      params: "params : Object, replaceState[= false] : Boolean"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_redirect
+    html: "<p>Redirects to a new path using <code>::replaceState</code> if <code>replaceState</code> is true, otherwise using <code>::pushState</code>. <code>params</code> may be:</p>\n<ul>\n<li>a string, which is treated as the target path (eg, <code>&quot;/posts&quot;</code>)</li>\n<li>a <code>Batman.Model</code> class, which redirects to &quot;index&quot; (eg, <code>Batman.redirect(MyApp.Post)</code> redirects to <code>&quot;/posts&quot;</code>)</li>\n<li>a <code>Batman.Model</code> instance, which redirects to &quot;show&quot; (eg, <code>Batman.redirect(thisPost)</code> redirects to <code>&quot;/posts/#{thisPost.toParam()}&quot;</code>)</li>\n<li>an object containing params:<ul>\n<li><code>Batman.redirect({controller: &quot;posts&quot;, action: &quot;index&quot;})</code> redirects to  <code>&quot;/posts&quot;</code></li>\n<li><code>Batman.redirect({controller: &quot;posts&quot;, action: &quot;edit&quot;, id: 6})</code> redirects to <code>&quot;/posts/6/edit&quot;</code></li>\n</ul>\n</li>\n</ul>\n"
+  - title: normalizePath
+    meta: 
+      type: function
+      level: prototype
+      params: segments...
+      returnType: String
+    tokens: []
+    id: prototype_function_normalizepath
+    html: "<p>Normalizes the <code>/</code>s in <code>segments</code> into a valid path, returning <code>&quot;/&quot;</code> if segments is empty.</p>\n<pre><code>test <span class=\"string\">\"normalizePath corrects and joins path segments\"</span>, -&gt;\n  equal Batman.Navigator::normalizePath(<span class=\"string\">'villains'</span>, <span class=\"number\">4</span>, <span class=\"string\">'edit'</span>), <span class=\"string\">'/villains/4/edit'</span>\n  equal Batman.Navigator::normalizePath(<span class=\"string\">'/villains/'</span>, <span class=\"string\">'/4/'</span>, <span class=\"string\">'/edit/'</span>), <span class=\"string\">'/villains/4/edit'</span>\n  equal Batman.Navigator::normalizePath(<span class=\"string\">''</span>, <span class=\"string\">''</span>), <span class=\"string\">'/'</span></code></pre>\n"
+  - title: started
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Boolean
+    tokens: []
+    id: prototype_property_started
+    html: "<p>Returns <code>true</code> if <code>start</code> was called or <code>false</code> if <code>stop</code> was called.</p>\n"
+  - title: normalizePath
+    meta: 
+      type: function
+      level: class
+      params: "segments... : String"
+      returnType: String
+    tokens: []
+    id: class_function_normalizepath
+    html: "<p>Alias of <a href=\"/docs/api/batman.navigator.html#prototype_function_normalizepath\"><code>::normalizePath</code></a>.</p>\n"
+  - title: forApp
+    meta: 
+      type: function
+      level: class
+      params: "app : Batman.App"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: class_function_forapp
+    html: "<p>Returns a new instance of the class provided by <code>@defaultClass</code>.</p>\n"
+  - title: defaultClass
+    meta: 
+      type: function
+      level: class
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: class_function_defaultclass
+    html: "<p>Returns <a href=\"/docs/api/batman.pushstatenavigator.html\"><code>Batman.PushStateNavigator</code></a> or <a href=\"/docs/api/batman.hashbangnavigator.html\"><code>Batman.HashbangNavigator</code></a> based on <a href=\"/docs/configuration.html\"><code>configuration</code></a>.</p>\n"
+tokens: []
+id: batman.navigator
+html: "<p><a href=\"/docs/api/batman.navigator.html\"><code>Batman.Navigator</code></a> is an abstract class which maps URLs and <code>Batman.Dispatcher</code> actions. Batman.js provides two implementations out of the box: <a href=\"/docs/api/batman.pushstatenavigator.html\"><code>Batman.PushStateNavigator</code></a> (default) and <a href=\"/docs/api/batman.hashbangnavigator.html\"><code>Batman.HashbangNavigator</code></a> (enabled by a <a href=\"/docs/configuration.html\">configuration setting</a>).</p>\n<p>It&#39;s uncommon to interact with a <code>Navigator</code> directly. Under the hood, each <a href=\"/docs/api/batman.app.html\"><code>Batman.App</code></a> has a <code>Navigator</code> at <code>MyApp.navigator</code> which is used for dispatching actions. This navigator is also set to <code>Batman.navigator</code>. Other uses include:</p>\n<ul>\n<li><code>Batman.Navigator.normalizePath</code> is frequently used to join path segments</li>\n<li><code>MyApp.navigator.linkTo</code> is used by <code>data-route</code> bindings</li>\n<li><code>Batman.redirect</code> delegates to <code>MyApp.navigator.redirect</code></li>\n</ul>\n<p><a href=\"/docs/api/batman.navigator.html\"><code>Batman.Navigator</code></a> does not extend <a href=\"/docs/api/batman.object.html\"><code>Batman.Object</code></a> so it is not observable and does not respond to <code>get</code>, <code>set</code>, or <code>@accessor</code>.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

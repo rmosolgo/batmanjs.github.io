@@ -1059,4 +1059,87 @@ api_index:
       meta: 
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""
+    - id: batman.navigator
+      title: Batman.Navigator
+      sub: 
+        - id: subclassing_batman.navigator
+          title: Subclassing Batman.Navigator
+        - id: prototype_function_constructor
+          title: "constructor"
+        - id: prototype_function_start
+          title: start
+        - id: prototype_function_stop
+          title: stop
+        - id: prototype_function_handlelocation
+          title: handleLocation
+        - id: prototype_function_handlecurrentlocation
+          title: handleCurrentLocation
+        - id: prototype_function_dispatch
+          title: dispatch
+        - id: prototype_function_redirect
+          title: redirect
+        - id: prototype_function_normalizepath
+          title: normalizePath
+        - id: prototype_property_started
+          title: started
+        - id: class_function_normalizepath
+          title: normalizePath
+        - id: class_function_forapp
+          title: forApp
+        - id: class_function_defaultclass
+          title: defaultClass
+      meta: 
+        grouping: App Components
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+      children: 
+        - id: batman.pushstatenavigator
+          title: Batman.PushStateNavigator
+          sub: 
+            - id: class_function_issupported
+              title: isSupported
+            - id: prototype_function_startwatching
+              title: startWatching
+            - id: prototype_function_stopwatching
+              title: stopWatching
+            - id: prototype_function_pushstate
+              title: pushState
+            - id: prototype_function_replacestate
+              title: replaceState
+            - id: prototype_function_linkto
+              title: linkTo
+            - id: prototype_function_pathfromlocation
+              title: pathFromLocation
+            - id: prototype_function_handlelocation
+              title: handleLocation
+          meta: 
+            grouping: App Components
+            parent: Batman.Navigator
+        - id: batman.hashbangnavigator
+          title: Batman.HashbangNavigator
+          sub: 
+            - id: prototype_property_hashprefix
+              title: hashPrefix
+            - id: prototype_function_startwatching
+              title: startWatching
+            - id: prototype_function_stopwatching
+              title: stopWatching
+            - id: prototype_function_handlehashchange
+              title: handleHashChange
+            - id: prototype_function_detecthashchange
+              title: detectHashChange
+            - id: prototype_function_pushstate
+              title: pushState
+            - id: prototype_function_replacestate
+              title: replaceState
+            - id: prototype_property_ignorehashchange
+              title: ignoreHashChange
+            - id: prototype_function_linkto
+              title: linkTo
+            - id: prototype_function_pathfromlocation
+              title: pathFromLocation
+            - id: prototype_function_handlelocation
+              title: handleLocation
+          meta: 
+            grouping: App Components
+            parent: Batman.Navigator
 

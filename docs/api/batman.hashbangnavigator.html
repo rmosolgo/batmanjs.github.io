@@ -1,0 +1,126 @@
+---
+layout: api_docs
+title: Batman.HashbangNavigator
+meta: 
+  grouping: App Components
+  parent: Batman.Navigator
+sub: 
+  - title: hashPrefix
+    meta: 
+      type: property
+      level: prototype
+      params: "[= \"#!\"]"
+      returnType: String
+    tokens: []
+    id: prototype_property_hashprefix
+    html: "<p>Used for parsing and building new paths.</p>\n"
+  - title: startWatching
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_startwatching
+    html: "<p>If <code>window.onhashchange</code> is defined, sets up a listener to call <code>handleHashChange</code> on <code>window.hashchange</code>. Otherwise, sets up an interval to call <code>detectHashChange</code> every 100 ms.</p>\n"
+  - title: stopWatching
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_stopwatching
+    html: "<p>If <code>window.onhashchange</code> is defined, removes the listener on <code>window.hashchange</code>. Otherwise, removes the interval to call <code>detectHashChange</code>.</p>\n"
+  - title: handleHashChange
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_handlehashchange
+    html: "<p>Calls <code>handleCurrentLocation</code> unless <code>ignoreHashChange</code> has been set to true.</p>\n"
+  - title: detectHashChange
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_detecthashchange
+    html: "<p>Used if <code>window.onhashchange</code> isn&#39;t defined to determine whether the hash has changed since last time it was called.</p>\n"
+  - title: pushState
+    meta: 
+      type: function
+      level: prototype
+      params: "stateObject, title, path"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_pushstate
+    html: "<p>If <code>linkTo(path)</code> is a new path, sets <code>window.location.hash</code> to the new path.</p>\n"
+  - title: replaceState
+    meta: 
+      type: function
+      level: prototype
+      params: "stateObject, title, path"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_replacestate
+    html: "<p>If <code>linkTo(path)</code> is a new path, generates a new path and passes it to <code>window.location.replace</code>.d</p>\n"
+  - title: ignoreHashChange
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Boolean
+    tokens: []
+    id: prototype_property_ignorehashchange
+    html: "<p>Set to <code>true</code> by <code>::pushState</code> and <code>::replaceState</code> to avoid handling the current location twice.</p>\n"
+  - title: linkTo
+    meta: 
+      type: function
+      level: prototype
+      params: "url : String"
+      returnType: String
+    tokens: []
+    id: prototype_function_linkto
+    html: "<p>Joins <code>url</code> with <code>@hashPrefix</code>.</p>\n"
+  - title: pathFromLocation
+    meta: 
+      type: function
+      level: prototype
+      params: "location : Object"
+      returnType: string
+    tokens: []
+    id: prototype_function_pathfromlocation
+    html: "<p>Removes <code>hashPrefix</code> from <code>location.hash</code>. <code>location</code> is an object like <code>window.location</code>.</p>\n"
+  - title: handleLocation
+    meta: 
+      type: function
+      level: prototype
+      params: "location : object"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_handlelocation
+    html: "<p>Calls <code>dispatch</code>, controlling for pushState URLs that may have been requested.</p>\n"
+tokens: []
+id: batman.hashbangnavigator
+html: "<p><a href=\"/docs/api/batman.hashbangnavigator.html\"><code>Batman.HashbangNavigator</code></a> extends <a href=\"/docs/api/batman.navigator.html\"><code>Batman.Navigator</code></a> to use hashbang routing. Batman.js uses <code>PushStateNavigator</code> by default, but it degrades gracefully to <a href=\"/docs/api/batman.hashbangnavigator.html\"><code>Batman.HashbangNavigator</code></a> if it isn&#39;t supported. <code>PushStateNavigator</code> can be completely disabled through <a href=\"/docs/configuration.html\">configuration settings</a>.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

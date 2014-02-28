@@ -1,0 +1,99 @@
+---
+layout: api_docs
+title: Batman.PushStateNavigator
+meta: 
+  grouping: App Components
+  parent: Batman.Navigator
+sub: 
+  - title: isSupported
+    meta: 
+      type: function
+      level: class
+      params: ""
+      returnType: Boolean
+    tokens: []
+    id: class_function_issupported
+    html: "<p>Returns <code>true</code> if <code>window.history.pushState</code> is defined.</p>\n"
+  - title: startWatching
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_startwatching
+    html: "<p>Adds a listener to call <code>handleCurrentLocation</code> on <code>window.popstate</code>.</p>\n"
+  - title: stopWatching
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_stopwatching
+    html: "<p>Removes the <code>handleCurrentLocation</code> listener on <code>window.popstate</code>.</p>\n"
+  - title: pushState
+    meta: 
+      type: function
+      level: prototype
+      params: "stateObject, title, path : String"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_pushstate
+    html: "<p>If <code>path</code> isn&#39;t the same as <code>window.location</code>&#39;s path, passes <code>stateObject</code>, <code>title</code>, and <code>@linkTo(path)</code> to <code>window.pushState</code>.</p>\n"
+  - title: replaceState
+    meta: 
+      type: function
+      level: prototype
+      params: "stateObject, title, path : String"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_replacestate
+    html: "<p>If <code>path</code> isn&#39;t the same as <code>window.location</code>&#39;s path, passes <code>stateObject</code>, <code>title</code>, and <code>@linkTo(path)</code> to <code>window.replaceState</code>.</p>\n"
+  - title: linkTo
+    meta: 
+      type: function
+      level: prototype
+      params: "url : String"
+      returnType: String
+    tokens: []
+    id: prototype_function_linkto
+    html: "<p>Returns a correct path by joining <code>url</code> and <code>Batman.config.pathToApp</code> with <code>Batman.Navigator.normalizePath</code>.</p>\n"
+  - title: pathFromLocation
+    meta: 
+      type: function
+      level: prototype
+      params: "location : Object"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_pathfromlocation
+    html: "<p>Generates a correct app-specific path with <code>location</code>, removing <code>Batman.config.pathToApp</code>. <code>location</code> is an object like <code>window.location</code>.</p>\n"
+  - title: handleLocation
+    meta: 
+      type: function
+      level: prototype
+      params: "location : Object"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_handlelocation
+    html: "<p>Dispatches the proper action. <code>location</code> is an object like <code>window.location</code>. <code>PushStateNavigator::handleLocation</code> also handles hashbang paths, in case someone pastes a hashbang URL.</p>\n"
+tokens: []
+id: batman.pushstatenavigator
+html: "<p><a href=\"/docs/api/batman.pushstatenavigator.html\"><code>Batman.PushStateNavigator</code></a> extends <a href=\"/docs/api/batman.navigator.html\"><code>Batman.Navigator</code></a> to use <code>pushState</code>. Batman.js uses <code>PushStateNavigator</code> by default, but it degrades gracefully to <a href=\"/docs/api/batman.hashbangnavigator.html\"><code>Batman.HashbangNavigator</code></a> if it isn&#39;t supported. <code>PushStateNavigator</code> can be completely disabled through <a href=\"/docs/configuration.html\">configuration settings</a>.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

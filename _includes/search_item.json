@@ -1,5 +1,5 @@
 {
-  "name": "{{ data.title }}",
+  "name": "{{ data.title | escape }}",
   "id": "{{ data.id }}",
   "section": "{{ file.id }}",
   "link": "{{ '/docs/api/' | append: file.id | append: '.html#' | append: data.id }}"

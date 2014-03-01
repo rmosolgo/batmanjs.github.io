@@ -105,22 +105,46 @@ api_index:
           title: classMixin
         - id: class_function_observeall
           title: observeAll
-        - id: constructor(objects...)
-          title: constructor(objects...)
-        - id: "tojson()_%3A_object"
-          title: "toJSON() : object"
-        - id: "hashkey()_%3A_string"
-          title: "hashKey() : string"
-        - id: "batchaccessorchanges(key%2C_wrappedfunction)_%3A_string"
-          title: "batchAccessorChanges(key, wrappedFunction) : string"
-        - id: "accessor(%5Bkeys...%5D%2C_objectorfunction)"
-          title: "accessor([keys...], objectOrFunction)"
-        - id: "mixin(objects...)_%3A_this"
-          title: "mixin(objects...) : this"
+        - id: class_function_delegate
+          title: delegate
+        - id: class_function_singleton
+          title: singleton
+        - id: class_function_wrapaccessor
+          title: wrapAccessor
+        - id: class_function_wrapclassaccessor
+          title: wrapClassAccessor
+        - id: prototype_function_wrapaccessor
+          title: wrapAccessor
+        - id: prototype_function_constructor
+          title: "constructor"
+        - id: prototype_function_tojson
+          title: toJSON
+        - id: prototype_function_hashkey
+          title: hashKey
+        - id: prototype_function_batchaccessorchanges
+          title: batchAccessorChanges
+        - id: prototype_function_accessor
+          title: accessor
+        - id: prototype_function_mixin
+          title: mixin
       meta: 
         grouping: Data Structures
         parent: !<tag:yaml.org,2002:js/undefined> ""
       children: 
+        - id: batman.object_accessors
+          title: Batman.Object Accessors
+          sub: 
+            - id: accessors_as_computed_properties
+              title: Accessors as Computed Properties
+            - id: promise_accessors
+              title: Promise Accessors
+            - id: "default_accessor_as_%22doesnotunderstand%22_or_%22method_missing%22"
+              title: "Default accessor as \"doesNotUnderstand\" or \"method_missing\""
+            - id: optimizing_accessors
+              title: Optimizing Accessors
+          meta: 
+            grouping: Data Structures
+            parent: Batman.Object
         - id: batman.observable
           title: Batman.Observable
           sub: 
@@ -136,18 +160,22 @@ api_index:
               title: getOrSet
             - id: prototype_function_observe
               title: observe
+            - id: prototype_function_forget
+              title: forget
             - id: prototype_function_observeandfire
               title: observeAndFire
             - id: prototype_function_observeonce
               title: observeOnce
-            - id: prototype_function_forget
-              title: forget
           meta: 
             grouping: Data Structures
             parent: Batman.Object
         - id: batman.eventemitter
           title: Batman.EventEmitter
           sub: 
+            - id: batman.eventemitter_and_batman.event
+              title: Batman.EventEmitter and Batman.Event
+            - id: prototype_property_iseventemitter
+              title: isEventEmitter
             - id: prototype_function_on
               title: "on"
             - id: prototype_function_off
@@ -164,14 +192,16 @@ api_index:
               title: allow
             - id: prototype_function_allowandfire
               title: allowAndFire
+            - id: prototype_function_event
+              title: event
             - id: prototype_function_isprevented
               title: isPrevented
             - id: prototype_function_mutate
               title: mutate
             - id: prototype_function_mutation
               title: mutation
-            - id: prototype_property_iseventemitter
-              title: isEventEmitter
+            - id: prototype_function_registerasmutablesource
+              title: registerAsMutableSource
           meta: 
             grouping: Data Structures
             parent: Batman.Object

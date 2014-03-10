@@ -1,0 +1,89 @@
+---
+layout: api_docs
+title: Batman.I18N
+meta: 
+  grouping: Extras
+  parent: !<tag:yaml.org,2002:js/undefined> ""
+sub: 
+  - title: Getting locales from the server
+    tokens: []
+    id: getting_locales_from_the_server
+    html: "<p><code>Batman.I18N.get(&#39;locales&#39;)</code> returns a <code>Batman.I18N.LocalesStorage</code>. This object&#39;s default accessor fetches locale objects from the server and caches them on the client. For example:</p>\n<pre><code class=\"lang-coffeescript\">Batman.I18N.get(<span class=\"string\">'locales.es'</span>)     <span class=\"comment\"># GET /locales/es.json</span>\nBatman.I18N.get(<span class=\"string\">'locales.fr'</span>)     <span class=\"comment\"># GET /locales/fr.json</span></code></pre>\n<p><code>Batman.I18N.translate</code> will fetch a locale if it isn&#39;t loaded already:</p>\n<pre><code>Batman.I18N.set(<span class=\"string\">'locale'</span>, <span class=\"string\">'zh'</span>)\nBatamn.I18N.translate(<span class=\"string\">'welcome'</span>)  <span class=\"comment\"># GET /locales/zh.json</span></code></pre>\n<p>The <a href=\"/docs/api/batman.request.html\"><code>Batman.Request</code></a> expects a JSON response with the locale object:</p>\n<pre><code class=\"lang-coffeescript\">{\n  <span class=\"string\">\"zh\"</span> : {\n    <span class=\"string\">\"welcome\"</span> : <span class=\"string\">\"欢迎\"</span>,\n    <span class=\"string\">\"account\"</span> : {\n      <span class=\"string\">\"sign_in\"</span> : <span class=\"string\">\"登录\"</span>,\n      <span class=\"string\">\"register\"</span> : <span class=\"string\">\"注册\"</span>,\n    }\n  }\n}</code></pre>\n<p>When the new values are returned, view bindings will be automatically updated.</p>\n"
+  - title: Error messages
+    tokens: []
+    id: error_messages
+    html: "<p>You can provide error messages for a new locale by including translations in the same structure as batman.js&#39;s default messages. <a href=\"https://github.com/batmanjs/batman/blob/master/src/model/validations/validators.coffee\">See the batman.js source</a> for the structure of these messages.</p>\n"
+  - title: defaultLocale
+    meta: 
+      type: property
+      level: class
+      params: "[= \"en\"]"
+      returnType: String
+    tokens: []
+    id: class_property_defaultlocale
+    html: "<p>The default locale for <code>Batman.I18N</code>. Override this to make your app start in a locale other than <code>&quot;en&quot;</code>.</p>\n"
+  - title: locale
+    meta: 
+      type: accessor
+      level: class
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: String
+    tokens: []
+    id: class_accessor_locale
+    html: "<p>The current locale for <code>Batman.I18N</code>, used by <code>Batman.translate</code>. Set this value to change your locale:</p>\n<pre><code class=\"lang-coffeescript\">Batman.I18N.set(<span class=\"string\">'locale'</span>, <span class=\"string\">'fr'</span>) <span class=\"comment\"># Bienvenue!</span></code></pre>\n"
+  - title: locales
+    meta: 
+      type: accessor
+      level: class
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: I18N.LocalesStorage
+    tokens: []
+    id: class_accessor_locales
+    html: "<p>Returns the current <code>Batman.I18N.LocalesStorage</code>, which stores locales and there translations. You can set keys on <code>locales</code> to define translations:</p>\n<pre><code class=\"lang-coffeescript\">Batman.I18N.set(<span class=\"string\">\"locales.uz\"</span>, { ... })</code></pre>\n<p>See <a href=\"#getting_locales_from_the_server\">&quot;Getting locales from the server&quot;</a> for information about how <code>Batman.I18N.LocalesStorage</code> handles missing keys.</p>\n"
+  - title: translations
+    meta: 
+      type: accessor
+      level: class
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Object
+    tokens: []
+    id: class_accessor_translations
+    html: "<p>Returns the defined translations for the current locale.</p>\n"
+  - title: enable
+    meta: 
+      type: function
+      level: class
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: class_function_enable
+    html: "<p>Turns on <code>Batman.I18N</code> by:</p>\n<ul>\n<li>Storing batman.js&#39;s default error messages to the <code>&quot;en&quot;</code> locale</li>\n<li>Overriding <code>Batman.translate</code> to use <code>Batman.I18N.translate</code></li>\n</ul>\n"
+  - title: disable
+    meta: 
+      type: function
+      level: class
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: class_function_disable
+    html: "<p>Turns off <code>Batman.I18N</code> by restoring previous functionality to <code>Batman.translate</code>.</p>\n<p>Multiply all the things with 111</p>\n<pre><code>module.<span class=\"function\"><span class=\"title\">exports</span></span> = (n) -&gt; n * <span class=\"number\">111</span></code></pre>\n<p>Here is a bat</p>\n<pre><code>console.log(require <span class=\"string\">'./bat.js'</span>)</code></pre>\n"
+tokens: []
+id: batman.i18n
+html: "<p><code>Batman.I18N</code> is a batman.js extra (<a href=\"https://github.com/batmanjs/batman/blob/master/src/extras/batman.i18n.coffee\">available in CoffeeScript</a>) for providing multi-langauge support in your application. It is modeled after <a href=\"http://guides.rubyonrails.org/i18n.html\">Rails i18n</a>.</p>\n<p>To use <code>Batman.I18N</code>, you must:</p>\n<ul>\n<li>Include the <a href=\"https://github.com/batmanjs/batman/blob/master/src/extras/batman.i18n.coffee\">batman.js extra</a> in your project</li>\n<li>Enable <code>Batman.I18N</code> with <code>Batman.I18N.enable()</code></li>\n<li>Define locales on the client or <a href=\"#getting_locales_from_the_server\">provide support from the server</a></li>\n</ul>\n<p>For example:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"comment\"># after including Batman.I18N</span>\nBatman.I18N.enable()\n\n<span class=\"comment\"># define locales:</span>\nBatman.I18N.set <span class=\"string\">'locales.en'</span>,\n  messages:\n    welcome: <span class=\"string\">\"Welcome\"</span>\n  account:\n    sign_in: <span class=\"string\">\"Sign In\"</span>\n    register: <span class=\"string\">\"Register\"</span>\n\nBatman.I18N.set <span class=\"string\">'locales.zh'</span>\n  messages:\n    welcome: <span class=\"string\">'欢迎'</span>\n\n<span class=\"comment\"># get translations:</span>\nBatman.I18N.get(<span class=\"string\">\"locale\"</span>)    <span class=\"comment\"># \"en\", default</span>\nBatman.t(<span class=\"string\">\"messages.welcome\"</span>) <span class=\"comment\"># \"Welcome\"</span>\nBatman.I18N.set(<span class=\"string\">\"locale\"</span>, <span class=\"string\">\"zh\"</span>)\nBatman.t(<span class=\"string\">\"messages.welcome\"</span>) <span class=\"comment\"># \"欢迎\"</span></code></pre>\n<p>You can get translations for the current locale by using <code>t</code> in view bindings:</p>\n<pre><code class=\"lang-html\">&lt;p data-source=<span class=\"string\">'t.messages.welcome'</span>&gt;&lt;/p&gt;</code></pre>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

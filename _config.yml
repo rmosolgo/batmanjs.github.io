@@ -1172,4 +1172,27 @@ api_index:
           meta: 
             grouping: App Components
             parent: Batman.Navigator
+  Extras: 
+    - id: batman.i18n
+      title: Batman.I18N
+      sub: 
+        - id: getting_locales_from_the_server
+          title: Getting locales from the server
+        - id: error_messages
+          title: Error messages
+        - id: class_property_defaultlocale
+          title: defaultLocale
+        - id: class_accessor_locale
+          title: locale
+        - id: class_accessor_locales
+          title: locales
+        - id: class_accessor_translations
+          title: translations
+        - id: class_function_enable
+          title: enable
+        - id: class_function_disable
+          title: disable
+      meta: 
+        grouping: Extras
+        parent: !<tag:yaml.org,2002:js/undefined> ""
 

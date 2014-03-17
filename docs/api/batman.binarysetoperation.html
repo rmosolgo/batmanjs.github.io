@@ -1,0 +1,72 @@
+---
+layout: api_docs
+title: Batman.BinarySetOperation
+meta: 
+  grouping: Data Structures
+  parent: !<tag:yaml.org,2002:js/undefined> ""
+sub: 
+  - title: "constructor"
+    meta: 
+      type: function
+      level: prototype
+      params: "left: Set, right: Set"
+      returnType: BinarySetOperation
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>Returns a new <code>BinarySetOperation</code> between <code>left</code> and <code>right</code>.</p>\n"
+  - title: merge
+    meta: 
+      type: function
+      level: prototype
+      params: "others... : Set"
+      returnType: Set
+    tokens: []
+    id: prototype_function_merge
+    html: "<p>Returns a new <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a> with the contents of the <code>BinarySetOperation</code> plus the contents of <code>others</code>.</p>\n"
+  - title: filter
+    meta: 
+      type: function
+      level: prototype
+      params: "func: Function"
+      returnType: Set
+    tokens: []
+    id: prototype_function_filter
+    html: "<p>Executes <code>func(item)</code> for each item in the <code>BinarySetOperation</code> and returns a new <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a> with items where <code>func(item)</code> returned a truthy value.</p>\n"
+  - title: left
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Set
+    tokens: []
+    id: prototype_property_left
+    html: "<p>Returns the first <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a> passed to the constructor.</p>\n"
+  - title: right
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Set
+    tokens: []
+    id: prototype_property_right
+    html: "<p>Returns the second <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a> passed to the constructor.</p>\n"
+tokens: []
+id: batman.binarysetoperation
+html: "<p><a href=\"/docs/api/batman.binarysetoperation.html\"><code>Batman.BinarySetOperation</code></a> extends <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a> and tracks <em>two</em> <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a>s and updates its contents whenever an item is added to or removed from either set. <a href=\"/docs/api/batman.binarysetoperation.html\"><code>Batman.BinarySetOperation</code></a> is an abstract class. It is extended by <a href=\"/docs/api/batman.setunion.html\"><code>Batman.SetUnion</code></a>, <a href=\"/docs/api/batman.setintersection.html\"><code>Batman.SetIntersection</code></a>, and <a href=\"/docs/api/batman.setcomplement.html\"><code>Batman.SetComplement</code></a>.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

@@ -1,0 +1,27 @@
+---
+layout: api_docs
+title: Batman.SetComplement
+meta: 
+  grouping: Data Structures
+  parent: Batman.BinarySetOperation
+sub: []
+tokens: []
+id: batman.setcomplement
+html: "<p><a href=\"/docs/api/batman.setcomplement.html\"><code>Batman.SetComplement</code></a> extends <a href=\"/docs/api/batman.binarysetoperation.html\"><code>Batman.BinarySetOperation</code></a>. It implements a <a href=\"http://en.wikipedia.org/wiki/Complement_%28set_theory%29\">complement operation</a>: it contains the members of <em><code>left</code></em> which aren&#39;t in <em><code>right</code></em>.</p>\n<p>Since <a href=\"/docs/api/batman.setcomplement.html\"><code>Batman.SetComplement</code></a> is a subclass of <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a>, you can use it just like a <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a>.</p>\n<pre><code>test <span class=\"string\">'SetComplement contains the complement of two sets'</span>, -&gt;\n  left = <span class=\"keyword\">new</span> Batman.Set(<span class=\"number\">1</span>, <span class=\"number\">2</span>, <span class=\"number\">3</span>)\n  right = <span class=\"keyword\">new</span> Batman.Set(<span class=\"number\">3</span>, <span class=\"number\">4</span>, <span class=\"number\">5</span>)\n  operation = <span class=\"keyword\">new</span> Batman.SetComplement(left, right)\n  ok operation.has(<span class=\"number\">1</span>), <span class=\"string\">'has items from the left set only'</span>\n  ok !operation.has(<span class=\"number\">4</span>), <span class=\"string\">'doesnt have items from the right set only'</span>\n  ok !operation.has(<span class=\"number\">3</span>), <span class=\"string\">'doesnt have items from both sets'</span></code></pre>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

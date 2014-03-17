@@ -66,7 +66,16 @@ sub:
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     tokens: []
     id: class_function_disable
-    html: "<p>Turns off <code>Batman.I18N</code> by restoring previous functionality to <code>Batman.translate</code>.</p>\n<p>Multiply all the things with 111</p>\n<pre><code>module.<span class=\"function\"><span class=\"title\">exports</span></span> = (n) -&gt; n * <span class=\"number\">111</span></code></pre>\n<p>Here is a bat</p>\n<pre><code>console.log(require <span class=\"string\">'./bat.js'</span>)</code></pre>\n"
+    html: "<p>Turns off <code>Batman.I18N</code> by restoring previous functionality to <code>Batman.translate</code>.</p>\n"
+  - title: useFallback
+    meta: 
+      type: accessor
+      level: class
+      params: "[=false]"
+      returnType: Boolean
+    tokens: []
+    id: class_accessor_usefallback
+    html: "<p>If set to <code>true</code>, <code>translate</code> will use translations from <code>defaultLocale</code> when a translation from the current locale isn&#39;t available.</p>\n"
 tokens: []
 id: batman.i18n
 html: "<p><code>Batman.I18N</code> is a batman.js extra (<a href=\"https://github.com/batmanjs/batman/blob/master/src/extras/batman.i18n.coffee\">available in CoffeeScript</a>) for providing multi-langauge support in your application. It is modeled after <a href=\"http://guides.rubyonrails.org/i18n.html\">Rails i18n</a>.</p>\n<p>To use <code>Batman.I18N</code>, you must:</p>\n<ul>\n<li>Include the <a href=\"https://github.com/batmanjs/batman/blob/master/src/extras/batman.i18n.coffee\">batman.js extra</a> in your project</li>\n<li>Enable <code>Batman.I18N</code> with <code>Batman.I18N.enable()</code></li>\n<li>Define locales on the client or <a href=\"#getting_locales_from_the_server\">provide support from the server</a></li>\n</ul>\n<p>For example:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"comment\"># after including Batman.I18N</span>\nBatman.I18N.enable()\n\n<span class=\"comment\"># define locales:</span>\nBatman.I18N.set <span class=\"string\">'locales.en'</span>,\n  messages:\n    welcome: <span class=\"string\">\"Welcome\"</span>\n  account:\n    sign_in: <span class=\"string\">\"Sign In\"</span>\n    register: <span class=\"string\">\"Register\"</span>\n\nBatman.I18N.set <span class=\"string\">'locales.zh'</span>\n  messages:\n    welcome: <span class=\"string\">'欢迎'</span>\n\n<span class=\"comment\"># get translations:</span>\nBatman.I18N.get(<span class=\"string\">\"locale\"</span>)    <span class=\"comment\"># \"en\", default</span>\nBatman.t(<span class=\"string\">\"messages.welcome\"</span>) <span class=\"comment\"># \"Welcome\"</span>\nBatman.I18N.set(<span class=\"string\">\"locale\"</span>, <span class=\"string\">\"zh\"</span>)\nBatman.t(<span class=\"string\">\"messages.welcome\"</span>) <span class=\"comment\"># \"欢迎\"</span></code></pre>\n<p>You can get translations for the current locale by using <code>t</code> in view bindings:</p>\n<pre><code class=\"lang-html\">&lt;p data-source=<span class=\"string\">'t.messages.welcome'</span>&gt;&lt;/p&gt;</code></pre>\n"

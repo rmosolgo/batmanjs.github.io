@@ -205,6 +205,18 @@ api_index:
           meta: 
             grouping: Data Structures
             parent: Batman.Object
+        - id: batman.proxy
+          title: Batman.Proxy
+          sub: 
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: prototype_property_isproxy
+              title: isProxy
+            - id: prototype_accessor_target
+              title: target
+          meta: 
+            grouping: Data Structures
+            parent: Batman.Object
     - id: batman.enumerable
       title: Batman.Enumerable
       sub: 
@@ -332,6 +344,41 @@ api_index:
           meta: 
             grouping: Data Structures
             parent: Batman.Set
+    - id: batman.binarysetoperation
+      title: Batman.BinarySetOperation
+      sub: 
+        - id: prototype_function_constructor
+          title: "constructor"
+        - id: prototype_function_merge
+          title: merge
+        - id: prototype_function_filter
+          title: filter
+        - id: prototype_property_left
+          title: left
+        - id: prototype_property_right
+          title: right
+      meta: 
+        grouping: Data Structures
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+      children: 
+        - id: batman.setunion
+          title: Batman.SetUnion
+          sub: []
+          meta: 
+            grouping: Data Structures
+            parent: Batman.BinarySetOperation
+        - id: batman.setintersection
+          title: Batman.SetIntersection
+          sub: []
+          meta: 
+            grouping: Data Structures
+            parent: Batman.BinarySetOperation
+        - id: batman.setcomplement
+          title: Batman.SetComplement
+          sub: []
+          meta: 
+            grouping: Data Structures
+            parent: Batman.BinarySetOperation
     - id: batman.hash
       title: Batman.Hash
       sub: 
@@ -602,20 +649,32 @@ api_index:
     - id: batman.app
       title: Batman.App
       sub: 
-        - id: batman.currentapp
-          title: Batman.currentApp
+        - id: class_accessor_current
+          title: current
         - id: class_function_run
           title: run
         - id: class_function_stop
           title: stop
-        - id: class_function_routes
+        - id: class_accessor_routes
           title: routes
-        - id: class_function_controllers
+        - id: class_accessor_controllers
           title: controllers
-        - id: class_function_layout
+        - id: class_property_layout
           title: layout
-        - id: class_function_currentparams
+        - id: class_accessor_currenturl
+          title: currentURL
+        - id: class_accessor_currentparams
           title: currentParams
+        - id: class_accessor_currentroute
+          title: currentRoute
+        - id: class_accessor_navigator
+          title: navigator
+        - id: class_accessor_dispatcher
+          title: dispatcher
+        - id: class_accessor_routemap
+          title: routeMap
+        - id: class_accessor_routemapbuilder
+          title: routeMapBuilder
         - id: class_function_paramsmanager
           title: paramsManager
         - id: class_function_paramspusher
@@ -671,6 +730,8 @@ api_index:
           title: autoScrollToHash
         - id: prototype_property_defaultrenderyield
           title: defaultRenderYield
+        - id: class_accessor_sharedcontroller
+          title: sharedController
         - id: class_function_catcherror
           title: catchError
         - id: class_function_errorhandler
@@ -1089,6 +1150,7 @@ api_index:
       meta: 
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""
+  App Internals: 
     - id: batman.navigator
       title: Batman.Navigator
       sub: 
@@ -1119,7 +1181,7 @@ api_index:
         - id: class_function_defaultclass
           title: defaultClass
       meta: 
-        grouping: App Components
+        grouping: App Internals
         parent: !<tag:yaml.org,2002:js/undefined> ""
       children: 
         - id: batman.pushstatenavigator
@@ -1142,7 +1204,7 @@ api_index:
             - id: prototype_function_handlelocation
               title: handleLocation
           meta: 
-            grouping: App Components
+            grouping: App Internals
             parent: Batman.Navigator
         - id: batman.hashbangnavigator
           title: Batman.HashbangNavigator
@@ -1170,8 +1232,39 @@ api_index:
             - id: prototype_function_handlelocation
               title: handleLocation
           meta: 
-            grouping: App Components
+            grouping: App Internals
             parent: Batman.Navigator
+    - id: batman.dispatcher
+      title: Batman.Dispatcher
+      sub: 
+        - id: prototype_function_constructor
+          title: "constructor"
+        - id: prototype_function_dispatch
+          title: dispatch
+        - id: class_function_caninferroute
+          title: canInferRoute
+        - id: class_function_paramsfromargument
+          title: paramsFromArgument
+        - id: prototype_accessor_controllers
+          title: controllers
+        - id: prototype_function_routeforparams
+          title: routeForParams
+        - id: prototype_function_pathforparams
+          title: pathForParams
+      meta: 
+        grouping: App Internals
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+      children: 
+        - id: controllerdirectory
+          title: ControllerDirectory
+          sub: 
+            - id: prototype_accessor___app
+              title: __app
+            - id: default_accessor
+              title: Default Accessor
+          meta: 
+            grouping: App Internals
+            parent: Batman.Dispatcher
   Extras: 
     - id: batman.i18n
       title: Batman.I18N
@@ -1192,6 +1285,8 @@ api_index:
           title: enable
         - id: class_function_disable
           title: disable
+        - id: class_accessor_usefallback
+          title: useFallback
       meta: 
         grouping: Extras
         parent: !<tag:yaml.org,2002:js/undefined> ""

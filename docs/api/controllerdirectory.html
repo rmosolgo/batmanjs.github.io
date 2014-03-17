@@ -1,0 +1,40 @@
+---
+layout: api_docs
+title: ControllerDirectory
+meta: 
+  grouping: App Internals
+  parent: Batman.Dispatcher
+sub: 
+  - title: __app
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: App
+    tokens: []
+    id: prototype_accessor___app
+    html: "<p>Returns the <a href=\"/docs/api/batman.app.html\"><code>Batman.App</code></a> passed to the constructor by <a href=\"/docs/api/batman.dispatcher.html\"><code>Batman.Dispatcher</code></a>.</p>\n"
+  - title: Default Accessor
+    tokens: []
+    id: default_accessor
+    html: "<p>A <code>ControllerDirectory</code>&#39;s default accessor returns controller instances by looking them up on its <code>__app</code>. The key will be capitalized and interpolated into <code>#{key}Controller</code>:</p>\n<pre><code class=\"lang-coffeescript\">controllerDirectory.get(<span class=\"string\">'blogPosts'</span>) <span class=\"comment\"># =&gt; &lt;BlogPostsController&gt;</span></code></pre>\n"
+tokens: []
+id: controllerdirectory
+html: "<p><code>ControllerDirectory</code> extends <a href=\"/docs/api/batman.object.html\"><code>Batman.Object</code></a> and it is defined in the scope of <a href=\"/docs/api/batman.dispatcher.html\"><code>Batman.Dispatcher</code></a>. A <code>ControllerDirectory</code> instance looks up controller instances (<a href=\"/docs/api/batman.controller.html#class_accessor_sharedcontroller\"><code>Batman.Controller.sharedController</code></a>) by their instance names:</p>\n<pre><code class=\"lang-coffeescript\">controllerDirectory.get(<span class=\"string\">'blogPosts'</span>) <span class=\"comment\"># =&gt; &lt;BlogPostsController&gt;</span></code></pre>\n<p>This functionality is implemented in <code>ControllerDirectory</code>&#39;s <a href=\"/docs/api/controllerdirectory.html#default_accessor\">default accessor</a>. You can access your app&#39;s controller directory at:</p>\n<pre><code class=\"lang-coffeescript\">MyApp.get(<span class=\"string\">'controllers'</span>) <span class=\"comment\"># =&gt; &lt;ControllerDirectory&gt;</span></code></pre>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

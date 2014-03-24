@@ -13,7 +13,7 @@ argv   = require('optimist')
            .argv
 
 class Autolink
-  @CANDIDATE_REGEXP = ///                   # "test" : http://rubular.com/r/aCUg3nq6fC
+  @CLASS_REGEXP = ///                   # "test" : http://rubular.com/r/aCUg3nq6fC
               (?!\[)                        # not already a link (preceded by "[")
               (`                            # Wrapped in `
                 Batman                      # starts with Batman
@@ -22,32 +22,62 @@ class Autolink
               (?![\s\w]*\]\()               # not already a link (followed by " some topic](")
             ///g                            # all of them
 
-  @_undocumented: {}
+  @BINDING_REGEXP = ///
+              (?!\[)                        # not already a link (preceded by "[")
+              (`                            # Wrapped in `
+                data                        # starts with data
+                (?:\-[a-z]+)+               # Has one or more lowercase dasherized word
+              `)
+              (?![\s\w]*\]\()               # not already a link (followed by " some topic](")
+            ///g
+
 
   @insertLinks: (text="", generator) ->
-    newText = text.replace @CANDIDATE_REGEXP, (match, className, offset, string) =>
+    newText = text.replace @CLASS_REGEXP, (match, className, offset, string) =>
       pageId = DocSection::generateId(className.replace(/`/g, ''))
       if generator.hasId(pageId)
-        path = "/docs/api/" + pageId + ".html"
-        link = "[#{className}](#{path})"
+        @_generateAPILink(className, "#{pageId}.html")
       else
-        if !@_undocumented[className]
-          @_undocumented[className] = true
-          console.warn "-----> No API Documentation for #{className}"
-        className
+        @_registerUndocumented(className)
+
+    newText = newText.replace @BINDING_REGEXP, (match, bindingName, offset, string) =>
+      cleanBindingName = bindingName.replace(/`/g, '')
+      if generator.hasMethod("batman.view_bindings", cleanBindingName)
+        @_generateAPILink(bindingName, "batman.view_bindings.html##{cleanBindingName}")
+      else
+        @_registerUndocumented(bindingName)
     newText
 
+  @_generateAPILink: (str, page) ->
+        link = "[#{str}](/docs/api/#{page})"
 
+  @_registerUndocumented: (name) ->
+      if !@_undocumented[name]
+        @_undocumented[name] = true
+        console.warn "-----> No API Documentation for #{name}"
+      name
+
+  @_undocumented: {}
 
 class DocGenerator
   constructor: ->
     @tokens = []
-    @allIds = []
+    @_allIds = []
+    @_allMethods = {}
 
   registerId: (id) ->
-    @allIds.push(id)
+    @_allIds.push(id)
   hasId: (id) ->
-    id in @allIds
+    id in @_allIds
+
+  registerMethod: (pageId, methodName, elementId) ->
+    console.log("#{methodName} was defined twice!") if @hasMethod(pageId, methodName)
+    console.log "Registering #{methodName} as #{pageId}##{elementId}"
+    page = @_allMethods[pageId] ?= {}
+    page[methodName] = elementId
+
+  hasMethod: (pageId, methodName) ->
+    @_allMethods[pageId]?[methodName]?
 
   addContent: (contentString) ->
     @tokens = @tokens.concat(marked.lexer(contentString))
@@ -123,6 +153,8 @@ class DocSection
         sub.meta = meta
       else
         id = @generateId(title)
+      # this has some "false positives" -- any <h2> is a "method" (which includes bindings and filters)
+      @generator.registerMethod(@id, title, id)
 
       sub.id = id
       offset = 0

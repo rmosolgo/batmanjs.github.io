@@ -45,7 +45,7 @@ When a bound input is updated by a user, the change is immediately propagated th
 
 ## Keypaths & Context
 
-To put data into view bindings, you pass _keypaths_ which point to values in the _render context_. This lookup is implemented by ]`Batman.View::lookupKeypath`](http://batmanjs.org/docs/api/batman.view.html#prototype_function_lookupkeypath).
+To put data into view bindings, you pass _keypaths_ which point to values in the _render context_. This lookup is implemented by [`Batman.View::lookupKeypath`](http://batmanjs.org/docs/api/batman.view.html#prototype_function_lookupkeypath).
 
 ### Keypaths
 
@@ -157,4 +157,3 @@ allCards = document.getElementById("all-cards")
 view = $context(allCards)         // => <App.CardsIndexView>
 view.lookupKeypath("cards.first") // => <App.Card>
 {% endhighlight %}
-

@@ -5,6 +5,30 @@ meta:
   grouping: App Components
   parent: Batman.View
 sub: 
+  - title: "equals(left, right) _or_ eq(left, right): Boolean"
+    tokens: []
+    id: "equals(left%2C_right)__or__eq(left%2C_right)%3A_boolean"
+    html: "<p>Checks if left content is equal to right content:</p>\n<pre><code class=\"lang-html\">&lt;span data-showif=<span class=\"string\">\"title | equals 'Batman Views'\"</span>&gt;&lt;/span&gt;\n&lt;span data-showif=<span class=\"string\">\"value | eq 10\"</span>&gt;&lt;/span&gt;\n&lt;span data-showif=<span class=\"string\">\"value | eq true\"</span>&gt;&lt;/span&gt;</code></pre>\n<p><strong>Note</strong>: there is actually <em>one</em> difference between <code>eq</code> and <code>equals</code>: <code>equals</code> rejects undefined values, but <code>eq</code> allows them.</p>\n"
+  - title: "lt(left, right) : Boolean"
+    tokens: []
+    id: "lt(left%2C_right)_%3A_boolean"
+    html: "<p>Checks if left content is <code>less than</code> the right content.</p>\n<pre><code class=\"lang-html\">&lt;span data-showif=<span class=\"string\">\"posts.length | lt 10\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+  - title: "gt(left, right) : Boolean"
+    tokens: []
+    id: "gt(left%2C_right)_%3A_boolean"
+    html: "<p>Checks if left content is <code>greater than</code> the right content.</p>\n<pre><code class=\"lang-html\">&lt;span data-showif=<span class=\"string\">\"posts.length | gt 10\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+  - title: "lteq(left, right) : Boolean"
+    tokens: []
+    id: "lteq(left%2C_right)_%3A_boolean"
+    html: "<p>Checks if left content is <code>less than or equal to</code> the right content.</p>\n<pre><code class=\"lang-html\">&lt;span data-showif=<span class=\"string\">\"posts.length | lteq 10\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+  - title: "gteq(left, right) : Boolean"
+    tokens: []
+    id: "gteq(left%2C_right)_%3A_boolean"
+    html: "<p>Checks if left content is <code>greater than or equal to</code> the right content.</p>\n<pre><code class=\"lang-html\">&lt;span data-showif=<span class=\"string\">\"posts.length | gteq 10\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+  - title: "neq(left, right) : Boolean"
+    tokens: []
+    id: "neq(left%2C_right)_%3A_boolean"
+    html: "<p>Checks if left content is <code>is NOT equal to</code> the right content.</p>\n<pre><code class=\"lang-html\">&lt;span data-showif=<span class=\"string\">\"posts.length | neq 10\"</span>&gt;&lt;/span&gt;</code></pre>\n"
   - title: "ceil(value) : string"
     tokens: []
     id: "ceil(value)_%3A_string"
@@ -41,10 +65,6 @@ sub:
     tokens: []
     id: "value%5Bkey%5D_%3A_value"
     html: "<p>Shorthand for the <code>get</code> filter.</p>\n"
-  - title: "equals(left, right) : boolean"
-    tokens: []
-    id: "equals(left%2C_right)_%3A_boolean"
-    html: "<p>Checks if left content is equal to right content:</p>\n<pre><code class=\"lang-html\">&lt;span data-showif=<span class=\"string\">\"title | equals 'Batman Views'\"</span>&gt;&lt;/span&gt;</code></pre>\n"
   - title: "not(value) : boolean"
     tokens: []
     id: "not(value)_%3A_boolean"

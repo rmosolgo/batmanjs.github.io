@@ -13,7 +13,7 @@ argv   = require('optimist')
            .argv
 
 class Autolink
-  @CLASS_REGEXP = ///                   # "test" : http://rubular.com/r/aCUg3nq6fC
+  @CLASS_REGEXP: ///                   # "test" : http://rubular.com/r/aCUg3nq6fC
               (?!\[)                        # not already a link (preceded by "[")
               (`                            # Wrapped in `
                 Batman                      # starts with Batman
@@ -22,15 +22,24 @@ class Autolink
               (?![\s\w]*\]\()               # not already a link (followed by " some topic](")
             ///g                            # all of them
 
-  @BINDING_REGEXP = ///
+  @BINDING_REGEXP: ///
               (?!\[)                        # not already a link (preceded by "[")
               (`                            # Wrapped in `
                 data                        # starts with data
-                (?:\-[a-z]+)+               # Has one or more lowercase dasherized word
+                -[a-z]+                     # has a binding name
+                (?:\-[^`\s=]+)?             # might have a binding argument (`data-addclass-error` or `data-bind-\#{attr}`)
               `)
               (?![\s\w]*\]\()               # not already a link (followed by " some topic](")
             ///g
 
+  @_BINDING_SPECIAL_CASES: {
+    "data-renderif"   : "data-renderif / data-deferif"
+    "data-deferif"    : "data-renderif / data-deferif"
+    "data-showif"     : "data-showif / data-hideif"
+    "data-hideif"     : "data-showif / data-hideif"
+    "data-addclass"    : "data-addclass / data-removeclass"
+    "data-removeclass" : "data-addclass / data-removeclass"
+  }
 
   @insertLinks: (text="", generator) ->
     newText = text.replace @CLASS_REGEXP, (match, className, offset, string) =>
@@ -41,9 +50,13 @@ class Autolink
         @_registerUndocumented(className)
 
     newText = newText.replace @BINDING_REGEXP, (match, bindingName, offset, string) =>
-      cleanBindingName = bindingName.replace(/`/g, '')
+      bindingParts = bindingName.replace(/`/g, '').split("-")
+      cleanBindingName = "#{bindingParts[0]}-#{bindingParts[1]}"
       if generator.hasMethod("batman.view_bindings", cleanBindingName)
         @_generateAPILink(bindingName, "batman.view_bindings.html##{cleanBindingName}")
+      else if specialCase = @_BINDING_SPECIAL_CASES[cleanBindingName]?
+        @_generateAPILink(bindingName, "batman.view_bindings.html##{specialCase}")
+
       else
         @_registerUndocumented(bindingName)
     newText
@@ -66,15 +79,17 @@ class DocGenerator
     @_allMethods = {}
 
   registerId: (id) ->
+    throw "Already defined #{id}" if @hasId(id)
     @_allIds.push(id)
+
   hasId: (id) ->
     id in @_allIds
 
-  registerMethod: (pageId, methodName, elementId) ->
-    console.log("#{methodName} was defined twice!") if @hasMethod(pageId, methodName)
-    console.log "Registering #{methodName} as #{pageId}##{elementId}"
+  registerMethod: (pageId, methodName, meta) ->
+    builtMethodName = meta?.rawTitle || methodName
+    throw "#{pageId}#{builtMethodName} was defined twice!" if @hasMethod(pageId, builtMethodName)
     page = @_allMethods[pageId] ?= {}
-    page[methodName] = elementId
+    page[builtMethodName] = meta.id
 
   hasMethod: (pageId, methodName) ->
     @_allMethods[pageId]?[methodName]?
@@ -90,7 +105,7 @@ class DocGenerator
 
       else if token.type == 'heading' && token.depth == 2
         section = _.last(sections)
-        section.sub.push(new DocSection(title: token.text, tokens: [], index: section.sub.length, generator: @))
+        section.sub.push(new DocSection(title: token.text, tokens: [], parent: section, index: section.sub.length, generator: @))
 
       else
         section = _.last(sections)
@@ -130,50 +145,50 @@ class DocGenerator
     fs.writeFileSync("#{__dirname}/../#{destination}", content)
 
 class DocSection
-  constructor: ({@title, @tokens, @sub, @index, @generator}) ->
-    @options  = highlight: (code, lang) -> hljs.highlight('coffeescript', code).value
-    if @title.substr(0, 5) is '/api/'
+  constructor: ({@title, @tokens, @sub, @parent, @index, @generator}) ->
+    @options =
+      highlight: (code, lang) -> hljs.highlight('coffeescript', code).value
+      tables: true
+
+    if @_isMethod()
       {@title, @meta} = HeadingParser.parse(@title)
-    # manually handle the index page
-    @id = if @index == 0
-      "index"
-    else
-      @generateId(@title)
+      @id = if @meta
+        @meta.id = @generateId("#{@meta.level}_#{@meta.type}_#{@title}")
+      else
+        @generateId(@title)
+      # this has some "false positives" -- any <h2> is a "method" (which includes bindings and filters)
+      registryInfo = @meta || {id: @id}
+      @generator.registerMethod(@parent.id, @title, registryInfo)
+    else # if @_isClass()
+      # vv Has to be after so that _isClass can use the raw title
+      {@title, @meta} = HeadingParser.parse(@title)
+      @id = if @index == 0
+        "index" # manually handle the index page
+      else
+        @generateId(@title)
+      @generator.registerId(@id) # to make sure we're linking real pages
 
-    @generator.registerId(@id) # to make sure we're linking real pages
-
+  _isMethod: -> !@sub?
+  _isClass: -> @title.substr(0, 5) is '/api/'
 
   parseSubs: ->
-    usedIds = {}
     @sub?.forEach (sub, subIndex) =>
-      {title, meta} = HeadingParser.parse(sub.title)
-
-      if meta
-        id = @generateId("#{meta.level}_#{meta.type}_#{title}")
-        sub.meta = meta
-      else
-        id = @generateId(title)
-      # this has some "false positives" -- any <h2> is a "method" (which includes bindings and filters)
-      @generator.registerMethod(@id, title, id)
-
-      sub.id = id
-      offset = 0
-      while usedIds[sub.id]
-        offset++
-        sub.id = "#{id}_#{offset}"
-
-      usedIds[sub.id] = true
-
-      sub.title = title
       sub.html = @_parseTokens(sub.tokens, @options)
 
   toObject: ->
     obj = {@title}
-    obj.meta = @meta if @meta?
+    obj.meta = @_metaToObject(@meta) if @meta?
     obj.sub = (s.toObject() for s in @sub) if @sub?.length?
     obj.tokens = @tokens
     obj.id = @id if @id?
     obj.html = @html
+    obj
+
+  _metaToObject: (metaObject) ->
+    obj = {}
+    for own key, value of metaObject
+      if !(key in ["rawTitle", "id"])
+        obj[key] = value
     obj
 
   render: ->
@@ -185,7 +200,11 @@ class DocSection
 
   _parseTokens: (tokens, options) ->
     tokens.forEach (t) =>
-      if t.type in ["paragraph", "listitem"]
+      if t.type is 'table'
+        for row in t.cells
+          for cell, idx in row
+            row[idx] = Autolink.insertLinks(cell, @generator)
+      else if t.type in ["paragraph", "listitem", "tablecell"]
         t.text = Autolink.insertLinks(t.text, @generator)
 
     tokens.links = {}
@@ -195,7 +214,7 @@ class DocSection
 class HeadingParser
   @parse: (title) ->
     # Expects `/api/Data Structures/Batman.Set/SetIndex`
-    # or `::%length` etc
+    # or `::%length : Number` etc
     if title.match(/\/api\//)
       @_parseFileHeading(title)
     else
@@ -209,6 +228,7 @@ class HeadingParser
     {title: fileTitle, meta}
 
   @_parseSectionHeading: (title) ->
+    rawTitle = title
     if title.match(/^@/)
       level = "class"
       title = title.match(/^@(.*)/)[1]
@@ -231,7 +251,7 @@ class HeadingParser
 
       returnType = undefined unless returnType
 
-    {title, meta: {type, level, params, returnType}}
+    {title, meta: {type, level, params, returnType, rawTitle}}
 
 
 files = glob.sync("#{argv.dir}/**/*.litcoffee")

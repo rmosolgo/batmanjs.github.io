@@ -49,13 +49,13 @@ To put data into view bindings, you pass _keypaths_ which point to values in the
 
 ### Keypaths
 
-A __keypath__ is the value of the HTML attribute a binding references. Keypaths can have multiple segments:
+A __keypath__ is a reference to a value in the current render context. Keypaths can have multiple segments:
 
 {% highlight html %}
 <p data-bind="order.customer.name"></p>
 {% endhighlight %}
 
-The keypath in the above HTML is `order.customer.name`. It has three segments: `order`, `customer`, and `name`. The binding will automatically update the HTML value when any of those segments change. In the above example, this means the `<p>` tag's `innerHTML` will be updated when:
+The keypath above is `order.customer.name`. It has three segments: `order`, `customer`, and `name`. The binding will automatically update the HTML value when any of those segments change. In the above example, this means the `<p>` tag's `innerHTML` will be updated when:
 
 - the order changes,
 - the order's customer changes, or
@@ -102,7 +102,7 @@ and filter chains can use _other keypaths_ as arguments to the filters:
 
 The above `<span>`'s `innerHTML` will be updated whenever the person's name _or_ title changes. Both keypaths are tracked by the binding.
 
-__Note that filtered keypaths cannot propagate DOM changes to JavaScript__ because values can't always be "unfiltered". Filters only affect Javascript-to-DOM bindings, not DOM-toJavascript!
+__Note that filtered keypaths cannot propagate DOM changes to JavaScript__ because values can't always be "unfiltered". Filters only affect Javascript-to-DOM bindings, not DOM-to-Javascript!
 
 ### Keypath Literals
 

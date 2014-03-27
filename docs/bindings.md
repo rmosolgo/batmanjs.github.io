@@ -5,23 +5,27 @@ prev_section: models
 next_section: views
 ---
 
-Batman.js bindings connect an app to the DOM. Bindings are created by adding `data-` attributes to your HTML templates. In this sample, all the attributes prefixed with `data-` are view bindings:
+Batman.js bindings connect an app to the DOM. Bindings are created by adding `data-` attributes to your HTML templates:
 
 {% highlight html %}
 <!-- html/posts/show.html -->
-<h1 data-bind-id='post.id | prepend "post-"' data-bind='post.title'></h1>
+<h1 data-bind='post.title'></h1>
 <p data-bind='post.body'></p>
-<h2 data-bind='"Comment" | pluralize post.comments.length'></h2>
+{% endhighlight %}
+
+When `posts#show` is rendered with a post, the HTML will be bound to that post.
+
+Bindings are automatically updated by batman.js. They observe their DOM node _and_ their JavaScript objects for changes, maintaining synchronization between the two. For example, in a `data-foreach` binding, the DOM will be automatically updated when an item is added to the collection:
+
+{% highlight html %}
 <ul>
-  <li data-foreach-comment='post.comments' data-showif='comment.wasApproved'>
+  <li data-foreach-comment='post.comments'>
     <span data-bind='comment.body'></span>
   </li>
 </ul>
 {% endhighlight %}
 
-When `posts#show` is rendered with a post, the HTML will be bound to that post.
-
-Bindings are automatically updated by batman.js. They observe their DOM node _and_ their JavaScript objects for changes, maintaining synchronization between the two.
+When a new comment is created, its `<li>` will be added to the `<ul>`. When a comment is removed, its `<li>` will be removed.
 
 Nodes can have multiple bindings:
 
@@ -104,6 +108,8 @@ The above `<span>`'s `innerHTML` will be updated whenever the person's name _or_
 
 __Note that filtered keypaths cannot propagate DOM changes to JavaScript__ because values can't always be "unfiltered". Filters only affect Javascript-to-DOM bindings, not DOM-to-Javascript!
 
+See the [`Batman.View Filters` documentation](/docs/api/batman.view_filters.html) for a full list of available view filters.
+
 ### Keypath Literals
 
 You may pass "keypath literals" as view binding arguments. Numbers, strings, and booleans can be passed as arguments to filters or used as the actual value of the keypath:
@@ -123,7 +129,7 @@ You may pass "keypath literals" as view binding arguments. Numbers, strings, and
 
 ## Available Bindings
 
-See the [`Batman.View Bindings` API documentation](/docs/api/batman.view_bindings.html) for a full list of available bindings.
+See the [`Batman.View Bindings` API documentation](/docs/api/batman.view_bindings.html) for a full list of available bindings and information about defining custom bindings.
 
 ## Iteration
 

@@ -1001,6 +1001,8 @@ api_index:
         - id: batman.view_bindings
           title: Batman.View Bindings
           sub: 
+            - id: custom_bindings
+              title: Custom Bindings
             - id: "data-bind"
               title: "data-bind"
             - id: "data-source"
@@ -1045,8 +1047,10 @@ api_index:
         - id: batman.view_filters
           title: Batman.View Filters
           sub: 
-            - id: "equals(left%2C_right)__or__eq(left%2C_right)%3A_boolean"
-              title: "equals(left, right) _or_ eq(left, right): Boolean"
+            - id: custom_filters
+              title: Custom Filters
+            - id: "equals(left%2C_right)_or_eq(left%2C_right)%3A_boolean"
+              title: "equals(left, right) or eq(left, right): Boolean"
             - id: "lt(left%2C_right)_%3A_boolean"
               title: "lt(left, right) : Boolean"
             - id: "gt(left%2C_right)_%3A_boolean"

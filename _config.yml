@@ -1001,16 +1001,8 @@ api_index:
         - id: batman.view_bindings
           title: Batman.View Bindings
           sub: 
-            - id: how_to_use_bindings
-              title: How to use bindings
-            - id: binding_keypaths
-              title: Binding Keypaths
-            - id: binding_contexts
-              title: Binding Contexts
-            - id: keypath_filters
-              title: Keypath Filters
-            - id: keypath_literals
-              title: Keypath Literals
+            - id: custom_bindings
+              title: Custom Bindings
             - id: "data-bind"
               title: "data-bind"
             - id: "data-source"
@@ -1045,12 +1037,30 @@ api_index:
               title: "data-yield"
             - id: "data-contentfor"
               title: "data-contentfor"
+            - id: "data-track"
+              title: "data-track"
+            - id: "data-debug"
+              title: "data-debug"
           meta: 
             grouping: App Components
             parent: Batman.View
         - id: batman.view_filters
           title: Batman.View Filters
           sub: 
+            - id: custom_filters
+              title: Custom Filters
+            - id: "equals(left%2C_right)_or_eq(left%2C_right)%3A_boolean"
+              title: "equals(left, right) or eq(left, right): Boolean"
+            - id: "lt(left%2C_right)_%3A_boolean"
+              title: "lt(left, right) : Boolean"
+            - id: "gt(left%2C_right)_%3A_boolean"
+              title: "gt(left, right) : Boolean"
+            - id: "lteq(left%2C_right)_%3A_boolean"
+              title: "lteq(left, right) : Boolean"
+            - id: "gteq(left%2C_right)_%3A_boolean"
+              title: "gteq(left, right) : Boolean"
+            - id: "neq(left%2C_right)_%3A_boolean"
+              title: "neq(left, right) : Boolean"
             - id: "ceil(value)_%3A_string"
               title: "ceil(value) : string"
             - id: "floor(value)_%3A_string"
@@ -1069,8 +1079,6 @@ api_index:
               title: "get(value, key) : value"
             - id: "value%5Bkey%5D_%3A_value"
               title: "value[key] : value"
-            - id: "equals(left%2C_right)_%3A_boolean"
-              title: "equals(left, right) : boolean"
             - id: "not(value)_%3A_boolean"
               title: "not(value) : boolean"
             - id: "matches(value%2C_string)_%3A_boolean"

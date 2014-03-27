@@ -5,6 +5,34 @@ meta:
   grouping: App Components
   parent: Batman.View
 sub: 
+  - title: Custom Filters
+    tokens: []
+    id: custom_filters
+    html: "<p>You can define custom filters by setting them on the <code>Batman.Filters</code> object. For example, a batman.js view filter that formats a date with <a href=\"http://momentjs.com\">moment.js</a>:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"comment\"># `moment` is the moment.js object</span>\nBatman.Filters.<span class=\"function\"><span class=\"title\">dateFormat</span></span> = (date, format) -&gt;\n  moment(date).format(format)</code></pre>\n<p>You can also define custom filters when defining custom views with <a href=\"docs/api/batman.view.html#class_function_filter\"><code>Batman.View.filter</code></a>.</p>\n"
+  - title: "equals(left, right) or eq(left, right): Boolean"
+    tokens: []
+    id: "equals(left%2C_right)_or_eq(left%2C_right)%3A_boolean"
+    html: "<p>Checks if left content is equal to right content:</p>\n<pre><code class=\"lang-html\">&lt;span data-showif=<span class=\"string\">\"title | equals 'Batman Views'\"</span>&gt;&lt;/span&gt;\n&lt;span data-showif=<span class=\"string\">\"value | eq 10\"</span>&gt;&lt;/span&gt;\n&lt;span data-showif=<span class=\"string\">\"value | eq true\"</span>&gt;&lt;/span&gt;</code></pre>\n<p><strong>Note</strong>: there is actually <em>one</em> difference between <code>eq</code> and <code>equals</code>: <code>equals</code> rejects undefined values, but <code>eq</code> allows them.</p>\n"
+  - title: "lt(left, right) : Boolean"
+    tokens: []
+    id: "lt(left%2C_right)_%3A_boolean"
+    html: "<p>Checks if left content is <code>less than</code> the right content.</p>\n<pre><code class=\"lang-html\">&lt;span data-showif=<span class=\"string\">\"posts.length | lt 10\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+  - title: "gt(left, right) : Boolean"
+    tokens: []
+    id: "gt(left%2C_right)_%3A_boolean"
+    html: "<p>Checks if left content is <code>greater than</code> the right content.</p>\n<pre><code class=\"lang-html\">&lt;span data-showif=<span class=\"string\">\"posts.length | gt 10\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+  - title: "lteq(left, right) : Boolean"
+    tokens: []
+    id: "lteq(left%2C_right)_%3A_boolean"
+    html: "<p>Checks if left content is <code>less than or equal to</code> the right content.</p>\n<pre><code class=\"lang-html\">&lt;span data-showif=<span class=\"string\">\"posts.length | lteq 10\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+  - title: "gteq(left, right) : Boolean"
+    tokens: []
+    id: "gteq(left%2C_right)_%3A_boolean"
+    html: "<p>Checks if left content is <code>greater than or equal to</code> the right content.</p>\n<pre><code class=\"lang-html\">&lt;span data-showif=<span class=\"string\">\"posts.length | gteq 10\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+  - title: "neq(left, right) : Boolean"
+    tokens: []
+    id: "neq(left%2C_right)_%3A_boolean"
+    html: "<p>Checks if left content is <code>is NOT equal to</code> the right content.</p>\n<pre><code class=\"lang-html\">&lt;span data-showif=<span class=\"string\">\"posts.length | neq 10\"</span>&gt;&lt;/span&gt;</code></pre>\n"
   - title: "ceil(value) : string"
     tokens: []
     id: "ceil(value)_%3A_string"
@@ -41,10 +69,6 @@ sub:
     tokens: []
     id: "value%5Bkey%5D_%3A_value"
     html: "<p>Shorthand for the <code>get</code> filter.</p>\n"
-  - title: "equals(left, right) : boolean"
-    tokens: []
-    id: "equals(left%2C_right)_%3A_boolean"
-    html: "<p>Checks if left content is equal to right content:</p>\n<pre><code class=\"lang-html\">&lt;span data-showif=<span class=\"string\">\"title | equals 'Batman Views'\"</span>&gt;&lt;/span&gt;</code></pre>\n"
   - title: "not(value) : boolean"
     tokens: []
     id: "not(value)_%3A_boolean"
@@ -112,7 +136,7 @@ sub:
   - title: "meta(value, keypath) : value"
     tokens: []
     id: "meta(value%2C_keypath)_%3A_value"
-    html: ""
+    html: "<p>Looks up <code>keypath</code> on <code>value.meta</code>. The <code>value</code> must have a <code>meta</code> property to look up against.</p>\n"
   - title: "interpolate(string, valuesObject) : string"
     tokens: []
     id: "interpolate(string%2C_valuesobject)_%3A_string"
@@ -127,7 +151,7 @@ sub:
     html: "<p>Escapes HTML in the input value:</p>\n<pre><code class=\"lang-html\">&lt;textarea data-bind=<span class=\"string\">\"page.body_html | escape\"</span>&gt;&lt;/textarea&gt;</code></pre>\n"
 tokens: []
 id: batman.view_filters
-html: "<p>Batman filters are evaluated from left to right, with the output of each filter being injected into the next. This allows you to form filter chains for display purposes. Accessor caching does not apply to filter chains. If any component of the chain changes, the entire chain will be recalculated for each binding in the template.</p>\n"
+html: "<p>Batman filters are evaluated from left to right, with the output of each filter being injected into the next. This allows you to form filter chains for display purposes. Accessor caching does not apply to filter chains. If any component of the chain changes, the entire chain will be recalculated for each binding in the template.</p>\n<p>Batman.js ships with many built-in view filters:</p>\n<table>\n<thead>\n<tr>\n<th>Type</th>\n<th>Filters</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Logical Operators</strong></td>\n<td><code>get</code>, <code>[]</code>, <code>equals</code>, <code>eq</code>, <code>neq</code>, <code>lt</code>, <code>gt</code>, <code>lteq</code>, <code>gteq</code>, <code>and</code>, <code>or</code>, <code>not</code></td>\n</tr>\n<tr>\n<td><strong>General Utilities</strong></td>\n<td><code>meta</code>, <code>withArguments</code>, <code>default</code></td>\n</tr>\n<tr>\n<td><strong>Number Helpers</strong></td>\n<td><code>ceil</code>, <code>floor</code>, <code>round</code>, <code>precision</code>, <code>fixed</code>, <code>delimitNumber</code></td>\n</tr>\n<tr>\n<td><strong>Set Helpers</strong></td>\n<td><code>join</code>, <code>sort</code>, <code>map</code>, <code>has</code>, <code>first</code></td>\n</tr>\n<tr>\n<td><strong>String Helpers</strong></td>\n<td><code>interpolate</code>, <code>escape</code>, <code>capitalize</code>, <code>singularize</code>, <code>underscore</code>, <code>camelize</code>, <code>trim</code>, <code>raw</code>, <code>matches</code>, <code>truncate</code>, <code>prepend</code>, <code>append</code>, <code>replace</code>, <code>downcase</code>, <code>upcase</code>, <code>pluralize</code>, <code>humanize</code></td>\n</tr>\n<tr>\n<td><strong>Debuggers</strong></td>\n<td><code>log</code>, <code>logStack</code></td>\n</tr>\n</tbody>\n</table>\n"
 
 ---
 

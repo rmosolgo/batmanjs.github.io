@@ -1,0 +1,99 @@
+---
+layout: api_docs
+title: Batman.SetObserver
+meta: 
+  grouping: Data Structures
+  parent: Batman.Set
+sub: 
+  - title: "constructor"
+    meta: 
+      type: function
+      level: prototype
+      params: "base : Set"
+      returnType: SetObserver
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>Returns a new <a href=\"/docs/api/batman.setobserver.html\"><code>Batman.SetObserver</code></a> tracking <code>base</code>.</p>\n"
+  - title: base
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Set
+    tokens: []
+    id: prototype_property_base
+    html: "<p>The set being tracked by the observer.</p>\n"
+  - title: observedItemKeys
+    meta: 
+      type: property
+      level: prototype
+      params: "[=[]]"
+      returnType: Array
+    tokens: []
+    id: prototype_property_observeditemkeys
+    html: "<p>If you set <code>observedItemKeys</code> to an array of strings, those keys will be observed on the members of <code>base</code>. When those keys change, the provided observer (see <code>observerForItemAndKey</code>) will be called.</p>\n"
+  - title: observerForItemAndKey
+    meta: 
+      type: property
+      level: prototype
+      params: "item : Batman.Object, key : String"
+      returnType: Function
+    tokens: []
+    id: prototype_property_observerforitemandkey
+    html: "<p>When you instantiate a <code>SetObserver</code>, you should override this function. When the observer starts observing an item, this function will be called for each <code>key</code> in <code>observedItemKeys</code>. It should return an observer function for <code>key</code>. The observer function will be passed <code>newValue, oldValue</code>.</p>\n"
+  - title: startObserving
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_startobserving
+    html: "<p>Starts observing the <code>base</code> and all its members.</p>\n"
+  - title: stopObserving
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_stopobserving
+    html: "<p>Stops observing the <code>base</code> and all its members.</p>\n"
+  - title: startObservingItems
+    meta: 
+      type: function
+      level: prototype
+      params: "items : Array"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_startobservingitems
+    html: "<p>Adds observers for <code>observedItemKeys</code> on each item in <code>items</code>, calling <code>observerForItemAndKey</code> for each key in <code>observedItemKeys</code></p>\n"
+  - title: stopObservingItems
+    meta: 
+      type: function
+      level: prototype
+      params: "items : Array"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_stopobservingitems
+    html: "<p>Forgets observers on <code>items</code>.</p>\n"
+tokens: []
+id: batman.setobserver
+html: "<p><a href=\"/docs/api/batman.setobserver.html\"><code>Batman.SetObserver</code></a> is a utility for observing <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a>s and their contents (especially if their contents are <a href=\"/docs/api/batman.object.html\"><code>Batman.Object</code></a>s). It extends <a href=\"/docs/api/batman.object.html\"><code>Batman.Object</code></a>. In the wild, <a href=\"/docs/api/batman.setproxy.html\"><code>Batman.SetProxy</code></a> uses a <a href=\"/docs/api/batman.setobserver.html\"><code>Batman.SetObserver</code></a> to track its base set and <a href=\"/docs/api/batman.setsort.html\"><code>Batman.SetSort</code></a> uses item tracking to maintain its order.</p>\n<p>A few other points about <a href=\"/docs/api/batman.setobserver.html\"><code>Batman.SetObserver</code></a>:</p>\n<ul>\n<li>It fires <code>itemsWereAdded</code> and <code>itemsWereRemoved</code> when its base <code>Batman.Set</code> fires those events.</li>\n<li>When items are added and removed to the base Set, they&#39;re automatically observed with <code>startObservingItems</code>/<code>stopObservingItems</code> -- you don&#39;t have to set that up yourself.</li>\n<li>Override <code>observedItemKeys</code> and <code>observerForItemAndKey</code> to track properties of <code>Batman.Object</code> members of the set.</li>\n</ul>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

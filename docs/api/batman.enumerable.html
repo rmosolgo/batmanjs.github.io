@@ -5,6 +5,10 @@ meta:
   grouping: Data Structures
   parent: !<tag:yaml.org,2002:js/undefined> ""
 sub: 
+  - title: "Implementing your own `Batman.Enumerable`"
+    tokens: []
+    id: "implementing_your_own_%60batman.enumerable%60"
+    html: "<p>To make these methods available for a new type, all you need to do is define\n<code>forEach()</code> and <code>length</code>. Then, in your type, you can just <code>Batman.extend\n@prototype, Batman.Enumerable</code> to copy the <code>Enumerable</code> methods onto your\nprototype.</p>\n"
   - title: length
     meta: 
       type: property
@@ -86,10 +90,15 @@ sub:
     tokens: []
     id: prototype_function_count
     html: "<p>Returns the number of elements for which <code>func</code> returns true, or the total\nnumber of elements if you don&#39;t pass a <code>func</code>.  <code>func</code> receives the arguments\n<code>(element, value, this)</code></p>\n<pre><code>test <span class=\"string\">\"count counts\"</span>, -&gt;\n  set = <span class=\"keyword\">new</span> Batman.Set(<span class=\"number\">1</span>, <span class=\"number\">2</span>, <span class=\"number\">3</span>)\n  equal <span class=\"number\">3</span>, set.count()\n  equal <span class=\"number\">2</span>, set.count (x) -&gt; x &gt; <span class=\"number\">1</span></code></pre>\n"
-  - title: "Implementing your own `Batman.Enumerable`"
+  - title: inGroupsOf
+    meta: 
+      type: function
+      level: prototype
+      params: "groupSize: number"
+      returnType: Array
     tokens: []
-    id: "implementing_your_own_%60batman.enumerable%60"
-    html: "<p>To make these methods available for a new type, all you need to do is define\n<code>forEach()</code> and <code>length</code>. Then, in your type, you can just <code>Batman.extend\n@prototype, Batman.Enumerable</code> to copy the <code>Enumerable</code> methods onto your\nprototype.</p>\n"
+    id: prototype_function_ingroupsof
+    html: "<p>Splits the enumerable into groups of up to <code>groupSize</code> and returns the items in an array of arrays.</p>\n<p>  test &quot;inGroupsOf returns an array of arrays&quot;, -&gt;\n    set = new Batman.Set(1,2,3,4,5,6,7,8)\n    groups = set.inGroupsOf(3)\n    equal 3, groups[0].length\n    equal 3, groups[1].length\n    equal 2, groups[2].length, &quot;The last group might be smaller&quot;</p>\n"
 tokens: []
 id: batman.enumerable
 html: "<p><a href=\"/docs/api/batman.enumerable.html\"><code>Batman.Enumerable</code></a> is a mixin that defines methods available for every\nenumerable type (<a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a> and <a href=\"/docs/api/batman.hash.html\"><code>Batman.Hash</code></a> being the main two).</p>\n<p>Note that where the signature of the callback functions is defined, <code>element</code>\nis the value of the current element being iterated over, and <code>value</code> is\n<code>null</code>—except in the case of <a href=\"/docs/api/batman.hash.html\"><code>Batman.Hash</code></a> where <code>element</code> is the key and\n<code>value</code> is the value.</p>\n"

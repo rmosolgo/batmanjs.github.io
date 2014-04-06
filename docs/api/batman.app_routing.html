@@ -5,6 +5,10 @@ meta:
   grouping: App Components
   parent: Batman.App
 sub: 
+  - title: Handling unknown routes
+    tokens: []
+    id: handling_unknown_routes
+    html: "<p>When batman.js doesn&#39;t have a way to handle a route, it:</p>\n<ul>\n<li>fires <code>&quot;error&quot;</code> on the running app, passing an object like:<pre><code class=\"lang-javascript\">{\n  type: <span class=\"string\">\"404\"</span>\n  isPrevented: <span class=\"literal\">false</span>\n  preventDefault: -&gt; <span class=\"property\">@isPrevented</span> = <span class=\"literal\">true</span>\n}</code></pre>\n</li>\n<li>if <code>error.isPrevented</code> isn&#39;t set to <code>true</code> by a handler, redirects to <code>/404</code></li>\n</ul>\n<p>So, you can handle these in your App routing:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">MyApp</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">App</span></span>\n  <span class=\"comment\"># handle the event:</span>\n  <span class=\"property\">@on</span> <span class=\"string\">'error'</span>, -&gt;\n    <span class=\"keyword\">if</span> error.type <span class=\"keyword\">is</span> <span class=\"string\">\"404\"</span>\n      alert(<span class=\"string\">'Not Found!'</span>)\n      error.preventDefault()</code></pre>\n<p><strong>or:</strong></p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">MyApp</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">App</span></span>\n  <span class=\"comment\"># handle the redirect:</span>\n  <span class=\"property\">@route</span> <span class=\"string\">'/404'</span>, (params) -&gt; alert(<span class=\"string\">\"Not found!\"</span>)</code></pre>\n"
   - title: route
     meta: 
       type: function
@@ -52,7 +56,7 @@ sub:
     html: "<p><code>@root</code> defines the root controller and action to be used when visiting the base application URL. For example:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">window</span>.<span class=\"title\">Example</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">App</span></span>\n  <span class=\"property\">@root</span> <span class=\"string\">'pages#index'</span>\n\n<span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Example</span>.<span class=\"title\">PagesController</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Controller</span></span>\n  index: -&gt;</code></pre>\n<p>Would result in <code>/</code> being pointed to <code>PagesController#index</code>.</p>\n"
 tokens: []
 id: batman.app_routing
-html: "<p>The batman.js routing DSL is similar to the <a href=\"http://guides.rubyonrails.org/routing.html\">Rails routing DSL</a>. It is oriented around the notion of a resource:</p>\n"
+html: "<p>The batman.js routing DSL is similar to the <a href=\"http://guides.rubyonrails.org/routing.html\">Rails routing DSL</a>. It is oriented around the notion of a resource.</p>\n"
 
 ---
 

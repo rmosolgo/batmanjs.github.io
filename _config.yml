@@ -220,6 +220,8 @@ api_index:
     - id: batman.enumerable
       title: Batman.Enumerable
       sub: 
+        - id: "implementing_your_own_%60batman.enumerable%60"
+          title: "Implementing your own `Batman.Enumerable`"
         - id: prototype_property_length
           title: length
         - id: prototype_function_foreach
@@ -238,8 +240,8 @@ api_index:
           title: filter
         - id: prototype_function_count
           title: count
-        - id: "implementing_your_own_%60batman.enumerable%60"
-          title: "Implementing your own `Batman.Enumerable`"
+        - id: prototype_function_ingroupsof
+          title: inGroupsOf
       meta: 
         grouping: Data Structures
         parent: !<tag:yaml.org,2002:js/undefined> ""
@@ -341,6 +343,28 @@ api_index:
           sub: 
             - id: prototype_function_get
               title: get
+          meta: 
+            grouping: Data Structures
+            parent: Batman.Set
+        - id: batman.setobserver
+          title: Batman.SetObserver
+          sub: 
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: prototype_property_base
+              title: base
+            - id: prototype_property_observeditemkeys
+              title: observedItemKeys
+            - id: prototype_property_observerforitemandkey
+              title: observerForItemAndKey
+            - id: prototype_function_startobserving
+              title: startObserving
+            - id: prototype_function_stopobserving
+              title: stopObserving
+            - id: prototype_function_startobservingitems
+              title: startObservingItems
+            - id: prototype_function_stopobservingitems
+              title: stopObservingItems
           meta: 
             grouping: Data Structures
             parent: Batman.Set
@@ -690,6 +714,8 @@ api_index:
         - id: batman.app_routing
           title: Batman.App Routing
           sub: 
+            - id: handling_unknown_routes
+              title: Handling unknown routes
             - id: class_function_route
               title: route
             - id: class_function_resources

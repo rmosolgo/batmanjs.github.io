@@ -93,7 +93,8 @@ class App.AutocompleteView extends Batman.View
   html: "<input type='text' />"
   autocompleteSource: -> []
   viewDidAppear: ->
-    $(@node).autocomplete
+    input = @node.firstChild # @node is the container for the view
+    $(input).autocomplete
       source: @autocompleteSource()
 {% endhighlight %}
 
@@ -146,7 +147,7 @@ To add a custom view, use the [`data-view` binding](/docs/api/batman.view_bindin
 
 {% highlight html %}
 <div data-view='CustomInputView'>
-  <!-- your HTML here, or provided by CustomInputView#source or CustomInputView#html -->
+  <!-- your HTML here, or provided by CustomInputView::source or CustomInputView::html -->
 </div>
 {% endhighlight %}
 

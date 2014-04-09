@@ -15,7 +15,7 @@ model.
 ## Defining a Model
 
 Models are defined by creating subclasses of `Batman.Model`. All the features described below will be inherited by
-subclasses, so you can extend your own models, too.
+subclasses, so you can extend your own models too.
 
 - _Everything from [`Batman.Object`](/docs/api/batman.object.html):_ [accessors](/docs/api/batman.object_accessors.html), [events](/docs/api/batman.eventemitter.html), and [observers](/docs/api/batman.observable.html)
 - _Persistence_ with encoders and storage adapters
@@ -34,9 +34,9 @@ Persistence responsibilities are divided between:
 ### Encoders
 
 Persisted model attributes are defined with _encoders_. These are directives that tell
-batman.js to load certain keys and parse them in a certain way.
+batman.js to load certain keys from serialized data.
 
-To simply encode and decode an attribute from JSON, pass one or more attribute names to `@encode`:
+To encode and decode an attribute without transformation, pass one or more attribute names to `@encode`:
 
 {% highlight coffeescript %}
 class MyApp.Product extends Batman.Model

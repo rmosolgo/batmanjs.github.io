@@ -154,7 +154,7 @@ aceOfSpades.get('deck.brand')   # => "Bicycle"
 aceOfSpades.get('brand')        # => "Bicycle"
 {% endhighlight %}
 
-Associations are very configurable: see the [Model Associations API docs](/docs/api/batman.model_associations.html) have more detail about association options.
+Associations are very configurable: see the [Model Associations API docs](/docs/api/batman.model_associations.html) for more detail about association options.
 
 ### Asynchronicity and Association Values
 

@@ -355,7 +355,7 @@ api_index:
               title: base
             - id: prototype_property_observeditemkeys
               title: observedItemKeys
-            - id: prototype_property_observerforitemandkey
+            - id: prototype_function_observerforitemandkey
               title: observerForItemAndKey
             - id: prototype_function_startobserving
               title: startObserving
@@ -768,9 +768,11 @@ api_index:
     - id: batman.model
       title: Batman.Model
       sub: 
-        - id: class_function_primarykey
+        - id: class_property_primarykey
           title: primaryKey
-        - id: class_function_storagekey
+        - id: class_property_resourcename
+          title: resourceName
+        - id: class_property_storagekey
           title: storageKey
         - id: class_function_persist
           title: persist
@@ -778,9 +780,9 @@ api_index:
           title: encode
         - id: class_function_validate
           title: validate
-        - id: class_function_loaded
+        - id: class_accessor_loaded
           title: loaded
-        - id: class_function_all
+        - id: class_accessor_all
           title: all
         - id: class_function_clear
           title: clear

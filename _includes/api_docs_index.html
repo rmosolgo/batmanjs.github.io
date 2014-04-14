@@ -6,7 +6,7 @@
   </div>
   <div id='api-accordion'>
     {% for grouping in site.api_index %}
-      {% capture total %}0{% endcapture %}
+      {% assign total = 0 %}
       {% for doc in grouping[1] %}
         {% capture total %}{{ total | plus:1 }}{% endcapture %}
         {% for sub in doc.children %}

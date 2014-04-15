@@ -5,6 +5,6 @@ $(function() {
   $('#api-accordion').accordion({
     header: "h5",
     heightStyle: "content",
-    active: 2
+    active: currentGroupIndex // set in _includes/api_docs_index
   });
 });

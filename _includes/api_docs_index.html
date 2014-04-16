@@ -4,25 +4,51 @@
     <input type="text" class="api-search-input input-text" placeholder="Search...">
     <ul id="api-search-results"></ul>
   </div>
-  {% for grouping in site.api_index %}
-    {% if grouping[0] != 'Ungrouped' %}
-      <h5>{{ grouping[0] }}</h5>
-    {% endif %}
-    <ul>
+  <div id='api-accordion'>
+    {% assign current_group = 0 %}
+    {% for grouping in site.api_index %}
+      {% assign group_index = forloop.index0 %}
+      {% assign total = 0 %}
       {% for doc in grouping[1] %}
-      <li class="{% if page.title == doc.title %}current{% endif %}">
-        <a href="{{ site.url }}/docs/api/{{ doc.id }}.html">{{ doc.title }}</a>
-        {% if doc.children %}
-          <ul class='sidebar-children'>
-          {% for child in doc.children %}
-          <li class="{% if page.title == child.title %}current{% endif %}">
-            <a href="{{ site.url }}/docs/api/{{ child.id }}.html">{{ child.title }}</a>
-          </li>
-          {% endfor %}
-          </ul>
-        {% endif %}
-      </li>
+        {% capture total %}{{ total | plus:1 }}{% endcapture %}
+        {% for sub in doc.children %}
+          {% capture total %}{{ total | plus:1 }}{% endcapture %}
+        {% endfor %}
       {% endfor %}
-    </ul>
-  {% endfor %}
+      {% if grouping[0] != 'Ungrouped' %}
+        <h5>{{ grouping[0] }} ({{ total }})</h5>
+      {% else %}
+        <h5>General ({{ total }})</h5>
+      {% endif %}
+      <ul>
+        {% for doc in grouping[1] %}
+        {% assign is_current = false %}
+        {% if page.title == doc.title %}
+          {% assign is_current = true %}
+          {% assign current_group = group_index %}
+        {% endif %}
+        <li class="{% if page.title == doc.title %}current{% endif %}">
+          <a href="{{ site.url }}/docs/api/{{ doc.id }}.html">{{ doc.title }}</a>
+          {% if doc.children %}
+            <ul class='sidebar-children'>
+            {% for child in doc.children %}
+              {% assign is_current = false %}
+              {% if page.title == child.title %}
+                {% assign is_current = true %}
+                {% assign current_group = group_index %}
+              {% endif %}
+              <li class="{% if is_current %}current{% endif %}">
+                <a href="{{ site.url }}/docs/api/{{ child.id }}.html">{{ child.title }}</a>
+              </li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    {% endfor %}
+  </div>
 </div>
+<script>
+var currentGroupIndex = {{current_group}}
+</script>

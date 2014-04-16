@@ -818,6 +818,9 @@ td + td > p, th + th {
   margin-bottom: 0;
 }
 
+#api-accordion h5 {
+  cursor: pointer;
+}
 
 
 @media all and (min-width: 1340px) {

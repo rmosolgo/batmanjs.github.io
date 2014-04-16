@@ -1,0 +1,27 @@
+---
+layout: api_docs
+title: Batman.IterationView
+meta: 
+  grouping: App Internals
+  parent: Views
+sub: []
+tokens: []
+id: batman.iterationview
+html: "<p><a href=\"/docs/api/batman.iterationview.html\"><code>Batman.IterationView</code></a> extends <a href=\"/docs/api/batman.view.html\"><code>Batman.View</code></a>. It has no added functionality. It is used by <a href=\"/docs/api/batman.iteratorview.html\"><code>Batman.IteratorView</code></a> if no other item-level view class is provided to the <code>prototypeNode</code> with a <a href=\"/docs/api/batman.view_bindings.html#data-view\"><code>data-view</code></a> binding.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

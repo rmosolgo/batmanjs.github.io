@@ -1301,6 +1301,184 @@ api_index:
           meta: 
             grouping: App Internals
             parent: Batman.Dispatcher
+    - id: bindings
+      title: Bindings
+      sub: []
+      meta: 
+        grouping: App Internals
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+      children: 
+        - id: batman.dom.abstractbinding
+          title: Batman.DOM.AbstractBinding
+          sub: 
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: prototype_accessor_unfilteredvalue
+              title: unfilteredValue
+            - id: prototype_accessor_filteredvalue
+              title: filteredValue
+            - id: prototype_property_filterfunctions
+              title: filterFunctions
+            - id: prototype_property_filterarguments
+              title: filterArguments
+            - id: prototype_property_bindimmediately
+              title: bindImmediately
+            - id: prototype_property_shouldset
+              title: shouldSet
+            - id: prototype_property_isinputbinding
+              title: isInputBinding
+            - id: prototype_property_onlyobserve
+              title: onlyObserve
+            - id: prototype_property_skipparsefilter
+              title: skipParseFilter
+            - id: prototype_property_node
+              title: node
+            - id: prototype_property_keypath
+              title: keyPath
+            - id: prototype_property_view
+              title: view
+            - id: prototype_property_backingview
+              title: backingView
+            - id: prototype_property_superview
+              title: superview
+            - id: prototype_property_key
+              title: key
+            - id: prototype_accessor_value
+              title: value
+            - id: prototype_function_istwoway
+              title: isTwoWay
+            - id: prototype_function_bind
+              title: bind
+            - id: prototype_function_die
+              title: die
+            - id: prototype_function_parsefilter
+              title: parseFilter
+            - id: prototype_function_parsesegment
+              title: parseSegment
+            - id: prototype_function_setupbackingview
+              title: setupBackingView
+          meta: 
+            grouping: App Internals
+            parent: Bindings
+        - id: batman.dom.abstractattributebinding
+          title: Batman.DOM.AbstractAttributeBinding
+          sub: 
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: prototype_property_attr
+              title: attr
+          meta: 
+            grouping: App Internals
+            parent: Bindings
+        - id: batman.dom.abstractcollectionbinding
+          title: Batman.DOM.AbstractCollectionBinding
+          sub: 
+            - id: prototype_property_collection
+              title: collection
+            - id: prototype_function_datachange
+              title: dataChange
+            - id: prototype_function_bindcollection
+              title: bindCollection
+            - id: prototype_function_unbindcollection
+              title: unbindCollection
+            - id: prototype_function_handlearraychanged
+              title: handleArrayChanged
+            - id: prototype_function_die
+              title: die
+          meta: 
+            grouping: App Internals
+            parent: Bindings
+        - id: batman.dom.attributebinding
+          title: Batman.DOM.AttributeBinding
+          sub: 
+            - id: prototype_function_onlyobserve
+              title: onlyObserve
+            - id: prototype_function_datachange
+              title: dataChange
+            - id: prototype_function_nodechange
+              title: nodeChange
+          meta: 
+            grouping: App Internals
+            parent: Bindings
+        - id: batman.dom.nodeattributebinding
+          title: Batman.DOM.NodeAttributeBinding
+          sub: 
+            - id: prototype_function_datachange
+              title: dataChange
+            - id: prototype_function_nodechange
+              title: nodeChange
+          meta: 
+            grouping: App Internals
+            parent: Bindings
+        - id: batman.dom.contextbinding
+          title: Batman.DOM.ContextBinding
+          sub: 
+            - id: prototype_function_onlyobserve
+              title: onlyObserve
+            - id: prototype_function_backwithview
+              title: backWithView
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: prototype_function_datachange
+              title: dataChange
+            - id: prototype_function_die
+              title: die
+          meta: 
+            grouping: App Internals
+            parent: Bindings
+    - id: views
+      title: Views
+      sub: []
+      meta: 
+        grouping: App Internals
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+      children: 
+        - id: batman.iteratorview
+          title: Batman.IteratorView
+          sub: 
+            - id: prototype_function_loadview
+              title: loadView
+            - id: prototype_function_additems
+              title: addItems
+            - id: prototype_function_removeitems
+              title: removeItems
+            - id: prototype_function_moveitem
+              title: moveItem
+            - id: prototype_property_iteratorname
+              title: iteratorName
+            - id: prototype_property_iteratorpath
+              title: iteratorPath
+            - id: prototype_property_attributename
+              title: attributeName
+            - id: prototype_property_prototypenode
+              title: prototypeNode
+            - id: prototype_property_iterationviewclass
+              title: iterationViewClass
+          meta: 
+            grouping: App Internals
+            parent: Views
+        - id: batman.iterationview
+          title: Batman.IterationView
+          sub: []
+          meta: 
+            grouping: App Internals
+            parent: Views
+        - id: batman.backingview
+          title: Batman.BackingView
+          sub: 
+            - id: prototype_property_isbackingview
+              title: isBackingView
+            - id: prototype_property_bindimmediately
+              title: bindImmediately
+          meta: 
+            grouping: App Internals
+            parent: Views
+        - id: batman.selectview
+          title: Batman.SelectView
+          sub: []
+          meta: 
+            grouping: App Internals
+            parent: Views
   Extras: 
     - id: batman.i18n
       title: Batman.I18N

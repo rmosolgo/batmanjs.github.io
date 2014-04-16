@@ -1,0 +1,81 @@
+---
+layout: api_docs
+title: Batman.DOM.AbstractCollectionBinding
+meta: 
+  grouping: App Internals
+  parent: Bindings
+sub: 
+  - title: collection
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Enumerable
+    tokens: []
+    id: prototype_property_collection
+    html: "<p>The <a href=\"/docs/api/batman.enumerable.html\"><code>Batman.Enumerable</code></a> (eg, <a href=\"/docs/api/batman.hash.html\"><code>Batman.Hash</code></a>, <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a>) bound to this binding.</p>\n"
+  - title: dataChange
+    meta: 
+      type: function
+      level: prototype
+      params: collection
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_datachange
+    html: "<p>If <code>collection</code> is defined, either sets up bindings with <code>bindCollection</code>, or (if that returns <code>false</code>) calls <code>handleArrayChanged</code> with <code>collection</code>&#39;s  items.</p>\n<p>If <code>collection</code> isn&#39;t defined, it is treated as <code>[]</code>.</p>\n"
+  - title: bindCollection
+    meta: 
+      type: function
+      level: prototype
+      params: newCollection
+      returnType: Boolean
+    tokens: []
+    id: prototype_function_bindcollection
+    html: "<p>Sets up bindings between itself and the collection, setting <code>newCollection</code> as <code>@collection</code>. Returns <code>true</code> if bindings were initialized properly.</p>\n<p>If <code>newCollection</code> is <code>@collection</code>, returns <code>true</code> without re-binding.</p>\n<p>If the binding defines <code>@handleItemsAdded</code>, <code>@handleItemsRemoved</code> and <code>@handleItemMoved</code> <em>_and</em> <code>newCollection.isCollectionEventEmitter</code>, the binding will bind to collection event. Otherwise, it will bind to the collection&#39;s <code>toArray</code> property.</p>\n"
+  - title: unbindCollection
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_unbindcollection
+    html: "<p>Removes bindings between itself and its current collection</p>\n"
+  - title: handleArrayChanged
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_handlearraychanged
+    html: "<p>Must be implemented by implementing classes to handle changes to <code>@collection</code>.</p>\n"
+  - title: die
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_die
+    html: "<p>unbinds <code>@collection</code>, sets <code>@collection</code> to <code>null</code> and kills the binding.</p>\n"
+tokens: []
+id: batman.dom.abstractcollectionbinding
+html: "<p><a href=\"/docs/api/batman.dom.abstractcollectionbinding.html\"><code>Batman.DOM.AbstractCollectionBinding</code></a> is the parent class for all collection bindings. It extends <a href=\"/docs/api/batman.dom.abstractattributebinding.html\"><code>Batman.DOM.AbstractAttributeBinding</code></a>. To extend <a href=\"/docs/api/batman.dom.abstractcollectionbinding.html\"><code>Batman.DOM.AbstractCollectionBinding</code></a>, a child class <strong>must</strong> define <code>handleArrayChanged</code>, which is called when the collection changes. The child class may define <code>handleItemsAdded</code>, <code>handleItemsRemoved</code>, and <code>handleItemMoved</code>, which will be bound to colleciton events.</p>\n<p>Extended by:</p>\n<ul>\n<li><code>Batman.DOM.ClassBinding</code></li>\n<li><code>Batman.DOM.IteratorBinding</code></li>\n<li><code>Batman.DOM.StyleBinding</code></li>\n</ul>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

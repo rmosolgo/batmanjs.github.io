@@ -1,0 +1,234 @@
+---
+layout: api_docs
+title: Batman.DOM.AbstractBinding
+meta: 
+  grouping: App Internals
+  parent: Bindings
+sub: 
+  - title: "constructor"
+    meta: 
+      type: function
+      level: prototype
+      params: "definition: Object"
+      returnType: AbstractBinding
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>The binding gets some of its attributes from <code>definition</code>:</p>\n<ul>\n<li><code>@node</code></li>\n<li><code>@keyPath</code></li>\n<li><code>@view</code></li>\n<li><code>@onlyObserve</code></li>\n<li><code>@skipParseFilter</code></li>\n</ul>\n<p>And performs some setup:</p>\n<ul>\n<li><code>parseFilter</code> unless <code>@skipParseFilter</code></li>\n<li><code>setupBackingView</code> if <code>@backWithView</code> is a view class</li>\n<li><code>bind</code> if <code>@bindImmediately</code></li>\n</ul>\n"
+  - title: unfilteredValue
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_accessor_unfilteredvalue
+    html: "<p>The value of the binding before filters are applied, determined by its <code>@value</code> literal or by looking up <code>@key</code> against <code>@view</code> with <code>View::lookupKeypath</code>.</p>\n"
+  - title: filteredValue
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_accessor_filteredvalue
+    html: "<p>The result of <code>unfilteredValue</code> passed through <code>@filterFunctions</code> with <code>@filterArguments</code>.</p>\n"
+  - title: filterFunctions
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Array
+    tokens: []
+    id: prototype_property_filterfunctions
+    html: "<p>An array of functions idenitified by the binding&#39;s filters.</p>\n"
+  - title: filterArguments
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Array
+    tokens: []
+    id: prototype_property_filterarguments
+    html: "<p>An array of argument arrays for each function in <code>@filterFunctions</code>.</p>\n"
+  - title: bindImmediately
+    meta: 
+      type: property
+      level: prototype
+      params: "[=true]"
+      returnType: Boolean
+    tokens: []
+    id: prototype_property_bindimmediately
+    html: "<p>If <code>true</code>, bindings are initialized during the constructor. A <a href=\"/docs/api/batman.dom.abstractbinding.html\"><code>Batman.DOM.AbstractBinding</code></a> subclass may define this as <code>false</code> and call <code>bind</code> in its own implementation.</p>\n"
+  - title: shouldSet
+    meta: 
+      type: property
+      level: prototype
+      params: "[=true]"
+      returnType: Boolean
+    tokens: []
+    id: prototype_property_shouldset
+    html: "<p>Used by the binding to avoid multiple <code>set</code>s while updating.</p>\n"
+  - title: isInputBinding
+    meta: 
+      type: property
+      level: prototype
+      params: "[=false]"
+      returnType: Boolean
+    tokens: []
+    id: prototype_property_isinputbinding
+    html: "<p>Set to <code>true</code> by bindings that take user input.</p>\n"
+  - title: onlyObserve
+    meta: 
+      type: property
+      level: prototype
+      params: "[='all']"
+      returnType: String
+    tokens: []
+    id: prototype_property_onlyobserve
+    html: "<p>Defines what values the binding observes. Must be in <code>[&#39;data&#39;, &#39;node&#39;, &#39;all&#39;, &#39;none&#39;]</code>.</p>\n"
+  - title: skipParseFilter
+    meta: 
+      type: property
+      level: prototype
+      params: "[=false]"
+      returnType: Boolean
+    tokens: []
+    id: prototype_property_skipparsefilter
+    html: "<p>If <code>true</code>, <code>parseFilter</code> is skipped during initialization.</p>\n"
+  - title: node
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_property_node
+    html: "<p>The node that this binding is defined on.</p>\n"
+  - title: keyPath
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: String
+    tokens: []
+    id: prototype_property_keypath
+    html: "<p>The string passed to the binding, including all filters.</p>\n"
+  - title: view
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: View
+    tokens: []
+    id: prototype_property_view
+    html: "<p>The <a href=\"/docs/api/batman.view.html\"><code>Batman.View</code></a> that rendered this binding.</p>\n"
+  - title: backingView
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: View
+    tokens: []
+    id: prototype_property_backingview
+    html: "<p>The <a href=\"/docs/api/batman.view.html\"><code>Batman.View</code></a> initialized as a backing view for this binding, if one was initialized.</p>\n"
+  - title: superview
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: View
+    tokens: []
+    id: prototype_property_superview
+    html: "<p>Points to <code>@view</code> if a backing view was set up.</p>\n"
+  - title: key
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_property_key
+    html: "<p>The first argument passed to the binding, if the first argument was a keypath.</p>\n"
+  - title: value
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_accessor_value
+    html: "<p>The first argument passed to the binding, if the first argument was a literal value.</p>\n"
+  - title: isTwoWay
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Boolean
+    tokens: []
+    id: prototype_function_istwoway
+    html: "<p>Returns <code>true</code> if the only argument to the binding is a keypath (<code>@key</code>) and there are no filters. In this case, batman.js can update the keypath value when the DOM changes.</p>\n"
+  - title: bind
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_bind
+    html: "<p>Adds the <code>Binding</code> to <code>@view</code>&#39;s <code>bindings</code> and sets up observers on DOM and/JavaScript objects based on <code>@onlyObserve</code>, firing the observers once.</p>\n"
+  - title: die
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_die
+    html: "<p>Kills the binding by forgeting all observers, <code>die</code>-ing all properties, and nullifying the binding&#39;s <code>@node</code>, <code>@keyPath</code>, <code>@view</code>, <code>@backingView</code>, and <code>@superview</code></p>\n"
+  - title: parseFilter
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_parsefilter
+    html: "<p>Parses the binding&#39;s <code>@keyPath</code>, including:</p>\n<ul>\n<li>populating <code>@filterFunctions</code> and <code>@filterArguments</code></li>\n<li>setting <code>@key</code> or <code>@value</code></li>\n</ul>\n"
+  - title: parseSegment
+    meta: 
+      type: function
+      level: prototype
+      params: "segment: String"
+      returnType: Array
+    tokens: []
+    id: prototype_function_parsesegment
+    html: "<p>Parses binding argument(s), returning an array of usable JavaScript values. If a keypath was found, it is sent back in an object like:</p>\n<pre><code class=\"lang-javascript\">{ _keypath: <span class=\"string\">\"keyPathString\"</span>}</code></pre>\n<p>It returns an array so that it can handle comma-separated arguments, eg those passed to the <code>withArguments</code> filter.</p>\n"
+  - title: setupBackingView
+    meta: 
+      type: function
+      level: prototype
+      params: "viewClass, viewOptions"
+      returnType: View
+    tokens: []
+    id: prototype_function_setupbackingview
+    html: "<p>Sets up a new instance of <code>viewClass</code> with <code>viewOptions</code> as the binding&#39;s <code>@backingView</code>, if <code>@backingView</code> isn&#39;t already defined.</p>\n<p>If <code>viewClass</code> isn&#39;t defined, <a href=\"/docs/api/batman.backingview.html\"><code>Batman.BackingView</code></a> is used.</p>\n"
+tokens: []
+id: batman.dom.abstractbinding
+html: "<p><a href=\"/docs/api/batman.dom.abstractbinding.html\"><code>Batman.DOM.AbstractBinding</code></a> is the parent class for all batman.js view bindings. It extends <a href=\"/docs/api/batman.object.html\"><code>Batman.Object</code></a>.</p>\n<p>Extended by:</p>\n<ul>\n<li><code>Batman.DOM.AbstractAttributeBinding</code></li>\n<li><code>DebuggerBinding</code></li>\n<li><code>Batman.DOM.AbstractCollectionBinding</code></li>\n<li><code>Batman.DOM.DeferredRenderBinding</code></li>\n<li><code>Batman.DOM.FileBinding</code></li>\n<li><code>Batman.DOM.InsertionBinding</code></li>\n<li><code>Batman.DOM.RadioBinding</code></li>\n<li><code>Batman.DOM.RouteBinding</code></li>\n<li><code>Batman.DOM.SelectBinding</code></li>\n<li><code>Batman.DOM.ShowHideBinding</code></li>\n<li><code>Batman.DOM.ValueBinding</code></li>\n<li><code>Batman.DOM.ViewBinding</code></li>\n<li><code>Batman.DOM.ViewArgumentBinding</code></li>\n</ul>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

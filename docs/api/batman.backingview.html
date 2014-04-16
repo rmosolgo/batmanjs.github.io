@@ -1,0 +1,45 @@
+---
+layout: api_docs
+title: Batman.BackingView
+meta: 
+  grouping: App Internals
+  parent: Views
+sub: 
+  - title: isBackingView
+    meta: 
+      type: property
+      level: prototype
+      params: "[=true]"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_property_isbackingview
+    html: ""
+  - title: bindImmediately
+    meta: 
+      type: property
+      level: prototype
+      params: "[=false]"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_property_bindimmediately
+    html: ""
+tokens: []
+id: batman.backingview
+html: "<p><a href=\"/docs/api/batman.backingview.html\"><code>Batman.BackingView</code></a> is instantiated by some bindings to keep track of nodes and data.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

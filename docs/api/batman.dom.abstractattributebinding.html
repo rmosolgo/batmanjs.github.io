@@ -1,0 +1,45 @@
+---
+layout: api_docs
+title: Batman.DOM.AbstractAttributeBinding
+meta: 
+  grouping: App Internals
+  parent: Bindings
+sub: 
+  - title: "constructor"
+    meta: 
+      type: function
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: (defintion)
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>Sets <code>@attr</code> and calls <code>super</code>.</p>\n"
+  - title: attr
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: String
+    tokens: []
+    id: prototype_property_attr
+    html: "<p>The <code>attr</code> value parsed from: <code>data-#{name}-#{attr}=&quot;value&quot;</code></p>\n"
+tokens: []
+id: batman.dom.abstractattributebinding
+html: "<p><a href=\"/docs/api/batman.dom.abstractattributebinding.html\"><code>Batman.DOM.AbstractAttributeBinding</code></a> is the parent class for all bindings defined with &quot;double-dash&quot; syntax, ie <code>data-#{name}-#{attr}=&quot;value&quot;</code>. It extends <a href=\"/docs/api/batman.dom.abstractbinding.html\"><code>Batman.DOM.AbstractBinding</code></a>.</p>\n<p>Extended by:</p>\n<ul>\n<li><code>Batman.DOM.AttributeBinidng</code></li>\n<li><code>Batman.DOM.ContextBinding</code></li>\n<li><code>Batman.DOM.ClickTrackingBinding</code></li>\n<li><code>Batman.DOM.ViewTrackingBinding</code></li>\n</ul>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

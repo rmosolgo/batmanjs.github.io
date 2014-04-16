@@ -1,0 +1,108 @@
+---
+layout: api_docs
+title: Batman.IteratorView
+meta: 
+  grouping: App Internals
+  parent: Views
+sub: 
+  - title: loadView
+    meta: 
+      type: function
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: HTMLElement
+    tokens: []
+    id: prototype_function_loadview
+    html: "<p>Returns a comment element which becomes the <code>@node</code> for the view.</p>\n"
+  - title: addItems
+    meta: 
+      type: function
+      level: prototype
+      params: "items : Array, indexes : Array"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_additems
+    html: "<p>Adds subviews for <code>items</code> by cloning <code>@prototypeNode</code>. If <code>indexes</code> aren&#39;t passed, items are added to the end of the iterator view&#39;s subviews.</p>\n"
+  - title: removeItems
+    meta: 
+      type: function
+      level: prototype
+      params: "items : Array, indexes : Array"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_removeitems
+    html: "<p>Removes corresponding subviews for <code>items</code>. More performant if <code>indexes</code> are passed.</p>\n"
+  - title: moveItem
+    meta: 
+      type: function
+      level: prototype
+      params: "oldIndex, newIndex"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_moveitem
+    html: "<p>Reorders <code>@subviews</code> so that the item at <code>oldIndex</code> is now at <code>newIndex</code>.</p>\n"
+  - title: iteratorName
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: String
+    tokens: []
+    id: prototype_property_iteratorname
+    html: "<p>The name passed as <a href=\"/docs/api/batman.view_bindings.html#data-foreach\"><code>data-foreach-#{iteratorName}</code></a>.</p>\n"
+  - title: iteratorPath
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: String
+    tokens: []
+    id: prototype_property_iteratorpath
+    html: "<p>The keypath passed to the binding as <code>data-foreach-#{iteratorName}=&quot;#{iteratorPath}&quot;</code></p>\n"
+  - title: attributeName
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: String
+    tokens: []
+    id: prototype_property_attributename
+    html: "<p>The <code>attr</code> passed to the <a href=\"/docs/api/batman.view_bindings.html#data-foreach\"><code>data-foreach</code></a> binding. Identical to <code>iteratorName</code>.</p>\n"
+  - title: prototypeNode
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_property_prototypenode
+    html: "<p>The node with the <a href=\"/docs/api/batman.view_bindings.html#data-foreach\"><code>data-foreach</code></a> binding. <code>@prototypeNode</code> is copied for each item in the bound collection</p>\n"
+  - title: iterationViewClass
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: View
+    tokens: []
+    id: prototype_property_iterationviewclass
+    html: "<p>The <a href=\"/docs/api/batman.view.html\"><code>Batman.View</code></a> instantiated for each item in the bound collection. You can provide an <code>@iterationViewClass</code> by putting a <a href=\"/docs/api/batman.view_bindings.html#data-view\"><code>data-view</code></a> binding on the &quot;prototype node.&quot;</p>\n<p>If no class is provided, <a href=\"/docs/api/batman.iterationview.html\"><code>Batman.IterationView</code></a> will be used.</p>\n"
+tokens: []
+id: batman.iteratorview
+html: "<p><a href=\"/docs/api/batman.iteratorview.html\"><code>Batman.IteratorView</code></a> extends <a href=\"/docs/api/batman.view.html\"><code>Batman.View</code></a>. It is instantiated by <a href=\"/docs/api/batman.view_bindings.html#data-foreach\"><code>data-foreach</code></a> bindings.</p>\n<p>By default, <a href=\"/docs/api/batman.iteratorview.html\"><code>Batman.IteratorView</code></a> wraps elements in a plain <a href=\"/docs/api/batman.view.html\"><code>Batman.View</code></a>, but you can provide a custom view for each item by putting a <a href=\"/docs/api/batman.view_bindings.html#data-view\"><code>data-view</code></a> binding on the node with the <a href=\"/docs/api/batman.view_bindings.html#data-foreach\"><code>data-foreach</code></a> binding.</p>\n<p>For example:</p>\n<pre><code class=\"lang-html\">&lt;ul&gt;\n  &lt;li data-foreach-item=<span class=\"string\">'collection'</span> data-view=<span class=\"string\">'ItemListingView'</span>&gt;\n    &lt;!-- Will use App.ItemListingView --&gt;\n  &lt;/li&gt;\n&lt;/ul&gt;</code></pre>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

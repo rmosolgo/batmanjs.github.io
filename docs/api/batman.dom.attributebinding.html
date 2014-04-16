@@ -1,0 +1,54 @@
+---
+layout: api_docs
+title: Batman.DOM.AttributeBinding
+meta: 
+  grouping: App Internals
+  parent: Bindings
+sub: 
+  - title: onlyObserve
+    meta: 
+      type: function
+      level: prototype
+      params: "[=\"data\"]"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_onlyobserve
+    html: ""
+  - title: dataChange
+    meta: 
+      type: function
+      level: prototype
+      params: value
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_datachange
+    html: ""
+  - title: nodeChange
+    meta: 
+      type: function
+      level: prototype
+      params: node
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_nodechange
+    html: ""
+tokens: []
+id: batman.dom.attributebinding
+html: "<p>Extended by:</p>\n<ul>\n<li><code>Batman.DOM.AddClassBinding</code></li>\n<li><code>Batman.DOM.EventBinding</code></li>\n</ul>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

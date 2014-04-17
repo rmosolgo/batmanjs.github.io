@@ -818,6 +818,8 @@ api_index:
           title: "updateAttributes(attributes) : Model"
         - id: "tostring()_%3A_string"
           title: "toString() : string"
+        - id: prototype_accessor_attributes
+          title: attributes
         - id: prototype_function_tojson
           title: toJSON
         - id: prototype_function_fromjson
@@ -834,6 +836,12 @@ api_index:
           title: destroy
         - id: prototype_function_validate
           title: validate
+        - id: prototype_function_transaction
+          title: transaction
+        - id: prototype_function_reflectonassociation
+          title: reflectOnAssociation
+        - id: prototype_function_reflectonallassociations
+          title: reflectOnAllAssociations
       meta: 
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""

@@ -220,6 +220,15 @@ sub:
     tokens: []
     id: "tostring()_%3A_string"
     html: "<p>Returns a string representation suitable for debugging. By default this just contains the model&#39;s <code>resourceName</code> and <code>id</code></p>\n"
+  - title: attributes
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Hash
+    tokens: []
+    id: prototype_accessor_attributes
+    html: "<p><code>attributes</code> is a <a href=\"/docs/api/batman.hash.html\"><code>Batman.Hash</code></a> where a record&#39;s attributes are stored. <a href=\"/docs/api/batman.model.html\"><code>Batman.Model</code></a>&#39;s default accessor stores values in <code>attributes</code>, so it includes:</p>\n<ul>\n<li>attributes defined with <code>@encode</code></li>\n<li>keys assigned with <code>set</code>, unless the key has a specifically defined accessor</li>\n</ul>\n<p>But it doesn&#39;t include:</p>\n<ul>\n<li>keys that have specifically defined accessors (eg, <code>errors</code>, <code>lifecycle</code>, <code>isNew</code>)</li>\n</ul>\n<p>A record&#39;s attributes are used by <code>Model::transaction</code> to create a deep copy of the record.</p>\n"
   - title: toJSON
     meta: 
       type: function
@@ -292,6 +301,33 @@ sub:
     tokens: []
     id: prototype_function_validate
     html: "<p><code>Model::validate</code> checks the model against the validations declared in the model definition (with <a href=\"/docs/api/batman.model.html#class_function_validate\"><code>Model@validate</code></a>). This method accepts a callback with two arguments: any JS error that occurred within the validator function, and the set of <a href=\"/docs/api/batman.validationerror.html\"><code>Batman.ValidationError</code></a>s that the input generated.</p>\n<p>For example:</p>\n<pre><code>test <span class=\"string\">\"validate(callback) will call the callback only after all keys have been validated\"</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Product</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@validate</span> <span class=\"string\">'name'</span>, <span class=\"string\">'price'</span>, presence: <span class=\"literal\">yes</span>\n\n  newProduct = <span class=\"keyword\">new</span> Product\n  newProduct.validate (javascriptError, validationErrors) -&gt;\n    <span class=\"keyword\">throw</span> javascriptError <span class=\"keyword\">if</span> javascriptError\n    equal validationErrors.length, <span class=\"number\">2</span>\n    equal newProduct.get(<span class=\"string\">'errors.length'</span>), <span class=\"number\">2</span>\n    equal newProduct.get(<span class=\"string\">'errors.name.length'</span>), <span class=\"number\">1</span>\n    equal newProduct.get(<span class=\"string\">'errors.price.length'</span>), <span class=\"number\">1</span></code></pre>\n"
+  - title: transaction
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Model
+    tokens: []
+    id: prototype_function_transaction
+    html: "<p>Creates a deep copy of the record instance based on its <code>&quot;attributes&quot;</code>, allowing it to be modified without affecting the original. Also mixes in <code>Batman.Transaction</code>.\nUseful for implementing actions that can be cancelled.</p>\n<p>To apply the changes made to a transaction, call <code>applyChanges</code>.\nTo apply changes and save the record after running validations, call <code>save</code>.</p>\n<pre><code>test <span class=\"string\">\"transaction creates an independent clone of a record\"</span>, -&gt;\n  record = <span class=\"keyword\">new</span> Batman.Model(name: <span class=\"string\">'Felix'</span>)\n\n  transaction = record.transaction()\n  transaction.set(<span class=\"string\">'name'</span>, <span class=\"string\">'Camouflage'</span>)\n  equal transaction.get(<span class=\"string\">'name'</span>), <span class=\"string\">'Camouflage'</span>\n  equal record.get(<span class=\"string\">'name'</span>), <span class=\"string\">'Felix'</span>\n\n  transaction.applyChanges()\n  equal record.get(<span class=\"string\">'name'</span>), <span class=\"string\">'Camouflage'</span></code></pre>\n"
+  - title: reflectOnAssociation
+    meta: 
+      type: function
+      level: prototype
+      params: "label : String"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_reflectonassociation
+    html: "<p>Returns the <code>Batman.Association</code> for the record&#39;s association named by <code>label</code>.\nReturns <code>null</code> if the association does not exist.</p>\n"
+  - title: reflectOnAllAssociations
+    meta: 
+      type: function
+      level: prototype
+      params: "[type: String]"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_reflectonallassociations
+    html: "<p>If <code>type</code> is passed (eg, <code>hasMany</code>), returns a <code>Batman.SimpleSet</code> of all associations of that type on the record.\nIf no type is passed, all associations are returned.\nIf the record has no associations, returns <code>null</code>.</p>\n"
 tokens: []
 id: batman.model
 html: "<p>For a general explanation of <a href=\"/docs/api/batman.model.html\"><code>Batman.Model</code></a> and how it works, see <a href=\"/docs/models.html\">the guide</a>.</p>\n<p><em>Note</em>: This documentation uses the term <em>model</em> to refer to the class <code>Model</code>\nor a <code>Model</code> subclass, and the term <em>record</em> to refer to one instance of a\nmodel.</p>\n"

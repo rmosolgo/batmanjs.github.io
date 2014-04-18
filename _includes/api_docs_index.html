@@ -28,7 +28,11 @@
           {% assign current_group = group_index %}
         {% endif %}
         <li class="{% if page.title == doc.title %}current{% endif %}">
-          <a href="{{ site.url }}/docs/api/{{ doc.id }}.html">{{ doc.title }}</a>
+          {% if doc.id %}
+            <a href="{{ site.url }}/docs/api/{{ doc.id }}.html">{{ doc.title }}</a>
+          {% else %}
+            <span>{{ doc.title }}</span>
+          {% endif %}
           {% if doc.children %}
             <ul class='sidebar-children'>
             {% for child in doc.children %}

@@ -128,6 +128,11 @@ class DocGenerator
       parentName = entry.meta?.parent
       if parentName
         parentEntry = _.findWhere(groupings[groupingName], {title: parentName})
+        if !parentEntry
+          console.warn "NO ENTRY for #{groupingName} / #{parentName} (#{entry.title})"
+          parentEntry = {title: parentName}
+          groupings[groupingName] ?= []
+          groupings[groupingName].push(parentEntry)
         parentEntry.children ?= []
         parentEntry.children.push(entry)
       else

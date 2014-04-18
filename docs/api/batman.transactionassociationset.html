@@ -1,0 +1,99 @@
+---
+layout: api_docs
+title: Batman.TransactionAssociationSet
+meta: 
+  grouping: App Internals
+  parent: Batman.Transaction
+sub: 
+  - title: "constructor"
+    meta: 
+      type: function
+      level: prototype
+      params: "associationSet, visited : Array, stack : Array"
+      returnType: TransactionAssociationSet
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>Creates a new <a href=\"/docs/api/batman.transactionassociationset.html\"><code>Batman.TransactionAssociationSet</code></a> based on <code>associationSet</code>. It loads the members of <code>associationSet</code> and observes it for <code>&quot;itemsWereAdded&quot;</code>, adding any items to itself that are added to the base set.</p>\n"
+  - title: build
+    meta: 
+      type: function
+      level: prototype
+      params: "attributes : Object"
+      returnType: Model
+    tokens: []
+    id: prototype_function_build
+    html: "<p>Builds a new instance of the associated model, with <code>attributes</code> mixed in, then adds it to the <code>TransactionAssociationSet</code>.</p>\n"
+  - title: add
+    meta: 
+      type: function
+      level: prototype
+      params: items...
+      returnType: Array
+    tokens: []
+    id: prototype_function_add
+    html: "<p>Adds <code>items</code> to the <code>TransactionAssociationSet</code>. Items are expected to <em>not</em> be transactions: they will be made into transactions by <code>add</code>.</p>\n<p>The transaction is added to the set and the original item is also tracked by the set (for the purpose of applying changes). If an item was previously removed, it is no longer considered to be removed.</p>\n<p>Fires <code>itemsWereAdded</code> with the added transactions and returns an array of added transactions.</p>\n"
+  - title: remove
+    meta: 
+      type: function
+      level: prototype
+      params: transactions...
+      returnType: Array
+    tokens: []
+    id: prototype_function_remove
+    html: "<p>Removes <code>transactions</code> from the set. These items are still tracked by the set: after <code>applyChanges</code>, they&#39;ll be available as <code>removedItems</code> on the base association set.</p>\n<p>If an item is removed, then added back, it is not put in the <code>removedItems</code> set during <code>applyChanges</code>.</p>\n"
+  - title: applyChanges
+    meta: 
+      type: function
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_applychanges
+    html: "<p>Applies changes to the base <code>AssociationSet</code> by:</p>\n<ul>\n<li>calling <code>applyChanges</code> on each item in the set</li>\n<li>replacing the <code>AssociationSet</code>&#39;s contents with the updated contents</li>\n<li>putting any removed items in the <code>AssociationSet</code>&#39;s  <code>&quot;removedItems&quot;</code>.</li>\n</ul>\n"
+  - title: associationSet
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_accessor_associationset
+    html: "<p>The base <code>Batman.AssociationSet</code> for this transaction.</p>\n"
+  - title: association
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Association
+    tokens: []
+    id: prototype_accessor_association
+    html: "<p>The <code>Batman.Association</code> object from the base <code>Batman.Association</code>.</p>\n"
+  - title: foreignKeyValue
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_accessor_foreignkeyvalue
+    html: "<p>The <code>foreignKeyValue</code> from the base <code>Batman.Association</code>.</p>\n"
+tokens: []
+id: batman.transactionassociationset
+html: "<p><a href=\"/docs/api/batman.transactionassociationset.html\"><code>Batman.TransactionAssociationSet</code></a> is a <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a> used for transactions of has-many associations. It isolates the original <code>Batman.AssociationSet</code> from any changes to the items <em>or</em> any added or removed items until <code>applyChanges</code> is called.</p>\n<p>A <a href=\"/docs/api/batman.transactionassociationset.html\"><code>Batman.TransactionAssociationSet</code></a> adds any items that are added to its base set during the transaction. This is so that, if the association is being loaded, the newly-loaded items will appear in the transaction.</p>\n<p>Calling <code>save</code> on a <a href=\"/docs/api/batman.transaction.html\"><code>Batman.Transaction</code></a> model applies changes to its associations as well, so it&#39;s rare to interact with a <a href=\"/docs/api/batman.transactionassociationset.html\"><code>Batman.TransactionAssociationSet</code></a> directly.</p>\n<p>After calling <code>save</code>, you can access items that were <em>removed</em> from the association set during the transaction at <code>removedItems</code>, for example:</p>\n<pre><code class=\"lang-coffeescript\">parent = parentTransaction.save() <span class=\"comment\"># applies changes</span>\nremovedChildren = parent.get(<span class=\"string\">'children.removedItems'</span>)\n<span class=\"comment\"># Returns `children` that were removed during the transaction</span></code></pre>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

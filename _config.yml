@@ -1487,6 +1487,43 @@ api_index:
           meta: 
             grouping: App Internals
             parent: Views
+    - id: batman.transaction
+      title: Batman.Transaction
+      sub: 
+        - id: prototype_function_istransaction
+          title: isTransaction
+        - id: prototype_function_base
+          title: base
+        - id: prototype_function_applychanges
+          title: applyChanges
+        - id: prototype_function_save
+          title: save
+      meta: 
+        grouping: App Internals
+        parent: !<tag:yaml.org,2002:js/undefined> ""
+      children: 
+        - id: batman.transactionassociationset
+          title: Batman.TransactionAssociationSet
+          sub: 
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: prototype_function_build
+              title: build
+            - id: prototype_function_add
+              title: add
+            - id: prototype_function_remove
+              title: remove
+            - id: prototype_function_applychanges
+              title: applyChanges
+            - id: prototype_accessor_associationset
+              title: associationSet
+            - id: prototype_accessor_association
+              title: association
+            - id: prototype_accessor_foreignkeyvalue
+              title: foreignKeyValue
+          meta: 
+            grouping: App Internals
+            parent: Batman.Transaction
   Extras: 
     - id: batman.i18n
       title: Batman.I18N

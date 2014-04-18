@@ -1,0 +1,63 @@
+---
+layout: api_docs
+title: Batman.Transaction
+meta: 
+  grouping: App Internals
+  parent: !<tag:yaml.org,2002:js/undefined> ""
+sub: 
+  - title: isTransaction
+    meta: 
+      type: function
+      level: prototype
+      params: "[=true]"
+      returnType: Boolean
+    tokens: []
+    id: prototype_function_istransaction
+    html: "<p>Shows that this <a href=\"/docs/api/batman.model.html\"><code>Batman.Model</code></a> is actually a transaction.</p>\n"
+  - title: base
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: Model
+    tokens: []
+    id: prototype_function_base
+    html: "<p>Returns the <a href=\"/docs/api/batman.model.html\"><code>Batman.Model</code></a> that this transaction came from.</p>\n"
+  - title: applyChanges
+    meta: 
+      type: function
+      level: prototype
+      params: "visited[=[]] : Array"
+      returnType: Model
+    tokens: []
+    id: prototype_function_applychanges
+    html: "<p>Applies changes from the transaction to the base <a href=\"/docs/api/batman.model.html\"><code>Batman.Model</code></a>. <code>visited</code> is an array of models which have already had their changes applied (so that those models don&#39;t have their changes applied repeatedly).</p>\n<p>Calling <code>applyChanges</code> also applies changes on associated records.</p>\n<p>Returns the base <a href=\"/docs/api/batman.model.html\"><code>Batman.Model</code></a>.</p>\n"
+  - title: save
+    meta: 
+      type: function
+      level: prototype
+      params: callback
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_save
+    html: "<p>Meant to behave just like <code>Batman.Model::save</code>. The callback will be called with <code>(error, record, env)</code>. Calling <code>save</code> on a transaction:</p>\n<ul>\n<li>Validates the transaction</li>\n<li>If validation was successful, applies changes</li>\n<li>If validation was successful, saves the record</li>\n</ul>\n"
+tokens: []
+id: batman.transaction
+html: "<p><a href=\"/docs/api/batman.transaction.html\"><code>Batman.Transaction</code></a> is mixed into the new record created by <code>Batman.Model::transaction</code>. It redefines and adds a few functions so that the resulting &quot;transaction&quot; will behave like a model. For example:</p>\n<pre><code class=\"lang-coffeescript\">product = <span class=\"keyword\">new</span> App.Product(name: <span class=\"string\">\"Orange Glo\"</span>)\nproductTransaction = product.transaction()\nproductTransaction.set(<span class=\"string\">\"name\"</span>, <span class=\"string\">\"Sham-Wow\"</span>)\n<span class=\"comment\"># Changing the transaction doesn't affect the base record:</span>\nproduct.get(<span class=\"string\">'name'</span>) <span class=\"comment\"># \"Orange Glo\"</span>\n<span class=\"comment\"># Until changes are applied:</span>\nproductTransaction.save()\nproduct.get(<span class=\"string\">'name'</span>) <span class=\"comment\"># \"Sham-Wow\"</span></code></pre>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

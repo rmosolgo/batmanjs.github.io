@@ -5,113 +5,90 @@ prev_section: bindings
 next_section: testing
 ---
 
-`Batman.View` is the bridge between application state and user interaction.
-Views are responsible for rendering templates, handling bindings, and general
-manipulation of the DOM. Most of the time, they'll be automatically created by
-bindings within templates, but they can be manually manipulated as well.
+`Batman.View`s connect a batman.js application to a user by:
 
+- rendering HTML templates
+- maintaining [view bindings](/docs/bindings.html), which bind application objects to the DOM.
 
-## The View Hierarchy
+Views can be rendered in two ways:
 
-Views are organized as a rooted tree structure, similar to that of Cocoa. Each
-view keeps track of its parent (`superview`) and its direct children
-(`subviews`). The root of the tree is referred to as the *layout view*, which
-is responsible for the document's `<html>` node. There is one layout view per
-`App`.
+1. __Controller actions render views into yields.__ Yields are defined in the layout view with [`data-yield` bindings](/docs/api/batman.view_bindings.html#data-yield). Content for yields (other than `"main"`) is provided with [`data-contentfor` bindings](http://batmanjs.org/docs/api/batman.view_bindings.html#data-contentfor). This is analagous to the [Rails yield pattern](http://guides.rubyonrails.org/layouts_and_rendering.html#understanding-yield).
+1. __Views render other views with [`data-view` bindings](/docs/api/batman.view_bindings.html#data-view).__ Custom views are a great choice for encapsulating UI and display components.
 
+## Rendering by Controller Actions
 
-### Views as data contexts
+Batman.js handles URLs by dispatching [controller actions](/docs/controllers.html), which render views. Controller actions may render views _explicitly_ or _implicitly_. See the [controller guide](/docs/controllers.html) for more information about how controller actions render views.
 
-The view tree is also used to organize data in a hierarchical way, reminiscent
-of variable scoping in JavaScript. Properties of a view are accessible to its
-entire subtree, making it an ideal way to store data relevant to part of the
-DOM.
+Everything in "Custom Views" below also applies default views which are rendered by controller actions. To customize a default view, simply define a class with the expected default name.
 
-Whenever you create a binding with `data-bind` or similar, the tree is
-traversed to locate the specified keypath (via `[View::lookupKeypath]`). The
-lookup follows this chain:
+For example, this view is automatically rendered by the `products#index` action:
 
-current view → chain of superviews → layout view → active controller → app →
-window
+{% highlight coffeescript %}
+class App.ProductsIndexView extends Batman.View
+  # source is "products/index" by default
 
-[View::lookupKeypath]: /docs/api/batman.view.html#prototype_function_lookupkeypath
+  # can be bound in HTML: `data-bind='myCustomAccessor'`
+  @accessor 'myCustomAccessor' -> # ...
 
+  # can be bound in HTML: `data-event-click="myClickHandler"`
+  myClickHandler: -> # ...
+{% endhighlight %}
 
-### Adding views to the DOM
+## Rendering with "data-view" Bindings
 
-Views are added to the DOM by adding them to a superview that is already part
-of the DOM. The layout view represents the root `<html>` node, so it is always
-in the DOM.
+Views can be _inserted into other views_ by using [`data-view` bindings](/docs/api/batman.view_bindings.html#data-view). This allows you to simplify your HTML and view classes by extracting markup and logic in to reusable custom views.
 
-When adding a subview, you need to specify where exactly in the superview's DOM
-tree the subview should be appended. To do this, set the `parentNode` property
-on the subview. This can either be a node contained in the superview's DOM tree
-already or a string selector to find one.
+To use a custom view, pass its name (relative to the app namespace) to `data-view`. For example:
 
-Alternatively, you may set the `contentFor` property on a subview. This uses
-batman.js' traditional `yield` system and will replace the yield node's content
-with the subview's `node`. You should set `contentFor` to a string matching the
-name of the `yield` in the subview.
+{% highlight html %}
+<div data-view='ProductListItemView'>
+  <!-- batman.js will instantiate App.ProductListItemView with this node -->
+</div>
+{% endhighlight %}
 
-## View Lifecycle
-
-As a view is manipulated by the application, it progresses through various
-states. As it does this, it fires events that you can hook into:
-
-- `viewWillAppear`: Fired when the view is about to be attached to the DOM. It
-  will always have a superview.
-- `viewDidAppear`: Fired when the view has just been attached to the DOM. Its
-  node is on the page, and could be selected with `document.querySelector`.
-- `viewWillDisappear`: Fired when the view is about to be detached from the
-  DOM. It will still have a superview set.
-- `viewDidDisappear`: Fired when the view has just been detached from the DOM.
-  Its node is no longer part of the page, and may not be selected from the
-document. If it was removed directly it will not have a superview, and if an
-ancestor was removed it will still have a superview.
-- `viewDidMoveToSuperview`: Fired when the superview property is changed to a
-  valid view, regardless of whether that superview is in the DOM or not.
-- `viewWillRemoveFromSuperview`: Fired when the subview is going to be removed
-  from its superview, regardless of whether that superview is in the DOM or
-not.
-- `viewDidLoad`: After `loadView` has been successfully called, the div has
-  been created and populated with HTML from the `HTMLStore`.
-- `ready`: All bindings have been initialized (one shot).
+If the custom view has its own HTML, that HTML will replace the contents of the `data-view` node.
 
 ## Custom Views
 
-Views are useful for creating reusable, configurable components which can be
-instantiated from within templates.
+Views are useful for creating reusable, configurable UI components. They are defined by extending [`Batman.View`](/docs/api/batman.view.html) and they are used by adding [`data-view` bindings](/docs/api/batman.view_bindings.html#data-view) inside HTML templates.
 
 ### Defining Custom Views
 
-A custom view is a subclass of [`Batman.View`](/docs/api/batman.view.html).
-You can specialize your own custom views by subclassing them again.
+To define a custom view, extend [`Batman.View`](/docs/api/batman.view.html). (You can also extend any subclass of `Batman.View`, such as another custom view.)
+
 For example, here's a custom view that uses [jQueryUI Autocomplete](http://jqueryui.com/autocomplete/):
 
 {% highlight coffeescript %}
 class App.AutocompleteView extends Batman.View
-  html: "<input type='text' />"
-  autocompleteSource: -> []
+  html: "<input id='autocomplete' type='text' />"
+
+  @accessor 'autocompleteSource', -> []
+
   viewDidAppear: ->
-    input = @node.firstChild # @node is the container for the view
+    # @node is the container for the view
+    input = $(@node).find("#autocomplete")
     $(input).autocomplete
-      source: @autocompleteSource()
+      source: @get('autocompleteSource')
 {% endhighlight %}
 
 Obviously this isn't much use by itself, but we can extend it and provide more useful `autocompleteSource`s:
 
 {% highlight coffeescript %}
 class App.VillainAutocompleteView extends App.AutocompleteView
-  autocompleteSource: -> App.Villian.get('all').mapToProperty('name')
+  @accessor 'autocompleteSource', -> App.Villian.get('all').mapToProperty('name')
 {% endhighlight %}
 
 Now, when we instantiate `App.VillianAutocompleteView`, it will have more interesting options!
 
 ### Providing HTML for Custom Views
 
-Your custom views can get HTML in three ways: bind to existing HTML, pass an HTML string, or point it at an HTML file.
+Your custom views can get HTML in three ways:
 
-To _bind to existing HTML_, simply add a [`data-view` binding](/docs/api/batman.view_bindings.html#data-view) that points to the view you want to instiate:
+- wrap existing HTML
+- define an HTML string
+- define a _source path_ that points to an HTML temlate.
+
+To _wrap existing HTML_, simply add a [`data-view` binding](/docs/api/batman.view_bindings.html#data-view) to a node with HTML inside it:
 
 {% highlight html %}
 <div data-view='CustomListView'>
@@ -123,46 +100,88 @@ To _bind to existing HTML_, simply add a [`data-view` binding](/docs/api/batman.
 
 This will instantiate a new `CustomListView` with the `<div>` as its [`node`](/docs/api/batman.view.html#prototype_accessor_node). All the HTML inside the `CustomListView` will stay where it is.
 
-To _pass an HTML string_, set the [`html` attribute](/docs/api/batman.view.html#prototype_accessor_html) in your view class:
+To _define an HTML string_, set the [`html` attribute](/docs/api/batman.view.html#prototype_accessor_html) in your view class:
 
 {% highlight coffeescript %}
 class App.SearchView extends Batman.View
-  html: "<input type='text' id='search' placeholder='Enter a Search Temr'></input>"
+  html: "<input type='text' id='search' placeholder='Enter a Search Term'></input>"
 {% endhighlight %}
 
 The HTML you specify will be rendered inside a node with a `data-view="SearchView"` binding.
 
-To _point to an HTML file_,  set the [`source` attribute](/docs/api/batman.view.html#prototype_accessor_source) in your view class:
+To _define a source path_,  set the [`source` attribute](/docs/api/batman.view.html#prototype_accessor_source) in your view class:
 
 {% highlight coffeescript %}
 class App.HeaderNavigationView extends Batman.View
-  source: 'layouts/_header_navigation' # expects a file at /batman/html/layouts/_header_navigation.html
+  source: 'layouts/_header_navigation'
+  # will lookup template layouts/_header_navigation.html
 {% endhighlight %}
 
-Your app will try to load a file relative to [`Batman.config.pathToHTML`](/docs/configuration.html) to use as this view's HTML. Note that you don't need to add `.html` to the `source` string.
+Your app will try to load a file relative to [`Batman.config.pathToHTML`](/docs/configuration.html) to use as this view's HTML. You don't need to add `.html` to the `source` string.
 
-### Binding to Custom Views
+### Accessors and Handlers
 
-To add a custom view, use the [`data-view` binding](/docs/api/batman.view_bindings.html#data-view) and pass the name of your view class, relative to your app's namespace. For example, to bind to `App.CustomInputView`, you would use:
+Accessors and functions inside a custom view are accessible by that [view's bindings](/docs/bindings.html). That allows you to slim down controllers and other views by moving things into a custom view.
+
+Functions defined in custom views are available as event handlers. For example, `deleteItem` can be used in a `data-event-click` binding:
+
+{% highlight coffeescript %}
+class MyApp.ListItemView extends Batman.View
+  deleteItem: (item) ->
+    item.destroy (err, record) ->
+      throw err if err?
+{% endhighlight %}
 
 {% highlight html %}
-<div data-view='CustomInputView'>
-  <!-- your HTML here, or provided by CustomInputView::source or CustomInputView::html -->
-</div>
+<button data-event-click='deleteItem | withArguments item'>Delete!</button>
 {% endhighlight %}
 
-## Backing Views
+Accessors are also available to bindings. `itemDescription` is available inside the view:
 
-Some of the more complex bindings will create a new `View` (or many) to allow
-them to manage the DOM. Such views are called *backing views*. For example,
-using `data-foreach` will create a backing view for each item being iterated
-over, containing a reference to the item for that iteration.
+{% highlight coffeescript %}
+class MyApp.ListItemView extends Batman.View
+  @option 'item' # accepts value from data-view-item binding
+  @accessor 'itemDescription', ->
+    item = @lookupKeypath('item')
+    "#{item.get('name'}, circa #{item.get('year')}"
+{% endhighlight %}
 
-## Loading Views
+{% highlight html %}
+<ul>
+  <li data-foreach-item='items' data-view='ListItemView' data-view-item='item'>
+    <p data-bind='itemDescription'></p>
+  </li>
+</ul>
+{% endhighlight %}
 
-Views are not parsed or added to the DOM when they're first constructed.
-Instead, they're lazily loaded when you perform certain operations on them.
+(See [`View.option` docs](/docs/api/batman.view.html#class_function_option) for more about view options.)
 
-- If a view is in the DOM, adding to its subview set will cause the subview and
-  its entire subtree to be added to the DOM. Removing a subview will
-automatically remove it from the DOM.
+## View Lifecycle
+
+As a view is rendered, it fires several lifecycle events. See the [`Batman.View` lifecycle API docs](/docs/api/batman.view_lifecycle.html) for more information on those events and how to use them.
+
+## View Hierarchy
+
+Batman.js stores all active views in a _tree_, with the [`layout` view](/docs/api/batman.app.html#class_property_layout) as its root. Every view has one [`superview`](/docs/api/batman.view.html#prototype_property_superview) and any number of [`subviews`](/docs/api/batman.view.html#prototype_property_subviews). Batman.js manages the view tree internally, so a developer rarely interacts with it directly.
+
+The view tree serves as a rendering context for [view bindings](/docs/bindings.html), which climb the tree to evaluate keypaths with [`Batman.View::lookupKeypath`](/docs/api/batman.view.html#prototype_function_lookupkeypath).
+
+## Debugging
+
+Batman.js exports the global `$context` function for debugging views. `$context` takes a DOM node and returns the batman.js view for that node. For example:
+
+{% highlight javascript %}
+allItems = $('#all_items')[0]
+view = $context(allItems)
+view # => App.ItemsIndexView instance
+{% endhighlight %}
+
+In Chrome, right-click -> "inspect element", assigns the node to `$0`. Then you can inspect the view with `$context($0)`.
+
+When you have the view, you can inspect its superview and lookup keypaths in its context:
+
+{% highlight javascript %}
+view.get('superview')       # => Layout view
+view.lookupKeypath('items') # => Batman.Set
+{% endhighlight %}
+

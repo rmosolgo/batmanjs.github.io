@@ -34,7 +34,7 @@ lookup follows this chain:
 current view → chain of superviews → layout view → active controller → app →
 window
 
-[View::lookupKeypath]: /docs/api/12_Batman.View.html#something
+[View::lookupKeypath]: /docs/api/batman.view.html#prototype_function_lookupkeypath
 
 
 ### Adding views to the DOM

@@ -158,7 +158,20 @@ class MyApp.ListItemView extends Batman.View
 
 ## View Lifecycle
 
-As a view is rendered, it fires several lifecycle events. See the [`Batman.View` lifecycle API docs](/docs/api/batman.view_lifecycle.html) for more information on those events and how to use them.
+As a view is rendered, it fires several lifecycle events. Some events "bubble up" from subviews, so these events may be fired more than once.
+
+One useful event is `viewDidAppear`, which is called after the view has been added to the DOM. You can initialize your view on `viewDidAppear` by defining a function with that name:
+
+{% highlight coffeescript %}
+class MyApp.CustomView extends Batman.View
+  viewDidAppear: ->
+    if !initialized
+      initialized = true
+      $(@node).find('.date-input').datepicker()
+      @_otherInitialization()
+{% endhighlight %}
+
+See the [`Batman.View` lifecycle API docs](/docs/api/batman.view_lifecycle.html) for more information on those events and how to use them.
 
 ## View Hierarchy
 

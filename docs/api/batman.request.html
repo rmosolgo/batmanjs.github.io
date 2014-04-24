@@ -5,43 +5,143 @@ meta:
   grouping: App Components
   parent: !<tag:yaml.org,2002:js/undefined> ""
 sub: 
-  - title: Platform Request Implementation Libraries
+  - title: How to use Batman Request
     tokens: []
-    id: platform_request_implementation_libraries
-    html: "<p>  Depending on the platform library the underlying request implementation will change:</p>\n<ul>\n<li><code>batman.jquery.js</code>: jQuery XHR</li>\n<li><p><code>batman.solo.js</code>: Reqwest.js</p>\n<p><em>note</em> For the tests there are some mocked responses, in a normal non testing situation you would not use these</p>\n</li>\n</ul>\n<h3 id=\"how-to-use-batman-request\">How to use Batman Request</h3>\n<p>Batman.Request can be used a variety of ways.  This is the underlying library that the <code>rest_storage_adapater</code> uses to communicate.</p>\n<p>In other cases where you want to communicate with a server that isn&#39;t your default storage_adapter you would use it like:</p>\n<pre><code>test <span class=\"string\">\"Send a simple Batman.Request\"</span>, -&gt;\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse( <span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt;{})\n  <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    method: <span class=\"string\">\"GET\"</span>\n    success: (result) -&gt;\n      ok <span class=\"literal\">true</span></code></pre>\n<h3 id=\"lifecycle-events\">Lifecycle events</h3>\n<p>There are a variety of lifecycle events that get fired in a <code>Request</code>.  Each of these are passed in as parameters in the options object in the <code>Request</code> constructor.</p>\n<ol>\n<li><p><code>loading()</code>: fired before <code>send()</code> has been called.</p>\n<pre><code> test <span class=\"string\">\"Demonstrate the loading event\"</span>, <span class=\"number\">1</span>, -&gt;\n    <span class=\"keyword\">new</span> Batman.Request\n      url: <span class=\"string\">\"http:://batmanjs.org\"</span>\n      loading: -&gt;\n        ok <span class=\"literal\">true</span>, <span class=\"string\">\"After send but before the request is made\"</span></code></pre>\n</li>\n<li><p><code>loaded()</code>: fired after the request is complete</p>\n<pre><code>  test <span class=\"string\">\"Demo the loaded event\"</span>, <span class=\"number\">1</span>, -&gt;\n    Batman.Request.setupMockedResponse()\n    Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; {})\n    <span class=\"keyword\">new</span> Batman.Request\n      url: <span class=\"string\">\"http://batmanjs.org\"</span>\n      loaded: -&gt;\n        ok <span class=\"literal\">true</span>, <span class=\"string\">\"Loaded\"</span></code></pre>\n</li>\n<li><p><code>error( xhr )</code>: fired when an error is detected,  <code>xhr</code> is the platform defined xhr object with a property named <code>request</code> being the <code>Batman.Request</code> object.</p>\n<pre><code> test <span class=\"string\">\"Demo the error event\"</span>, <span class=\"number\">1</span>, -&gt;\n   Batman.Request.setupMockedResponse()\n   Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; status: <span class=\"number\">400</span>)\n   <span class=\"keyword\">new</span> Batman.Request\n     url: <span class=\"string\">\"http://batmanjs.org\"</span>\n     error: (xhr) -&gt;\n       ok <span class=\"literal\">true</span>, <span class=\"string\">\"Error\"</span></code></pre>\n</li>\n<li><p><code>success ( response )</code>: fired when a successful request has been made, <code>response</code> is the body of the request response.</p>\n<pre><code> test <span class=\"string\">\"Demonstrate the success event\"</span>, <span class=\"number\">1</span>,  -&gt;\n   Batman.Request.setupMockedResponse()\n   Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; response: <span class=\"string\">\"foo\"</span>)\n   <span class=\"keyword\">new</span> Batman.Request\n     url: <span class=\"string\">\"http://batmanjs.org\"</span>\n     success: (response) -&gt;\n       equal <span class=\"string\">\"foo\"</span>, response</code></pre>\n</li>\n</ol>\n"
-  - title: .status
+    id: how_to_use_batman_request
+    html: "<p><a href=\"/docs/api/batman.request.html\"><code>Batman.Request</code></a> is used internally by batman.js, but you can also use it whenever you need to make AJAX requests. To make a request, simply call <code>new Batman.Request</code> with your desired options:</p>\n<pre><code>test <span class=\"string\">\"Send a simple Batman.Request\"</span>, -&gt;\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse( <span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt;{})\n\n  <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    success: (result) -&gt;\n      ok <span class=\"literal\">true</span>\n  <span class=\"comment\"># request is sent during the constructor</span></code></pre>\n<p>This is analagous to the <code>$.ajax(options)</code> function. Options include:</p>\n<ul>\n<li><a href=\"/docs/api/batman.request.html#prototype_accessor_url\"><code>url</code></a> : target URL</li>\n<li><a href=\"/docs/api/batman.request.html#prototype_accessor_method\"><code>method</code></a> : HTTP method</li>\n<li><a href=\"/docs/api/batman.request.html#prototype_accessor_data\"><code>data</code></a> : data object</li>\n<li><a href=\"/docs/api/batman.request.html#prototype_function_success\"><code>success</code></a> : success callback</li>\n<li><a href=\"/docs/api/batman.request.html#prototype_function_error\"><code>error</code></a> : error callback</li>\n<li><a href=\"/docs/api/batman.request.html#prototype_function_loading\"><code>loading</code></a> : before-send callback</li>\n<li><a href=\"/docs/api/batman.request.html#prototype_function_loaded\"><code>loaded</code></a> : after-complete callback</li>\n<li><a href=\"/docs/api/batman.request.html#prototype_prototype_autosend\"><code>autosend</code></a> : send as soon as initialized</li>\n</ul>\n<p>Each option is described in detail below.</p>\n"
+  - title: Lifecycle events
     tokens: []
-    id: .status
-    html: "<p>The response status, only set after <code>error</code> or <code>success</code></p>\n<pre><code>test <span class=\"string\">\"Demo the error event\"</span>, <span class=\"number\">1</span>, -&gt;\n Batman.Request.setupMockedResponse()\n Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; status: <span class=\"number\">400</span>)\n <span class=\"keyword\">new</span> Batman.Request\n   url: <span class=\"string\">\"http://batmanjs.org\"</span>\n   error: (xhr) -&gt;\n     equal <span class=\"number\">400</span>, <span class=\"property\">@status</span></code></pre>\n"
-  - title: .response
-    tokens: []
-    id: .response
-    html: "<p>The response object</p>\n<pre><code>test <span class=\"string\">\"Demonstrate the response object\"</span>, <span class=\"number\">1</span>, -&gt;\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; response: <span class=\"string\">\"foo\"</span> )\n\n  <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    success: (response) -&gt;\n      equal <span class=\"string\">\"foo\"</span>, JSON.parse(<span class=\"property\">@response</span>)</code></pre>\n"
-  - title: ".responseHeaders : object"
-    tokens: []
-    id: ".responseheaders_%3A_object"
-    html: "<p>An key/value object with the response headers</p>\n<pre><code>test <span class=\"string\">\"responseHeaders\"</span>, <span class=\"number\">1</span>, -&gt;\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; responseHeaders: { FOO: <span class=\"string\">\"bar\"</span> } )\n\n  <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    success: (response) -&gt;\n      deepEqual <span class=\"property\">@responseHeaders</span>,{ FOO: <span class=\"string\">\"bar\"</span> }</code></pre>\n"
-  - title: Request
+    id: lifecycle_events
+    html: "<p>Several lifecycle events are fired during <code>Batman.Request::send</code>:</p>\n<ul>\n<li><a href=\"/docs/api/batman.request.html#prototype_function_loading\"><code>loading</code></a> before a request</li>\n<li><a href=\"/docs/api/batman.request.html#prototype_function_success\"><code>success</code></a> after a successful request</li>\n<li><a href=\"/docs/api/batman.request.html#prototype_function_error\"><code>error</code></a> after an unsuccessful request</li>\n<li><a href=\"/docs/api/batman.request.html#prototype_function_loaded\"><code>loaded</code></a> after a completed request (successful or unsuccessful)</li>\n</ul>\n<p>They can be handled by either:</p>\n<ul>\n<li>passing a handler to the constructor</li>\n<li>listening for the event</li>\n</ul>\n<p>For example, both of these <code>success</code> callbacks are fired:</p>\n<pre><code>test <span class=\"string\">\"Lifecycle events are fired and called\"</span>, <span class=\"number\">2</span>, -&gt;\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse( <span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt;{})\n\n  request = <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    autosend: <span class=\"literal\">false</span>\n    <span class=\"comment\"># a named handler passed to the constructor:</span>\n    success: (result) -&gt;\n      ok <span class=\"literal\">true</span>\n  <span class=\"comment\"># a listener on the request:</span>\n  request.<span class=\"literal\">on</span> <span class=\"string\">'success'</span>, -&gt; ok <span class=\"literal\">true</span>\n\n  request.send()</code></pre>\n"
+  - title: "constructor"
     meta: 
       type: function
-      level: class
-      params: "options : object"
+      level: prototype
+      params: options
+      returnType: Request
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>Returns a new <a href=\"/docs/api/batman.request.html\"><code>Batman.Request</code></a>, mixing in <code>options</code>. The request is sent immediately unless <code>autosend: false</code> is passed.</p>\n"
+  - title: url
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: String
+    tokens: []
+    id: prototype_accessor_url
+    html: "<p>Target for the request. If <code>autosend</code> was <code>false</code> in the constructor, setting <code>url</code> will cause the request to send.</p>\n"
+  - title: method
+    meta: 
+      type: accessor
+      level: prototype
+      params: "[=\"GET\"]"
+      returnType: String
+    tokens: []
+    id: prototype_accessor_method
+    html: "<p>The type of HTTP request to make (eg. <code>GET</code>, <code>POST</code>). <code>method</code> is uppercased by <a href=\"/docs/api/batman.request.html\"><code>Batman.Request</code></a>.</p>\n<pre><code>test <span class=\"string\">\"method test\"</span>, -&gt;\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse(<span class=\"string\">\"POST\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; response : { FOO: <span class=\"string\">\"BAR\"</span> })\n  <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    method: <span class=\"string\">\"post\"</span>\n    data: { some: <span class=\"string\">\"data\"</span> }\n    success: (response) -&gt;\n      ok <span class=\"literal\">true</span></code></pre>\n"
+  - title: autosend
+    meta: 
+      type: property
+      level: prototype
+      params: "[=true]"
+      returnType: Boolean
+    tokens: []
+    id: prototype_property_autosend
+    html: "<p>If true, the request will <code>send</code> as soon as it&#39;s constructed. If false, it will send as soon as <code>url</code> is set.</p>\n<pre><code>test <span class=\"string\">\"autosend test\"</span>, -&gt;\n  response_sent = <span class=\"literal\">false</span>\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; {} )\n  req = <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    autosend: <span class=\"literal\">false</span>\n    success: (response) -&gt;\n      response_sent = <span class=\"literal\">true</span>\n  ok !response_sent\n  req.send()\n  ok response_sent</code></pre>\n"
+  - title: data
+    meta: 
+      type: accessor
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Object
+    tokens: []
+    id: prototype_accessor_data
+    html: "<p>Data to be sent to the server. It is converted to a query string, if not already a string. It&#39;s appended to the url for GET-requests.</p>\n"
+  - title: contentType
+    meta: 
+      type: property
+      level: prototype
+      params: "[=\"application/x-www-form-urlencoded\"]"
+      returnType: String
+    tokens: []
+    id: prototype_property_contenttype
+    html: "<p>The content type to send.</p>\n<pre><code>test <span class=\"string\">\"contentType default\"</span>, -&gt;\n   req = <span class=\"keyword\">new</span> Batman.Request\n   equal req.contentType, <span class=\"string\">\"application/x-www-form-urlencoded\"</span></code></pre>\n"
+  - title: status
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Number
+    tokens: []
+    id: prototype_property_status
+    html: "<p>The <a href=\"https://en.wikipedia.org/wiki/List_of_HTTP_status_codes\">HTTP status code</a>. Only set after <code>error</code> or <code>success</code>.</p>\n<p>An error status code will cause the <code>Request</code> to fire its error handler:</p>\n<pre><code>test <span class=\"string\">\"An error status code triggers the error handler\"</span>, <span class=\"number\">1</span>, -&gt;\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; status: <span class=\"number\">400</span>)\n  <span class=\"keyword\">new</span> Batman.Request\n   url: <span class=\"string\">\"http://batmanjs.org\"</span>\n   error: (xhr) -&gt;\n     equal <span class=\"number\">400</span>, <span class=\"property\">@status</span></code></pre>\n"
+  - title: response
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     tokens: []
-    id: class_function_request
-    html: "<p>Constructs a new <a href=\"/docs/api/batman.request.html\"><code>Batman.Request</code></a> with the supplied options</p>\n<h3 id=\"-options-description\"><code>options</code> description</h3>\n<ol>\n<li><p><code>url : String</code>: A string containing the URL to which the request is sent.  Mandatory</p>\n</li>\n<li><p><code>method : String</code>: The type of request to make eg. <code>GET</code>, <code>POST</code>.  Default is <code>GET</code>.</p>\n<pre><code> test <span class=\"string\">\"method test\"</span>, -&gt;\n   Batman.Request.setupMockedResponse()\n   Batman.Request.addMockedResponse(<span class=\"string\">\"POST\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; response : { FOO: <span class=\"string\">\"BAR\"</span> })\n   <span class=\"keyword\">new</span> Batman.Request\n     url: <span class=\"string\">\"http://batmanjs.org\"</span>\n     method: <span class=\"string\">\"POST\"</span>\n     data: { some: <span class=\"string\">\"data\"</span> }\n     success: (response) -&gt;\n       ok <span class=\"literal\">true</span></code></pre>\n</li>\n<li><p><code>data</code>: Data to be sent to the server. It is converted to a query string, if not already a string. It&#39;s appended to the url for GET-requests.</p>\n</li>\n<li><p><code>contentType</code>: the content type to send, defaults to <code>application/x-www-form-urlencoded</code></p>\n<pre><code> test <span class=\"string\">\"contentType default\"</span>, -&gt;\n    req = <span class=\"keyword\">new</span> Batman.Request\n    equal req.contentType, <span class=\"string\">\"application/x-www-form-urlencoded\"</span></code></pre>\n</li>\n<li><p><code>autosend</code>: controls whether the request will be sent automatically, defaults to <code>true</code></p>\n<pre><code> test <span class=\"string\">\"autosend test\"</span>, -&gt;\n   response_sent = <span class=\"literal\">false</span>\n   Batman.Request.setupMockedResponse()\n   Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; {} )\n   req = <span class=\"keyword\">new</span> Batman.Request\n     url: <span class=\"string\">\"http://batmanjs.org\"</span>\n     autosend: <span class=\"literal\">false</span>\n     success: (response) -&gt;\n       response_sent = <span class=\"literal\">true</span>\n   ok !response_sent\n   req.send()\n   ok response_sent</code></pre>\n</li>\n<li><p><code>username</code>: username for authentication</p>\n</li>\n<li><p><code>password</code>: password for authentication</p>\n</li>\n<li><p><code>type</code>: The type of data you&#39;re expecting from the server, defaults to <code>json</code></p>\n</li>\n</ol>\n"
+    id: prototype_property_response
+    html: "<p>The response object (parsed, if possible).</p>\n<pre><code>test <span class=\"string\">\"Demonstrate the response object\"</span>, <span class=\"number\">1</span>, -&gt;\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; response: <span class=\"string\">\"foo\"</span> )\n  <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    success: (response) -&gt;\n      equal <span class=\"string\">\"foo\"</span>, JSON.parse(<span class=\"property\">@response</span>)</code></pre>\n"
+  - title: responseHeaders
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Object
+    tokens: []
+    id: prototype_property_responseheaders
+    html: "<p>An object with the response headers</p>\n<pre><code>test <span class=\"string\">\"responseHeaders\"</span>, <span class=\"number\">1</span>, -&gt;\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; responseHeaders: { FOO: <span class=\"string\">\"bar\"</span> } )\n\n  <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    success: (response) -&gt;\n      deepEqual <span class=\"property\">@responseHeaders</span>,{ FOO: <span class=\"string\">\"bar\"</span> }</code></pre>\n"
   - title: send
     meta: 
       type: function
       level: prototype
-      params: "[data]"
+      params: "[data: Object]"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     tokens: []
     id: prototype_function_send
-    html: "<p>If <code>autosend</code> is <code>false</code>, this will initiate the request.  The data object passed in will take priority over the one specified in the <code>options</code> object</p>\n<pre><code>test <span class=\"string\">\"request.send()\"</span>, -&gt;\n  <span class=\"function\"><span class=\"title\">beforeResponse</span></span> = (req, data) -&gt;\n    deepEqual data, { other: <span class=\"string\">\"thing\"</span> }\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; {beforeResponse: beforeResponse} )\n  req = <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    autosend: <span class=\"literal\">false</span>\n    data: { some: <span class=\"string\">\"data\"</span> }\n  req.send( { other: <span class=\"string\">\"thing\"</span> } )</code></pre>\n"
+    html: "<p>If <code>autosend</code> is <code>false</code>, this will initiate the request.  If <code>autosend</code> is <code>true</code>, <code>send</code> is called during the constructor.</p>\n<p><code>data</code> takes priority over <code>data</code> passed to the constructor.</p>\n<pre><code>test <span class=\"string\">\"request.send()\"</span>, -&gt;\n  <span class=\"function\"><span class=\"title\">beforeResponse</span></span> = (req, data) -&gt;\n    deepEqual data, { other: <span class=\"string\">\"thing\"</span> }\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; {beforeResponse: beforeResponse} )\n  req = <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    autosend: <span class=\"literal\">false</span>\n    data: { some: <span class=\"string\">\"data\"</span> }\n  req.send( { other: <span class=\"string\">\"thing\"</span> } )</code></pre>\n"
+  - title: loading
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_loading
+    html: "<p>If defined, this function is called before <code>send</code> is called.</p>\n<pre><code>test <span class=\"string\">\"Demonstrate the loading event\"</span>, <span class=\"number\">1</span>, -&gt;\n  <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    loading: -&gt;\n      ok <span class=\"literal\">true</span>, <span class=\"string\">\"After send but before the request is made\"</span></code></pre>\n"
+  - title: loaded
+    meta: 
+      type: function
+      level: prototype
+      params: ""
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_loaded
+    html: "<p>If defined, this function is fired after the request is complete (whether success or error).</p>\n<pre><code>test <span class=\"string\">\"Demo the loaded event\"</span>, <span class=\"number\">1</span>, -&gt;\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; {})\n  <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    loaded: -&gt;\n      ok <span class=\"literal\">true</span>, <span class=\"string\">\"Loaded\"</span></code></pre>\n"
+  - title: error
+    meta: 
+      type: function
+      level: prototype
+      params: xhr
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_error
+    html: "<p>Fired when an error is detected.  <code>xhr</code> is the platform-defined XHR object with a property named <code>request</code> being the <a href=\"/docs/api/batman.request.html\"><code>Batman.Request</code></a> object.</p>\n<pre><code>test <span class=\"string\">\"Demo the error event\"</span>, <span class=\"number\">1</span>, -&gt;\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; status: <span class=\"number\">400</span>)\n  <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    error: (xhr) -&gt;\n      ok <span class=\"literal\">true</span>, <span class=\"string\">\"Error\"</span></code></pre>\n"
+  - title: success
+    meta: 
+      type: function
+      level: prototype
+      params: response
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_success
+    html: "<p>Fired when a successful request is completed. <code>response</code> is the body of the response.</p>\n<pre><code>test <span class=\"string\">\"Demonstrate the success event\"</span>, <span class=\"number\">1</span>,  -&gt;\n  Batman.Request.setupMockedResponse()\n  Batman.Request.addMockedResponse(<span class=\"string\">\"GET\"</span>, <span class=\"string\">\"http://batmanjs.org\"</span>, -&gt; response: <span class=\"string\">\"foo\"</span>)\n  <span class=\"keyword\">new</span> Batman.Request\n    url: <span class=\"string\">\"http://batmanjs.org\"</span>\n    success: (response) -&gt;\n      equal <span class=\"string\">\"foo\"</span>, response</code></pre>\n"
 tokens: []
 id: batman.request
-html: "<p> Request is an abstraction around XHR requests.  It can be used with a variety of platforms, and is implemented in the platform layer files.</p>\n"
+html: "<p><a href=\"/docs/api/batman.request.html\"><code>Batman.Request</code></a> is an abstraction around XHR requests. It is in abstract class and is implemented by a <a href=\"https://github.com/batmanjs/batman/tree/master/src/platform\">platform library</a>:</p>\n<ul>\n<li><a href=\"https://github.com/batmanjs/batman/blob/master/src/platform/jquery.coffee\"><code>batman.jquery</code></a>: jQuery XHR</li>\n<li><a href=\"https://github.com/batmanjs/batman/blob/master/src/platform/solo.coffee\"><code>batman.solo</code></a>: Reqwest.js</li>\n</ul>\n<p>(Platform libraries also implement <a href=\"/docs/api/batman.dom.html\"><code>Batman.DOM</code></a> functions.)</p>\n<p><em>This documentation includes test stubs, which are not part of normal usage of <a href=\"/docs/api/batman.request.html\"><code>Batman.Request</code></a>!</em></p>\n"
 
 ---
 

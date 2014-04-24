@@ -655,18 +655,38 @@ api_index:
     - id: batman.request
       title: Batman.Request
       sub: 
-        - id: platform_request_implementation_libraries
-          title: Platform Request Implementation Libraries
-        - id: .status
-          title: .status
-        - id: .response
-          title: .response
-        - id: ".responseheaders_%3A_object"
-          title: ".responseHeaders : object"
-        - id: class_function_request
-          title: Request
+        - id: how_to_use_batman_request
+          title: How to use Batman Request
+        - id: lifecycle_events
+          title: Lifecycle events
+        - id: prototype_function_constructor
+          title: "constructor"
+        - id: prototype_accessor_url
+          title: url
+        - id: prototype_accessor_method
+          title: method
+        - id: prototype_property_autosend
+          title: autosend
+        - id: prototype_accessor_data
+          title: data
+        - id: prototype_property_contenttype
+          title: contentType
+        - id: prototype_property_status
+          title: status
+        - id: prototype_property_response
+          title: response
+        - id: prototype_property_responseheaders
+          title: responseHeaders
         - id: prototype_function_send
           title: send
+        - id: prototype_function_loading
+          title: loading
+        - id: prototype_function_loaded
+          title: loaded
+        - id: prototype_function_error
+          title: error
+        - id: prototype_function_success
+          title: success
       meta: 
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""

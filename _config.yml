@@ -6,7 +6,7 @@ download:
     date: "June 10th, 2013"
 
 doc_boxes:
-  - box: Developer Guide
+  - box: Developer Guides
     items:
       - title: Getting Started
         link: index

@@ -23,7 +23,7 @@
       <ul>
         {% for doc in grouping[1] %}
         {% assign is_current = false %}
-        {% if page.title == doc.title %}
+        {% if page.title == doc.title and page.url contains 'api' %}
           {% assign is_current = true %}
           {% assign current_group = group_index %}
         {% endif %}
@@ -37,7 +37,7 @@
             <ul class='sidebar-children'>
             {% for child in doc.children %}
               {% assign is_current = false %}
-              {% if page.title == child.title %}
+              {% if page.title == child.title and page.url contains 'api' %}
                 {% assign is_current = true %}
                 {% assign current_group = group_index %}
               {% endif %}

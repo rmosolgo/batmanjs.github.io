@@ -2,21 +2,30 @@
 layout: api_docs
 title: Batman.ValidationError
 meta: 
-  grouping: App Components
+  grouping: App Internals
   parent: Batman.Model
 sub: 
+  - title: "constructor"
+    meta: 
+      type: function
+      level: prototype
+      params: "attribute: String, messageOrKey: String, options={}"
+      returnType: ValidationError
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>Returns a new validation error for <code>attribute</code>. <code>messageOrKey</code> and <code>options</code> are used to create the error message:</p>\n<ul>\n<li>if <code>options.message</code> is a string, it is used as the error&#39;s message</li>\n<li>if <code>options.message</code> is a function, it is called on the <code>record</code> with <code>(attribute, messageKey)</code></li>\n<li>if <code>messageOrKey</code> is underscore-cased, it is used to lookup an error message</li>\n<li>otherwise, <code>messageOrKey</code> is used as the error&#39;s message</li>\n</ul>\n<p><code>options.interpolations</code> is interpolated into error message if one is found for <code>messageOrKey</code>.</p>\n"
   - title: fullMessage
     meta: 
       type: accessor
       level: prototype
       params: !<tag:yaml.org,2002:js/undefined> ""
-      returnType: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: String
     tokens: []
     id: prototype_accessor_fullmessage
-    html: "<p>Returns the human-readable attribute name and the validation message:</p>\n<pre><code>test <span class=\"string\">\"ValidationError should humanize attribute in the full message\"</span>, -&gt;\n  error = <span class=\"keyword\">new</span> Batman.ValidationError(<span class=\"string\">\"fooBarBaz\"</span>, <span class=\"string\">\"isn't valid\"</span>)\n  equal error.get(<span class=\"string\">'fullMessage'</span>), <span class=\"string\">\"Foo bar baz isn't valid\"</span></code></pre>\n"
+    html: "<p>Returns the human-readable attribute name and the validation message:</p>\n<pre><code>test <span class=\"string\">\"ValidationError should humanize attribute in the full message\"</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Product</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  product = <span class=\"keyword\">new</span> Product\n  error = <span class=\"keyword\">new</span> Batman.ValidationError(<span class=\"string\">\"fooBarBaz\"</span>, <span class=\"string\">\"isn't valid\"</span>)\n  equal error.get(<span class=\"string\">'fullMessage'</span>), <span class=\"string\">\"Foo bar baz isn't valid\"</span></code></pre>\n"
 tokens: []
 id: batman.validationerror
-html: "<p><a href=\"/docs/api/batman.validationerror.html\"><code>Batman.ValidationError</code></a>s represent a failure for a model&#39;s field to to pass validation.\nThey are usually accessed by getting a model&#39;s <a href=\"/docs/api/batman.model.html#prototype_accessor_errors\">errors</a>.</p>\n"
+html: "<p><a href=\"/docs/api/batman.validationerror.html\"><code>Batman.ValidationError</code></a>s represent a failure for a record&#39;s field to to pass validation.\nThey are usually accessed by getting a record&#39;s <a href=\"/docs/api/batman.model.html#prototype_accessor_errors\">errors</a>.</p>\n"
 
 ---
 

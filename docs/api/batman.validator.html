@@ -2,15 +2,19 @@
 layout: api_docs
 title: Batman.Validator
 meta: 
-  grouping: App Components
+  grouping: App Internals
   parent: Batman.Model
 sub: 
+  - title: Custom Validators
+    tokens: []
+    id: custom_validators
+    html: "<p>You can create custom validators by:</p>\n<ul>\n<li>subclassing <code>Batman.Validator</code>,</li>\n<li>implementing <code>::validateEach</code>, and</li>\n<li>adding the new validator to the <code>Batman.Validators</code> array.</li>\n</ul>\n<p>For example:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">LessThanPropertyValidator</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Validator</span></span>\n  <span class=\"property\">@triggers</span> <span class=\"string\">'lessThanProperty'</span>\n  <span class=\"property\">@options</span> <span class=\"string\">'allowBlank'</span>\n\n  validateEach: (errors, record, attribute, callback) -&gt;\n      value = record.get(attribute)\n      compareAttr = <span class=\"property\">@options</span>.lessThanProperty\n      otherValue = record.get(compareAttr)\n      <span class=\"keyword\">else</span> !<span class=\"property\">@handleBlank</span>(value) &amp;&amp; value &gt;= otherValue\n        errors.add(attribute, <span class=\"string\">'must be less than #{compareAttr}'</span>)\n      callback()\n\nBatman.Validators.push App.LessThanPropertyValidator</code></pre>\n<p>Could be used as:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">Pyramid</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@encode</span> <span class=\"string\">'top'</span>, <span class=\"string\">'base'</span>\n  <span class=\"comment\"># A pyramid's top must be smaller than its base:</span>\n  <span class=\"property\">@validate</span> <span class=\"string\">'top'</span>, lessThanProperty: <span class=\"string\">'base'</span></code></pre>\n"
   - title: "constructor"
     meta: 
       type: function
       level: prototype
       params: "options : Object[, mixins...]"
-      returnType: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Validator
     tokens: []
     id: prototype_function_constructor
     html: "<p>The first argument becomes the validator&#39;s <code>@options</code>. Subsequent arguments are mixed in to the validator with <code>Batman.Object::mixin</code>. You can override this method to alter the options object before it&#39;s assigned to <code>@options</code>. (Make sure to call <code>super</code> afterwards!)</p>\n"
@@ -22,7 +26,7 @@ sub:
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     tokens: []
     id: class_function_triggers
-    html: "<p>When any of the strings in <code>triggers</code> is passed to <code>Model@validate</code>:</p>\n<ul>\n<li>this validator will be instantiated and its <code>validateEach</code> will be invoked</li>\n<li>the key-value pairs passed to <code>Model@validate</code> with these keys will be available on <code>@options</code> for this validator.</li>\n</ul>\n<p>Use this method when one validator will handle many kinds of validations. For example, a simplified length validator:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">SimpleLengthValidator</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Validator</span></span>\n  <span class=\"property\">@triggers</span> <span class=\"string\">'minLength'</span>, <span class=\"string\">'maxLength'</span>, <span class=\"string\">'length'</span>\n\n  constructor: (options) -&gt;\n    <span class=\"comment\"># has access to options.minLength, options.maxLength, options.length</span>\n    <span class=\"keyword\">super</span>\n\n  validateEach: (errors, record, key, callback) -&gt;\n    <span class=\"comment\"># has access to @options.minLength, @options.maxLength, @options.length</span></code></pre>\n<p>All three of these validations will be handled by <code>App.SimpleLengthValidator::validateEach</code>:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">Superhero</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@validate</span> <span class=\"string\">'name'</span>, minLength: <span class=\"number\">3</span>\n  <span class=\"property\">@validate</span> <span class=\"string\">'bio'</span>, maxLength: <span class=\"number\">250</span>\n  <span class=\"property\">@validate</span> <span class=\"string\">'phone_number'</span>, length: <span class=\"number\">10</span></code></pre>\n"
+    html: "<p>When any of the strings in <code>triggers</code> is passed to <code>Model.validate</code>:</p>\n<ul>\n<li>this validator will be instantiated and its <code>validateEach</code> will be invoked</li>\n<li>the key-value pairs passed to <code>Model.validate</code> with these keys will be available on <code>@options</code> for this validator.</li>\n</ul>\n<p>Use this method when one validator will handle many kinds of validations. For example, a simplified length validator:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">SimpleLengthValidator</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Validator</span></span>\n  <span class=\"property\">@triggers</span> <span class=\"string\">'minLength'</span>, <span class=\"string\">'maxLength'</span>, <span class=\"string\">'length'</span>\n\n  constructor: (options) -&gt;\n    <span class=\"comment\"># has access to options.minLength, options.maxLength, options.length</span>\n    <span class=\"keyword\">super</span>\n\n  validateEach: (errors, record, attribute, callback) -&gt;\n    <span class=\"comment\"># has access to @options.minLength, @options.maxLength, @options.length</span></code></pre>\n<p>All three of these validations will be handled by <code>App.SimpleLengthValidator::validateEach</code>:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">Superhero</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n  <span class=\"property\">@validate</span> <span class=\"string\">'name'</span>, minLength: <span class=\"number\">3</span>\n  <span class=\"property\">@validate</span> <span class=\"string\">'bio'</span>, maxLength: <span class=\"number\">250</span>\n  <span class=\"property\">@validate</span> <span class=\"string\">'phone_number'</span>, length: <span class=\"number\">10</span></code></pre>\n"
   - title: options
     meta: 
       type: function
@@ -31,16 +35,16 @@ sub:
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     tokens: []
     id: class_function_options
-    html: "<p>The key-value pairs passed to <code>Model@validate</code> with these keys will be available on <code>@options</code> for this validator.</p>\n<p>Unlike <code>@triggers</code>, the presence of a key in <code>options</code> will not cause this validator to be instantiated.</p>\n"
+    html: "<p>The key-value pairs passed to <code>Batman.Model.validate</code> with these keys will be available on <code>@options</code> for this validator.</p>\n<p>Unlike <code>@triggers</code>, the presence of a key in <code>options</code> will not cause this validator to be instantiated.</p>\n"
   - title: validateEach
     meta: 
       type: function
       level: prototype
-      params: "errors: Batman.ErrorsSet, record: Batman.Model, key: String, callback: Function"
+      params: "errors: ErrorsSet, record: Model, attribute: String, callback: Function"
       returnType: !<tag:yaml.org,2002:js/undefined> ""
     tokens: []
     id: prototype_function_validateeach
-    html: "<p>This method is invoked to validate <code>key</code> on <code>record</code>. If this method determins that the key is invalid, it should add a validation error to <code>errors</code>.</p>\n<p><code>errors</code> is a <code>Batman.ErrorsSet</code>, which is a <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a> with <code>::add(key, message)</code> as a convenience method for adding <a href=\"/docs/api/batman.validationerror.html\"><code>Batman.ValidationError</code></a>s. So, to easily add a new validation error:</p>\n<pre><code class=\"lang-coffeescript\">errors.add(<span class=\"string\">\"phone_number\"</span>, <span class=\"string\">\"isn't 10 characters long\"</span>)</code></pre>\n<p>When the validator is finished, it must call <code>callback</code> to continue the validation chain.</p>\n"
+    html: "<p>This method is invoked to validate <code>attribute</code> on <code>record</code>. If this method determines that the attribute is invalid, it should add a validation error to <code>errors</code>:</p>\n<pre><code class=\"lang-coffeescript\">errors.add(<span class=\"string\">\"phone_number\"</span>, <span class=\"string\">\"isn't 10 characters long\"</span>)</code></pre>\n<p>When the validator is finished, it must call <code>callback</code> to continue the validation chain.</p>\n"
   - title: handleBlank
     meta: 
       type: function
@@ -50,9 +54,18 @@ sub:
     tokens: []
     id: class_function_handleblank
     html: "<p>Returns <code>true</code> if <code>options.allowBlank</code> is <code>true</code> <em>and</em> <code>value</code> is <code>null</code>, <code>undefined</code> or <code>&quot;&quot;</code></p>\n"
+  - title: format
+    meta: 
+      type: function
+      level: prototype
+      params: "attr, messageKey, interpolations, record"
+      returnType: String
+    tokens: []
+    id: prototype_function_format
+    html: "<p>Generates a human-readable message for <code>messageKey</code> by:</p>\n<ul>\n<li>Using the <code>message</code> option passed to <code>@validate</code>, if present</li>\n<li>Looking up <code>messageKey</code> in the current locale&#39;s <code>errors.messages</code></li>\n</ul>\n"
 tokens: []
 id: batman.validator
-html: "<p>batman.js ships with a plethora of <a href=\"/docs/api/batman.model.html#class_function_validate\">built-in validators</a>, but when they don&#39;t meet your needs, you can create custom validators by subclassing <a href=\"/docs/api/batman.validator.html\"><code>Batman.Validator</code></a>, implementing <code>Batman.Validator::validateEach</code>, and adding the new validator to <code>Batman.Validators</code>. For example:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">App</span>.<span class=\"title\">LessThanPropertyValidator</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Validator</span></span>\n  <span class=\"property\">@triggers</span> <span class=\"string\">'lessThanProperty'</span>\n  <span class=\"property\">@options</span> <span class=\"string\">'allowBlank'</span>\n\n  validateEach: (errors, record, key, callback) -&gt;\n      value = record.get(key)\n      compareKey = <span class=\"property\">@options</span>.lessThanProperty\n      otherValue = record.get(compareKey)\n      <span class=\"keyword\">else</span> !<span class=\"property\">@handleBlank</span>(value) &amp;&amp; value &gt;= otherValue\n        errors.add(key, <span class=\"string\">'must be less than #{compareKey}'</span>)\n      callback()\n\nBatman.Validators.push App.LessThanPropertyValidator</code></pre>\n"
+html: "<p><a href=\"/docs/api/batman.validator.html\"><code>Batman.Validator</code></a> extends <a href=\"/docs/api/batman.object.html\"><code>Batman.Object</code></a> and is the abstract superclass for all validators in batman.js. batman.js ships with a plethora of <a href=\"/docs/api/batman.model_validations.html\">built-in validators</a>.</p>\n"
 
 ---
 

@@ -2,11 +2,11 @@ safe: true
 lsi: false
 pygments: true
 download:
-    version: 0.15.0
-    date: "June 10th, 2013"
+    version: 0.16.0
+    date: "May 10th, 2014"
 
 doc_boxes:
-  - box: Developer Guide
+  - box: Developer Guides
     items:
       - title: Getting Started
         link: index

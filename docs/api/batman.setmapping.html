@@ -1,0 +1,54 @@
+---
+layout: api_docs
+title: Batman.SetMapping
+meta: 
+  grouping: Data Structures
+  parent: Batman.Set
+sub: 
+  - title: "constructor"
+    meta: 
+      type: function
+      level: prototype
+      params: "base : Set, key : String"
+      returnType: SetMapping
+    tokens: []
+    id: prototype_function_constructor
+    html: "<p>Returns a new <a href=\"/docs/api/batman.setmapping.html\"><code>Batman.SetMapping</code></a> tracking <code>key</code> on the members of <code>base</code>.</p>\n"
+  - title: base
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: Set
+    tokens: []
+    id: prototype_property_base
+    html: "<p>The <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a> being tracked by the <code>SetMapping</code>.</p>\n"
+  - title: key
+    meta: 
+      type: property
+      level: prototype
+      params: !<tag:yaml.org,2002:js/undefined> ""
+      returnType: String
+    tokens: []
+    id: prototype_property_key
+    html: "<p>The property being observed on members of <code>base</code>.</p>\n"
+tokens: []
+id: batman.setmapping
+html: "<p><a href=\"/docs/api/batman.setmapping.html\"><code>Batman.SetMapping</code></a> extends <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a>. A <a href=\"/docs/api/batman.setmapping.html\"><code>Batman.SetMapping</code></a> tracks a base Set and contains the <em>unique</em> values for a given property for each member of the base Set. It can be created with <code>Batman.Set::mappedTo</code>:</p>\n<pre><code>test <span class=\"string\">\"mappedTo creates a new Batman.SetMapping\"</span>, -&gt;\n  batmobile = <span class=\"keyword\">new</span> Batman.Object(name: <span class=\"string\">\"Batmobile\"</span>, wheelCount: <span class=\"number\">4</span>)\n  batcycle = <span class=\"keyword\">new</span> Batman.Object(name: <span class=\"string\">\"Batcycle\"</span>, wheelCount: <span class=\"number\">2</span>)\n  vehicles = <span class=\"keyword\">new</span> Batman.Set(batmobile, batcycle)\n\n  vehicleNames = vehicles.mappedTo(<span class=\"string\">\"name\"</span>)\n  ok vehicleNames.constructor <span class=\"keyword\">is</span> Batman.SetMapping</code></pre>\n<p>It contains the values for the <code>key</code> passed to <code>mappedTo</code>:</p>\n<pre><code>  ok vehicleNames.has(<span class=\"string\">'Batmobile'</span>)\n  ok vehicleNames.has(<span class=\"string\">'Batcycle'</span>)</code></pre>\n<p>When an item is added to or removed from the base <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a>, its corresponding value is added to or removed from the <a href=\"/docs/api/batman.setmapping.html\"><code>Batman.SetMapping</code></a>:</p>\n<pre><code>  batwing = <span class=\"keyword\">new</span> Batman.Object(name: <span class=\"string\">\"Batwing\"</span>, wheelcount: <span class=\"number\">0</span>)\n  vehicles.add(batwing)\n  ok vehicleNames.has(<span class=\"string\">\"Batwing\"</span>)\n  vehicles.remove(batmobile)\n  ok !vehicleNames.has(<span class=\"string\">\"Batmobile\"</span>)</code></pre>\n<p>Like a <a href=\"/docs/api/batman.setsort.html\"><code>Batman.SetSort</code></a>, it tracks the properties of objects in the base set. So, when one of the values changes, the set mapping is updated:</p>\n<pre><code>  batwing.set(<span class=\"string\">'name'</span>, <span class=\"string\">'Batcopter'</span>)\n  ok vehicleNames.has(<span class=\"string\">'Batcopter'</span>)</code></pre>\n<p>A <a href=\"/docs/api/batman.setmapping.html\"><code>Batman.SetMapping</code></a> can&#39;t have duplicates:</p>\n<pre><code>  deepEqual vehicleNames.toArray(), [<span class=\"string\">\"Batcycle\"</span>, <span class=\"string\">\"Batcopter\"</span>]\n  batwing.set(<span class=\"string\">'name'</span>, <span class=\"string\">'Batcycle'</span>)\n  deepEqual vehicleNames.toArray(), [<span class=\"string\">\"Batcycle\"</span>]</code></pre>\n<p><a href=\"/docs/api/batman.setmapping.html\"><code>Batman.SetMapping</code></a> extends <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a>, so see the <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a> API docs for more information.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

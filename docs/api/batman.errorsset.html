@@ -1,0 +1,40 @@
+---
+layout: api_docs
+title: Batman.ErrorsSet
+meta: 
+  grouping: App Internals
+  parent: Batman.Model
+sub: 
+  - title: Default Accessor
+    tokens: []
+    id: default_accessor
+    html: "<p><a href=\"/docs/api/batman.errorsset.html\"><code>Batman.ErrorsSet</code></a>&#39;s default accessor returns <a href=\"/docs/api/batman.validationerror.html\"><code>Batman.ValidationError</code></a>s for the given field name. For example:</p>\n<pre><code>errorsSet = record.get(<span class=\"string\">'errors'</span>)\nerrors.get(<span class=\"string\">'emailAddress'</span>) <span class=\"comment\"># Returns errors on record.emailAddress</span></code></pre>\n<p>This enables the <code>Batman.Model::errors</code> API:</p>\n<pre><code>record.get(<span class=\"string\">'errors.emailAddress.length'</span>) <span class=\"comment\"># =&gt; 1</span>\nrecord.get(<span class=\"string\">'errors.emailAddress.first.fullMessage'</span>)\n<span class=\"comment\"># =&gt; \"Email address is not valid\"</span></code></pre>\n"
+  - title: add
+    meta: 
+      type: function
+      level: prototype
+      params: "attribute : String, message: String"
+      returnType: !<tag:yaml.org,2002:js/undefined> ""
+    tokens: []
+    id: prototype_function_add
+    html: "<p>Adds a new <a href=\"/docs/api/batman.validationerror.html\"><code>Batman.ValidationError</code></a> on <code>attribute</code> with <code>message</code>.</p>\n"
+tokens: []
+id: batman.errorsset
+html: "<p><a href=\"/docs/api/batman.errorsset.html\"><code>Batman.ErrorsSet</code></a> extends <a href=\"/docs/api/batman.set.html\"><code>Batman.Set</code></a> for the special purpose of storing <a href=\"/docs/api/batman.validationerror.html\"><code>Batman.ValidationError</code></a>s.</p>\n"
+
+---
+
+{{ page.html }}
+<ul class="api-list">
+{% for s in page.sub %}
+  <li class="api-list-item">
+    <h3 class="api-title">
+      <a id="{{ s.id }}" class="anchor-target"></a>
+      <a href="#{{ s.id }}" class="anchor-link">
+      <span class="{% if s.meta %}monospace-heading{% endif %}">{% if s.meta.level == 'class' %}@{% endif %}{{ s.title }}{% if s.meta.params %}{% if s.meta.type == 'property' %}<span class="params">{{ s.meta.params }}</span>{% else %}<span class="params">({{ s.meta.params }})</span>  {% endif %}{% endif %}{% if s.meta.returnType %}<span class="return-type"> : {{ s.meta.returnType }}</span>{% endif %}</span>
+      </a>
+    </h3>
+    {{ s.html }}
+  </li>
+{% endfor %}
+</ul>

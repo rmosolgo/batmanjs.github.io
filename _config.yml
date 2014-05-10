@@ -2,8 +2,8 @@ safe: true
 lsi: false
 pygments: true
 download:
-    version: 0.15.0
-    date: "June 10th, 2013"
+    version: 0.16.0
+    date: "May 10th, 2014"
 
 doc_boxes:
   - box: Developer Guides
@@ -82,6 +82,8 @@ api_index:
           title: camelize
         - id: class_function_underscore
           title: underscore
+        - id: class_function_titleize
+          title: titleize
         - id: class_function_capitalize
           title: capitalize
         - id: class_function_trim
@@ -90,6 +92,8 @@ api_index:
           title: interpolate
         - id: class_function_humanize
           title: humanize
+        - id: class_function_tosentence
+          title: toSentence
       meta: !<tag:yaml.org,2002:js/undefined> ""
   Data Structures: 
     - id: batman.object
@@ -321,6 +325,18 @@ api_index:
               title: compare
             - id: prototype_function_compareelements
               title: compareElements
+          meta: 
+            grouping: Data Structures
+            parent: Batman.Set
+        - id: batman.setmapping
+          title: Batman.SetMapping
+          sub: 
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: prototype_property_base
+              title: base
+            - id: prototype_property_key
+              title: key
           meta: 
             grouping: Data Structures
             parent: Batman.Set
@@ -659,6 +675,8 @@ api_index:
           title: How to use Batman Request
         - id: lifecycle_events
           title: Lifecycle events
+        - id: global_request_hooks
+          title: Global Request Hooks
         - id: prototype_function_constructor
           title: "constructor"
         - id: prototype_accessor_url
@@ -687,6 +705,10 @@ api_index:
           title: error
         - id: prototype_function_success
           title: success
+        - id: class_accessor_pendingrequestcount
+          title: pendingRequestCount
+        - id: class_accessor_requestispending
+          title: requestIsPending
       meta: 
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""
@@ -866,27 +888,17 @@ api_index:
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""
       children: 
-        - id: batman.validator
-          title: Batman.Validator
+        - id: batman.model_validations
+          title: Batman.Model Validations
           sub: 
-            - id: prototype_function_constructor
-              title: "constructor"
-            - id: class_function_triggers
-              title: triggers
-            - id: class_function_options
-              title: options
-            - id: prototype_function_validateeach
-              title: validateEach
-            - id: class_function_handleblank
-              title: handleBlank
-          meta: 
-            grouping: App Components
-            parent: Batman.Model
-        - id: batman.validationerror
-          title: Batman.ValidationError
-          sub: 
-            - id: prototype_accessor_fullmessage
-              title: fullMessage
+            - id: "built-in_validations"
+              title: "Built-In Validations"
+            - id: custom_validation
+              title: Custom Validation
+            - id: conditional_validation
+              title: Conditional Validation
+            - id: custom_messages
+              title: Custom Messages
           meta: 
             grouping: App Components
             parent: Batman.Model
@@ -1215,6 +1227,48 @@ api_index:
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""
   App Internals: 
+    - title: Batman.Model
+      children: 
+        - id: batman.validator
+          title: Batman.Validator
+          sub: 
+            - id: custom_validators
+              title: Custom Validators
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: class_function_triggers
+              title: triggers
+            - id: class_function_options
+              title: options
+            - id: prototype_function_validateeach
+              title: validateEach
+            - id: class_function_handleblank
+              title: handleBlank
+            - id: prototype_function_format
+              title: format
+          meta: 
+            grouping: App Internals
+            parent: Batman.Model
+        - id: batman.validationerror
+          title: Batman.ValidationError
+          sub: 
+            - id: prototype_function_constructor
+              title: "constructor"
+            - id: prototype_accessor_fullmessage
+              title: fullMessage
+          meta: 
+            grouping: App Internals
+            parent: Batman.Model
+        - id: batman.errorsset
+          title: Batman.ErrorsSet
+          sub: 
+            - id: default_accessor
+              title: Default Accessor
+            - id: prototype_function_add
+              title: add
+          meta: 
+            grouping: App Internals
+            parent: Batman.Model
     - id: batman.navigator
       title: Batman.Navigator
       sub: 

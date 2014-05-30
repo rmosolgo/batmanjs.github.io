@@ -252,40 +252,52 @@ api_index:
     - id: batman.set
       title: Batman.Set
       sub: 
-        - id: constructor(items...)
-          title: constructor(items...)
-        - id: "length_%3A_number"
-          title: "length : number"
-        - id: "isempty_%3A_boolean"
-          title: "isEmpty : boolean"
-        - id: "toarray_%3A_array"
-          title: "toArray : Array"
-        - id: "has(item)_%3A_boolean"
-          title: "has(item) : Boolean"
-        - id: add(items...)
-          title: add(items...)
-        - id: remove(items...)
-          title: remove(items...)
-        - id: "find(testfunction_%3A_function)_%3A_%5Bobject%5D"
-          title: "find(testFunction : function) : [Object]"
-        - id: "foreach(iteratorfunction_%3A_function%5B%2C_context%3A_object%5D)"
-          title: "forEach(iteratorFunction : function[, context: Object])"
-        - id: "isempty()_%3A_boolean"
-          title: "isEmpty() : boolean"
-        - id: "clear()_%3A_array"
-          title: "clear() : Array"
-        - id: "replace(collection_%3A_enumerable)_%3A_array"
-          title: "replace(collection : Enumerable) : Array"
-        - id: "toarray()_%3A_array"
-          title: "toArray() : Array"
-        - id: "merge(collections..._%3A_enumerable)_%3A_set"
-          title: "merge(collections... : Enumerable) : Set"
-        - id: "indexedby(key_%3A_string)_%3A_setindex"
-          title: "indexedBy(key : String) : SetIndex"
-        - id: "indexedbyunique(key_%3A_string)_%3A_uniquesetindex"
-          title: "indexedByUnique(key : String) : UniqueSetIndex"
-        - id: "sortedby(key%3A_string_%5B%2C_order%3A_string%5D)_%3A_setsort"
-          title: "sortedBy(key: String [, order: String]) : SetSort"
+        - id: prototype_function_constructor
+          title: "constructor"
+        - id: prototype_accessor_length
+          title: length
+        - id: prototype_function_has
+          title: has
+        - id: prototype_function_add
+          title: add
+        - id: prototype_function_remove
+          title: remove
+        - id: prototype_function_find
+          title: find
+        - id: prototype_function_foreach
+          title: forEach
+        - id: prototype_function_isempty
+          title: isEmpty
+        - id: prototype_accessor_isempty
+          title: isEmpty
+        - id: prototype_function_clear
+          title: clear
+        - id: prototype_function_replace
+          title: replace
+        - id: prototype_function_toarray
+          title: toArray
+        - id: prototype_accessor_toarray
+          title: toArray
+        - id: prototype_function_merge
+          title: merge
+        - id: prototype_function_indexedby
+          title: indexedBy
+        - id: prototype_accessor_indexedby
+          title: indexedBy
+        - id: prototype_function_indexedbyunique
+          title: indexedByUnique
+        - id: prototype_accessor_indexedbyunique
+          title: indexedByUnique
+        - id: prototype_function_sortedby
+          title: sortedBy
+        - id: prototype_accessor_sortedby
+          title: sortedBy
+        - id: prototype_accessor_sortedbydescending
+          title: sortedByDescending
+        - id: prototype_function_mappedto
+          title: mappedTo
+        - id: prototype_accessor_mappedto
+          title: mappedTo
       meta: 
         grouping: Data Structures
         parent: !<tag:yaml.org,2002:js/undefined> ""

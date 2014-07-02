@@ -73,10 +73,10 @@ sub:
       type: accessor
       level: class
       params: !<tag:yaml.org,2002:js/undefined> ""
-      returnType: Hash
+      returnType: Batman.Params
     tokens: []
     id: class_accessor_currentparams
-    html: "<p>Returns the URL parameters for the current request, including the path relative to the app&#39;s base path (<code>Batman.config.pathToApp</code>). It includes named parameters (eg <code>id</code> from <code>/items/:id</code>), query string parameters (eg <code>key</code> of <code>?key=value</code>).</p>\n"
+    html: "<p>Returns the URL parameters for the current request, including the path relative to the app&#39;s base path (<code>Batman.config.pathToApp</code>). It includes named parameters (eg <code>id</code> from <code>/items/:id</code>), query string parameters (eg <code>key</code> of <code>?key=value</code>).</p>\n<p><code>currentParams</code> also offers a way to change the current request URL&#39;s parameters without refreshing or reloading anything on the page. This way you can influence data on the page and allow your users to get the same data on hard refreshes. Here&#39;s an example:</p>\n<pre><code class=\"lang-coffeescript\">Batman.currentApp.get(<span class=\"string\">'currentParams.url'</span>).update(page: <span class=\"number\">5</span>)</code></pre>\n<p>It will even update the URL match a defined route if found:</p>\n<pre><code class=\"lang-coffeescript\">Batman.currentApp.get(<span class=\"string\">'currentParams.url'</span>).update(action: show, id: <span class=\"number\">6</span>) <span class=\"comment\"># /items/6</span>\nBatman.currentApp.get(<span class=\"string\">'currentParams.url'</span>).update(page: <span class=\"number\">5</span>) <span class=\"comment\"># /items/page/5</span></code></pre>\n"
   - title: currentRoute
     meta: 
       type: accessor

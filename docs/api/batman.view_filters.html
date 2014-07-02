@@ -69,6 +69,14 @@ sub:
     tokens: []
     id: "value%5Bkey%5D_%3A_value"
     html: "<p>Shorthand for the <code>get</code> filter.</p>\n"
+  - title: "and(inputValue, otherValue) : boolean"
+    tokens: []
+    id: "and(inputvalue%2C_othervalue)_%3A_boolean"
+    html: "<p>Returns <code>true</code> if <code>inputValue</code> and <code>otherValue</code> are truthy:</p>\n<pre><code class=\"lang-html\">&lt;p data-showif=<span class=\"string\">'post.published | and currentUser.loggedIn'</span>&gt;&lt;/p&gt;</code></pre>\n"
+  - title: "or(inputValue, otherValue) : boolean"
+    tokens: []
+    id: "or(inputvalue%2C_othervalue)_%3A_boolean"
+    html: "<p>Returns <code>true</code> if either <code>inputValue</code> or <code>otherValue</code> are truthy:</p>\n<pre><code class=\"lang-html\">&lt;p data-showif=<span class=\"string\">'post.published | or currentUser.isAdmin'</span>&gt;&lt;/p&gt;</code></pre>\n"
   - title: "not(value) : boolean"
     tokens: []
     id: "not(value)_%3A_boolean"
@@ -105,18 +113,42 @@ sub:
     tokens: []
     id: "upcase(value)_%3A_string"
     html: "<p>Upcases the input value:</p>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"page.title | upcase\"</span>&gt;&lt;/span&gt;</code></pre>\n"
-  - title: "pluralize(value, count) : string"
+  - title: "pluralize(value, count, includeCount[=true]) : string"
     tokens: []
-    id: "pluralize(value%2C_count)_%3A_string"
+    id: "pluralize(value%2C_count%2C_includecount%5B%3Dtrue%5D)_%3A_string"
     html: "<p>Pluralizes the input value based on the patterns specified in <code>Batman.helpers.inflector</code> and the count provided:</p>\n<pre><code class=\"lang-coffeescript\">( -&gt;\n  <span class=\"property\">@singular</span> <span class=\"regexp\">/(analysis)$/i</span>, <span class=\"string\">'$1'</span>\n  <span class=\"property\">@singular</span> <span class=\"regexp\">/(analy)ses$/i</span>, <span class=\"string\">'$1sis'</span>\n).call(Batman.helpers.inflector)</code></pre>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"'analysis' | pluralize page.comments.count\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+  - title: "singularize(string) : string"
+    tokens: []
+    id: "singularize(string)_%3A_string"
+    html: "<p>Returns the singular inflection of <code>string</code>.</p>\n"
   - title: "humanize(string) : string"
     tokens: []
     id: "humanize(string)_%3A_string"
     html: "<p>Takes a string and makes it human readable, for example &#39;an_underscored_string&#39; would become &#39;An underscored string&#39;.</p>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"'about_us_page' | humanize\"</span>&gt;&lt;/span&gt;</code></pre>\n<p>Would result in:</p>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"'about_us_page' | humanize\"</span>&gt;About us page&lt;/span&gt;</code></pre>\n"
-  - title: "join(value, separator = '') : string"
+  - title: "titleize(value) : string"
     tokens: []
-    id: "join(value%2C_separator_%3D_'')_%3A_string"
-    html: "<p>Joins an <code>array</code> of values into a single string:</p>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"page.comments | map 'title' | join ', '\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+    id: "titleize(value)_%3A_string"
+    html: "<p>Humanizes <code>string</code> and capitalizes each word. For example,</p>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"'about_us_page' | titleize\"</span>&gt;&lt;/span&gt;</code></pre>\n<p>Would result in:</p>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"'about_us_page' | titleize\"</span>&gt;About Us Page&lt;/span&gt;</code></pre>\n"
+  - title: "underscore(string) : string"
+    tokens: []
+    id: "underscore(string)_%3A_string"
+    html: "<p>Converts <code>string</code> to underscore case.</p>\n"
+  - title: "camelize(string, firstLetterLower[=false]) : string"
+    tokens: []
+    id: "camelize(string%2C_firstletterlower%5B%3Dfalse%5D)_%3A_string"
+    html: "<p>Converts <code>string</code> to camel case. if <code>firstLetterLower</code> is true, the first letter will be lowercase.</p>\n"
+  - title: "ordinalize(numberOrString) : string"
+    tokens: []
+    id: "ordinalize(numberorstring)_%3A_string"
+    html: "<p>Turns <code>numberOrString</code> into an ordinalized number, for example, <code>4 | ordinalize</code> becomes <code>4th</code>.</p>\n"
+  - title: "join(array, separator = '') : string"
+    tokens: []
+    id: "join(array%2C_separator_%3D_'')_%3A_string"
+    html: "<p>Joins <code>array</code> into a single string with <code>separator</code>:</p>\n<pre><code class=\"lang-html\">&lt;span data-bind=<span class=\"string\">\"page.comments | map 'title' | join ', '\"</span>&gt;&lt;/span&gt;</code></pre>\n"
+  - title: "toSentence(array) : string"
+    tokens: []
+    id: "tosentence(array)_%3A_string"
+    html: "<p>Joins <code>array</code> with <code>,</code> and <code>and</code>, as appropriate. See <a href=\"/docs/api/batman.helpers.html#class_function_tosentence\">helpers.toSentence</a>.</p>\n"
   - title: "sort(value) : value"
     tokens: []
     id: "sort(value)_%3A_value"
@@ -151,7 +183,7 @@ sub:
     html: "<p>Escapes HTML in the input value:</p>\n<pre><code class=\"lang-html\">&lt;textarea data-bind=<span class=\"string\">\"page.body_html | escape\"</span>&gt;&lt;/textarea&gt;</code></pre>\n"
 tokens: []
 id: batman.view_filters
-html: "<p>Batman filters are evaluated from left to right, with the output of each filter being injected into the next. This allows you to form filter chains for display purposes. Accessor caching does not apply to filter chains. If any component of the chain changes, the entire chain will be recalculated for each binding in the template.</p>\n<p>Batman.js ships with many built-in view filters:</p>\n<table>\n<thead>\n<tr>\n<th>Type</th>\n<th>Filters</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Logical Operators</strong></td>\n<td><code>and</code>, <code>or</code>, <code>not</code></td>\n</tr>\n<tr>\n<td><strong>Comparison Operators</strong></td>\n<td><code>equals</code>, <code>eq</code>, <code>neq</code>, <code>lt</code>, <code>gt</code>, <code>lteq</code>, <code>gteq</code></td>\n</tr>\n<tr>\n<td><strong>General Utilities</strong></td>\n<td><code>get</code>, <code>[]</code>, <code>meta</code>, <code>withArguments</code>, <code>default</code></td>\n</tr>\n<tr>\n<td><strong>Number Helpers</strong></td>\n<td><code>ceil</code>, <code>floor</code>, <code>round</code>, <code>precision</code>, <code>fixed</code>, <code>delimitNumber</code></td>\n</tr>\n<tr>\n<td><strong>Set Helpers</strong></td>\n<td><code>join</code>, <code>sort</code>, <code>map</code>, <code>has</code>, <code>first</code></td>\n</tr>\n<tr>\n<td><strong>String Helpers</strong></td>\n<td><code>interpolate</code>, <code>escape</code>, <code>capitalize</code>, <code>singularize</code>, <code>underscore</code>, <code>camelize</code>, <code>trim</code>, <code>raw</code>, <code>matches</code>, <code>truncate</code>, <code>prepend</code>, <code>append</code>, <code>replace</code>, <code>downcase</code>, <code>upcase</code>, <code>pluralize</code>, <code>humanize</code></td>\n</tr>\n<tr>\n<td><strong>Debuggers</strong></td>\n<td><code>log</code>, <code>logStack</code></td>\n</tr>\n</tbody>\n</table>\n"
+html: "<p>Batman filters are evaluated from left to right, with the output of each filter being injected into the next. This allows you to form filter chains for display purposes. Accessor caching does not apply to filter chains. If any component of the chain changes, the entire chain will be recalculated for each binding in the template.</p>\n<p>Batman.js ships with many built-in view filters:</p>\n<table>\n<thead>\n<tr>\n<th>Type</th>\n<th>Filters</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Logical Operators</strong></td>\n<td><code>and</code>, <code>or</code>, <code>not</code></td>\n</tr>\n<tr>\n<td><strong>Comparison Operators</strong></td>\n<td><code>equals</code>, <code>eq</code>, <code>neq</code>, <code>lt</code>, <code>gt</code>, <code>lteq</code>, <code>gteq</code></td>\n</tr>\n<tr>\n<td><strong>General Utilities</strong></td>\n<td><code>get</code>, <code>[]</code>, <code>meta</code>, <code>withArguments</code>, <code>default</code></td>\n</tr>\n<tr>\n<td><strong>Number Helpers</strong></td>\n<td><code>ceil</code>, <code>floor</code>, <code>round</code>, <code>precision</code>, <code>fixed</code>, <code>delimitNumber</code>, <code>ordinalize</code></td>\n</tr>\n<tr>\n<td><strong>Set Helpers</strong></td>\n<td><code>join</code>, <code>sort</code>, <code>map</code>, <code>has</code>, <code>first</code>, <code>toSentence</code></td>\n</tr>\n<tr>\n<td><strong>String Helpers</strong></td>\n<td><code>interpolate</code>, <code>escape</code>, <code>capitalize</code>, <code>titleize</code>, <code>singularize</code>, <code>underscore</code>, <code>camelize</code>, <code>trim</code>, <code>raw</code>, <code>matches</code>, <code>truncate</code>, <code>prepend</code>, <code>append</code>, <code>replace</code>, <code>downcase</code>, <code>upcase</code>, <code>pluralize</code>, <code>humanize</code></td>\n</tr>\n<tr>\n<td><strong>Debuggers</strong></td>\n<td><code>log</code>, <code>logStack</code></td>\n</tr>\n</tbody>\n</table>\n"
 
 ---
 

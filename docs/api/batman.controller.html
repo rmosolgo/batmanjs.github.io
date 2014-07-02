@@ -93,6 +93,15 @@ sub:
     tokens: []
     id: prototype_property_defaultrenderyield
     html: "<p><code>defaultRenderYield</code> specifies which yield (see <a href=\"/docs/api/batman.view_bindings.html#data-yield\"><code>data-yield</code></a>) a controller should automatically render into if no yield is declared.</p>\n"
+  - title: coerceIntegerParams
+    meta: 
+      type: property
+      level: prototype
+      params: "[=true]"
+      returnType: boolean
+    tokens: []
+    id: prototype_property_coerceintegerparams
+    html: "<p>If true, strings like <code>&quot;123&quot;</code> will be coerced to integers when passed in controller params. This is good for <a href=\"/docs/api/batman.model.html\"><code>Batman.Model</code></a> IDs. To disable this, set it to false in your controller class definition:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">MyApp</span>.<span class=\"title\">MyController</span> <span class=\"keyword\">extends</span> <span class=\"title\">MyApp</span>.<span class=\"title\">ApplicationController</span></span>\n  coerceIntegerParams: <span class=\"literal\">false</span></code></pre>\n"
   - title: sharedController
     meta: 
       type: accessor

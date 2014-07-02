@@ -810,6 +810,8 @@ api_index:
           title: autoScrollToHash
         - id: prototype_property_defaultrenderyield
           title: defaultRenderYield
+        - id: prototype_property_coerceintegerparams
+          title: coerceIntegerParams
         - id: class_accessor_sharedcontroller
           title: sharedController
         - id: class_function_catcherror
@@ -896,6 +898,8 @@ api_index:
           title: reflectOnAssociation
         - id: prototype_function_reflectonallassociations
           title: reflectOnAllAssociations
+        - id: prototype_function_coerceintegerprimarykey
+          title: coerceIntegerPrimaryKey
       meta: 
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""
@@ -1159,6 +1163,10 @@ api_index:
               title: "get(value, key) : value"
             - id: "value%5Bkey%5D_%3A_value"
               title: "value[key] : value"
+            - id: "and(inputvalue%2C_othervalue)_%3A_boolean"
+              title: "and(inputValue, otherValue) : boolean"
+            - id: "or(inputvalue%2C_othervalue)_%3A_boolean"
+              title: "or(inputValue, otherValue) : boolean"
             - id: "not(value)_%3A_boolean"
               title: "not(value) : boolean"
             - id: "matches(value%2C_string)_%3A_boolean"
@@ -1177,12 +1185,24 @@ api_index:
               title: "downcase(value) : string"
             - id: "upcase(value)_%3A_string"
               title: "upcase(value) : string"
-            - id: "pluralize(value%2C_count)_%3A_string"
-              title: "pluralize(value, count) : string"
+            - id: "pluralize(value%2C_count%2C_includecount%5B%3Dtrue%5D)_%3A_string"
+              title: "pluralize(value, count, includeCount[=true]) : string"
+            - id: "singularize(string)_%3A_string"
+              title: "singularize(string) : string"
             - id: "humanize(string)_%3A_string"
               title: "humanize(string) : string"
-            - id: "join(value%2C_separator_%3D_'')_%3A_string"
-              title: "join(value, separator = '') : string"
+            - id: "titleize(value)_%3A_string"
+              title: "titleize(value) : string"
+            - id: "underscore(string)_%3A_string"
+              title: "underscore(string) : string"
+            - id: "camelize(string%2C_firstletterlower%5B%3Dfalse%5D)_%3A_string"
+              title: "camelize(string, firstLetterLower[=false]) : string"
+            - id: "ordinalize(numberorstring)_%3A_string"
+              title: "ordinalize(numberOrString) : string"
+            - id: "join(array%2C_separator_%3D_'')_%3A_string"
+              title: "join(array, separator = '') : string"
+            - id: "tosentence(array)_%3A_string"
+              title: "toSentence(array) : string"
             - id: "sort(value)_%3A_value"
               title: "sort(value) : value"
             - id: "map(iterable)_%3A_value"

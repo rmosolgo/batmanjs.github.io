@@ -13,7 +13,7 @@ sub:
       returnType: String
     tokens: []
     id: class_property_primarykey
-    html: "<p>Defines the <code>Model</code>&#39;s primary key. This attribute will be used for determining:</p>\n<ul>\n<li>record identity (ie, records with the same <code>primaryKey</code> are assumed to be the same record)</li>\n<li>whether a record <a href=\"/docs/api/batman.model.html#prototype_function_isnew\"><code>isNew</code></a></li>\n<li>whether records are related (see <a href=\"/docs/api/batman.model_associations.html\"><code>Batman.Model</code> Associations</a>)</li>\n<li>URL parameters via <a href=\"/docs/api/batman.model.html#prototype_function_toparam\"><code>toParam</code></a></li>\n</ul>\n<p>Change the option using <code>set</code>, like so:</p>\n<pre><code>test <span class=\"string\">'primary key can be set using @set'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Shop</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@set</span> <span class=\"string\">'primaryKey'</span>, <span class=\"string\">'shop_id'</span>\n  equal Shop.get(<span class=\"string\">'primaryKey'</span>), <span class=\"string\">'shop_id'</span></code></pre>\n"
+    html: "<p>Defines the <code>Model</code>&#39;s primary key. This attribute will be used for determining:</p>\n<ul>\n<li>record identity (ie, records with the same <code>primaryKey</code> are assumed to be the same record)</li>\n<li>whether a record <a href=\"/docs/api/batman.model.html#prototype_function_isnew\"><code>isNew</code></a></li>\n<li>whether records are related (see <a href=\"/docs/api/batman.model_associations.html\"><code>Batman.Model</code> Associations</a>)</li>\n<li>URL parameters via <a href=\"/docs/api/batman.model.html#prototype_function_toparam\"><code>toParam</code></a></li>\n</ul>\n<p>Change the option using <code>set</code>, like so:</p>\n<pre><code>test <span class=\"string\">'primary key can be set using @set'</span>, -&gt;\n  <span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">Shop</span> <span class=\"keyword\">extends</span> <span class=\"title\">Batman</span>.<span class=\"title\">Model</span></span>\n    <span class=\"property\">@set</span> <span class=\"string\">'primaryKey'</span>, <span class=\"string\">'shop_id'</span>\n  equal Shop.get(<span class=\"string\">'primaryKey'</span>), <span class=\"string\">'shop_id'</span></code></pre>\n<p><em>Note:</em> <code>primaryKey</code> will be coerced to an integer if possible. You can disable this by setting <code>coerceIntegerPrimaryKey: false</code> in your model definition.</p>\n"
   - title: resourceName
     meta: 
       type: property
@@ -328,6 +328,15 @@ sub:
     tokens: []
     id: prototype_function_reflectonallassociations
     html: "<p>If <code>type</code> is passed (eg, <code>hasMany</code>), returns a <code>Batman.SimpleSet</code> of all associations of that type on the record.\nIf no type is passed, all associations are returned.\nIf the record has no associations, returns <code>null</code>.</p>\n"
+  - title: coerceIntegerPrimaryKey
+    meta: 
+      type: function
+      level: prototype
+      params: "[=true]"
+      returnType: Boolean
+    tokens: []
+    id: prototype_function_coerceintegerprimarykey
+    html: "<p>By default, primary keys that match <code>/\\d+/</code> will be coerced to integers when set on the model. You can disable this with:</p>\n<pre><code class=\"lang-coffeescript\"><span class=\"class\"><span class=\"keyword\">class</span> <span class=\"title\">MyApp</span>.<span class=\"title\">MyModel</span></span>\n  coerceIntegerPrimaryKey: <span class=\"literal\">false</span></code></pre>\n"
 tokens: []
 id: batman.model
 html: "<p>For a general explanation of <a href=\"/docs/api/batman.model.html\"><code>Batman.Model</code></a> and how it works, see <a href=\"/docs/models.html\">the guide</a>.</p>\n<p><em>Note</em>: This documentation uses the term <em>model</em> to refer to the class <code>Model</code>\nor a <code>Model</code> subclass, and the term <em>record</em> to refer to one instance of a\nmodel.</p>\n"

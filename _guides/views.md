@@ -1,9 +1,4 @@
----
-layout: docs
-title: Views
-prev_section: bindings
-next_section: testing
----
+# Views
 
 `Batman.View`s connect a batman.js application to a user by:
 

@@ -1,9 +1,4 @@
----
-layout: docs
-title: Configuration
-prev_section: installation
-next_section: controllers
----
+# Configuration
 
 batman.js contains some settings affecting all apps running on the page. These settings are attributes of the global `Batman.config` object. It's good practice to set these values before defining your app, like so:
 

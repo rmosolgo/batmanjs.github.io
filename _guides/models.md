@@ -1,9 +1,4 @@
----
-layout: docs
-title: Models
-prev_section: controllers
-next_section: bindings
----
+# Models
 
 `Batman.Model` is responsible for representing data in your application and
 providing a fluid interface for communicating with your backend app.

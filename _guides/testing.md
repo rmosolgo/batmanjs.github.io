@@ -1,8 +1,4 @@
----
-layout: docs
-title: Testing
-prev_section: architecture
----
+# Testing
 
 ## 1. Introduction to Testing
 

@@ -1,9 +1,4 @@
----
-layout: docs
-title: Controllers
-prev_section: configuration
-next_section: models
----
+# Controllers
 
 `Batman.Controller` is the C in MVC. Controllers have _actions_ which are are dispatched by the router.
 

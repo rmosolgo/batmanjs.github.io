@@ -1,9 +1,4 @@
----
-layout: docs
-title: Bindings
-prev_section: models
-next_section: views
----
+# View Bindings
 
 Batman.js bindings connect an app to the DOM. Bindings are created by adding `data-` attributes to your HTML templates:
 

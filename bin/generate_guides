@@ -1,0 +1,85 @@
+#!/usr/bin/env coffee
+fs     = require('fs')
+glob   = require('glob')
+path   = require('path')
+yaml   = require('js-yaml')
+
+require('locus')
+# to add or reorder, update the config template, too
+config = require("../_templates/config.yml")
+
+Autolink = require('./support/autolink').Autolink
+TemplateWriter = require('./support/template_writer').TemplateWriter
+MarkdownParser = require('./support/markdown_parser').MarkdownParser
+
+
+class GuideGenerator
+  constructor: ({dirname, @sequence}) ->
+    @files = glob.sync(dirname)
+    @parser = new MarkdownParser
+
+  generateGuide: (filepath) ->
+    content = fs.readFileSync(filepath).toString()
+    tokens = @parser.stringToTokens(content)
+    filename = path.basename(filepath).split(".")[0]
+
+    replacements = {}
+    [prevIndex, __, nextIndex] = @_indexesFor(filename)
+    replacements.prev_section = @sequence[prevIndex]
+    replacements.next_section = @sequence[nextIndex]
+
+    # it's getting rendered by Jekyll, so remove it
+    titleToken = tokens.shift()
+    if titleToken.type isnt 'heading' or titleToken.depth isnt 1
+      throw "#{filepath} must begin with a h1 (`# `) for its title!"
+    else
+      replacements.title = titleToken.text
+
+    for token, idx in tokens
+      if token.type is 'heading' # and depth isnt 1
+        headingText = token.text
+        headingHTML = @parser.tokensToHTML([token])
+        # parser gives the header an ID, just use that:
+        id = headingHTML.match(/id="(.*)"/)[1]
+        html = headingHTML.replace(headingText, "<a href='##{id}'>#{headingText}</a>")
+        wrapper = {
+          type: "paragraph"
+          text: html
+        }
+        tokens[idx] = wrapper
+
+    replacements.guide_html = @parser.tokensToHTML(tokens)
+
+    @writer.write("docs/#{filename}.html", replacements)
+
+  _indexesFor: (filename) ->
+    currentIndex = @sequence.indexOf(filename)
+    if currentIndex > 0
+      prevIndex = currentIndex - 1
+    if currentIndex < (@sequence.length - 1)
+      nextIndex = currentIndex + 1
+    [prevIndex, currentIndex, nextIndex]
+
+
+  render: ->
+    @writer = new TemplateWriter("guide.html")
+    for f in @files
+      @generateGuide(f)
+
+  # autolink everything!!!
+  hasId: -> true
+  hasMethod: -> true
+
+  _extractTitle: (tokens) ->
+    titleToken = tokens[0]
+    if titleToken.type isnt 'heading' or titleToken.depth isnt 1
+      return false
+    else
+      return titleToken.text
+
+
+
+generator = new GuideGenerator
+  dirname: "#{__dirname}../../_guides/**.md"
+  sequence: (i.link for i in config.doc_boxes[0].items)
+generator.render()

@@ -38,12 +38,14 @@ class GuideGenerator
 
     for token, idx in tokens
       if token.type is 'heading'
-        headingText = token.text
-        headingHTML = @parser.tokensToHTML([token])
+        html = @parser.tokensToHTML([token])
+
+        headingText = html.match(/>(.*)<\/h/)[1] # it gets html-encoded, so token.text won't work later
         # parser gives the header an ID, just use that:
-        id = headingHTML.match(/id="(.*)"/)[1]
-        html = headingHTML.replace(headingText, "<a href='##{id}'>#{headingText}</a>")
-        html = headingHTML.replace(/id=/, ' class="guide-heading" id=')
+        id = html.match(/id="(.*)"/)[1]
+        html = html
+          .replace(headingText, "<a href='##{id}'>#{headingText}</a>")
+          .replace(/id=/, ' class="guide-heading" id=')
         wrapper = {
           type: "paragraph"
           text: html
@@ -82,6 +84,6 @@ class GuideGenerator
 
 
 generator = new GuideGenerator
-  dirname: "#{__dirname}../../_guides/**.md"
+  dirname: "#{__dirname}../../_guides/*.md"
   sequence: (i.link for i in config.doc_boxes[0].items)
 generator.render()

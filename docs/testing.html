@@ -5,19 +5,19 @@ prev_section: views
 next_section: undefined
 ---
 
-<p><h2  class="guide-heading" id="1-introduction-to-testing">1. Introduction to Testing</h2>
+<p><h2  class="guide-heading" id="1-introduction-to-testing"><a href='#1-introduction-to-testing'>1. Introduction to Testing</a></h2>
 </p>
 <p>Testing is core to any great software product and <a href="/docs/api/batman.testing.html"><code>Batman.Testing</code></a> aims to make testing easy in Batman. <a href="/docs/api/batman.testcase.html"><code>Batman.TestCase</code></a> and its subclasses are light-weight wrappers around <a href="http://qunitjs.com/">QUnit</a> and <a href="http://sinonjs.org">Sinon.JS</a> libraries with the goal of making testing your JS MVC application part of your day to day practices.</p>
-<p><h2  class="guide-heading" id="2-testing-with-batman-testcase-docs-api-batman-testcase-html-">2. Testing with <a href="/docs/api/batman.testcase.html"><code>Batman.TestCase</code></a></h2>
+<p><h2  class="guide-heading" id="2-testing-with-batman-testcase-docs-api-batman-testcase-html-"><a href='#2-testing-with-batman-testcase-docs-api-batman-testcase-html-">2. Testing with <a href="/docs/api/batman.testcase.html'>2. Testing with <a href="/docs/api/batman.testcase.html"><code>Batman.TestCase</code></a></a></h2>
 </p>
 <p><a href="/docs/api/batman.testcase.html"><code>Batman.TestCase</code></a> is the base class all of your Batman App&#39;s tests will derive from. <code>TestCase</code> provides a simple API of common assertions you&#39;ll want to perform in your tests.  In most cases, these methods are simple wrappers around their QUnit equivalents but with a focus on making it easy for Rails developers to write these tests.  The testing assertions are modeled after Ruby&#39;s <a href="http://ruby-doc.org/stdlib-2.0/libdoc/test/unit/rdoc/Test/Unit.html">Test::Unit</a>, bringing in line expectations for expectation and actual assertion values as well as method signatures.</p>
-<p><h4  class="guide-heading" id="2-1-class-setup">2.1 Class setup</h4>
+<p><h4  class="guide-heading" id="2-1-class-setup"><a href='#2-1-class-setup'>2.1 Class setup</a></h4>
 </p>
 <p>To create a basic Batman test, simple create a new class that extends from <a href="/docs/api/batman.testcase.html"><code>Batman.TestCase</code></a>.</p>
 <pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">SimpleTest</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">TestCase</span></span>
   <span class="property">@test</span> <span class="string">'A simple test'</span>, -&gt;
     <span class="property">@assert</span> <span class="literal">true</span></code></pre>
-<p><h4  class="guide-heading" id="2-2-setup-and-teardown">2.2 Setup and Teardown</h4>
+<p><h4  class="guide-heading" id="2-2-setup-and-teardown"><a href='#2-2-setup-and-teardown'>2.2 Setup and Teardown</a></h4>
 </p>
 <p>All Batman.TestCase tests are given <code>setup</code> and <code>teardown</code> methods that are called before each test is run. Use these methods for initializing test data or resetting values that may persist between tests.</p>
 <pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">SimpleTest</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">TestCase</span></span>
@@ -33,7 +33,7 @@ next_section: undefined
 
   <span class="property">@test</span> <span class="string">'No bad examples'</span>, -&gt;
     <span class="property">@assert</span> !window.badExample</code></pre>
-<p><h4  class="guide-heading" id="2-3-assertions">2.3 Assertions</h4>
+<p><h4  class="guide-heading" id="2-3-assertions"><a href='#2-3-assertions'>2.3 Assertions</a></h4>
 </p>
 <p><a href="/docs/api/batman.testcase.html"><code>Batman.TestCase</code></a> comes with a set of basic assertions that Ruby <code>Test::Unit</code> users will be familiar with:</p>
 <p><code>assert(bool, [msg])</code>: Ensures the expression is <code>true</code></p>
@@ -44,7 +44,7 @@ next_section: undefined
 <p><code>assertDifference(expressions, difference = 1, [message], callback)</code>: Ensures that the set of <code>expressions</code> (single, or <code>Array</code>) have a delta of <code>difference</code> after the <code>callback</code> is executed.</p>
 <p><code>assertNoDifference(expressions, difference = 1, [message], callback)</code>: Ensures that the set of <code>expressions</code> (single, or <code>Array</code>) have no delta after the <code>callback</code> is executed.</p>
 <p><code>assertRaises(exception, callback)</code>: Ensures that an exception of type <code>exception</code> is raised during the executing of the <code>callback</code>.</p>
-<p><h4  class="guide-heading" id="2-4-async-tests">2.4 Async tests</h4>
+<p><h4  class="guide-heading" id="2-4-async-tests"><a href='#2-4-async-tests'>2.4 Async tests</a></h4>
 </p>
 <p>If your tests are asynchronous, you can control the flow of them with the <code>continue</code> and <code>wait</code> functions. These are simple wrappers over QUnit&#39;s <code>start</code> and <code>stop</code> methods.</p>
 <pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">SimpleTest</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">TestCase</span></span>
@@ -54,24 +54,24 @@ next_section: undefined
       <span class="property">@testCase</span>.<span class="keyword">continue</span>()
 
     <span class="property">@testCase</span>.wait()</code></pre>
-<p><h4  class="guide-heading" id="2-5-running-your-tests">2.5 Running your tests</h4>
+<p><h4  class="guide-heading" id="2-5-running-your-tests"><a href='#2-5-running-your-tests'>2.5 Running your tests</a></h4>
 </p>
 <p>Batman.TestCase <code>test</code> methods simply wrap <code>QUnit</code>&#39;s existing <code>test</code> method. In order to run your tests, instantiate an instance of your <a href="/docs/api/batman.testcase.html"><code>Batman.TestCase</code></a> and call <code>runTests</code>. This will add a new <code>QUnit.module</code> with your given test class name and queue all tests in the class into <code>QUnit</code>&#39;s test runner.</p>
 <pre><code class="lang-coffeescript">test = <span class="keyword">new</span> SimpleTest
 test.runTests()</code></pre>
-<p><h2  class="guide-heading" id="3-unit-testing-your-models">3. Unit testing your Models</h2>
+<p><h2  class="guide-heading" id="3-unit-testing-your-models"><a href='#3-unit-testing-your-models'>3. Unit testing your Models</a></h2>
 </p>
 <p>To create a unit test for a <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a> in your app, create a test class that extends <a href="/docs/api/batman.modeltestcase.html"><code>Batman.ModelTestCase</code></a>.</p>
 <pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">App</span>.<span class="title">PostsTest</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">ModelTestCase</span></span></code></pre>
 <p>Everything available to <a href="/docs/api/batman.testcase.html"><code>Batman.TestCase</code></a> will be included in your <a href="/docs/api/batman.modeltestcase.html"><code>Batman.ModelTestCase</code></a> as well as additional, Model specific assertions and helper functions.</p>
-<p><h4  class="guide-heading" id="3-1-batman-modeltestcase-specific-assertions">3.1 Batman.ModelTestCase specific assertions</h4>
+<p><h4  class="guide-heading" id="3-1-batman-modeltestcase-specific-assertions"><a href='#3-1-batman-modeltestcase-specific-assertions'>3.1 Batman.ModelTestCase specific assertions</a></h4>
 </p>
 <p><code>assertValid: (model, [msg])</code>: Ensures the given model has no Batman validation errors</p>
 <p><code>assertNotValid: (model, [msg])</code>: Ensures the given model has Batman validation errors</p>
 <p><code>assertDecoders: (modelClass, keys...)</code>: Ensures the given model class has a set of decoders equal to the <code>keys</code> specified.</p>
 <p><code>assertEncoders: (modelClass, keys....)</code>: Ensures the given model class has a set of encoders equal to the <code>keys</code> specified.</p>
 <p><code>assertEncoded: (model, key, expected)</code>: Ensures the given <code>model</code> encodes the <code>key</code> property with a value equal to the <code>expected</code> value.</p>
-<p><h4  class="guide-heading" id="3-2-fixtures">3.2 Fixtures</h4>
+<p><h4  class="guide-heading" id="3-2-fixtures"><a href='#3-2-fixtures'>3.2 Fixtures</a></h4>
 </p>
 <p>There is currently no fixture framework included with <a href="/docs/api/batman.modeltestcase.html"><code>Batman.ModelTestCase</code></a> however a simple fixture approach can be achieved by defining simple POJOs in this manner:</p>
 <pre><code class="lang-coffeescript">Fixtures.Posts =
@@ -87,7 +87,7 @@ test.runTests()</code></pre>
 
   <span class="property">@test</span>: -&gt;
     <span class="property">@assertEqual</span> <span class="string">"Hello world!"</span>, <span class="property">@post</span>.get(<span class="string">'title'</span>)</code></pre>
-<p><h4  class="guide-heading" id="3-3-a-few-examples">3.3 A few examples</h4>
+<p><h4  class="guide-heading" id="3-3-a-few-examples"><a href='#3-3-a-few-examples'>3.3 A few examples</a></h4>
 </p>
 <pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">App</span>.<span class="title">Post</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
   <span class="property">@encode</span> <span class="string">'title'</span>, <span class="string">'body'</span>
@@ -117,7 +117,7 @@ test.runTests()</code></pre>
   <span class="property">@test</span> <span class="string">"title can't be blank"</span>, -&gt;
     <span class="property">@post</span>.unset <span class="string">'title'</span>
     <span class="property">@assertNotValid</span> <span class="property">@post</span></code></pre>
-<p><h2  class="guide-heading" id="4-functional-tests-for-your-controllers">4. Functional tests for your Controllers</h2>
+<p><h2  class="guide-heading" id="4-functional-tests-for-your-controllers"><a href='#4-functional-tests-for-your-controllers'>4. Functional tests for your Controllers</a></h2>
 </p>
 <p>More to come. Currently you can use a combination of Sinon.JS and <a href="/docs/api/batman.testcase.html"><code>Batman.TestCase</code></a> to add functional tests to your controllers. A <a href="/docs/api/batman.controllertestcase.html"><code>Batman.ControllerTestCase</code></a> is on the way.</p>
 

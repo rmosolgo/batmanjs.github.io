@@ -7,7 +7,7 @@ next_section: models
 
 <p><a href="/docs/api/batman.controller.html"><code>Batman.Controller</code></a> is the C in MVC. Controllers have <em>actions</em> which are are dispatched by the router.</p>
 <p>Controllers are instantiated once (internally, by batman.js) and all controller actions are invoked on the same contoller instance while the app is running.</p>
-<p><h2  class="guide-heading" id="controller-actions">Controller Actions</h2>
+<p><h2  class="guide-heading" id="controller-actions"><a href='#controller-actions'>Controller Actions</a></h2>
 </p>
 <p>Controller actions are functions that:</p>
 <ul>
@@ -26,7 +26,7 @@ next_section: models
   index: -&gt; <span class="comment"># ...</span></code></pre>
 <p>would have this name for routing:</p>
 <pre><code class="lang-coffeescript"><span class="string">'productReviews#index'</span></code></pre>
-<p><h2  class="guide-heading" id="routing">Routing</h2>
+<p><h2  class="guide-heading" id="routing"><a href='#routing'>Routing</a></h2>
 </p>
 <p>To bind controller actions to URLs, define <em>routes</em> in your app definition. You can bind single routes with <code>@route</code> or define <em>resource routes</em> with <code>@resources</code> (inspired by <a href="http://guides.rubyonrails.org/routing.html#resource-routing-the-rails-default">Rails routing</a>).</p>
 <p>The simplest routing definition is <code>@route</code>:</p>
@@ -71,7 +71,7 @@ next_section: models
 </div>
 
 <p>These routes are accessible in <a href="/docs/api/batman.view_bindings.html#data-route"><code>data-route</code> bindings</a>. For more on routing, see the <a href="/docs/api/batman.app_routing.html">App Routing API docs</a></p>
-<p><h2  class="guide-heading" id="preparing-data">Preparing Data</h2>
+<p><h2  class="guide-heading" id="preparing-data"><a href='#preparing-data'>Preparing Data</a></h2>
 </p>
 <p>Controllers prepare data for views by interacting with models and <code>set</code>ting them on themselves. Here are some common actions for preparing data:</p>
 <pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">ProductsController</span> <span class="keyword">extends</span> <span class="title">MyApp</span>.<span class="title">ApplicationController</span></span>
@@ -92,14 +92,14 @@ next_section: models
   index: -&gt;
     <span class="property">@set</span> <span class="string">'products'</span>, MyApp.Product.get(<span class="string">'all'</span>)</code></pre>
 <p>These values will be accessible as <code>product</code> or <code>products</code> in <a href="/docs/bindings.html">view bindings</a>.</p>
-<p><h2  class="guide-heading" id="rendering-views">Rendering Views</h2>
+<p><h2  class="guide-heading" id="rendering-views"><a href='#rendering-views'>Rendering Views</a></h2>
 </p>
 <p>Controller actions can render views in two ways:</p>
 <ul>
 <li><em>implicitly</em>, by allowing batman.js to infer the view and render it after the action body is executed</li>
 <li><em>explicitly</em>, by calling <code>@render</code> in the controller action</li>
 </ul>
-<p><h3  class="guide-heading" id="implicit-rendering">Implicit Rendering</h3>
+<p><h3  class="guide-heading" id="implicit-rendering"><a href='#implicit-rendering'>Implicit Rendering</a></h3>
 </p>
 <p>If you don&#39;t call <code>@render</code> in your controller action, batman.js will render a view for you. It will look up a view class by:</p>
 <ul>
@@ -114,7 +114,7 @@ next_section: models
 <pre><code class="lang-coffeescript">MyApp.ProductsIndexView</code></pre>
 <p>If a view with the expected name isn&#39;t found, batman.js uses a plain <a href="/docs/api/batman.view.html"><code>Batman.View</code></a> instead.</p>
 <p>In fact, this lookup is built into <code>@render</code>, so if you call <code>@render</code> without passing a <code>view</code> option, batman.js will look up a class this way.</p>
-<p><h3  class="guide-heading" id="explicit-rendering">Explicit Rendering</h3>
+<p><h3  class="guide-heading" id="explicit-rendering"><a href='#explicit-rendering'>Explicit Rendering</a></h3>
 </p>
 <p>Calling <code>@render</code> in a controller action gives you more control over how the view is rendered. If you don&#39;t provide a <code>view</code> options, batman.js will look up a default view as described in &quot;Implicit Rendering&quot;.</p>
 <p>By explicitly rendering, you can:</p>

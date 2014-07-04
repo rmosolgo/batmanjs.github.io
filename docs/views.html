@@ -15,7 +15,7 @@ next_section: testing
 <li><strong>Controller actions render views into yields.</strong> Yields are defined in the layout view with <a href="/docs/api/batman.view_bindings.html#data-yield"><code>data-yield</code> bindings</a>. Content for yields (other than <code>&quot;main&quot;</code>) is provided with <a href="http://batmanjs.org/docs/api/batman.view_bindings.html#data-contentfor"><code>data-contentfor</code> bindings</a>. This is analagous to the <a href="http://guides.rubyonrails.org/layouts_and_rendering.html#understanding-yield">Rails yield pattern</a>.</li>
 <li><strong>Views render other views with <a href="/docs/api/batman.view_bindings.html#data-view"><code>data-view</code> bindings</a>.</strong> Custom views are a great choice for encapsulating UI and display components.</li>
 </ol>
-<p><h2  class="guide-heading" id="rendering-by-controller-actions">Rendering by Controller Actions</h2>
+<p><h2  class="guide-heading" id="rendering-by-controller-actions"><a href='#rendering-by-controller-actions'>Rendering by Controller Actions</a></h2>
 </p>
 <p>Batman.js handles URLs by dispatching <a href="/docs/controllers.html">controller actions</a>, which render views. Controller actions may render views <em>explicitly</em> or <em>implicitly</em>. See the <a href="/docs/controllers.html">controller guide</a> for more information about how controller actions render views.</p>
 <p>Everything in &quot;Custom Views&quot; below also applies default views which are rendered by controller actions. To customize a default view, simply define a class with the expected default name.</p>
@@ -28,7 +28,7 @@ next_section: testing
 
   <span class="comment"># can be bound in HTML: `data-event-click="myClickHandler"`</span>
   myClickHandler: -&gt; <span class="comment"># ...</span></code></pre>
-<p><h2  class="guide-heading" id="rendering-with-data-view-bindings">Rendering with &quot;data-view&quot; Bindings</h2>
+<p><h2  class="guide-heading" id="rendering-with-data-view-bindings"><a href='#rendering-with-data-view-bindings'>Rendering with &quot;data-view&quot; Bindings</a></h2>
 </p>
 <p>Views can be <em>inserted into other views</em> by using <a href="/docs/api/batman.view_bindings.html#data-view"><code>data-view</code> bindings</a>. This allows you to simplify your HTML and view classes by extracting markup and logic in to reusable custom views.</p>
 <p>To use a custom view, pass its name (relative to the app namespace) to <a href="/docs/api/batman.view_bindings.html#data-view"><code>data-view</code></a>. For example:</p>
@@ -36,10 +36,10 @@ next_section: testing
   &lt;!-- batman.js will instantiate App.ProductListItemView <span class="reserved">with</span> <span class="keyword">this</span> node --&gt;
 &lt;/div&gt;</code></pre>
 <p>If the custom view has its own HTML, that HTML will replace the contents of the <a href="/docs/api/batman.view_bindings.html#data-view"><code>data-view</code></a> node.</p>
-<p><h2  class="guide-heading" id="custom-views">Custom Views</h2>
+<p><h2  class="guide-heading" id="custom-views"><a href='#custom-views'>Custom Views</a></h2>
 </p>
 <p>Views are useful for creating reusable, configurable UI components. They are defined by extending <a href="/docs/api/batman.view.html"><code>Batman.View</code></a> and they are used by adding <a href="/docs/api/batman.view_bindings.html#data-view"><code>data-view</code> bindings</a> inside HTML templates.</p>
-<p><h3  class="guide-heading" id="defining-custom-views">Defining Custom Views</h3>
+<p><h3  class="guide-heading" id="defining-custom-views"><a href='#defining-custom-views'>Defining Custom Views</a></h3>
 </p>
 <p>To define a custom view, extend <a href="/docs/api/batman.view.html"><code>Batman.View</code></a>. (You can also extend any subclass of <a href="/docs/api/batman.view.html"><code>Batman.View</code></a>, such as another custom view.)</p>
 <p>For example, here&#39;s a custom view that uses <a href="http://jqueryui.com/autocomplete/">jQueryUI Autocomplete</a>:</p>
@@ -57,7 +57,7 @@ next_section: testing
 <pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">App</span>.<span class="title">VillainAutocompleteView</span> <span class="keyword">extends</span> <span class="title">App</span>.<span class="title">AutocompleteView</span></span>
   <span class="property">@accessor</span> <span class="string">'autocompleteSource'</span>, -&gt; App.Villian.get(<span class="string">'all'</span>).mapToProperty(<span class="string">'name'</span>)</code></pre>
 <p>Now, when we instantiate <code>App.VillianAutocompleteView</code>, it will have more interesting options!</p>
-<p><h3  class="guide-heading" id="providing-html-for-custom-views">Providing HTML for Custom Views</h3>
+<p><h3  class="guide-heading" id="providing-html-for-custom-views"><a href='#providing-html-for-custom-views'>Providing HTML for Custom Views</a></h3>
 </p>
 <p>Your custom views can get HTML in three ways:</p>
 <ul>
@@ -81,7 +81,7 @@ next_section: testing
   source: <span class="string">'layouts/_header_navigation'</span>
   <span class="comment"># will lookup template layouts/_header_navigation.html</span></code></pre>
 <p>Your app will try to load a file relative to <a href="/docs/configuration.html"><code>Batman.config.pathToHTML</code></a> to use as this view&#39;s HTML. You don&#39;t need to add <code>.html</code> to the <code>source</code> string.</p>
-<p><h3  class="guide-heading" id="accessors-and-handlers">Accessors and Handlers</h3>
+<p><h3  class="guide-heading" id="accessors-and-handlers"><a href='#accessors-and-handlers'>Accessors and Handlers</a></h3>
 </p>
 <p>Accessors and functions inside a custom view are accessible by that <a href="/docs/bindings.html">view&#39;s bindings</a>. That allows you to slim down controllers and other views by moving things into a custom view.</p>
 <p>Functions defined in custom views are available as event handlers. For example, <code>deleteItem</code> can be used in a <a href="/docs/api/batman.view_bindings.html#data-event"><code>data-event-click</code></a> binding:</p>
@@ -102,7 +102,7 @@ next_section: testing
   &lt;/li&gt;
 &lt;/ul&gt;</code></pre>
 <p>(See <a href="/docs/api/batman.view.html#class_function_option"><code>View.option</code> docs</a> for more about view options.)</p>
-<p><h2  class="guide-heading" id="view-lifecycle">View Lifecycle</h2>
+<p><h2  class="guide-heading" id="view-lifecycle"><a href='#view-lifecycle'>View Lifecycle</a></h2>
 </p>
 <p>As a view is rendered, it fires several lifecycle events. Some events &quot;bubble up&quot; from subviews, so these events may be fired more than once.</p>
 <p>One useful event is <code>viewDidAppear</code>, which is called after the view has been added to the DOM. You can initialize your view on <code>viewDidAppear</code> by defining a function with that name:</p>
@@ -113,11 +113,11 @@ next_section: testing
       $(<span class="property">@node</span>).find(<span class="string">'.date-input'</span>).datepicker()
       <span class="property">@_otherInitialization</span>()</code></pre>
 <p>See the <a href="/docs/api/batman.view_lifecycle.html"><code>Batman.View</code> lifecycle API docs</a> for more information on those events and how to use them.</p>
-<p><h2  class="guide-heading" id="view-hierarchy">View Hierarchy</h2>
+<p><h2  class="guide-heading" id="view-hierarchy"><a href='#view-hierarchy'>View Hierarchy</a></h2>
 </p>
 <p>Batman.js stores all active views in a <em>tree</em>, with the <a href="/docs/api/batman.app.html#class_property_layout"><code>layout</code> view</a> as its root. Every view has one <a href="/docs/api/batman.view.html#prototype_property_superview"><code>superview</code></a> and any number of <a href="/docs/api/batman.view.html#prototype_property_subviews"><code>subviews</code></a>. Batman.js manages the view tree internally, so a developer rarely interacts with it directly.</p>
 <p>The view tree serves as a rendering context for <a href="/docs/bindings.html">view bindings</a>, which climb the tree to evaluate keypaths with <a href="/docs/api/batman.view.html#prototype_function_lookupkeypath"><code>Batman.View::lookupKeypath</code></a>.</p>
-<p><h2  class="guide-heading" id="debugging">Debugging</h2>
+<p><h2  class="guide-heading" id="debugging"><a href='#debugging'>Debugging</a></h2>
 </p>
 <p>Batman.js exports the global <code>$context</code> function for debugging views. <code>$context</code> takes a DOM node and returns the batman.js view for that node. For example:</p>
 <pre><code class="lang-javascript">allItems = $(<span class="string">'#all_items'</span>)[<span class="number">0</span>]

@@ -10,7 +10,7 @@ providing a fluid interface for communicating with your backend app.</p>
 <p><em>Note</em>: This documentation uses the term <em>model</em> to refer to the class <code>Model</code>
 or a <code>Model</code> subclass, and the term <em>record</em> to refer to one instance of a
 model.</p>
-<p><h2  class="guide-heading" id="defining-a-model">Defining a Model</h2>
+<p><h2  class="guide-heading" id="defining-a-model"><a href='#defining-a-model'>Defining a Model</a></h2>
 </p>
 <p>Models are defined by creating subclasses of <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a>. All the features described below will be inherited by
 subclasses, so you can extend your own models too.</p>
@@ -21,14 +21,14 @@ subclasses, so you can extend your own models too.</p>
 <li><em>Associations</em> for linking records together.</li>
 </ul>
 <p>Since <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a>s are also <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>s, expect to use <a href="/docs/api/batman.object_accessors.html"><code>@accessor</code></a> to define many of your model attributes.</p>
-<p><h2  class="guide-heading" id="persistence">Persistence</h2>
+<p><h2  class="guide-heading" id="persistence"><a href='#persistence'>Persistence</a></h2>
 </p>
 <p>Persistence responsibilities are divided between:</p>
 <ul>
 <li><a href="/docs/api/batman.model.html"><code>Batman.Model</code></a> encoders, which define serialization of model attributes</li>
 <li>Storage adapters, which perform storage operations with serialized data.</li>
 </ul>
-<p><h3  class="guide-heading" id="encoders">Encoders</h3>
+<p><h3  class="guide-heading" id="encoders"><a href='#encoders'>Encoders</a></h3>
 </p>
 <p>Persisted model attributes are defined with <em>encoders</em>. These are directives that tell
 batman.js to load certain keys from serialized data.</p>
@@ -49,7 +49,7 @@ batman.js to load certain keys from serialized data.</p>
       <span class="comment"># so they can be mixed into the record</span></code></pre>
 <p>See the <a href="/docs/api/batman.model.html#class_function_encode"><code>Model.encode</code> API docs</a> for more information about custom encoders.</p>
 <p>Also, model associations (<code>@belongsTo</code>, <code>@hasMany</code>, etc) define their own encoders.</p>
-<p><h3  class="guide-heading" id="storage-adapters">Storage Adapters</h3>
+<p><h3  class="guide-heading" id="storage-adapters"><a href='#storage-adapters'>Storage Adapters</a></h3>
 </p>
 <p>Storage adapters (subclasses of <a href="/docs/api/batman.storageadapter.html"><code>Batman.StorageAdapter</code></a>) handle persistence operations: <code>create</code>, <code>read</code>, <code>update</code>, <code>destroy</code> and <code>readAll</code>.
 You never call these functions directly, but <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a> depends on them to save, load and destroy data.</p>
@@ -69,7 +69,7 @@ You never call these functions directly, but <a href="/docs/api/batman.model.htm
 <li>include HTTP headers in requests</li>
 </ul>
 <p>See the <a href="/docs/api/batman.storageadapter.html"><code>Batman.StorageAdapter</code> API docs</a> for more info.</p>
-<p><h2  class="guide-heading" id="validations">Validations</h2>
+<p><h2  class="guide-heading" id="validations"><a href='#validations'>Validations</a></h2>
 </p>
 <p>You can define validations for you models with <code>@validate</code>. Remember, client-side validation should <em>always</em> be mirrored by server-side validation.</p>
 <p>Here are a few example validations:</p>
@@ -79,10 +79,10 @@ You never call these functions directly, but <a href="/docs/api/batman.model.htm
   <span class="property">@validate</span> <span class="string">'itemsRemaining'</span>, greaterThan: <span class="number">0</span>, <span class="keyword">unless</span>: <span class="string">"isDiscontinued"</span></code></pre>
 <p>See the <a href="/docs/api/batman.model.html#class_function_validate"><code>Model.validate</code> docs</a> for a full list of included validation options.</p>
 <p>You can also define <a href="/docs/api/batman.validator.html">custom validator classes</a>.</p>
-<p><h2  class="guide-heading" id="associations">Associations</h2>
+<p><h2  class="guide-heading" id="associations"><a href='#associations'>Associations</a></h2>
 </p>
 <p>Model associations define relationships between models.</p>
-<p><h3  class="guide-heading" id="defining-associations">Defining Associations</h3>
+<p><h3  class="guide-heading" id="defining-associations"><a href='#defining-associations'>Defining Associations</a></h3>
 </p>
 <p>Associations are defined inside the model definition using <code>@belongsTo</code>, <code>@hasMany</code>, and <code>@hasOne</code>. Each association function takes:</p>
 <ul>
@@ -112,7 +112,7 @@ deck.get(<span class="string">'cards'</span>).mapToProperty(<span class="string"
 aceOfSpades.get(<span class="string">'deck.brand'</span>)   <span class="comment"># =&gt; "Bicycle"</span>
 aceOfSpades.get(<span class="string">'brand'</span>)        <span class="comment"># =&gt; "Bicycle"</span></code></pre>
 <p>Associations are very configurable: see the <a href="/docs/api/batman.model_associations.html">Model Associations API docs</a> for more detail about association options.</p>
-<p><h3  class="guide-heading" id="asynchronicity-and-association-values">Asynchronicity and Association Values</h3>
+<p><h3  class="guide-heading" id="asynchronicity-and-association-values"><a href='#asynchronicity-and-association-values'>Asynchronicity and Association Values</a></h3>
 </p>
 <p>In fact, association accessors return special objects:</p>
 <ul>
@@ -121,7 +121,7 @@ aceOfSpades.get(<span class="string">'brand'</span>)        <span class="comment
 </ul>
 <p>Using these special objects allows batman.js to account for asynchronous loading. For example, a <a href="/docs/api/batman.associationset.html"><code>Batman.AssociationSet</code></a> may be rendered in a <a href="/docs/api/batman.view.html"><code>Batman.View</code></a> even before its records are loaded. When the records are loaded, the view will be updated automatically. <a href="/docs/api/batman.belongstoproxy.html"><code>Batman.BelongsToProxy</code></a> provides the same functionality.</p>
 <p>To avoid asynchronous loading, use the <code>saveInline</code> option on your association.</p>
-<p><h2  class="guide-heading" id="the-identity-map">The Identity Map</h2>
+<p><h2  class="guide-heading" id="the-identity-map"><a href='#the-identity-map'>The Identity Map</a></h2>
 </p>
 <p>batman.js uses an identity map for fetching and storing records, which is
 essentially an in-memory cache of model instances. If you use <code>Model.find</code>

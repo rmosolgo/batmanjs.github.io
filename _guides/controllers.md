@@ -20,16 +20,16 @@ Controller actions may be bound _by name_ to URLs. The controller action name is
 
 For example, this controller action:
 
-{% highlight coffeescript %}
+```coffeescript
 class MyApp.ProductReviewsController extends Batman.Controller
   index: -> # ...
-{% endhighlight %}
+```
 
 would have this name for routing:
 
-{% highlight coffeescript %}
+```coffeescript
 'productReviews#index'
-{% endhighlight %}
+```
 
 ## Routing
 
@@ -37,25 +37,25 @@ To bind controller actions to URLs, define _routes_ in your app definition. You 
 
 The simplest routing definition is `@route`:
 
-{% highlight coffeescript %}
+```coffeescript
 class MyApp extends Batman.App
          # path     , controller action
   @route "/products", 'products#index'
-{% endhighlight %}
+```
 
 There is also a shortcut to define a route for `"/"`, `@root`:
 
-{% highlight coffeescript %}
+```coffeescript
 class MyApp extends Batman.App
   @root 'products#index'
-{% endhighlight %}
+```
 
 `@resources` creates several routes at once. For example,
 
-{% highlight coffeescript %}
+```coffeescript
 class MyApp extends Batman.App
   @resources "products"
-{% endhighlight %}
+```
 
 Would create the following mapping between URLs and actions on `MyApp.ProductsController`:
 
@@ -95,7 +95,7 @@ These routes are accessible in [`data-route` bindings](/docs/api/batman.view_bin
 
 Controllers prepare data for views by interacting with models and `set`ting them on themselves. Here are some common actions for preparing data:
 
-{% highlight coffeescript %}
+```coffeescript
 class MyApp.ProductsController extends MyApp.ApplicationController
   routingKey: 'products'
   new: ->
@@ -113,7 +113,7 @@ class MyApp.ProductsController extends MyApp.ApplicationController
 
   index: ->
     @set 'products', MyApp.Product.get('all')
-{% endhighlight %}
+```
 
 These values will be accessible as `product` or `products` in [view bindings](/docs/bindings.html).
 
@@ -135,15 +135,15 @@ If you don't call `@render` in your controller action, batman.js will render a v
 
 For example,
 
-{% highlight coffeescript %}
+```coffeescript
 'products#index'
-{% endhighlight %}
+```
 
 would render
 
-{% highlight coffeescript %}
+```coffeescript
 MyApp.ProductsIndexView
-{% endhighlight %}
+```
 
 If a view with the expected name isn't found, batman.js uses a plain `Batman.View` instead.
 
@@ -156,21 +156,21 @@ Calling `@render` in a controller action gives you more control over how the vie
 By explicitly rendering, you can:
 
 - __Render a non-default view__ by passing a `view` option to `@render`:
-  {% highlight coffeescript %}
+  ```coffeescript
     new: ->
       @set 'product', new MyApp.Product
       # use the edit view for new products, too:
-      @render(view: MyApp.ProductsEditView) {% endhighlight %}
+      @render(view: MyApp.ProductsEditView) ```
 - __Render into other yields__ by passing an `into` option to `@render`. `"main"` is the [default yield](/docs/api/batman.controller.html#prototype_property_defaultrenderyield), but you can render actions into other yields:
-  {% highlight coffeescript %}
+  ```coffeescript
     edit: (params) ->
       MyApp.find params.id, (err, record) =>
         @set 'product', record
-      @render(into: 'sidebar'){% endhighlight %}
+      @render(into: 'sidebar')```
 - __Delay the render__ by calling `@render(false)`, then calling `@render` when you want to render a view:
-  {% highlight coffeescript %}
+  ```coffeescript
     show: (params) ->
       MyApp.find params.id, (err, record) =>
         @set 'product', record
         @render()
-      @render(false) # prevents implicit render {% endhighlight %}
+      @render(false) # prevents implicit render ```

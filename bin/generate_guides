@@ -42,6 +42,7 @@ class GuideGenerator
         # parser gives the header an ID, just use that:
         id = headingHTML.match(/id="(.*)"/)[1]
         html = headingHTML.replace(headingText, "<a href='##{id}'>#{headingText}</a>")
+        html = headingHTML.replace(/id=/, ' class="guide-heading" id=')
         wrapper = {
           type: "paragraph"
           text: html

@@ -20,6 +20,7 @@ class GuideGenerator
 
   generateGuide: (filepath) ->
     content = fs.readFileSync(filepath).toString()
+    content = Autolink.insertLinks(content, @)
     tokens = @parser.stringToTokens(content)
     filename = path.basename(filepath).split(".")[0]
 
@@ -36,7 +37,7 @@ class GuideGenerator
       replacements.title = titleToken.text
 
     for token, idx in tokens
-      if token.type is 'heading' # and depth isnt 1
+      if token.type is 'heading'
         headingText = token.text
         headingHTML = @parser.tokensToHTML([token])
         # parser gives the header an ID, just use that:

@@ -1,0 +1,136 @@
+---
+layout: docs
+title: Models
+prev_section: controllers
+next_section: bindings
+---
+
+<p><a href="/docs/api/batman.model.html"><code>Batman.Model</code></a> is responsible for representing data in your application and
+providing a fluid interface for communicating with your backend app.</p>
+<p><em>Note</em>: This documentation uses the term <em>model</em> to refer to the class <code>Model</code>
+or a <code>Model</code> subclass, and the term <em>record</em> to refer to one instance of a
+model.</p>
+<p><h2  class="guide-heading" id="defining-a-model">Defining a Model</h2>
+</p>
+<p>Models are defined by creating subclasses of <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a>. All the features described below will be inherited by
+subclasses, so you can extend your own models too.</p>
+<ul>
+<li><em>Everything from <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>:</em> <a href="/docs/api/batman.object_accessors.html">accessors</a>, <a href="/docs/api/batman.eventemitter.html">events</a>, and <a href="/docs/api/batman.observable.html">observers</a></li>
+<li><em>Persistence</em> with encoders and storage adapters</li>
+<li><em>Validations</em> for standardizing data</li>
+<li><em>Associations</em> for linking records together.</li>
+</ul>
+<p>Since <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a>s are also <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>s, expect to use <a href="/docs/api/batman.object_accessors.html"><code>@accessor</code></a> to define many of your model attributes.</p>
+<p><h2  class="guide-heading" id="persistence">Persistence</h2>
+</p>
+<p>Persistence responsibilities are divided between:</p>
+<ul>
+<li><a href="/docs/api/batman.model.html"><code>Batman.Model</code></a> encoders, which define serialization of model attributes</li>
+<li>Storage adapters, which perform storage operations with serialized data.</li>
+</ul>
+<p><h3  class="guide-heading" id="encoders">Encoders</h3>
+</p>
+<p>Persisted model attributes are defined with <em>encoders</em>. These are directives that tell
+batman.js to load certain keys from serialized data.</p>
+<p>To encode and decode an attribute without transformation, pass one or more attribute names to <code>@encode</code>:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Product</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="property">@encode</span> <span class="string">'title'</span>, <span class="string">'description'</span>, <span class="string">'price'</span>
+
+<span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Subscription</span> <span class="keyword">extends</span> <span class="title">MyApp</span>.<span class="title">Product</span></span>
+  <span class="comment"># Subscription inherits all encoders from MyApp.Product</span>
+  <span class="property">@encode</span> <span class="string">'period'</span></code></pre>
+<p>You can also define functions for encoding and decoding values by passing functions along with the attribute name(s):</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Product</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="property">@encode</span> <span class="string">'price'</span>,
+    encode: (value, key, outgoingJSON, record) -&gt;
+      <span class="comment"># adds values from `record` to `outgoingJSON`</span>
+    decode: (value, key, incomingJSON, outgoingAttributes, record) -&gt;
+      <span class="comment"># takes values from `incomingJSON` and adds them to `outgoingAttributes`,</span>
+      <span class="comment"># so they can be mixed into the record</span></code></pre>
+<p>See the <a href="/docs/api/batman.model.html#class_function_encode"><code>Model.encode</code> API docs</a> for more information about custom encoders.</p>
+<p>Also, model associations (<code>@belongsTo</code>, <code>@hasMany</code>, etc) define their own encoders.</p>
+<p><h3  class="guide-heading" id="storage-adapters">Storage Adapters</h3>
+</p>
+<p>Storage adapters (subclasses of <a href="/docs/api/batman.storageadapter.html"><code>Batman.StorageAdapter</code></a>) handle persistence operations: <code>create</code>, <code>read</code>, <code>update</code>, <code>destroy</code> and <code>readAll</code>.
+You never call these functions directly, but <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a> depends on them to save, load and destroy data.</p>
+<p>Batman.js ships with a few storage adapters you can use right away:</p>
+<ol>
+<li><a href="/docs/api/batman.localstorage.html"><code>Batman.LocalStorage</code></a> for storing data in <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage#localStorage">local storage</a>, if available.</li>
+<li><a href="/docs/api/batman.sessionstorage.html"><code>Batman.SessionStorage</code></a> for storing data in <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage#sessionStorage">session storage</a>, if available.</li>
+<li><a href="/docs/api/batman.reststorage.html"><code>Batman.RestStorage</code></a> for using RESTful HTTP (GET, POST, PUT, and DELETE) to store data in a backend app.</li>
+<li><a href="/docs/api/batman.railsstorage.html"><code>Batman.RailsStorage</code></a> which extends <a href="/docs/api/batman.reststorage.html"><code>Batman.RestStorage</code></a> with some handy Rails-specific functionality like parsing out validation errors.</li>
+</ol>
+<p>Use a storage adaper by passing to <code>@persist</code> in a model definition:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Product</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="property">@persist</span> Batman.RestStorage</code></pre>
+<p>You can also extend any of the built-in storage adapters to:</p>
+<ul>
+<li>modify incoming and outgoing JSON</li>
+<li>include HTTP headers in requests</li>
+</ul>
+<p>See the <a href="/docs/api/batman.storageadapter.html"><code>Batman.StorageAdapter</code> API docs</a> for more info.</p>
+<p><h2  class="guide-heading" id="validations">Validations</h2>
+</p>
+<p>You can define validations for you models with <code>@validate</code>. Remember, client-side validation should <em>always</em> be mirrored by server-side validation.</p>
+<p>Here are a few example validations:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Product</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="property">@validate</span> <span class="string">'price'</span>, numeric: <span class="literal">true</span>, presence: <span class="literal">true</span>
+  <span class="property">@validate</span> <span class="string">'owner_email'</span>, email: <span class="literal">true</span>
+  <span class="property">@validate</span> <span class="string">'itemsRemaining'</span>, greaterThan: <span class="number">0</span>, <span class="keyword">unless</span>: <span class="string">"isDiscontinued"</span></code></pre>
+<p>See the <a href="/docs/api/batman.model.html#class_function_validate"><code>Model.validate</code> docs</a> for a full list of included validation options.</p>
+<p>You can also define <a href="/docs/api/batman.validator.html">custom validator classes</a>.</p>
+<p><h2  class="guide-heading" id="associations">Associations</h2>
+</p>
+<p>Model associations define relationships between models.</p>
+<p><h3  class="guide-heading" id="defining-associations">Defining Associations</h3>
+</p>
+<p>Associations are defined inside the model definition using <code>@belongsTo</code>, <code>@hasMany</code>, and <code>@hasOne</code>. Each association function takes:</p>
+<ul>
+<li>A label (string), which is used for the accessor name &amp; encoder name</li>
+<li>An options object, for configuring the association.</li>
+</ul>
+<p>For example, a deck of playing cards might be modeled like this:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Deck</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="property">@resourceName</span>: <span class="string">'deck'</span>
+  <span class="property">@encode</span> <span class="string">'brand'</span>
+  <span class="property">@hasMany</span> <span class="string">'cards'</span>, inverseOf: <span class="string">'deck'</span> <span class="comment"># will look for `deck_id` on cards</span>
+
+<span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Card</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="property">@resourceName</span>: <span class="string">'card'</span>
+  <span class="property">@encode</span> <span class="string">'suit'</span>, <span class="string">'rank'</span>, <span class="string">'deck_id'</span>
+  <span class="property">@belongsTo</span> <span class="string">'deck'</span>, inverseOf: <span class="string">'cards'</span> <span class="comment"># will match its `deck_id` to a deck's `id`</span>
+
+  <span class="property">@accessor</span> <span class="string">'fullName'</span>, -&gt; <span class="string">"<span class="subst">#{@get('rank')}</span> of <span class="subst">#{@get('suit')}</span>"</span>
+  <span class="property">@delegate</span> <span class="string">'brand'</span>, to: <span class="string">'deck'</span></code></pre>
+<p>Now, you can access the cards from their <code>Deck</code>:</p>
+<pre><code class="lang-coffeescript">deck.get(<span class="string">'cards'</span>)        <span class="comment"># =&gt; Batman.AssocationSet containing `Card`s</span>
+deck.get(<span class="string">'cards.length'</span>) <span class="comment"># =&gt; 52</span>
+deck.get(<span class="string">'cards'</span>).mapToProperty(<span class="string">'fullName'</span>)
+<span class="comment"># =&gt; ["Ace of Spades", "Queen of Hearts", ...]</span></code></pre>
+<p>Similarly, you can access a <code>Deck</code> from a <code>Card</code>:</p>
+<pre><code class="lang-coffeescript">aceOfSpades.get(<span class="string">'deck'</span>)         <span class="comment"># =&gt; a Deck instance (actually a BelongsToProxy)</span>
+aceOfSpades.get(<span class="string">'deck.brand'</span>)   <span class="comment"># =&gt; "Bicycle"</span>
+aceOfSpades.get(<span class="string">'brand'</span>)        <span class="comment"># =&gt; "Bicycle"</span></code></pre>
+<p>Associations are very configurable: see the <a href="/docs/api/batman.model_associations.html">Model Associations API docs</a> for more detail about association options.</p>
+<p><h3  class="guide-heading" id="asynchronicity-and-association-values">Asynchronicity and Association Values</h3>
+</p>
+<p>In fact, association accessors return special objects:</p>
+<ul>
+<li><code>@hasMany</code> returns a <a href="/docs/api/batman.associationset.html"><code>Batman.AssociationSet</code></a>. It is a <a href="/docs/api/batman.set.html"><code>Batman.Set</code></a> tracking the <a href="/docs/api/batman.model.html#class_function_loaded">model&#39;s <code>loaded</code> set</a> for foreign key matches.</li>
+<li><code>@belongsTo</code> returns a <a href="/docs/api/batman.belongstoproxy.html"><code>Batman.BelongsToProxy</code></a>. All properties are delegated associated record. The original record is available at the proxy&#39;s <code>&quot;target&quot;</code> accessor.</li>
+</ul>
+<p>Using these special objects allows batman.js to account for asynchronous loading. For example, a <a href="/docs/api/batman.associationset.html"><code>Batman.AssociationSet</code></a> may be rendered in a <a href="/docs/api/batman.view.html"><code>Batman.View</code></a> even before its records are loaded. When the records are loaded, the view will be updated automatically. <a href="/docs/api/batman.belongstoproxy.html"><code>Batman.BelongsToProxy</code></a> provides the same functionality.</p>
+<p>To avoid asynchronous loading, use the <code>saveInline</code> option on your association.</p>
+<p><h2  class="guide-heading" id="the-identity-map">The Identity Map</h2>
+</p>
+<p>batman.js uses an identity map for fetching and storing records, which is
+essentially an in-memory cache of model instances. If you use <code>Model.find</code>
+twice to fetch a record with the same ID, you&#39;ll get back the same (<code>===</code>)
+instance both times, which means a backend record is only ever represented by a
+single client-side record. This is useful for ensuring any state the instance
+might have is preserved for every piece of code asking for it, and bindings to
+the instance are kept synchronized when any piece of code updates the model.</p>
+<p>Practically, the identity map is an implementation detail on the framework&#39;s
+side that developers shouldn&#39;t need to interact with directly, but knowing you
+have &quot;one true instance&quot; is helpful when reasoning about an application.</p>
+

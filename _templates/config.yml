@@ -1,6 +1,7 @@
 safe: true
 lsi: false
 pygments: true
+markdown: kramdown
 download:
     version: 0.16.0
     date: "May 10th, 2014"

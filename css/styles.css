@@ -47,6 +47,18 @@ h2 {
 h3 { font-size: 150%; margin-bottom: .5em; line-height: 1.3em; }
 h4 { font-size: 130%; margin-bottom: .5em; }
 h5 { font-size: 115%; margin-bottom: .5em; }
+.guide-heading a {
+  text-decoration: none;
+}
+/* adjust for the fixed header */
+.guide-heading:before {
+  display: block;
+  content: " ";
+  margin-top: -80px;
+  height: 80px;
+  visibility: hidden;
+}
+
 a { color: #a2a2ba; }
 a:hover { color: #fff; }
 ol { list-style-type: decimal; padding-left: 20px; }

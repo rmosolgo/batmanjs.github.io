@@ -1,28 +1,23 @@
----
-layout: docs
-title: Configuration
-prev_section: installation
-next_section: controllers
----
+# Configuration
 
 batman.js contains some settings affecting all apps running on the page. These settings are attributes of the global `Batman.config` object. It's good practice to set these values before defining your app, like so:
 
-{% highlight coffeescript %}
+```coffeescript
 Batman.config.pathToHTML = '/templates'
 Batman.config.usePushState = false
 
 class MyApp extends Batman.App
   # ...
-{% endhighlight %}
+```
 
 ### pathToApp
 __Default: `"/"`__
 
 Use this if your batman.js app is loaded from a path other than `/`. For example, if you load your app at `/app`, you'd use:
 
-{% highlight coffeescript %}
+```coffeescript
   Batman.config.pathToApp = '/app'
-{% endhighlight %}
+```
 
 Any generated routes will be then be prefixed with `/app`.
 

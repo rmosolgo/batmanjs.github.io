@@ -1,6 +1,7 @@
 safe: true
 lsi: false
 pygments: true
+markdown: kramdown
 download:
     version: 0.16.0
     date: "May 10th, 2014"
@@ -29,15 +30,15 @@ doc_boxes:
       - title: Testing
         link: testing
 
-api_index: 
-  Ungrouped: 
+api_index:
+  Ungrouped:
     - id: index
       title: Using This Reference
       sub: []
       meta: !<tag:yaml.org,2002:js/undefined> ""
     - id: batman
       title: Batman
-      sub: 
+      sub:
         - id: container
           title: container
         - id: class_function_typeof
@@ -71,7 +72,7 @@ api_index:
       meta: !<tag:yaml.org,2002:js/undefined> ""
     - id: batman.helpers
       title: Batman.helpers
-      sub: 
+      sub:
         - id: class_function_ordinalize
           title: ordinalize
         - id: class_function_singularize
@@ -95,10 +96,10 @@ api_index:
         - id: class_function_tosentence
           title: toSentence
       meta: !<tag:yaml.org,2002:js/undefined> ""
-  Data Structures: 
+  Data Structures:
     - id: batman.object
       title: Batman.Object
-      sub: 
+      sub:
         - id: class_function_accessor
           title: accessor
         - id: class_function_classaccessor
@@ -131,13 +132,13 @@ api_index:
           title: accessor
         - id: prototype_function_mixin
           title: mixin
-      meta: 
+      meta:
         grouping: Data Structures
         parent: !<tag:yaml.org,2002:js/undefined> ""
-      children: 
+      children:
         - id: batman.object_accessors
           title: Batman.Object Accessors
-          sub: 
+          sub:
             - id: accessors_as_computed_properties
               title: Accessors as Computed Properties
             - id: promise_accessors
@@ -146,12 +147,12 @@ api_index:
               title: "Default accessor as \"doesNotUnderstand\" or \"method_missing\""
             - id: optimizing_accessors
               title: Optimizing Accessors
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.Object
         - id: batman.observable
           title: Batman.Observable
-          sub: 
+          sub:
             - id: prototype_property_isobservable
               title: isObservable
             - id: prototype_function_get
@@ -170,12 +171,12 @@ api_index:
               title: observeAndFire
             - id: prototype_function_observeonce
               title: observeOnce
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.Object
         - id: batman.eventemitter
           title: Batman.EventEmitter
-          sub: 
+          sub:
             - id: batman.eventemitter_and_batman.event
               title: Batman.EventEmitter and Batman.Event
             - id: prototype_property_iseventemitter
@@ -206,24 +207,24 @@ api_index:
               title: mutation
             - id: prototype_function_registerasmutablesource
               title: registerAsMutableSource
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.Object
         - id: batman.proxy
           title: Batman.Proxy
-          sub: 
+          sub:
             - id: prototype_function_constructor
               title: "constructor"
             - id: prototype_property_isproxy
               title: isProxy
             - id: prototype_accessor_target
               title: target
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.Object
     - id: batman.enumerable
       title: Batman.Enumerable
-      sub: 
+      sub:
         - id: "implementing_your_own_%60batman.enumerable%60"
           title: "Implementing your own `Batman.Enumerable`"
         - id: prototype_property_length
@@ -246,12 +247,12 @@ api_index:
           title: count
         - id: prototype_function_ingroupsof
           title: inGroupsOf
-      meta: 
+      meta:
         grouping: Data Structures
         parent: !<tag:yaml.org,2002:js/undefined> ""
     - id: batman.set
       title: Batman.Set
-      sub: 
+      sub:
         - id: prototype_function_constructor
           title: "constructor"
         - id: prototype_accessor_length
@@ -298,25 +299,25 @@ api_index:
           title: mappedTo
         - id: prototype_accessor_mappedto
           title: mappedTo
-      meta: 
+      meta:
         grouping: Data Structures
         parent: !<tag:yaml.org,2002:js/undefined> ""
-      children: 
+      children:
         - id: batman.setproxy
           title: Batman.SetProxy
-          sub: 
+          sub:
             - id: prototype_function_constructor
               title: "constructor"
             - id: methods_delegated_to_base
               title: Methods delegated to base
             - id: accessors_delegated_to_base
               title: Accessors delegated to base
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.Set
         - id: batman.setsort
           title: Batman.SetSort
-          sub: 
+          sub:
             - id: prototype_function_constructor
               title: "constructor"
             - id: prototype_property_issorted
@@ -337,24 +338,24 @@ api_index:
               title: compare
             - id: prototype_function_compareelements
               title: compareElements
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.Set
         - id: batman.setmapping
           title: Batman.SetMapping
-          sub: 
+          sub:
             - id: prototype_function_constructor
               title: "constructor"
             - id: prototype_property_base
               title: base
             - id: prototype_property_key
               title: key
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.Set
         - id: batman.setindex
           title: Batman.SetIndex
-          sub: 
+          sub:
             - id: prototype_function_constructor
               title: "constructor"
             - id: prototype_function_get
@@ -363,20 +364,20 @@ api_index:
               title: toArray
             - id: prototype_function_foreach
               title: forEach
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.Set
         - id: batman.uniquesetindex
           title: Batman.UniqueSetIndex
-          sub: 
+          sub:
             - id: prototype_function_get
               title: get
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.Set
         - id: batman.setobserver
           title: Batman.SetObserver
-          sub: 
+          sub:
             - id: prototype_function_constructor
               title: "constructor"
             - id: prototype_property_base
@@ -393,12 +394,12 @@ api_index:
               title: startObservingItems
             - id: prototype_function_stopobservingitems
               title: stopObservingItems
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.Set
     - id: batman.binarysetoperation
       title: Batman.BinarySetOperation
-      sub: 
+      sub:
         - id: prototype_function_constructor
           title: "constructor"
         - id: prototype_function_merge
@@ -409,31 +410,31 @@ api_index:
           title: left
         - id: prototype_property_right
           title: right
-      meta: 
+      meta:
         grouping: Data Structures
         parent: !<tag:yaml.org,2002:js/undefined> ""
-      children: 
+      children:
         - id: batman.setunion
           title: Batman.SetUnion
           sub: []
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.BinarySetOperation
         - id: batman.setintersection
           title: Batman.SetIntersection
           sub: []
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.BinarySetOperation
         - id: batman.setcomplement
           title: Batman.SetComplement
           sub: []
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.BinarySetOperation
     - id: batman.hash
       title: Batman.Hash
-      sub: 
+      sub:
         - id: prototype_function_constructor
           title: "constructor"
         - id: "get%2C_set%2C_unset%2C_and_%40accessor"
@@ -460,12 +461,12 @@ api_index:
           title: toObject
         - id: prototype_function_tojson
           title: toJSON
-      meta: 
+      meta:
         grouping: Data Structures
         parent: !<tag:yaml.org,2002:js/undefined> ""
     - id: batman.statemachine
       title: Batman.StateMachine
-      sub: 
+      sub:
         - id: prototype_function_constructor
           title: "constructor"
         - id: class_function_transitions
@@ -474,31 +475,31 @@ api_index:
           title: transitionTable
         - id: prototype_accessor_state
           title: state
-      meta: 
+      meta:
         grouping: Data Structures
         parent: !<tag:yaml.org,2002:js/undefined> ""
-      children: 
+      children:
         - id: batman.statemachine.invalidtransitionerror
           title: Batman.StateMachine.InvalidTransitionError
-          sub: 
+          sub:
             - id: prototype_function_constructor
               title: "constructor"
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.StateMachine
         - id: batman.delegatingstatemachine
           title: Batman.DelegatingStateMachine
-          sub: 
+          sub:
             - id: prototype_function_constructor
               title: "constructor"
             - id: prototype_function_fire
               title: fire
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.StateMachine
     - id: batman.event
       title: Batman.Event
-      sub: 
+      sub:
         - id: prototype_function_constructor
           title: "constructor"
         - id: prototype_property_base
@@ -545,23 +546,23 @@ api_index:
           title: allowAndFire
         - id: prototype_function_allowandfirewithcontext
           title: allowAndFireWithContext
-      meta: 
+      meta:
         grouping: Data Structures
         parent: !<tag:yaml.org,2002:js/undefined> ""
-      children: 
+      children:
         - id: batman.propertyevent
           title: Batman.PropertyEvent
-          sub: 
+          sub:
             - id: prototype_function_eachhandler
               title: eachHandler
             - id: prototype_function_handlercontext
               title: handlerContext
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.Event
         - id: batman.property
           title: Batman.Property
-          sub: 
+          sub:
             - id: source_tracking_by_batman.property
               title: Source Tracking by Batman.Property
             - id: prototype_function_constructor
@@ -654,12 +655,12 @@ api_index:
               title: expose
             - id: prototype_function_isisolated
               title: isIsolated
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.Event
         - id: batman.keypath
           title: Batman.Keypath
-          sub: 
+          sub:
             - id: prototype_function_constructor
               title: "constructor"
             - id: prototype_property_segments
@@ -676,13 +677,13 @@ api_index:
               title: setValue
             - id: prototype_function_unsetvalue
               title: unsetValue
-          meta: 
+          meta:
             grouping: Data Structures
             parent: Batman.Event
-  App Components: 
+  App Components:
     - id: batman.request
       title: Batman.Request
-      sub: 
+      sub:
         - id: how_to_use_batman_request
           title: How to use Batman Request
         - id: lifecycle_events
@@ -721,12 +722,12 @@ api_index:
           title: pendingRequestCount
         - id: class_accessor_requestispending
           title: requestIsPending
-      meta: 
+      meta:
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""
     - id: batman.app
       title: Batman.App
-      sub: 
+      sub:
         - id: class_accessor_current
           title: current
         - id: class_function_run
@@ -761,13 +762,13 @@ api_index:
           title: "'run' class event"
         - id: "'ready'_class_event"
           title: "'ready' class event"
-      meta: 
+      meta:
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""
-      children: 
+      children:
         - id: batman.app_routing
           title: Batman.App Routing
-          sub: 
+          sub:
             - id: handling_unknown_routes
               title: Handling unknown routes
             - id: class_function_route
@@ -780,12 +781,12 @@ api_index:
               title: collection
             - id: class_function_root
               title: root
-          meta: 
+          meta:
             grouping: App Components
             parent: Batman.App
     - id: batman.controller
       title: Batman.Controller
-      sub: 
+      sub:
         - id: controller_directory
           title: Controller Directory
         - id: actions
@@ -818,12 +819,12 @@ api_index:
           title: catchError
         - id: class_function_errorhandler
           title: errorHandler
-      meta: 
+      meta:
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""
     - id: batman.model
       title: Batman.Model
-      sub: 
+      sub:
         - id: class_property_primarykey
           title: primaryKey
         - id: class_property_resourcename
@@ -898,15 +899,13 @@ api_index:
           title: reflectOnAssociation
         - id: prototype_function_reflectonallassociations
           title: reflectOnAllAssociations
-        - id: prototype_function_coerceintegerprimarykey
-          title: coerceIntegerPrimaryKey
-      meta: 
+      meta:
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""
-      children: 
+      children:
         - id: batman.model_validations
           title: Batman.Model Validations
-          sub: 
+          sub:
             - id: "built-in_validations"
               title: "Built-In Validations"
             - id: custom_validation
@@ -915,12 +914,12 @@ api_index:
               title: Conditional Validation
             - id: custom_messages
               title: Custom Messages
-          meta: 
+          meta:
             grouping: App Components
             parent: Batman.Model
         - id: batman.model_associations
           title: Batman.Model Associations
-          sub: 
+          sub:
             - id: class_function_hasmany
               title: hasMany
             - id: class_function_hasone
@@ -945,12 +944,12 @@ api_index:
               title: Association Options
             - id: polymorphic_association_options
               title: Polymorphic Association Options
-          meta: 
+          meta:
             grouping: App Components
             parent: Batman.Model
     - id: batman.storageadapter
       title: Batman.StorageAdapter
-      sub: 
+      sub:
         - id: storage_errors
           title: Storage Errors
         - id: subclassing_batman.storageadapter
@@ -983,13 +982,13 @@ api_index:
           title: getRecordFromData
         - id: prototype_function_getrecordsfromdata
           title: getRecordsFromData
-      meta: 
+      meta:
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""
-      children: 
+      children:
         - id: batman.storageadapter_errors
           title: Batman.StorageAdapter Errors
-          sub: 
+          sub:
             - id: storage_errors_and_http_status_codes
               title: Storage Errors and HTTP Status Codes
             - id: batman.storageadapter.storageerror
@@ -1014,12 +1013,12 @@ api_index:
               title: Batman.StorageAdapter.NotImplementedError
             - id: batman.storageadapter.badgatewayerror
               title: Batman.StorageAdapter.BadGatewayError
-          meta: 
+          meta:
             grouping: App Components
             parent: Batman.StorageAdapter
     - id: batman.view
       title: Batman.View
-      sub: 
+      sub:
         - id: accessors_and_event_handlers
           title: Accessors and Event Handlers
         - id: prototype_function_constructor
@@ -1054,13 +1053,13 @@ api_index:
           title: propagateToSubviews
         - id: class_function_viewfornode
           title: viewForNode
-      meta: 
+      meta:
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""
-      children: 
+      children:
         - id: batman.view_lifecycle
           title: Batman.View Lifecycle
-          sub: 
+          sub:
             - id: viewwillappear
               title: viewWillAppear
             - id: viewdidappear
@@ -1079,12 +1078,12 @@ api_index:
               title: viewDidMoveToSuperview
             - id: viewwillremovefromsuperview
               title: viewWillRemoveFromSuperview
-          meta: 
+          meta:
             grouping: App Components
             parent: Batman.View
         - id: batman.view_bindings
           title: Batman.View Bindings
-          sub: 
+          sub:
             - id: custom_bindings
               title: Custom Bindings
             - id: "data-bind"
@@ -1125,12 +1124,12 @@ api_index:
               title: "data-track"
             - id: "data-debug"
               title: "data-debug"
-          meta: 
+          meta:
             grouping: App Components
             parent: Batman.View
         - id: batman.view_filters
           title: Batman.View Filters
-          sub: 
+          sub:
             - id: custom_filters
               title: Custom Filters
             - id: "equals(left%2C_right)_or_eq(left%2C_right)%3A_boolean"
@@ -1219,12 +1218,12 @@ api_index:
               title: "withArguments(function, curriedArguments...) : function"
             - id: "escape(value)_%3A_string"
               title: "escape(value) : string"
-          meta: 
+          meta:
             grouping: App Components
             parent: Batman.View
     - id: batman.dom
       title: Batman.DOM
-      sub: 
+      sub:
         - id: class_function_scrollintoview
           title: scrollIntoView
         - id: class_function_setstyleproperty
@@ -1255,15 +1254,15 @@ api_index:
           title: setInnerHtml
         - id: class_function_textcontent
           title: textContent
-      meta: 
+      meta:
         grouping: App Components
         parent: !<tag:yaml.org,2002:js/undefined> ""
-  App Internals: 
+  App Internals:
     - title: Batman.Model
-      children: 
+      children:
         - id: batman.validator
           title: Batman.Validator
-          sub: 
+          sub:
             - id: custom_validators
               title: Custom Validators
             - id: prototype_function_constructor
@@ -1278,32 +1277,32 @@ api_index:
               title: handleBlank
             - id: prototype_function_format
               title: format
-          meta: 
+          meta:
             grouping: App Internals
             parent: Batman.Model
         - id: batman.validationerror
           title: Batman.ValidationError
-          sub: 
+          sub:
             - id: prototype_function_constructor
               title: "constructor"
             - id: prototype_accessor_fullmessage
               title: fullMessage
-          meta: 
+          meta:
             grouping: App Internals
             parent: Batman.Model
         - id: batman.errorsset
           title: Batman.ErrorsSet
-          sub: 
+          sub:
             - id: default_accessor
               title: Default Accessor
             - id: prototype_function_add
               title: add
-          meta: 
+          meta:
             grouping: App Internals
             parent: Batman.Model
     - id: batman.navigator
       title: Batman.Navigator
-      sub: 
+      sub:
         - id: subclassing_batman.navigator
           title: Subclassing Batman.Navigator
         - id: prototype_function_constructor
@@ -1330,13 +1329,13 @@ api_index:
           title: forApp
         - id: class_function_defaultclass
           title: defaultClass
-      meta: 
+      meta:
         grouping: App Internals
         parent: !<tag:yaml.org,2002:js/undefined> ""
-      children: 
+      children:
         - id: batman.pushstatenavigator
           title: Batman.PushStateNavigator
-          sub: 
+          sub:
             - id: class_function_issupported
               title: isSupported
             - id: prototype_function_startwatching
@@ -1353,12 +1352,12 @@ api_index:
               title: pathFromLocation
             - id: prototype_function_handlelocation
               title: handleLocation
-          meta: 
+          meta:
             grouping: App Internals
             parent: Batman.Navigator
         - id: batman.hashbangnavigator
           title: Batman.HashbangNavigator
-          sub: 
+          sub:
             - id: prototype_property_hashprefix
               title: hashPrefix
             - id: prototype_function_startwatching
@@ -1381,12 +1380,12 @@ api_index:
               title: pathFromLocation
             - id: prototype_function_handlelocation
               title: handleLocation
-          meta: 
+          meta:
             grouping: App Internals
             parent: Batman.Navigator
     - id: batman.dispatcher
       title: Batman.Dispatcher
-      sub: 
+      sub:
         - id: prototype_function_constructor
           title: "constructor"
         - id: prototype_function_dispatch
@@ -1401,30 +1400,30 @@ api_index:
           title: routeForParams
         - id: prototype_function_pathforparams
           title: pathForParams
-      meta: 
+      meta:
         grouping: App Internals
         parent: !<tag:yaml.org,2002:js/undefined> ""
-      children: 
+      children:
         - id: controllerdirectory
           title: ControllerDirectory
-          sub: 
+          sub:
             - id: prototype_accessor___app
               title: __app
             - id: default_accessor
               title: Default Accessor
-          meta: 
+          meta:
             grouping: App Internals
             parent: Batman.Dispatcher
     - id: bindings
       title: Bindings
       sub: []
-      meta: 
+      meta:
         grouping: App Internals
         parent: !<tag:yaml.org,2002:js/undefined> ""
-      children: 
+      children:
         - id: batman.dom.abstractbinding
           title: Batman.DOM.AbstractBinding
-          sub: 
+          sub:
             - id: prototype_function_constructor
               title: "constructor"
             - id: prototype_accessor_unfilteredvalue
@@ -1471,22 +1470,22 @@ api_index:
               title: parseSegment
             - id: prototype_function_setupbackingview
               title: setupBackingView
-          meta: 
+          meta:
             grouping: App Internals
             parent: Bindings
         - id: batman.dom.abstractattributebinding
           title: Batman.DOM.AbstractAttributeBinding
-          sub: 
+          sub:
             - id: prototype_function_constructor
               title: "constructor"
             - id: prototype_property_attr
               title: attr
-          meta: 
+          meta:
             grouping: App Internals
             parent: Bindings
         - id: batman.dom.abstractcollectionbinding
           title: Batman.DOM.AbstractCollectionBinding
-          sub: 
+          sub:
             - id: prototype_property_collection
               title: collection
             - id: prototype_function_datachange
@@ -1499,34 +1498,34 @@ api_index:
               title: handleArrayChanged
             - id: prototype_function_die
               title: die
-          meta: 
+          meta:
             grouping: App Internals
             parent: Bindings
         - id: batman.dom.attributebinding
           title: Batman.DOM.AttributeBinding
-          sub: 
+          sub:
             - id: prototype_function_onlyobserve
               title: onlyObserve
             - id: prototype_function_datachange
               title: dataChange
             - id: prototype_function_nodechange
               title: nodeChange
-          meta: 
+          meta:
             grouping: App Internals
             parent: Bindings
         - id: batman.dom.nodeattributebinding
           title: Batman.DOM.NodeAttributeBinding
-          sub: 
+          sub:
             - id: prototype_function_datachange
               title: dataChange
             - id: prototype_function_nodechange
               title: nodeChange
-          meta: 
+          meta:
             grouping: App Internals
             parent: Bindings
         - id: batman.dom.contextbinding
           title: Batman.DOM.ContextBinding
-          sub: 
+          sub:
             - id: prototype_function_onlyobserve
               title: onlyObserve
             - id: prototype_function_backwithview
@@ -1537,19 +1536,19 @@ api_index:
               title: dataChange
             - id: prototype_function_die
               title: die
-          meta: 
+          meta:
             grouping: App Internals
             parent: Bindings
     - id: views
       title: Views
       sub: []
-      meta: 
+      meta:
         grouping: App Internals
         parent: !<tag:yaml.org,2002:js/undefined> ""
-      children: 
+      children:
         - id: batman.iteratorview
           title: Batman.IteratorView
-          sub: 
+          sub:
             - id: prototype_function_loadview
               title: loadView
             - id: prototype_function_additems
@@ -1568,34 +1567,34 @@ api_index:
               title: prototypeNode
             - id: prototype_property_iterationviewclass
               title: iterationViewClass
-          meta: 
+          meta:
             grouping: App Internals
             parent: Views
         - id: batman.iterationview
           title: Batman.IterationView
           sub: []
-          meta: 
+          meta:
             grouping: App Internals
             parent: Views
         - id: batman.backingview
           title: Batman.BackingView
-          sub: 
+          sub:
             - id: prototype_property_isbackingview
               title: isBackingView
             - id: prototype_property_bindimmediately
               title: bindImmediately
-          meta: 
+          meta:
             grouping: App Internals
             parent: Views
         - id: batman.selectview
           title: Batman.SelectView
           sub: []
-          meta: 
+          meta:
             grouping: App Internals
             parent: Views
     - id: batman.transaction
       title: Batman.Transaction
-      sub: 
+      sub:
         - id: prototype_function_istransaction
           title: isTransaction
         - id: prototype_function_base
@@ -1604,13 +1603,13 @@ api_index:
           title: applyChanges
         - id: prototype_function_save
           title: save
-      meta: 
+      meta:
         grouping: App Internals
         parent: !<tag:yaml.org,2002:js/undefined> ""
-      children: 
+      children:
         - id: batman.transactionassociationset
           title: Batman.TransactionAssociationSet
-          sub: 
+          sub:
             - id: prototype_function_constructor
               title: "constructor"
             - id: prototype_function_build
@@ -1627,13 +1626,13 @@ api_index:
               title: association
             - id: prototype_accessor_foreignkeyvalue
               title: foreignKeyValue
-          meta: 
+          meta:
             grouping: App Internals
             parent: Batman.Transaction
-  Extras: 
+  Extras:
     - id: batman.i18n
       title: Batman.I18N
-      sub: 
+      sub:
         - id: getting_locales_from_the_server
           title: Getting locales from the server
         - id: error_messages
@@ -1652,7 +1651,7 @@ api_index:
           title: disable
         - id: class_accessor_usefallback
           title: useFallback
-      meta: 
+      meta:
         grouping: Extras
         parent: !<tag:yaml.org,2002:js/undefined> ""
 

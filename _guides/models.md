@@ -1,9 +1,4 @@
----
-layout: docs
-title: Models
-prev_section: controllers
-next_section: bindings
----
+# Models
 
 `Batman.Model` is responsible for representing data in your application and
 providing a fluid interface for communicating with your backend app.
@@ -38,18 +33,18 @@ batman.js to load certain keys from serialized data.
 
 To encode and decode an attribute without transformation, pass one or more attribute names to `@encode`:
 
-{% highlight coffeescript %}
+```coffeescript
 class MyApp.Product extends Batman.Model
   @encode 'title', 'description', 'price'
 
 class MyApp.Subscription extends MyApp.Product
   # Subscription inherits all encoders from MyApp.Product
   @encode 'period'
-{% endhighlight %}
+```
 
 You can also define functions for encoding and decoding values by passing functions along with the attribute name(s):
 
-{% highlight coffeescript %}
+```coffeescript
 class MyApp.Product extends Batman.Model
   @encode 'price',
     encode: (value, key, outgoingJSON, record) ->
@@ -57,7 +52,7 @@ class MyApp.Product extends Batman.Model
     decode: (value, key, incomingJSON, outgoingAttributes, record) ->
       # takes values from `incomingJSON` and adds them to `outgoingAttributes`,
       # so they can be mixed into the record
-{% endhighlight %}
+```
 
 See the [`Model.encode` API docs](/docs/api/batman.model.html#class_function_encode) for more information about custom encoders.
 
@@ -80,10 +75,10 @@ Batman.js ships with a few storage adapters you can use right away:
 
 Use a storage adaper by passing to `@persist` in a model definition:
 
-{% highlight coffeescript %}
+```coffeescript
 class MyApp.Product extends Batman.Model
   @persist Batman.RestStorage
-{% endhighlight %}
+```
 
 You can also extend any of the built-in storage adapters to:
 
@@ -98,12 +93,12 @@ You can define validations for you models with `@validate`. Remember, client-sid
 
 Here are a few example validations:
 
-{% highlight coffeescript %}
+```coffeescript
 class MyApp.Product extends Batman.Model
   @validate 'price', numeric: true, presence: true
   @validate 'owner_email', email: true
   @validate 'itemsRemaining', greaterThan: 0, unless: "isDiscontinued"
-{% endhighlight %}
+```
 
 See the [`Model.validate` docs](/docs/api/batman.model.html#class_function_validate) for a full list of included validation options.
 
@@ -122,7 +117,7 @@ Associations are defined inside the model definition using `@belongsTo`, `@hasMa
 
 For example, a deck of playing cards might be modeled like this:
 
-{% highlight coffeescript %}
+```coffeescript
 class MyApp.Deck extends Batman.Model
   @resourceName: 'deck'
   @encode 'brand'
@@ -135,24 +130,24 @@ class MyApp.Card extends Batman.Model
 
   @accessor 'fullName', -> "#{@get('rank')} of #{@get('suit')}"
   @delegate 'brand', to: 'deck'
-{% endhighlight %}
+```
 
 Now, you can access the cards from their `Deck`:
 
-{% highlight coffeescript %}
+```coffeescript
 deck.get('cards')        # => Batman.AssocationSet containing `Card`s
 deck.get('cards.length') # => 52
 deck.get('cards').mapToProperty('fullName')
 # => ["Ace of Spades", "Queen of Hearts", ...]
-{% endhighlight %}
+```
 
 Similarly, you can access a `Deck` from a `Card`:
 
-{% highlight coffeescript %}
+```coffeescript
 aceOfSpades.get('deck')         # => a Deck instance (actually a BelongsToProxy)
 aceOfSpades.get('deck.brand')   # => "Bicycle"
 aceOfSpades.get('brand')        # => "Bicycle"
-{% endhighlight %}
+```
 
 Associations are very configurable: see the [Model Associations API docs](/docs/api/batman.model_associations.html) for more detail about association options.
 

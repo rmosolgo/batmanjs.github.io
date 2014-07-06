@@ -1,9 +1,4 @@
----
-layout: docs
-title: Architecture
-prev_section: index
-next_section: structure
----
+# Architecture
 
 batman.js is a stateful MVC framework based on Rails conventions used for building client-side single-page applications. That's a lot of buzzwords; let's break it down.
 

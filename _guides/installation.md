@@ -1,9 +1,4 @@
----
-layout: docs
-title: Installation
-prev_section: structure
-next_section: configuration
----
+# Installation
 
 We've tried to make batman.js's installation process as simple as possible. There's two main ways to go about it: using the `batman-rails` gem or downloading the Starter Package.
 
@@ -19,23 +14,23 @@ We've tried to make batman.js's installation process as simple as possible. Ther
 
 Getting the gem is simple. Simply add the following line to your `Gemfile`:
 
-{% highlight ruby %}
+```ruby
 gem 'batman-rails'
-{% endhighlight %}
+```
 
 Then simply tell `bundler` to install it:
 
-{% highlight bash %}
+```bash
 $ bundle install
-{% endhighlight %}
+```
 
 #### 1.2 Create a batman.js application
 
 Now that `batman-rails` is installed, we can use the normal Rails generator system to generate the skeleton for our batman.js application.
 
-{% highlight bash %}
+```bash
 $ rails generate batman:app
-{% endhighlight %}
+```
 
 The structure of this app will be exactly the same as described in [Directory Structure](/docs/structure.html), but it will live within our Rails app folder. You can find your newly created app in `MyApp/app/assets/batman`.
 

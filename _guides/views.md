@@ -1,9 +1,4 @@
----
-layout: docs
-title: Views
-prev_section: bindings
-next_section: testing
----
+# Views
 
 `Batman.View`s connect a batman.js application to a user by:
 
@@ -23,7 +18,7 @@ Everything in "Custom Views" below also applies default views which are rendered
 
 For example, this view is automatically rendered by the `products#index` action:
 
-{% highlight coffeescript %}
+```coffeescript
 class App.ProductsIndexView extends Batman.View
   # source is "products/index" by default
 
@@ -32,7 +27,7 @@ class App.ProductsIndexView extends Batman.View
 
   # can be bound in HTML: `data-event-click="myClickHandler"`
   myClickHandler: -> # ...
-{% endhighlight %}
+```
 
 ## Rendering with "data-view" Bindings
 
@@ -40,11 +35,11 @@ Views can be _inserted into other views_ by using [`data-view` bindings](/docs/a
 
 To use a custom view, pass its name (relative to the app namespace) to `data-view`. For example:
 
-{% highlight html %}
+```html
 <div data-view='ProductListItemView'>
   <!-- batman.js will instantiate App.ProductListItemView with this node -->
 </div>
-{% endhighlight %}
+```
 
 If the custom view has its own HTML, that HTML will replace the contents of the `data-view` node.
 
@@ -58,7 +53,7 @@ To define a custom view, extend [`Batman.View`](/docs/api/batman.view.html). (Yo
 
 For example, here's a custom view that uses [jQueryUI Autocomplete](http://jqueryui.com/autocomplete/):
 
-{% highlight coffeescript %}
+```coffeescript
 class App.AutocompleteView extends Batman.View
   html: "<input id='autocomplete' type='text' />"
 
@@ -69,14 +64,14 @@ class App.AutocompleteView extends Batman.View
     input = $(@node).find("#autocomplete")
     $(input).autocomplete
       source: @get('autocompleteSource')
-{% endhighlight %}
+```
 
 Obviously this isn't much use by itself, but we can extend it and provide more useful `autocompleteSource`s:
 
-{% highlight coffeescript %}
+```coffeescript
 class App.VillainAutocompleteView extends App.AutocompleteView
   @accessor 'autocompleteSource', -> App.Villian.get('all').mapToProperty('name')
-{% endhighlight %}
+```
 
 Now, when we instantiate `App.VillianAutocompleteView`, it will have more interesting options!
 
@@ -90,32 +85,32 @@ Your custom views can get HTML in three ways:
 
 To _wrap existing HTML_, simply add a [`data-view` binding](/docs/api/batman.view_bindings.html#data-view) to a node with HTML inside it:
 
-{% highlight html %}
+```html
 <div data-view='CustomListView'>
   <ul>
     <li data-foreach-item='items' data-bind='item.name'></li>
   </ul>
 </div>
-{% endhighlight %}
+```
 
 This will instantiate a new `CustomListView` with the `<div>` as its [`node`](/docs/api/batman.view.html#prototype_accessor_node). All the HTML inside the `CustomListView` will stay where it is.
 
 To _define an HTML string_, set the [`html` attribute](/docs/api/batman.view.html#prototype_accessor_html) in your view class:
 
-{% highlight coffeescript %}
+```coffeescript
 class App.SearchView extends Batman.View
   html: "<input type='text' id='search' placeholder='Enter a Search Term'></input>"
-{% endhighlight %}
+```
 
 The HTML you specify will be rendered inside a node with a `data-view="SearchView"` binding.
 
 To _define a source path_,  set the [`source` attribute](/docs/api/batman.view.html#prototype_accessor_source) in your view class:
 
-{% highlight coffeescript %}
+```coffeescript
 class App.HeaderNavigationView extends Batman.View
   source: 'layouts/_header_navigation'
   # will lookup template layouts/_header_navigation.html
-{% endhighlight %}
+```
 
 Your app will try to load a file relative to [`Batman.config.pathToHTML`](/docs/configuration.html) to use as this view's HTML. You don't need to add `.html` to the `source` string.
 
@@ -125,34 +120,34 @@ Accessors and functions inside a custom view are accessible by that [view's bind
 
 Functions defined in custom views are available as event handlers. For example, `deleteItem` can be used in a `data-event-click` binding:
 
-{% highlight coffeescript %}
+```coffeescript
 class MyApp.ListItemView extends Batman.View
   deleteItem: (item) ->
     item.destroy (err, record) ->
       throw err if err?
-{% endhighlight %}
+```
 
-{% highlight html %}
+```html
 <button data-event-click='deleteItem | withArguments item'>Delete!</button>
-{% endhighlight %}
+```
 
 Accessors are also available to bindings. `itemDescription` is available inside the view:
 
-{% highlight coffeescript %}
+```coffeescript
 class MyApp.ListItemView extends Batman.View
   @option 'item' # accepts value from data-view-item binding
   @accessor 'itemDescription', ->
     item = @lookupKeypath('item')
     "#{item.get('name'}, circa #{item.get('year')}"
-{% endhighlight %}
+```
 
-{% highlight html %}
+```html
 <ul>
   <li data-foreach-item='items' data-view='ListItemView' data-view-item='item'>
     <p data-bind='itemDescription'></p>
   </li>
 </ul>
-{% endhighlight %}
+```
 
 (See [`View.option` docs](/docs/api/batman.view.html#class_function_option) for more about view options.)
 
@@ -162,14 +157,14 @@ As a view is rendered, it fires several lifecycle events. Some events "bubble up
 
 One useful event is `viewDidAppear`, which is called after the view has been added to the DOM. You can initialize your view on `viewDidAppear` by defining a function with that name:
 
-{% highlight coffeescript %}
+```coffeescript
 class MyApp.CustomView extends Batman.View
   viewDidAppear: ->
     if !initialized
       initialized = true
       $(@node).find('.date-input').datepicker()
       @_otherInitialization()
-{% endhighlight %}
+```
 
 See the [`Batman.View` lifecycle API docs](/docs/api/batman.view_lifecycle.html) for more information on those events and how to use them.
 
@@ -183,18 +178,18 @@ The view tree serves as a rendering context for [view bindings](/docs/bindings.h
 
 Batman.js exports the global `$context` function for debugging views. `$context` takes a DOM node and returns the batman.js view for that node. For example:
 
-{% highlight javascript %}
+```javascript
 allItems = $('#all_items')[0]
 view = $context(allItems)
 view # => App.ItemsIndexView instance
-{% endhighlight %}
+```
 
 In Chrome, right-click -> "inspect element", assigns the node to `$0`. Then you can inspect the view with `$context($0)`.
 
 When you have the view, you can inspect its superview and lookup keypaths in its context:
 
-{% highlight javascript %}
+```javascript
 view.get('superview')       # => Layout view
 view.lookupKeypath('items') # => Batman.Set
-{% endhighlight %}
+```
 

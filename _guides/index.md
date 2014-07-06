@@ -1,8 +1,4 @@
----
-layout: docs
-title: Getting Started
-next_section: architecture
----
+# Getting Started
 
 Welcome to batman.js!
 

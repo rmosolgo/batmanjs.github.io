@@ -1,0 +1,46 @@
+---
+layout: docs
+title: Configuration
+prev_section: installation
+next_section: controllers
+---
+
+<p>batman.js contains some settings affecting all apps running on the page. These settings are attributes of the global <code>Batman.config</code> object. It&#39;s good practice to set these values before defining your app, like so:</p>
+<pre><code class="lang-coffeescript">Batman.config.pathToHTML = <span class="string">'/templates'</span>
+Batman.config.usePushState = <span class="literal">false</span>
+
+<span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">App</span></span>
+  <span class="comment"># ...</span></code></pre>
+<p><h3  class="guide-heading" id="pathtoapp"><a href='#pathtoapp'>pathToApp</a></h3>
+</p>
+<p><strong>Default: <code>&quot;/&quot;</code></strong></p>
+<p>Use this if your batman.js app is loaded from a path other than <code>/</code>. For example, if you load your app at <code>/app</code>, you&#39;d use:</p>
+<pre><code class="lang-coffeescript">  Batman.config.pathToApp = <span class="string">'/app'</span></code></pre>
+<p>Any generated routes will be then be prefixed with <code>/app</code>.</p>
+<p><h3  class="guide-heading" id="pathtohtml"><a href='#pathtohtml'>pathToHTML</a></h3>
+</p>
+<p><strong>Default: <code>&quot;/html&quot;</code></strong></p>
+<p>If the app hasn&#39;t already loaded the HTML to render a view, it will request the HTML with an AJAX request. <code>pathToHTML</code> is used as the prefix for these requests.</p>
+<p>The <a href="https://github.com/batmanjs/batman/blob/master/src/extras/batman.rails.coffee"><code>Batman.rails</code></a> extra sets <code>Batman.config.pathToHTML= &#39;/assets/batman/html&#39;</code>.</p>
+<p><h3  class="guide-heading" id="fetchremotehtml"><a href='#fetchremotehtml'>fetchRemoteHTML</a></h3>
+</p>
+<p><strong>Default: <code>true</code></strong></p>
+<p>batman.js automatically fetches a view&#39;s HTML if it hasn&#39;t been loaded yet. If <code>fetchRemoteHTML</code> is false, an error will be thrown instead.</p>
+<p><h3  class="guide-heading" id="usepushstate"><a href='#usepushstate'>usePushState</a></h3>
+</p>
+<p><strong>Default: <code>true</code></strong></p>
+<p>Set to <code>false</code> to use batman.js&#39;s hashbang navigator instead of the (default) <code>pushState</code> navigator. Note: the <code>pushState</code> navigator automatically degrades to the hashbang navigator if not supported by the browser.</p>
+<p><h3  class="guide-heading" id="protectfromcsrf"><a href='#protectfromcsrf'>protectFromCSRF</a></h3>
+</p>
+<p><strong>Default: <code>false</code></strong></p>
+<p>Used by the <a href="https://github.com/batmanjs/batman/blob/master/src/extras/batman.rails.coffee"><code>Batman.rails</code></a> extra. If <code>protectFromCSRF</code> is true, batman.js sends CSRF token as a request header (<code>X-CSRF-Token</code>). batman.js uses <code>metaNameForCSRFToken</code> to find the correct meta tag.</p>
+<p>The <a href="https://github.com/batmanjs/batman/blob/master/src/extras/batman.rails.coffee"><code>Batman.rails</code></a> extra sets <code>Batman.config.protectFromCSRF = true</code>, but you must set it yourself if you&#39;re using Rails-style CSRF tokens <em>without</em> the <code>Batman.rails</code> extra.</p>
+<p><h3  class="guide-heading" id="metanameforcsrftoken"><a href='#metanameforcsrftoken'>metaNameForCSRFToken</a></h3>
+</p>
+<p><strong>Default: <code>&quot;csrf-token&quot;</code></strong></p>
+<p>If <code>protectFromCSRF</code> is true, the contents of the meta tag with this name will be used as the CSRF token. This default is set in the <a href="https://github.com/batmanjs/batman/blob/master/src/extras/batman.rails.coffee"><code>Batman.rails</code></a> extra.</p>
+<p><h3  class="guide-heading" id="cacheviews"><a href='#cacheviews'>cacheViews</a></h3>
+</p>
+<p><strong>Default: <code>false</code></strong></p>
+<p>If set to true, batman.js will cache <a href="/docs/api/batman.view.html"><code>Batman.View</code></a> instances between <code>render</code> calls. View caching is opt-in <a href="https://github.com/batmanjs/batman/issues/805">while its implementation is finalized</a>.</p>
+

@@ -1,13 +1,8 @@
----
-layout: docs
-title: App Structure
-prev_section: architecture
-next_section: installation
----
+# Structure
 
 One of the conventions that batman.js shares with Rails is that of a consistent and organized directory structure. Whenever you sit down at any batman.js or Rails project, you should immediately know in which folder and file any given class will live. Here's what the directory structure looks like for a default batman.js app:
 
-{% highlight bash %}
+```bash
 MyApp
 ├── index.html
 ├── my_app.coffee
@@ -32,7 +27,7 @@ MyApp
 |   ├── jquery.js
 |   └── batman.js
 └── resources
-{% endhighlight %}
+```
 
 An overview of what each of these does:
 

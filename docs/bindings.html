@@ -1,0 +1,101 @@
+---
+layout: docs
+title: View Bindings
+prev_section: models
+next_section: views
+---
+
+<p>Batman.js bindings connect an app to the DOM. Bindings are created by adding <code>data-</code> attributes to your HTML templates:</p>
+<pre><code class="lang-html">&lt;!-- html<span class="regexp">/posts/</span>show.html --&gt;
+&lt;h1 data-bind=<span class="string">'post.title'</span>&gt;&lt;/h1&gt;
+&lt;p data-bind=<span class="string">'post.body'</span>&gt;&lt;/p&gt;</code></pre>
+<p>When <code>posts#show</code> is rendered with a post, the HTML will be bound to that post.</p>
+<p>Bindings are automatically updated by batman.js. They observe their DOM node <em>and</em> their JavaScript objects for changes, maintaining synchronization between the two. For example, in a <a href="/docs/api/batman.view_bindings.html#data-foreach"><code>data-foreach</code></a> binding, the DOM will be automatically updated when an item is added to the collection:</p>
+<pre><code class="lang-html">&lt;ul&gt;
+  &lt;li data-foreach-comment=<span class="string">'post.comments'</span>&gt;
+    &lt;span data-bind=<span class="string">'comment.body'</span>&gt;&lt;/span&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>When a new comment is created, its <code>&lt;li&gt;</code> will be added to the <code>&lt;ul&gt;</code>. When a comment is removed, its <code>&lt;li&gt;</code> will be removed.</p>
+<p>Nodes can have multiple bindings:</p>
+<pre><code class="lang-html">&lt;p data-bind=<span class="string">"body"</span> data-showif=<span class="string">"isPublished"</span>&gt;&lt;/p&gt;</code></pre>
+<p>or attribute bindings:</p>
+<pre><code class="lang-html">&lt;p data-bind-id=<span class="string">"currentID"</span>&gt;&lt;/p&gt;</code></pre>
+<p>and bindings can be on inputs which the user can change:</p>
+<pre><code class="lang-html">&lt;input type=<span class="string">"text"</span> data-bind=<span class="string">"title"</span>&gt;&lt;/input&gt;</code></pre>
+<p>When a bound input is updated by a user, the change is immediately propagated through the batman.js application.</p>
+<p><h2  class="guide-heading" id="keypaths-context"><a href='#keypaths-context'>Keypaths &amp; Context</a></h2>
+</p>
+<p>To put data into view bindings, you pass <em>keypaths</em> which point to values in the <em>render context</em>. This lookup is implemented by <a href="http://batmanjs.org/docs/api/batman.view.html#prototype_function_lookupkeypath"><code>Batman.View::lookupKeypath</code></a>.</p>
+<p><h3  class="guide-heading" id="keypaths"><a href='#keypaths'>Keypaths</a></h3>
+</p>
+<p>A <strong>keypath</strong> is a reference to a value in the current render context. Keypaths can have multiple segments:</p>
+<pre><code class="lang-html">&lt;p data-bind=<span class="string">"order.customer.name"</span>&gt;&lt;/p&gt;</code></pre>
+<p>The keypath above is <code>order.customer.name</code>. It has three segments: <code>order</code>, <code>customer</code>, and <code>name</code>. The binding will automatically update the HTML value when any of those segments change. In the above example, this means the <code>&lt;p&gt;</code> tag&#39;s <code>innerHTML</code> will be updated when:</p>
+<ul>
+<li>the order changes,</li>
+<li>the order&#39;s customer changes, or</li>
+<li>the order&#39;s customer&#39;s name changes</li>
+</ul>
+<p>You can rely on a binding to &quot;just work&quot; when its segments change. If any of the segments are assigned to new values, the binding will be immediately updated with the new value.</p>
+<p><h3  class="guide-heading" id="render-context"><a href='#render-context'>Render Context</a></h3>
+</p>
+<p>A binding can access properties on any of the objects in its render context. Its render context includes the objects &quot;above&quot; the binding in the view tree:</p>
+<ul>
+<li>the current <a href="/docs/api/batman.view.html"><code>Batman.View</code></a> instance (which rendered the binding)</li>
+<li>the chain of superviews above the current view</li>
+<li>the layout view (generated when a <a href="/docs/api/batman.app.html"><code>Batman.App</code></a> is run)</li>
+<li>the current controller</li>
+<li>the current application</li>
+<li>the global scope</li>
+</ul>
+<p>A binding will bind itself to the first object which returns a non-<code>undefined</code> value for its keypath.</p>
+<p><h3  class="guide-heading" id="keypath-filters"><a href='#keypath-filters'>Keypath Filters</a></h3>
+</p>
+<p>Bindings can bind to filtered keypaths:</p>
+<pre><code class="lang-html">&lt;p data-bind=<span class="string">"post.body | truncate 100"</span>&gt;&lt;/p&gt;</code></pre>
+<p>The above <code>&lt;p&gt;</code> will have the first 100 characters of the post&#39;s body. Whenever the <code>post.body</code> changes, it will be retruncated and the <code>&lt;p&gt;</code>&#39;s <code>innerHTML</code> will be updated.</p>
+<p>Filter chains can be arbitrarily long:</p>
+<pre><code class="lang-html">&lt;span data-bind=<span class="string">"knight.name | prepend 'Sir ' | append ', the honourable'"</span>&gt;&lt;/span&gt;</code></pre>
+<p>and filter chains can use <em>other keypaths</em> as arguments to the filters:</p>
+<pre><code class="lang-html">&lt;span data-bind=<span class="string">"person.name | prepend ' ' | prepend person.title"</span>&gt;&lt;/span&gt;</code></pre>
+<p>The above <code>&lt;span&gt;</code>&#39;s <code>innerHTML</code> will be updated whenever the person&#39;s name <em>or</em> title changes. Both keypaths are tracked by the binding.</p>
+<p><strong>Note that filtered keypaths cannot propagate DOM changes to JavaScript</strong> because values can&#39;t always be &quot;unfiltered&quot;. Filters only affect Javascript-to-DOM bindings, not DOM-to-Javascript!</p>
+<p>See the <a href="/docs/api/batman.view_filters.html"><code>Batman.View Filters</code> documentation</a> for a full list of available view filters.</p>
+<p><h3  class="guide-heading" id="keypath-literals"><a href='#keypath-literals'>Keypath Literals</a></h3>
+</p>
+<p>You may pass &quot;keypath literals&quot; as view binding arguments. Numbers, strings, and booleans can be passed as arguments to filters or used as the actual value of the keypath:</p>
+<pre><code class="lang-html">
+&lt;!-- Literals as values: --&gt;
+&lt;p data-bind=<span class="string">"'Hardcoded'"</span>&gt;&lt;/p&gt;
+&lt;p data-showif=<span class="string">"true"</span>&gt;&lt;/p&gt;
+
+&lt;!-- Literals as arguments: --&gt;
+&lt;p data-bind=<span class="string">"body | append ' ... '"</span>&gt;&lt;/p&gt;
+&lt;p data-showif=<span class="string">"shouldShow | default true"</span>&gt;&lt;/p&gt;
+&lt;p data-bind=<span class="string">"body | truncate 100"</span>&gt;&lt;/p&gt;
+&lt;p data-bind=<span class="string">"'Sir %{name}, the honourable' | interpolate {'name' : 'knight.name'}"</span>&gt;&lt;/p&gt;</code></pre>
+<p><h2  class="guide-heading" id="available-bindings"><a href='#available-bindings'>Available Bindings</a></h2>
+</p>
+<p>See the <a href="/docs/api/batman.view_bindings.html"><code>Batman.View Bindings</code> API documentation</a> for a full list of available bindings and information about defining custom bindings.</p>
+<p><h2  class="guide-heading" id="iteration"><a href='#iteration'>Iteration</a></h2>
+</p>
+<p>A <a href="/docs/api/batman.view_bindings.html#data-foreach"><code>data-foreach</code></a> binding creates a collection of HTML elements that are bound to a <a href="/docs/api/batman.enumerable.html"><code>Batman.Enumerable</code></a> (eg, <a href="/docs/api/batman.set.html"><code>Batman.Set</code></a> or <a href="/docs/api/batman.hash.html"><code>Batman.Hash</code></a>). This binding takes two arguments: one in the attribute name and the other in the attribute value: <code>data-foreach-#{itemName}=&quot;#{collectionName}&quot;</code>. For example, if you wanted to list the playing cards in a deck of cards:</p>
+<pre><code class="lang-html">&lt;ul&gt;
+  &lt;li data-foreach-card=<span class="string">'deck.cards'</span>&gt;
+    &lt;span data-bind=<span class="string">'card.suit'</span>&gt;&lt;/span&gt;
+    &lt;span data-bind=<span class="string">'card.number'</span>&gt;&lt;/span&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>Since batman.js keeps bindings in sync, you don&#39;t have to re-render these bindings. Under the hood, batman.js is observing the <a href="/docs/api/batman.enumerable.html"><code>Batman.Enumerable</code></a>&#39;s  <code>itemsWereAdded</code> and <code>itemsWereRemoved</code> events. When one of these events is fired, batman.js adds or removes nodes from the DOM according to the items added or removed from the collection.</p>
+<p><h2  class="guide-heading" id="debugging"><a href='#debugging'>Debugging</a></h2>
+</p>
+<p>Developer versions of batman.js ship with a <a href="/docs/api/batman.view_bindings.html#data-debug"><code>data-debug</code></a> binding that calls <code>debugger</code> during the rendering process. At that point, <code>this</code> refers to the binding itself. You can access its view, then test keypath values with <code>lookupKeypath</code>:</p>
+<pre><code class="lang-javascript"><span class="regexp">//</span> <span class="keyword">debugger</span>
+<span class="keyword">this</span>                                          <span class="regexp">//</span> =&gt; &lt;Binding&gt;
+<span class="keyword">this</span>.view.lookupKeypath(<span class="string">"deck.cards.length"</span>)  <span class="regexp">//</span> =&gt; <span class="number">52</span></code></pre>
+<p>There&#39;s also a global function called <code>$context</code> which accepts a DOM node and returns the <a href="/docs/api/batman.view.html"><code>Batman.View</code></a> that the node is rendered inside. For example:</p>
+<pre><code class="lang-javascript">allCards = document.getElementById(<span class="string">"all-cards"</span>)
+view = $context(allCards)         <span class="regexp">//</span> =&gt; &lt;App.CardsIndexView&gt;
+view.lookupKeypath(<span class="string">"cards.first"</span>) <span class="regexp">//</span> =&gt; &lt;App.Card&gt;</code></pre>
+

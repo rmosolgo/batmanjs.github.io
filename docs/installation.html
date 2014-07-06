@@ -1,0 +1,35 @@
+---
+layout: docs
+title: Installation
+prev_section: structure
+next_section: configuration
+---
+
+<p>We&#39;ve tried to make batman.js&#39;s installation process as simple as possible. There&#39;s two main ways to go about it: using the <code>batman-rails</code> gem or downloading the Starter Package.</p>
+<p><h2  class="guide-heading" id="1-batman-rails"><a href='#1-batman-rails'>1. batman-rails</a></h2>
+</p>
+<p><code>batman-rails</code> is a Ruby Gem which allows you to easily use batman.js inside a Rails 3.2 or 4.0 application. It takes care of a number of things for you:</p>
+<ul>
+<li>Vendoring the batman.js source into your app</li>
+<li>Generating your project structure within your Rails app</li>
+<li>Setting up JSON communication between your Rails and batman.js app</li>
+</ul>
+<p><h4  class="guide-heading" id="1-1-get-the-gem"><a href='#1-1-get-the-gem'>1.1 Get the Gem</a></h4>
+</p>
+<p>Getting the gem is simple. Simply add the following line to your <code>Gemfile</code>:</p>
+<pre><code class="lang-ruby">gem <span class="string">'batman-rails'</span></code></pre>
+<p>Then simply tell <code>bundler</code> to install it:</p>
+<pre><code class="lang-bash">$ bundle install</code></pre>
+<p><h4  class="guide-heading" id="1-2-create-a-batman-js-application"><a href='#1-2-create-a-batman-js-application'>1.2 Create a batman.js application</a></h4>
+</p>
+<p>Now that <code>batman-rails</code> is installed, we can use the normal Rails generator system to generate the skeleton for our batman.js application.</p>
+<pre><code class="lang-bash">$ rails generate batman:app</code></pre>
+<p>The structure of this app will be exactly the same as described in <a href="/docs/structure.html">Directory Structure</a>, but it will live within our Rails app folder. You can find your newly created app in <code>MyApp/app/assets/batman</code>.</p>
+<p><h2  class="guide-heading" id="2-starter-application"><a href='#2-starter-application'>2. Starter Application</a></h2>
+</p>
+<p>If you&#39;re not using Rails, you can <a href="/download.html">download</a> either the Starter Application or simply a copy of batman.js itself. The Starter Application is simply a zip file which contains an empty batman.js project, very similar to what <code>batman-rails</code> would generate for you. It will contain all of the directories your project needs (described further in <a href="/docs/structure.html">Directory Structure</a>), in addition to the actual batman.js source.</p>
+<p>You can simply download the zip and start filling it with your own application code.</p>
+<p><h2  class="guide-heading" id="3-that-s-it-"><a href='#3-that-s-it-'>3. That&#39;s it!</a></h2>
+</p>
+<p>Whichever way you choose, that&#39;s all there is to it!</p>
+

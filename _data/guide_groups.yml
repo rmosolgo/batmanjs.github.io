@@ -1,0 +1,27 @@
+# this is used to make guide_groups and guides_ungrouped
+- name: principles
+  guides: 
+    - title: App Architecture
+      filename: architecture
+    - title: Project Structure
+      filename: structure
+- name: models
+  guides: 
+    - title: Models
+      filename: models
+- name: views
+  guides: 
+    - title: Views
+      filename: views
+    - title: View Bindings
+      filename: bindings
+- name: controllers
+  guides: 
+    - title: Controllers
+      filename: controllers
+- name: digging deeper
+  guides: 
+    - title: Batman.js and Rails
+      filename: rails
+    - title: Testing
+      filename: testing

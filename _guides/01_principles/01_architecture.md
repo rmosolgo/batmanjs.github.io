@@ -18,7 +18,7 @@ Models define the _business objects_ in your application. For examples, the mode
 
 #### Views
 
-Views connect your app to its users by rendering HTML and binding the page to your app. The "view layer" _includes_ HTML templates but goes beyond that: subclasses of `Batman.View` are also used for:
+Views connect your app to your users by rendering HTML and binding the page to your app. The "view layer" _includes_ HTML templates but goes beyond that: subclasses of `Batman.View` are also used for:
 
 - creating reusable UI components
 - handling complex user interactions

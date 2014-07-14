@@ -823,7 +823,7 @@ td + td > p, th + th {
   padding-left: 13px;
 }
 
-.api-sidebar h5 {
+.api-sidebar h5, .guide-box h5 {
   text-transform: uppercase;
   font-size: 80%;
   margin-top: 1em;

@@ -1,0 +1,28 @@
+- name: principles
+  guides: 
+    - title: Architecture
+      filename: architecture
+    - title: Configuration
+      filename: configuration
+    - title: Getting Started
+      filename: index
+    - title: Installation
+      filename: installation
+- name: models
+  guides: 
+    - title: Models
+      filename: models
+- name: views
+  guides: 
+    - title: Views
+      filename: views
+    - title: View Bindings
+      filename: bindings
+- name: controllers
+  guides: 
+    - title: Controllers
+      filename: controllers
+- name: digging deeper
+  guides: 
+    - title: Testing
+      filename: testing

@@ -1,7 +1,16 @@
 <div class="span8">
   <div class="box guide-box">
     <h4>Developer Guides</h4>
-    {% for group in site.data.guides %}
+
+    <ul>
+    {% for guide in site.data.guide_ungrouped %}
+      <li class="guide-title {% if page.title == guide.title %}current{% endif %}">
+        <a href="{{ site.url }}/docs/{{ guide.filename }}.html">{{ guide.title }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+
+    {% for group in site.data.guide_groups %}
     <h5>{{ group.name }}</h5>
     <ul class='sidebar-children'>
       {% for guide in group.guides %}

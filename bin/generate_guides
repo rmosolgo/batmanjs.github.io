@@ -15,10 +15,11 @@ class GuideGenerator
     @files = glob.sync(dirname)
     @parser = new MarkdownParser
     @groups = []
+    @ungrouped = []
 
   _groupForPath: (filepath) ->
     groupName = filepath.match(/_guides\/\d+_(.*)\//)?[1]
-    return unless groupName
+    return unless groupName?
     group = @groups.filter((g) -> g.name is groupName)[0]
     if !group?
       group = {name: groupName, guides: []}
@@ -58,7 +59,11 @@ class GuideGenerator
 
     replacements.guide_html = @parser.tokensToHTML(tokens)
     group = @_groupForPath(filepath)
-    group?.guides.push({title: replacements.title, filename})
+    tocEntry = {title: replacements.title, filename}
+    if !group?
+      @ungrouped.push(tocEntry)
+    else
+      group.guides.push(tocEntry)
     @writer.write("docs/#{filename}.html", replacements)
 
 
@@ -81,7 +86,8 @@ class GuideGenerator
 
   _renderDataFile: ->
     writer = new TemplateWriter("guides.yml")
-    writer.write("_data/guides.yml", {guides: yaml.dump(@groups)})
+    writer.write("_data/guide_groups.yml", {guides: yaml.dump(@groups)})
+    writer.write("_data/guide_ungrouped.yml", {guides: yaml.dump(@ungrouped)})
 
 generator = new GuideGenerator
   dirname: "#{__dirname}../../_guides/**/*.md"

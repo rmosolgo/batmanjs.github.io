@@ -10,7 +10,12 @@ Batman.js bindings connect an app to the DOM. Bindings are created by adding `da
 
 When `posts#show` is rendered with a post, the HTML will be bound to that post.
 
-Bindings are automatically updated by batman.js. They observe their DOM node _and_ their JavaScript objects for changes, maintaining synchronization between the two. For example, in a `data-foreach` binding, the DOM will be automatically updated when an item is added to the collection:
+See the [`Batman.View Bindings` API documentation](/docs/api/batman.view_bindings.html) for a full list of available bindings and information about defining custom bindings.
+
+
+## Binding Synchronization 
+
+Bindings are automatically updated by batman.js. They observe their DOM node _and_ their `Batman.Object`s for changes, maintaining synchronization between the two. For example, in a `data-foreach` binding, the DOM will be automatically updated when an item is added to the collection:
 
 ```html
 <ul>
@@ -40,7 +45,7 @@ and bindings can be on inputs which the user can change:
 <input type="text" data-bind="title"></input>
 ```
 
-When a bound input is updated by a user, the change is immediately propagated through the batman.js application.
+When a bound input is updated by a user, the change is immediately propagated through the application.
 
 ## Keypaths & Context
 
@@ -54,12 +59,17 @@ A __keypath__ is a reference to a value in the current render context. Keypaths 
 <p data-bind="order.customer.name"></p>
 ```
 
-The keypath above is `order.customer.name`. It has three segments: `order`, `customer`, and `name`. The binding will automatically update the HTML value when any of those segments change. In the above example, this means the `<p>` tag's `innerHTML` will be updated when:
+The keypath above is `order.customer.name`. It has three segments:
+
+- `order`
+- `customer`
+- `name`
+
+The binding will automatically update the HTML value when _any_ of those segments change. In the above example, this means the `<p>` tag's `innerHTML` will be updated when:
 
 - the order changes,
 - the order's customer changes, or
 - the order's customer's name changes
-
 
 You can rely on a binding to "just work" when its segments change. If any of the segments are assigned to new values, the binding will be immediately updated with the new value.
 
@@ -68,42 +78,13 @@ You can rely on a binding to "just work" when its segments change. If any of the
 A binding can access properties on any of the objects in its render context. Its render context includes the objects "above" the binding in the view tree:
 
 - the current `Batman.View` instance (which rendered the binding)
-- the chain of superviews above the current view
+- the chain of views above the current view (called "superviews")
 - the layout view (generated when a `Batman.App` is run)
 - the current controller
 - the current application
-- the global scope
+- the global scope (ie, `window`)
 
 A binding will bind itself to the first object which returns a non-`undefined` value for its keypath.
-
-### Keypath Filters
-
-Bindings can bind to filtered keypaths:
-
-```html
-<p data-bind="post.body | truncate 100"></p>
-```
-
-The above `<p>` will have the first 100 characters of the post's body. Whenever the `post.body` changes, it will be retruncated and the `<p>`'s `innerHTML` will be updated.
-
-
-Filter chains can be arbitrarily long:
-
-```html
-<span data-bind="knight.name | prepend 'Sir ' | append ', the honourable'"></span>
-```
-
-and filter chains can use _other keypaths_ as arguments to the filters:
-
-```html
-<span data-bind="person.name | prepend ' ' | prepend person.title"></span>
-```
-
-The above `<span>`'s `innerHTML` will be updated whenever the person's name _or_ title changes. Both keypaths are tracked by the binding.
-
-__Note that filtered keypaths cannot propagate DOM changes to JavaScript__ because values can't always be "unfiltered". Filters only affect Javascript-to-DOM bindings, not DOM-to-Javascript!
-
-See the [`Batman.View Filters` documentation](/docs/api/batman.view_filters.html) for a full list of available view filters.
 
 ### Keypath Literals
 
@@ -121,10 +102,6 @@ You may pass "keypath literals" as view binding arguments. Numbers, strings, and
 <p data-bind="body | truncate 100"></p>
 <p data-bind="'Sir %{name}, the honourable' | interpolate {'name' : 'knight.name'}"></p>
 ```
-
-## Available Bindings
-
-See the [`Batman.View Bindings` API documentation](/docs/api/batman.view_bindings.html) for a full list of available bindings and information about defining custom bindings.
 
 ## Iteration
 

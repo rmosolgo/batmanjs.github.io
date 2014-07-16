@@ -724,21 +724,21 @@ td + td > p, th + th {
   color: #aaa;
 }
 
-.api-docs td, .api-docs th {
+.highlight-tables td, .highlight-tables th {
   padding: 4px 8px;
 }
 
-.api-docs th {
+.highlight-tables th, .highlight-tables th {
   padding: 6px 8px;
   font-size: 1.1em;
 }
 
-.api-docs table {
+.highlight-tables table {
   margin-bottom: 1em;
   width: 100%;
 }
 
-.api-docs tr:nth-child(even), .api-docs thead tr {
+.highlight-tables tr:nth-child(even), .highlight-tables thead tr {
   background: #e8e7f4;
 }
 

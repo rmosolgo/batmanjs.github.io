@@ -385,6 +385,9 @@ td + td > p, th + th {
   line-height: 1.6em;
 }
 
+.docs li a, .api-docs li a {
+  text-decoration: underline;
+}
 /* homepage mega intro block */
 .intro {
   background: #111119 url(../images/skyline.png) 0 100% repeat-x;

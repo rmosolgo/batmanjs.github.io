@@ -6,9 +6,9 @@ Thanks for your interest in contributing to batman.js! There are several ways yo
 
 We welcome your stories of success (or otherwise) with batman.js. You can share your experience by: 
 
-- Mentioning [@batmanjs] on Twitter
-- Starting a thread on the [google group]
-- Striking up a conversation in our IRC channel at #batmanjs on chat.freenode.net
+- Mentioning [@batmanjs](https://twitter.com/batmanjs) on Twitter
+- Starting a thread on the [google group](https://groups.google.com/forum/#!forum/batmanjs)
+- Striking up a conversation in our IRC channel at `#batmanjs` on chat.freenode.net
 - Opening an issue on [the Github repo](https://github.com/batmanjs/batman)
 
 ## Guides

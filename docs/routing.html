@@ -1,0 +1,148 @@
+---
+layout: docs
+title: Routing
+---
+
+<p>Routes bind URLs to <a href="/docs/controllers.html#controller-actions">controller actions</a>.</p>
+<p>Routes are declared in your app definition. You can declare <a href="#single-routes">single routes</a> with <code>@route</code> or declare <a href="#resource-routing">resource routes</a> with <code>@resources</code> (inspired by <a href="http://guides.rubyonrails.org/routing.html#resource-routing-the-rails-default">Rails routing</a>).</p>
+<p>In your HTML, you can access routes <a href="#named-routes">by name</a> with <a href="/docs/api/batman.view_bindings.html#data-route"><code>data-route</code></a> bindings. </p>
+<p>Batman.js also provides access to <a href="#route-params">route params</a>.</p>
+<p><h2  class="guide-heading" id="single-routes"><a href='#single-routes'>Single Routes</a></h2>
+</p>
+<p>The simplest routing definition is <code>@route</code>:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">App</span></span>
+         <span class="comment"># path     , controller action</span>
+  <span class="property">@route</span> <span class="string">"/products"</span>, <span class="string">'products#index'</span></code></pre>
+<p>Now, visiting <code>&quot;/products&quot;</code> will dispatch the <code>products#index</code> action.</p>
+<p>There is also a shortcut to define a route for <code>&quot;/&quot;</code>, <code>@root</code>:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">App</span></span>
+  <span class="property">@root</span> <span class="string">'products#index'</span></code></pre>
+<p>Now, visiting <code>&quot;/&quot;</code> will dispatch the <code>products#index</code> action.</p>
+<p><h2  class="guide-heading" id="resource-routing"><a href='#resource-routing'>Resource Routing</a></h2>
+</p>
+<p><code>@resources</code> creates several routes at once. Usually, these routes are for displaying one of your models. For example,</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">App</span></span>
+  <span class="property">@resources</span> <span class="string">"posts"</span></code></pre>
+<p>creates the following mapping between URLs and actions on <code>MyApp.PostsController</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Controller Action</th>
+<th>Named Route</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/posts</code></td>
+<td>App.PostsController#index</td>
+<td><code>routes.posts</code></td>
+</tr>
+<tr>
+<td><code>/posts/new</code></td>
+<td>App.PostsController#new</td>
+<td><code>routes.posts.new</code></td>
+</tr>
+<tr>
+<td><code>/posts/:id</code></td>
+<td>App.PostsController#show</td>
+<td><code>routes.posts[post]</code></td>
+</tr>
+<tr>
+<td><code>/posts/:id/edit</code></td>
+<td>App.PostsController#edit</td>
+<td><code>routes.posts[post].edit</code></td>
+</tr>
+</tbody>
+</table>
+<p>These routes are also <a href="#named-routes">accessible by name</a> in <a href="/docs/api/batman.view_bindings.html#data-route"><code>data-route</code></a> bindings.</p>
+<p><h3  class="guide-heading" id="nested-routes"><a href='#nested-routes'>Nested Routes</a></h3>
+</p>
+<p><code>@resources</code> takes a callback where you can define nested routes. There are three ways to define nested routes:</p>
+<ul>
+<li><code>@member</code> defines a new route on top of the <code>show</code> route</li>
+<li><code>@collection</code> defines a new route on top the <code>index</code> route </li>
+<li><code>@resources</code> defines a new resource routes on top of the <code>show</code> route.</li>
+</ul>
+<p>For example:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">App</span></span>
+  <span class="property">@resources</span> <span class="string">"users"</span>, -&gt;
+    <span class="property">@member</span> <span class="string">"profile"</span>
+    <span class="property">@collection</span> <span class="string">"search"</span>
+    <span class="property">@resources</span> <span class="string">"photos"</span></code></pre>
+<p><code>@member &quot;profile&quot;</code> maps <code>/users/:id/profile</code> to the <code>users#index</code> action.</p>
+<p><code>@collection &quot;search&quot;</code> maps <code>/users/search</code> to the <code>users#search</code> action.</p>
+<p><code>@resources &quot;photos&quot;</code> creates the following routes:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Controller Action</th>
+<th>Named Route</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/users/:userId/photos</code></td>
+<td>App.PhotosController#index</td>
+<td><code>routes.users[user].photos</code></td>
+</tr>
+<tr>
+<td><code>/users/:userId/photos/new</code></td>
+<td>App.PhotosController#new</td>
+<td><code>routes.users[user].photos.new</code></td>
+</tr>
+<tr>
+<td><code>/users/:userId/photos/:id</code></td>
+<td>App.PhotosController#show</td>
+<td><code>routes.users[user].photos[photo]</code></td>
+</tr>
+<tr>
+<td><code>/users/:userId/photos/:id/edit</code></td>
+<td>App.PhotosController#edit</td>
+<td><code>routes.users[user].photos[photo].edit</code></td>
+</tr>
+</tbody>
+</table>
+<p><h2  class="guide-heading" id="named-routes"><a href='#named-routes'>Named Routes</a></h2>
+</p>
+<p>You can create links inside your app with <a href="/docs/api/batman.view_bindings.html#data-route"><code>data-route</code></a> bindings. The keypath passed to <a href="/docs/api/batman.view_bindings.html#data-route"><code>data-route</code></a> is also called a <em>route query</em> since it looks up routes by name. </p>
+<p>Route queries always begin with <code>routes</code>. Then, you add segments to look up the route you want. For example, to link to <code>products#index</code>:</p>
+<pre><code class="lang-html">&lt;a data-route=<span class="string">'routes.products'</span>&gt;All Products&lt;/a&gt;</code></pre>
+<p>You can add query string parameters to the route with a <a href="/docs/api/batman.view_bindings.html#data-route"><code>data-route-params</code></a> binding. For example:</p>
+<pre><code class="lang-html">&lt;a data-route=<span class="string">'routes.products'</span> data-route-params=<span class="string">"'sale=true'"</span>&gt;Sale Products&lt;/a&gt;</code></pre>
+<p>Some route queries accept <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a> instances as segments. You can pass those with <code>[ ... ]</code>. For example, to link to a product&#39;s <code>edit</code> page:</p>
+<pre><code class="lang-html">&lt;a data-route=<span class="string">'routes.products[product].edit'</span>&gt;
+  Edit 
+  &lt;span data-bind=<span class="string">'product.name'</span>&gt;&lt;/span&gt;
+&lt;/a&gt;</code></pre>
+<p>When you use <code>@resources</code>, routes are named for you. You can also provide names for single routes by passing the <code>as</code> option. For example, to name this route <code>&quot;special_offers&quot;</code>:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">App</span> </span>
+  <span class="property">@route</span> <span class="string">'/specials'</span>, <span class="string">'products#specials'</span>, as: <span class="string">'special_offers'</span></code></pre>
+<p>Then, you could bind to it in your tempate:</p>
+<pre><code class="lang-html">&lt;a data-route=<span class="string">'routes.special_offers'</span>&gt;Daily Specials&lt;/a&gt;</code></pre>
+<p><h2  class="guide-heading" id="route-params"><a href='#route-params'>Route Params</a></h2>
+</p>
+<p>You can access current params with:</p>
+<pre><code class="lang-coffeescript">MyApp.get(<span class="string">'currentParams'</span>)</code></pre>
+<p>This <a href="/docs/api/batman.hash.html"><code>Batman.Hash</code></a> contains: </p>
+<ul>
+<li><em>named params</em> from the current route (eg, <code>id</code> from <code>/products/:id/edit</code>)</li>
+<li><em>query string params</em>, such as <code>key</code> from <code>?key=value</code></li>
+</ul>
+<p>You can even use <code>currentParams</code> in view bindings. For example, you can add &quot;active&quot; state to navigation elements:</p>
+<pre><code class="lang-html">&lt;ul class=<span class="string">'nav'</span>&gt;
+  &lt;li data-addclass-active=<span class="string">'currentParams.controller | equals "products"'</span>&gt;
+    &lt;a data-route=<span class="string">'routes.products'</span>&gt;Products&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li data-addclass-active=<span class="string">'currentParams.controller | equals "orders"'</span>&gt;
+    &lt;a data-route=<span class="string">'routes.orders'</span>&gt;Orders&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>You can also use <code>currentParams.url</code> to change the URL without reloading the page. This way you can influence data on the page and allow your users to get the same data on hard refreshes. Here&#39;s an example:</p>
+<pre><code class="lang-coffeescript">Batman.currentApp.get(<span class="string">'currentParams.url'</span>).update(page: <span class="number">5</span>)</code></pre>
+<p>It will even update the URL match a defined route if found:</p>
+<pre><code class="lang-coffeescript">MyApp.get(<span class="string">'currentParams.url'</span>).update(action: show, id: <span class="number">6</span>)  <span class="comment"># /items/6</span>
+MyApp.get(<span class="string">'currentParams.url'</span>).update(page: <span class="number">5</span>)              <span class="comment"># /items/page/5</span></code></pre>
+<p><a href="/docs/controllers.html#controller-actions">Controller actions</a> are also called with a <code>params</code> argument. This argument is a plain JavaScript object which contains named params, <code>controller</code>, <code>action</code> and <code>target</code> (which refers to the controller instance).  </p>
+

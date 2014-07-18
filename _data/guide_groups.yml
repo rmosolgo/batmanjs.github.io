@@ -5,23 +5,41 @@
       filename: architecture
     - title: Project Structure
       filename: structure
+    - title: Batman.Object
+      filename: batman_object
 - name: models
   guides: 
-    - title: Models
+    - title: Model Basics
       filename: models
+    - title: Model Persistence
+      filename: persistence
+    - title: Model Validations
+      filename: validation
+    - title: Model Associations
+      filename: model_associations
 - name: views
   guides: 
-    - title: Views
+    - title: View Basics
       filename: views
     - title: View Bindings
       filename: bindings
+    - title: View Filters
+      filename: filters
+    - title: Custom Views
+      filename: custom_views
 - name: controllers
   guides: 
-    - title: Controllers
+    - title: Controller Basics
       filename: controllers
+    - title: Routing
+      filename: routing
 - name: digging deeper
   guides: 
+    - title: Accessors in Depth
+      filename: accessors
     - title: Batman.js and Rails
       filename: rails
     - title: Testing
       filename: testing
+    - title: Contributing
+      filename: contributing

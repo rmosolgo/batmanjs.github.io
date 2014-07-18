@@ -1,0 +1,50 @@
+---
+layout: docs
+title: Batman.js and Rails
+---
+
+<p>Ruby on Rails isn&#39;t required for a batman.js app, but there are some helpers for Rails-batman.js integration.</p>
+<p><h2  class="guide-heading" id="batman-railsstorage"><a href='#batman-railsstorage'>Batman.RailsStorage</a></h2>
+</p>
+<p><a href="/docs/api/batman.railsstorage.html"><code>Batman.RailsStorage</code></a> is a storage adapter for connecting to Rails&#39; default JSON APIs. Check out the <a href="/docs/api/batman.railsstorage.html"><code>Batman.RailsStorage</code></a> API docs for a description of features.</p>
+<p><h2  class="guide-heading" id="<a href='#batman-rails'>batman-rails</a>">batman-rails</h2>
+</p>
+<p><code>batman-rails</code> is a Ruby Gem which allows you to easily use batman.js inside a Rails 3.2+ application. It takes care of a number of things for you:</p>
+<ul>
+<li>Vendoring the batman.js source into your app</li>
+<li>Generating your project structure within your Rails app</li>
+<li>Preloading HTML templates for batman.js</li>
+</ul>
+<p><h4  class="guide-heading" id="get-the-gem"><a href='#get-the-gem'>Get the Gem</a></h4>
+</p>
+<p>Getting the gem is simple. Simply add the following line to your <code>Gemfile</code>:</p>
+<pre><code class="lang-ruby">gem <span class="string">'batman-rails'</span></code></pre>
+<p>Then simply tell <code>bundler</code> to install it:</p>
+<pre><code class="lang-bash">$ bundle install</code></pre>
+<p><h4  class="guide-heading" id="create-a-batman-js-application"><a href='#create-a-batman-js-application'>Create a Batman.js Application</a></h4>
+</p>
+<p>Now that <code>batman-rails</code> is installed, we can use the normal Rails generator system to generate the skeleton for our batman.js application.</p>
+<pre><code class="lang-bash">$ rails generate batman:app</code></pre>
+<p>The structure of this app will be exactly the same as described in <a href="/docs/structure.html">Directory Structure</a>, but it will live within our Rails app folder. You can find your newly created app in <code>app/assets/batman</code>.</p>
+<p><h4  class="guide-heading" id="preloading-templates"><a href='#preloading-templates'>Preloading Templates</a></h4>
+</p>
+<p><code>batman-rails</code> comes with a view helper to preload your batman.js templates. This way, batman.js won&#39;t have to request them by AJAX. </p>
+<p>Add to <code>app/layouts/batman.html.erb</code>:</p>
+<pre><code class="lang-html">  &lt;head&gt; 
+    &lt;!-- ... --&gt;
+    &lt;%= batman_define_views %&gt;
+  &lt;/head&gt;</code></pre>
+<p><code>batman_define_views</code> also takes a <code>path:</code> option, in case your HTML isn&#39;t in <code>app/assets/batman/html</code>.</p>
+<p><h4  class="guide-heading" id="using-a-local-copy-of-batman-js"><a href='#using-a-local-copy-of-batman-js'>Using a Local Copy of Batman.js</a></h4>
+</p>
+<p>If you don&#39;t want to use the version of batman.js provided by <code>batman-rails</code>, you can provide a version yourself. You might do this if you wanted to use a prerelease version of batman.js. </p>
+<ol>
+<li>Get a version of batman.js and put it in <code>app/assets/batman/lib</code></li>
+<li><p>Remove from your app&#39;s coffee file:</p>
+<pre><code class="lang-coffeescript"><span class="comment">#= require batman/batman</span></code></pre>
+</li>
+<li><p>In its place, add: </p>
+<pre><code class="lang-coffeescript"><span class="comment">#= require lib/batman</span></code></pre>
+</li>
+</ol>
+

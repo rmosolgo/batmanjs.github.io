@@ -1,0 +1,124 @@
+---
+layout: docs
+title: Accessors in Depth
+---
+
+<p>Accessors are much like methods or instance variables on <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>s. In a batman.js app, accessors can be defined on app components:</p>
+<ul>
+<li>On controllers and views, accessors can be bound by view bindings.</li>
+<li>On models, accessors can be used as model properties.</li>
+<li>On the app, class accessors (defined with <code>@classAccessor</code>) are accessible in view bindings and from <code>MyApp</code>.</li>
+</ul>
+<p>Internally, batman.js uses accessors to implement a lot of APIs, including:</p>
+<ul>
+<li>route queries</li>
+<li>controller lookup</li>
+<li>storage of model attributes </li>
+<li>data structures like <a href="/docs/api/batman.set.html"><code>Batman.Set</code></a> and <a href="/docs/api/batman.hash.html"><code>Batman.Hash</code></a></li>
+</ul>
+<p>Understanding accessors will empower you to write more powerful &amp; expressive batman.js code!</p>
+<p>This guide will cover:</p>
+<ul>
+<li><a href="#accessors-on-classes-prototypes-and-instances">Defining accessors on classes, prototypes and instances</a></li>
+<li><a href="#accessor-lookup-default-accessors">Default accessors and how to use them</a></li>
+<li><a href="#wrapping-accessors">Modifying accessors with <code>@wrapAccessor</code></a></li>
+<li><a href="#accessors-with-arguments">Accessors with arguments</a></li>
+<li><a href="#asynchronous-accessors">Asynchronous accessors</a></li>
+<li><a href="#caching">Accessor value caching</a></li>
+</ul>
+<p><h2  class="guide-heading" id="accessors-on-classes-prototypes-and-instances"><a href='#accessors-on-classes-prototypes-and-instances'>Accessors on Classes, Prototypes and Instances</a></h2>
+</p>
+<p>Any <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a> can have accessors. This includes: </p>
+<ul>
+<li><em>CoffeeScript classes</em> that extend <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a></li>
+<li><em>prototypes of classes</em> that extend <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a></li>
+<li><em>instances of classes</em> that extend <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a></li>
+</ul>
+<p><strong>Classes</strong> get accessors by <code>@classAccessor</code> in their definition. This is useful for a <a href="/docs/api/batman.app.html"><code>Batman.App</code></a> object. Since it&#39;s never instantiated, you should make accessors on the <em>class</em> rather than the prototype. For example: </p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">App</span> </span>
+  <span class="property">@classAccessor</span> <span class="string">'isCanvasSupported'</span>, -&gt;
+    elem = document.createElement(<span class="string">'canvas'</span>)
+    !!(elem.getContext <span class="keyword">and</span> elem.getContext(<span class="string">'2d'</span>))</code></pre>
+<p>In a class definition, <code>@</code> refers to the class. So you can also define class accessors by calling <code>classAccessor</code> on the class itself:</p>
+<pre><code class="lang-coffeescript">MyApp.classAccessor <span class="string">'isAdmin'</span>, -&gt; MyApp.User.get(<span class="string">'current.isAdmin'</span>)</code></pre>
+<p><strong>Prototypes</strong> get accessors by <code>@accessor</code> in their class definition:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Artist</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span> </span>
+  <span class="property">@accessor</span> <span class="string">"isProlific"</span>, -&gt;
+    <span class="property">@get</span>(<span class="string">'works.length'</span>) &gt; <span class="number">20</span></code></pre>
+<p>This also defines accessor <code>isProlific</code> on all instances of <code>Artist</code>.</p>
+<p>Since <code>@</code> refers to the class, you can also define prototype-level accessors by calling <code>accessor</code> on the class:</p>
+<pre><code class="lang-coffeescript">MyApp.Artist.accessor <span class="string">'hasHighlyValuedWorks'</span>, -&gt;
+  <span class="property">@get</span>(<span class="string">'works'</span>).some (work) -&gt; work.get(<span class="string">'price'</span>) &gt; Math.pow(<span class="number">10</span>, <span class="number">6</span>)</code></pre>
+<p><strong>Instances</strong> may also have accessors of their own by calling <code>accessor</code> on the instance. For example, to give <code>vanGogh</code> a <code>hasBothEars</code> accessor:</p>
+<pre><code class="lang-coffeescript">vanGogh = <span class="keyword">new</span> MyApp.Artist
+vanGogh.accessor <span class="string">'hasBothEars'</span>, -&gt; 
+    thisYear = (<span class="keyword">new</span> Date).getYear() + <span class="number">1900</span>
+    thisYear &lt; <span class="number">1889</span> <span class="comment"># he cut his ear off in 1888</span></code></pre>
+<p>Other instances of <code>Artist</code> won&#39;t have this accessor.</p>
+<p><h2  class="guide-heading" id="accessor-lookup-default-accessors"><a href='#accessor-lookup-default-accessors'>Accessor Lookup &amp; Default Accessors</a></h2>
+</p>
+<p>Consider a simple <code>get</code> call: </p>
+<pre><code class="lang-coffeescript">post.get(<span class="string">'title'</span>)</code></pre>
+<p>When you call <code>get</code>, batman.js looks up an accessor whose name matches the argument you passed.  First, it looks for a <em>defined accessor</em> by checking:</p>
+<pre><code>instance &gt; prototype &gt; superclass prototype chain</code></pre>
+<p>If it doesn&#39;t find a defined accessor, it uses the <em>default accessor</em> for this object. Because it&#39;s invoked whenever a specific accessor is not found, a default accessor like <code>method_missing</code> or <code>doesNotUnderstand</code>.</p>
+<p>You can define the default accessor for an object by calling its accessor function <em>without a label</em>. For example, to implement the default accessor of <code>Artist</code> to find a work with the provided name:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Artist</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Object</span></span>
+  <span class="property">@accessor</span> <span class="string">'name'</span>
+  <span class="property">@accessor</span> (key) -&gt;
+    <span class="property">@get</span>(<span class="string">'works.indexedByUnique.name'</span>).get(key)</code></pre>
+<pre><code class="lang-coffeescript">leonardoDaVinci.get(<span class="string">"name"</span>)                   <span class="comment"># uses "name" accessor</span>
+painting = leonardoDaVinci.get(<span class="string">"Last Supper"</span>) <span class="comment"># uses the default accessor</span></code></pre>
+<p><em>In this example, <code>Artist</code> extended <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>, not <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a>. This is because <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a> already has a default accessor which is used for storing model attributes!</em></p>
+<p><h2  class="guide-heading" id="wrapping-accessors"><a href='#wrapping-accessors'>Wrapping Accessors</a></h2>
+</p>
+<p>When you want to modify an existing accessor but not override it, you can use <code>@wrapAccessor</code>. For example, to extend the <code>name</code> accessor to upcase its value:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">UpcasedArtist</span> <span class="keyword">extends</span> <span class="title">MyApp</span>.<span class="title">Artist</span></span>
+  <span class="property">@wrapAccessor</span> <span class="string">'name'</span>, (core) -&gt;
+    get: (key) -&gt;
+        name = core.get.call(@, key)
+        name?.toUpperCase()</code></pre>
+<p>The <code>@wrapAccessor</code> callback is invoked with <code>core</code>, which is the accessor object for the existing accessor. It has <code>get</code> and <code>set</code> keys which you may use when defining your wrapper. You must call <code>core.get</code> or <code>core.set</code> if you want the original accessor function to be executed.</p>
+<p><h2  class="guide-heading" id="accessors-with-arguments"><a href='#accessors-with-arguments'>Accessors with Arguments</a></h2>
+</p>
+<p>When you need a source-tracked value computed from more than one object, an <em>accessor with arguments</em> is a good option. To define an accessor that takes an argument, use <a href="/docs/api/batman.terminalaccessible.html"><code>Batman.TerminalAccessible</code></a>. For example:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Gallery</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="property">@accessor</span> <span class="string">'hasWorksByArtist'</span>, -&gt;
+    <span class="keyword">new</span> Batman.TerminalAccessible (artist) =&gt; <span class="comment"># fat arrow!</span>
+      artistsInGallery = <span class="property">@get</span>(<span class="string">'works'</span>).mapToProperty(<span class="string">'artist'</span>)
+      artist <span class="keyword">in</span> artistsInGallery</code></pre>
+<p>Then, you can pass an argument to the accessor with <code>get</code>:</p>
+<pre><code class="lang-coffeescript">isabellaStewartGardnerMuseum.get(<span class="string">'hasWorksByArtist'</span>).get(rembrandt) <span class="comment"># =&gt; true</span>
+
+<span class="comment"># art theft! http://en.wikipedia.org/wiki/Isabella_Stewart_Gardner_Museum#Art_theft_of_1990</span>
+isabellaStewartGardnerMuseum.get(<span class="string">'works'</span>).remove(stormOnTheSeaOfGalilee) 
+
+isabellaStewartGardnerMuseum.get(<span class="string">'hasWorksByArtist'</span>).get(rembrandt) <span class="comment"># =&gt; false</span></code></pre>
+<p>Or in view bindings with <code>[...]</code>:</p>
+<pre><code class="lang-html">&lt;div data-showif=<span class="string">'museum.hasWorksByArtist[artist]'</span>&gt;
+  &lt;h1 data-bind=<span class="string">'artist.name'</span>&gt;&lt;/h1&gt;
+&lt;/div&gt;</code></pre>
+<p><h2  class="guide-heading" id="asynchronous-accessors"><a href='#asynchronous-accessors'>Asynchronous Accessors</a></h2>
+</p>
+<p>You can define &quot;promise accessors&quot; in batman.js. If an accessor object has a promise key, it is a promise accessor. The promise function will be called with a deliver function as its only argument, which it must call with (err, value) when its operation is complete. For example:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Painting</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="comment"># The estimated value API can be slow, let's fetch this value asynchronously</span>
+  <span class="property">@accessor</span> <span class="string">'estimatedValue'</span>, promise: (deliver) -&gt;
+    <span class="keyword">new</span> Batman.Request
+      url: <span class="string">"/<span class="subst">#{@get('name')}</span>/estimate"</span>
+      success: (data) -&gt;
+        deliver(<span class="literal">null</span>, data.estimate)
+      error: (err) -&gt;
+        deliver(err, <span class="literal">null</span>)
+    <span class="comment"># no early return value:</span>
+    <span class="keyword">return</span> <span class="literal">undefined</span></code></pre>
+<p>The promise accessor will fetch a value, then update accessors that depend on it. If the <code>promise</code> function returns something other than <code>undefined</code>, it is treated as an early, synchronous return.</p>
+<p><h2  class="guide-heading" id="caching"><a href='#caching'>Caching</a></h2>
+</p>
+<p>Batman.js caches the result of accessor functions and reuses the cached value until one of the accessor&#39;s dependencies changes. See <a href="/docs/batman_object.html#source-tracking">&quot;Source Tracking&quot; in the <code>Batman.Object</code> guide</a> for more information about accessors and dependencies. </p>
+<p>You can force an accessor to recalculate <em>every time</em> it is retrieved with <code>get</code> by passing <code>cache: false</code> to <code>@accessor</code>. For example:</p>
+<pre><code class="lang-coffeescript">  <span class="property">@accessor</span> <span class="string">'millisecondsSinceEpoch'</span>, 
+    get: -&gt; (<span class="keyword">new</span> Date).getTime()
+    cache: <span class="literal">false</span></code></pre>
+<p>This accessor will be calculated every time you <code>get(&quot;millisecondsSinceEpoch&quot;)</code>. It <em>won&#39;t</em> be a live-updating ticker because batman.js will <code>get</code> it when rendering the view, but then won&#39;t <code>get</code> it again.</p>
+

@@ -1,0 +1,46 @@
+---
+layout: docs
+title: Model Associations
+---
+
+<p>Model associations define relationships between models.</p>
+<p><h3  class="guide-heading" id="defining-associations"><a href='#defining-associations'>Defining Associations</a></h3>
+</p>
+<p>Associations are defined inside the model definition using <code>@belongsTo</code>, <code>@hasMany</code>, and <code>@hasOne</code>. Each association function takes:</p>
+<ul>
+<li>A label (string), which is used for the accessor name &amp; encoder name</li>
+<li>An options object, for configuring the association.</li>
+</ul>
+<p>For example, a deck of playing cards might be modeled like this:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Deck</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="property">@resourceName</span>: <span class="string">'deck'</span>
+  <span class="property">@encode</span> <span class="string">'brand'</span>
+  <span class="property">@hasMany</span> <span class="string">'cards'</span>, inverseOf: <span class="string">'deck'</span> <span class="comment"># will look for `deck_id` on cards</span>
+
+<span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Card</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="property">@resourceName</span>: <span class="string">'card'</span>
+  <span class="property">@encode</span> <span class="string">'suit'</span>, <span class="string">'rank'</span>, <span class="string">'deck_id'</span>
+  <span class="property">@belongsTo</span> <span class="string">'deck'</span>, inverseOf: <span class="string">'cards'</span> <span class="comment"># will match its `deck_id` to a deck's `id`</span>
+
+  <span class="property">@accessor</span> <span class="string">'fullName'</span>, -&gt; <span class="string">"<span class="subst">#{@get('rank')}</span> of <span class="subst">#{@get('suit')}</span>"</span>
+  <span class="property">@delegate</span> <span class="string">'brand'</span>, to: <span class="string">'deck'</span></code></pre>
+<p>Now, you can access the cards from their <code>Deck</code>:</p>
+<pre><code class="lang-coffeescript">deck.get(<span class="string">'cards'</span>)        <span class="comment"># =&gt; Batman.AssocationSet containing `Card`s</span>
+deck.get(<span class="string">'cards.length'</span>) <span class="comment"># =&gt; 52</span>
+deck.get(<span class="string">'cards'</span>).mapToProperty(<span class="string">'fullName'</span>)
+<span class="comment"># =&gt; ["Ace of Spades", "Queen of Hearts", ...]</span></code></pre>
+<p>Similarly, you can access a <code>Deck</code> from a <code>Card</code>:</p>
+<pre><code class="lang-coffeescript">aceOfSpades.get(<span class="string">'deck'</span>)         <span class="comment"># =&gt; a Deck instance (actually a BelongsToProxy)</span>
+aceOfSpades.get(<span class="string">'deck.brand'</span>)   <span class="comment"># =&gt; "Bicycle"</span>
+aceOfSpades.get(<span class="string">'brand'</span>)        <span class="comment"># =&gt; "Bicycle"</span></code></pre>
+<p>Associations are very configurable: see the <a href="/docs/api/batman.model_associations.html">Model Associations API docs</a> for more detail about association options.</p>
+<p><h3  class="guide-heading" id="asynchronicity-and-association-values"><a href='#asynchronicity-and-association-values'>Asynchronicity and Association Values</a></h3>
+</p>
+<p>In fact, association accessors return special objects:</p>
+<ul>
+<li><code>@hasMany</code> returns a <a href="/docs/api/batman.associationset.html"><code>Batman.AssociationSet</code></a>. It is a <a href="/docs/api/batman.set.html"><code>Batman.Set</code></a> tracking the <a href="/docs/api/batman.model.html#class_function_loaded">model&#39;s <code>loaded</code> set</a> for foreign key matches.</li>
+<li><code>@belongsTo</code> returns a <a href="/docs/api/batman.belongstoproxy.html"><code>Batman.BelongsToProxy</code></a>. All properties are delegated associated record. The original record is available at the proxy&#39;s <code>&quot;target&quot;</code> accessor.</li>
+</ul>
+<p>Using these special objects allows batman.js to account for asynchronous loading. For example, a <a href="/docs/api/batman.associationset.html"><code>Batman.AssociationSet</code></a> may be rendered in a <a href="/docs/api/batman.view.html"><code>Batman.View</code></a> even before its records are loaded. When the records are loaded, the view will be updated automatically. <a href="/docs/api/batman.belongstoproxy.html"><code>Batman.BelongsToProxy</code></a> provides the same functionality.</p>
+<p>To avoid asynchronous loading, use the <code>saveInline</code> option on your association.</p>
+

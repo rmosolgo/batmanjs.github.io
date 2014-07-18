@@ -1,136 +1,116 @@
 ---
 layout: docs
-title: Models
-prev_section: controllers
-next_section: bindings
+title: Model Basics
 ---
 
-<p><a href="/docs/api/batman.model.html"><code>Batman.Model</code></a> is responsible for representing data in your application and
-providing a fluid interface for communicating with your backend app.</p>
-<p><em>Note</em>: This documentation uses the term <em>model</em> to refer to the class <code>Model</code>
-or a <code>Model</code> subclass, and the term <em>record</em> to refer to one instance of a
-model.</p>
+<p><a href="/docs/api/batman.model.html"><code>Batman.Model</code></a> represents data in your application and
+provides an interface for communicating with your storage (eg, JSON API).</p>
+<p><em>Note</em>: In batman.js, the term <em>model</em> refers to the model class and the term <em>record</em> refers to one instance of a model.</p>
 <p><h2  class="guide-heading" id="defining-a-model"><a href='#defining-a-model'>Defining a Model</a></h2>
 </p>
-<p>Models are defined by creating subclasses of <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a>. All the features described below will be inherited by
-subclasses, so you can extend your own models too.</p>
-<ul>
-<li><em>Everything from <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>:</em> <a href="/docs/api/batman.object_accessors.html">accessors</a>, <a href="/docs/api/batman.eventemitter.html">events</a>, and <a href="/docs/api/batman.observable.html">observers</a></li>
-<li><em>Persistence</em> with encoders and storage adapters</li>
-<li><em>Validations</em> for standardizing data</li>
-<li><em>Associations</em> for linking records together.</li>
-</ul>
-<p>Since <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a>s are also <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>s, expect to use <a href="/docs/api/batman.object_accessors.html"><code>@accessor</code></a> to define many of your model attributes.</p>
-<p><h2  class="guide-heading" id="persistence"><a href='#persistence'>Persistence</a></h2>
-</p>
-<p>Persistence responsibilities are divided between:</p>
-<ul>
-<li><a href="/docs/api/batman.model.html"><code>Batman.Model</code></a> encoders, which define serialization of model attributes</li>
-<li>Storage adapters, which perform storage operations with serialized data.</li>
-</ul>
-<p><h3  class="guide-heading" id="encoders"><a href='#encoders'>Encoders</a></h3>
-</p>
-<p>Persisted model attributes are defined with <em>encoders</em>. These are directives that tell
-batman.js to load certain keys from serialized data.</p>
-<p>To encode and decode an attribute without transformation, pass one or more attribute names to <code>@encode</code>:</p>
-<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Product</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
-  <span class="property">@encode</span> <span class="string">'title'</span>, <span class="string">'description'</span>, <span class="string">'price'</span>
+<p>Models are defined by extending  <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a>. All the features described below will be inherited by subclasses, so you can extend your own models too. </p>
+<p>In fact, you may want to define a base model class for your application:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Model</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span></code></pre>
+<p>Then extend the base class for your models:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Post</span> <span class="keyword">extends</span> <span class="title">MyApp</span>.<span class="title">Model</span> </span>
+  resourceName: <span class="string">'post'</span>
+  <span class="property">@persist</span> Batman.RestStorage
+  <span class="property">@encode</span> <span class="string">'title'</span>, <span class="string">'content'</span>
 
-<span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Subscription</span> <span class="keyword">extends</span> <span class="title">MyApp</span>.<span class="title">Product</span></span>
-  <span class="comment"># Subscription inherits all encoders from MyApp.Product</span>
-  <span class="property">@encode</span> <span class="string">'period'</span></code></pre>
-<p>You can also define functions for encoding and decoding values by passing functions along with the attribute name(s):</p>
-<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Product</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
-  <span class="property">@encode</span> <span class="string">'price'</span>,
-    encode: (value, key, outgoingJSON, record) -&gt;
-      <span class="comment"># adds values from `record` to `outgoingJSON`</span>
-    decode: (value, key, incomingJSON, outgoingAttributes, record) -&gt;
-      <span class="comment"># takes values from `incomingJSON` and adds them to `outgoingAttributes`,</span>
-      <span class="comment"># so they can be mixed into the record</span></code></pre>
-<p>See the <a href="/docs/api/batman.model.html#class_function_encode"><code>Model.encode</code> API docs</a> for more information about custom encoders.</p>
-<p>Also, model associations (<code>@belongsTo</code>, <code>@hasMany</code>, etc) define their own encoders.</p>
-<p><h3  class="guide-heading" id="storage-adapters"><a href='#storage-adapters'>Storage Adapters</a></h3>
-</p>
-<p>Storage adapters (subclasses of <a href="/docs/api/batman.storageadapter.html"><code>Batman.StorageAdapter</code></a>) handle persistence operations: <code>create</code>, <code>read</code>, <code>update</code>, <code>destroy</code> and <code>readAll</code>.
-You never call these functions directly, but <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a> depends on them to save, load and destroy data.</p>
-<p>Batman.js ships with a few storage adapters you can use right away:</p>
-<ol>
-<li><a href="/docs/api/batman.localstorage.html"><code>Batman.LocalStorage</code></a> for storing data in <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage#localStorage">local storage</a>, if available.</li>
-<li><a href="/docs/api/batman.sessionstorage.html"><code>Batman.SessionStorage</code></a> for storing data in <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage#sessionStorage">session storage</a>, if available.</li>
-<li><a href="/docs/api/batman.reststorage.html"><code>Batman.RestStorage</code></a> for using RESTful HTTP (GET, POST, PUT, and DELETE) to store data in a backend app.</li>
-<li><a href="/docs/api/batman.railsstorage.html"><code>Batman.RailsStorage</code></a> which extends <a href="/docs/api/batman.reststorage.html"><code>Batman.RestStorage</code></a> with some handy Rails-specific functionality like parsing out validation errors.</li>
-</ol>
-<p>Use a storage adaper by passing to <code>@persist</code> in a model definition:</p>
-<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Product</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
-  <span class="property">@persist</span> Batman.RestStorage</code></pre>
-<p>You can also extend any of the built-in storage adapters to:</p>
+  <span class="property">@accessor</span> <span class="string">'minutesRequired'</span>, -&gt; 
+    words = <span class="property">@get</span>(<span class="string">'content'</span>).split(<span class="string">" "</span>).length
+    Math.round(words / <span class="number">200</span>)</code></pre>
+<p>In your model definitions, you can declare:</p>
 <ul>
-<li>modify incoming and outgoing JSON</li>
-<li>include HTTP headers in requests</li>
+<li><a href="/docs/batman_object.html"><em>Everything from <code>Batman.Object</code></em></a>: accessors, observers, and events</li>
+<li><a href="/docs/persistence.html"><em>Persistence</em></a> with encoders and storage adapters</li>
+<li><a href="/docs/validations.html"><em>Validations</em></a> for standardizing data</li>
+<li><a href="/docs/model_associations.html"><em>Associations</em></a> for linking records together</li>
 </ul>
-<p>See the <a href="/docs/api/batman.storageadapter.html"><code>Batman.StorageAdapter</code> API docs</a> for more info.</p>
-<p><h2  class="guide-heading" id="validations"><a href='#validations'>Validations</a></h2>
+<p>Since <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a>s are also <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>s, expect to use <a href="/docs/batman_object.html#-accessor"><code>@accessor</code></a> to define many of your model attributes.</p>
+<p><h2  class="guide-heading" id="creating-records"><a href='#creating-records'>Creating Records</a></h2>
 </p>
-<p>You can define validations for you models with <code>@validate</code>. Remember, client-side validation should <em>always</em> be mirrored by server-side validation.</p>
-<p>Here are a few example validations:</p>
-<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Product</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
-  <span class="property">@validate</span> <span class="string">'price'</span>, numeric: <span class="literal">true</span>, presence: <span class="literal">true</span>
-  <span class="property">@validate</span> <span class="string">'owner_email'</span>, email: <span class="literal">true</span>
-  <span class="property">@validate</span> <span class="string">'itemsRemaining'</span>, greaterThan: <span class="number">0</span>, <span class="keyword">unless</span>: <span class="string">"isDiscontinued"</span></code></pre>
-<p>See the <a href="/docs/api/batman.model.html#class_function_validate"><code>Model.validate</code> docs</a> for a full list of included validation options.</p>
-<p>You can also define <a href="/docs/api/batman.validator.html">custom validator classes</a>.</p>
-<p><h2  class="guide-heading" id="associations"><a href='#associations'>Associations</a></h2>
-</p>
-<p>Model associations define relationships between models.</p>
-<p><h3  class="guide-heading" id="defining-associations"><a href='#defining-associations'>Defining Associations</a></h3>
-</p>
-<p>Associations are defined inside the model definition using <code>@belongsTo</code>, <code>@hasMany</code>, and <code>@hasOne</code>. Each association function takes:</p>
+<p>There are two ways to create new records. You can use the <strong>constructor</strong>, which sets values according to any accessors you define. For example: </p>
+<pre><code class="lang-coffeescript">post = <span class="keyword">new</span> MyApp.Post(title: <span class="string">"It's a wonderful day."</span>)
+post.get(<span class="string">'title'</span>) <span class="comment"># =&gt; "It's a wonderful day"</span></code></pre>
+<p>This is a common way to create records.</p>
+<p>You can also use <code>Model.createFromJSON</code>.  <code>createFromJSON</code> differs in two ways:</p>
 <ul>
-<li>A label (string), which is used for the accessor name &amp; encoder name</li>
-<li>An options object, for configuring the association.</li>
+<li>It uses any defined <a href="/docs/persistence.html#encoders">encoders</a> when creating the record.</li>
+<li>If you pass a primary key to <code>createFromJSON</code> <em>and</em> a matching record is already loaded in memory, the matching record will be updated and returned. </li>
 </ul>
-<p>For example, a deck of playing cards might be modeled like this:</p>
-<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Deck</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
-  <span class="property">@resourceName</span>: <span class="string">'deck'</span>
-  <span class="property">@encode</span> <span class="string">'brand'</span>
-  <span class="property">@hasMany</span> <span class="string">'cards'</span>, inverseOf: <span class="string">'deck'</span> <span class="comment"># will look for `deck_id` on cards</span>
-
-<span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Card</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
-  <span class="property">@resourceName</span>: <span class="string">'card'</span>
-  <span class="property">@encode</span> <span class="string">'suit'</span>, <span class="string">'rank'</span>, <span class="string">'deck_id'</span>
-  <span class="property">@belongsTo</span> <span class="string">'deck'</span>, inverseOf: <span class="string">'cards'</span> <span class="comment"># will match its `deck_id` to a deck's `id`</span>
-
-  <span class="property">@accessor</span> <span class="string">'fullName'</span>, -&gt; <span class="string">"<span class="subst">#{@get('rank')}</span> of <span class="subst">#{@get('suit')}</span>"</span>
-  <span class="property">@delegate</span> <span class="string">'brand'</span>, to: <span class="string">'deck'</span></code></pre>
-<p>Now, you can access the cards from their <code>Deck</code>:</p>
-<pre><code class="lang-coffeescript">deck.get(<span class="string">'cards'</span>)        <span class="comment"># =&gt; Batman.AssocationSet containing `Card`s</span>
-deck.get(<span class="string">'cards.length'</span>) <span class="comment"># =&gt; 52</span>
-deck.get(<span class="string">'cards'</span>).mapToProperty(<span class="string">'fullName'</span>)
-<span class="comment"># =&gt; ["Ace of Spades", "Queen of Hearts", ...]</span></code></pre>
-<p>Similarly, you can access a <code>Deck</code> from a <code>Card</code>:</p>
-<pre><code class="lang-coffeescript">aceOfSpades.get(<span class="string">'deck'</span>)         <span class="comment"># =&gt; a Deck instance (actually a BelongsToProxy)</span>
-aceOfSpades.get(<span class="string">'deck.brand'</span>)   <span class="comment"># =&gt; "Bicycle"</span>
-aceOfSpades.get(<span class="string">'brand'</span>)        <span class="comment"># =&gt; "Bicycle"</span></code></pre>
-<p>Associations are very configurable: see the <a href="/docs/api/batman.model_associations.html">Model Associations API docs</a> for more detail about association options.</p>
-<p><h3  class="guide-heading" id="asynchronicity-and-association-values"><a href='#asynchronicity-and-association-values'>Asynchronicity and Association Values</a></h3>
+<p>Using <code>createFromJSON</code> won&#39;t duplicate records with the same primary key. For example, let&#39;s load a <code>Post</code> into memory:</p>
+<pre><code class="lang-coffeescript">MyApp.Post.find <span class="number">1</span>, (err, post) -&gt;
+  post.get(<span class="string">'title'</span>) <span class="comment"># =&gt; "It's a miserable day"</span></code></pre>
+<p>Then use <code>createFromJSON</code> to update it (since we know it&#39;s already in memory)</p>
+<pre><code class="lang-coffeescript">  updatedPost = MyApp.Post.createFromJSON(id: <span class="number">1</span>, title: <span class="string">"It's a great day"</span>)</code></pre>
+<p><code>createFromJSON</code> returns the <em>same instance</em> of <code>Post</code>:</p>
+<pre><code class="lang-coffeescript">post <span class="keyword">is</span> updatedPost <span class="comment"># =&gt; true</span></code></pre>
+<p>and that instance has been updated:</p>
+<pre><code class="lang-coffeescript">post.get(<span class="string">'title'</span>) <span class="comment"># =&gt; "It's a great day"</span></code></pre>
+<p>The model&#39;s constructor function is often the right choice for creating records, but <code>createFromJSON</code> (and its counterpart, <code>createMultipleFromJSON</code>) can be helpful when loading data from JSON.</p>
+<p><h2  class="guide-heading" id="loading-records"><a href='#loading-records'>Loading Records</a></h2>
 </p>
-<p>In fact, association accessors return special objects:</p>
+<p>When your model has a <a href="/docs/persistence.html#storage-adapters">storage adapter</a>, you can load records from storage. <code>Model.load</code> loads <em>all</em> records from storage: </p>
+<pre><code class="lang-coffeescript">MyApp.Post.load (err, records) -&gt; 
+    <span class="comment"># `err` is any error that may have occured, or `null`</span>
+    <span class="comment"># `records` is an array of records</span></code></pre>
+<p><code>Model.load</code> also accepts options. You can use these options to filter the records that are loaded. For example:</p>
+<pre><code class="lang-coffeescript">MyApp.Post.load {user_id: <span class="number">5</span>}, (err, record) -&gt;</code></pre>
+<p>The option <code>user_id: 5</code> will be passed to the <a href="/docs/persistence#storage-adapters">storage adapter</a>. Then, you can implement the filtering on your backend (eg, JSON API).</p>
+<p>You can find a <strong>single record</strong> by primary key with <code>Model.find</code>: </p>
+<pre><code class="lang-coffeescript">MyApp.Post.find <span class="number">1</span>, (err, record) -&gt;</code></pre>
+<p>Any records that are <em>already loaded in memory</em> can be found in the model&#39;s <strong>loaded set</strong>. <code>Model.get(&quot;loaded&quot;)</code> returns a <a href="/docs/api/batman.set.html"><code>Batman.Set</code></a> containing all loaded instances of that model. For example:</p>
+<pre><code class="lang-coffeescript">MyApp.Post.get(<span class="string">'loaded'</span>) <span class="comment"># =&gt; returns a Batman.Set containing records</span></code></pre>
+<p><code>Model.get(&quot;all&quot;)</code> combines the techniques shown above. When you access <code>Model.all</code>, you will:</p>
 <ul>
-<li><code>@hasMany</code> returns a <a href="/docs/api/batman.associationset.html"><code>Batman.AssociationSet</code></a>. It is a <a href="/docs/api/batman.set.html"><code>Batman.Set</code></a> tracking the <a href="/docs/api/batman.model.html#class_function_loaded">model&#39;s <code>loaded</code> set</a> for foreign key matches.</li>
-<li><code>@belongsTo</code> returns a <a href="/docs/api/batman.belongstoproxy.html"><code>Batman.BelongsToProxy</code></a>. All properties are delegated associated record. The original record is available at the proxy&#39;s <code>&quot;target&quot;</code> accessor.</li>
+<li>Trigger a <code>Model.load</code> if this is the <em>first time</em> <code>&quot;all&quot;</code> has been accessed</li>
+<li>Return the loaded set.</li>
 </ul>
-<p>Using these special objects allows batman.js to account for asynchronous loading. For example, a <a href="/docs/api/batman.associationset.html"><code>Batman.AssociationSet</code></a> may be rendered in a <a href="/docs/api/batman.view.html"><code>Batman.View</code></a> even before its records are loaded. When the records are loaded, the view will be updated automatically. <a href="/docs/api/batman.belongstoproxy.html"><code>Batman.BelongsToProxy</code></a> provides the same functionality.</p>
-<p>To avoid asynchronous loading, use the <code>saveInline</code> option on your association.</p>
-<p><h2  class="guide-heading" id="the-identity-map"><a href='#the-identity-map'>The Identity Map</a></h2>
+<p><code>Model.all</code> is great for view bindings because it will trigger a load, then, when the records are loaded, the view will be updated. For example:</p>
+<pre><code class="lang-html">&lt;ul&gt;
+  &lt;li data-foreach-post=<span class="string">'Post.all'</span> data-bind=<span class="string">'post.title'</span>&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>You can clear the loaded set with <code>Model.clear()</code>.</p>
+<p><h2  class="guide-heading" id="saving-records"><a href='#saving-records'>Saving Records</a></h2>
 </p>
-<p>batman.js uses an identity map for fetching and storing records, which is
-essentially an in-memory cache of model instances. If you use <code>Model.find</code>
-twice to fetch a record with the same ID, you&#39;ll get back the same (<code>===</code>)
-instance both times, which means a backend record is only ever represented by a
-single client-side record. This is useful for ensuring any state the instance
-might have is preserved for every piece of code asking for it, and bindings to
-the instance are kept synchronized when any piece of code updates the model.</p>
-<p>Practically, the identity map is an implementation detail on the framework&#39;s
-side that developers shouldn&#39;t need to interact with directly, but knowing you
-have &quot;one true instance&quot; is helpful when reasoning about an application.</p>
+<p>When your model has a <a href="/docs/persistence.html#storage-adapters">storage adapter</a>, you can save records in storage.</p>
+<p>You can save any record by calling <code>save</code>.  When you call <code>save</code>, the record will also be <a href="/docs/validations.html">validated</a>. For example:</p>
+<pre><code class="lang-coffeescript">post = <span class="keyword">new</span> MyApp.Post(title: <span class="string">"What I've Been Thinking about Lately"</span>)
+post.save (err, record) -&gt;</code></pre>
+<p>In this callback, <code>err</code> may be:</p>
+<ul>
+<li>A <a href="/docs/api/batman.errorsset.html"><code>Batman.ErrorsSet</code></a>, if there were any validation errors</li>
+<li>A <a href="/docs/api/batman.storageadapter.html"><code>Batman.StorageAdapter</code></a> error, if there was an error in the storage operation</li>
+<li><code>null</code>, if there was no error. </li>
+</ul>
+<p>If <code>err</code> isn&#39;t null, that means that the save was not completed. You should write handlers that allow the user to fix any validation errors that occured!</p>
+<p><h2  class="guide-heading" id="destroying-records"><a href='#destroying-records'>Destroying Records</a></h2>
+</p>
+<p>When your model has a <a href="/docs/persistence.html#storage-adapters">storage adapter</a>, you can destroy records in storage.</p>
+<p>If a record has been saved, you can destroy it by calling <code>destroy</code>. For example:</p>
+<pre><code class="lang-coffeescript">post.destroy (err, record) -&gt;
+  <span class="comment"># `err` is a storage error, if there was one (eg, UnauthorizedError)</span>
+  <span class="comment"># `record` is the now-destroyed record</span></code></pre>
+<p>You can&#39;t destroy records that haven&#39;t been saved yet. To check if a record has been saved, use <code>record.get(&quot;isNew&quot;)</code>.</p>
+<p><h2  class="guide-heading" id="naming-conventions-in-batman-model"><a href='#naming-conventions-in-batman-model'>Naming Conventions in Batman.Model</a></h2>
+</p>
+<ul>
+<li><code>id</code> magic accessor</li>
+<li>resourceName as singularized, underscored model name</li>
+<li>{resourceName}_id as foreign keys</li>
+</ul>
+<p><h2  class="guide-heading" id="loaded-records-object-identity"><a href='#loaded-records-object-identity'>Loaded Records &amp; Object Identity</a></h2>
+</p>
+<p>Batman.js assumes that records with the same primary key will <em>always</em> be the same object. This means that even if you call <code>Model.find</code> twice, you&#39;ll get the same instance:</p>
+<pre><code class="lang-coffeescript">Post.find <span class="number">1</span>, (err, firstPost) -&gt;
+  Post.find <span class="number">1</span>, (err, secondPost) -&gt;
+    <span class="comment"># firstPost and secondPost are references to the same object</span>
+    firstPost === secondPost <span class="comment"># =&gt; true</span></code></pre>
+<p>You can also test the identity of <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>s by accessing <code>_batmanID</code>: </p>
+<pre><code class="lang-coffeescript">firstPost.get(<span class="string">"_batmanID"</span>) <span class="keyword">is</span> secondPost.get(<span class="string">"_batmanID"</span>) <span class="comment"># =&gt; true</span></code></pre>
+<p>This way, you&#39;ll know you always have the &quot;one true instance&quot; of a record. </p>
+<p>These &quot;true instances&quot; are kept in a model&#39;s <strong>loaded set</strong>, which is a <a href="/docs/api/batman.set.html"><code>Batman.Set</code></a> accessible as <code>Model.loaded</code>:</p>
+<pre><code class="lang-coffeescript">MyApp.Post.get(<span class="string">'loaded'</span>) <span class="comment"># =&gt; &lt;# Batman.Set #&gt;</span></code></pre>
+<p>This <a href="/docs/api/batman.set.html"><code>Batman.Set</code></a> is sometimes called the <em>identity map</em>, since it&#39;s used by batman.js to map JSON records to in-memory objects. The identity map is an implementation detail of batman.js, but it may still be helpful to understand it when reasoning about your application.</p>
 

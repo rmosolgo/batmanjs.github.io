@@ -46,7 +46,7 @@ class SimpleTest extends Batman.TestCase
 
 `assertEqual(expected, actual, [msg])`: Ensures that `expected` is [deepEqual](http://api.qunitjs.com/deepEqual) to `actual`
 
-`assetNotEqual(expected, actual, [msg])`: Ensures that `expected` is [notDeepEqual] (http://api.qunitjs.com/notDeepEqual) to `actual`
+`assetNotEqual(expected, actual, [msg])`: Ensures that `expected` is [notDeepEqual](http://api.qunitjs.com/notDeepEqual) to `actual`
 
 `assertMatch(expected, actual, [msg])`: Ensures that `expected:Regex` matches `actual:String`.
 

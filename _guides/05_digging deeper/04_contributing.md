@@ -2,18 +2,30 @@
 
 Thanks for your interest in contributing to batman.js! There are several ways you can help.
 
-## Share Your Experience 
+## Be Part of the Community
 
-We welcome your stories of success (or otherwise) with batman.js. You can share your experience by: 
+Join the conversation about batman.js! You can participate by:
 
+- Opening a bug report or feature request as a [Github issue](https://github.com/batmanjs/batman/issues)
+- Striking up a conversation in our IRC channel at `#batmanjs` on chat.freenode.net
 - Mentioning [@batmanjs](https://twitter.com/batmanjs) on Twitter
 - Starting a thread on the [google group](https://groups.google.com/forum/#!forum/batmanjs)
-- Striking up a conversation in our IRC channel at `#batmanjs` on chat.freenode.net
-- Opening an issue on [the Github repo](https://github.com/batmanjs/batman)
+- Participating in conversations on [the Github repo](https://github.com/batmanjs/batman)
 
-## Guides
+## Contribute to the Codebase
 
-To improve the guides, make a pull request to this website's source code, [`batmanjs/batmanjs.github.io`](https://github.com/batmanjs/batmanjs.github.io). 
+There are several ways to contribute to the batman.js source code:
+
+- Review [outstanding pull requests](https://github.com/batmanjs/batman/pulls)
+- Triage [open issues](https://github.com/batmanjs/batman/issues?state=open)
+- Solve _your problems_ by making a pull request 
+- Solve _other people's problems_ by making a pull request
+
+The best way to become a contributor is to start contributing! The batman.js repo ([`batmanjs/batman`](https://github.com/batmanjs/batman)) has instructions for working with the batman.js source. 
+
+## Improve the Guides
+
+To improve the guides, make a pull request to this website's source code, [`batmanjs/batmanjs.github.io`](https://github.com/batmanjs/batmanjs.github.io).
 
 To edit the guides: 
 
@@ -42,7 +54,7 @@ To edit the guides:
 
 - Refresh the local guide page. You should see your changes!
 
-## API Docs
+## Improve the API Docs
 
 The API docs are kept in the batman.js repo, [`batmanjs/batman`](https://github.com/batmanjs/batman). There's also [a documentation readme](https://github.com/batmanjs/batman/blob/master/docs/README.md) with instructions about how the docs are parsed for presentation.
 
@@ -56,9 +68,5 @@ $ jekyll serve
 ```
 
 Now, your local batman.js website will have updated API docs!
-
-## Code
-
-The batman.js repo ([`batmanjs/batman`](https://github.com/batmanjs/batman)) has instructions for contributing to the batman.js source. If there's something you've found useful, please share it with us! 
 
 

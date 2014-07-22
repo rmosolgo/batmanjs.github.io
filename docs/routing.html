@@ -5,7 +5,7 @@ title: Routing
 
 <p>Routes bind URLs to <a href="/docs/controllers.html#controller-actions">controller actions</a>.</p>
 <p>Routes are declared in your app definition. You can declare <a href="#single-routes">single routes</a> with <code>@route</code> or declare <a href="#resource-routing">resource routes</a> with <code>@resources</code> (inspired by <a href="http://guides.rubyonrails.org/routing.html#resource-routing-the-rails-default">Rails routing</a>).</p>
-<p>In your HTML, you can access routes <a href="#named-routes">by name</a> with <a href="/docs/api/batman.view_bindings.html#data-route"><code>data-route</code></a> bindings. </p>
+<p>In your HTML, you can access routes <a href="#named-routes">by name</a> with <a href="/docs/api/batman.view_bindings.html#data-route"><code>data-route</code></a> bindings. In application code, you can <a href="#redirecting">redirect with <code>Batman.redirect</code></a>.  </p>
 <p>Batman.js also provides access to <a href="#route-params">route params</a>.</p>
 <p><h2  class="guide-heading" id="single-routes"><a href='#single-routes'>Single Routes</a></h2>
 </p>
@@ -145,4 +145,21 @@ title: Routing
 <pre><code class="lang-coffeescript">MyApp.get(<span class="string">'currentParams.url'</span>).update(action: show, id: <span class="number">6</span>)  <span class="comment"># /items/6</span>
 MyApp.get(<span class="string">'currentParams.url'</span>).update(page: <span class="number">5</span>)              <span class="comment"># /items/page/5</span></code></pre>
 <p><a href="/docs/controllers.html#controller-actions">Controller actions</a> are also called with a <code>params</code> argument. This argument is a plain JavaScript object which contains named params, <code>controller</code>, <code>action</code> and <code>target</code> (which refers to the controller instance).  </p>
+<p><h2  class="guide-heading" id="redirecting"><a href='#redirecting'>Redirecting</a></h2>
+</p>
+<p>In application code, you can navigate to a route with <code>Batman.redirect</code> (or <code>@redirect</code> in a controller action). There are three ways to redirect:</p>
+<ul>
+<li><p>You can redirect to a <strong>literal path</strong> by passing it to <code>Batman.redirect</code>:</p>
+<pre><code class="lang-coffeescript">Batman.redirect(<span class="string">"/posts/new"</span>)</code></pre>
+<p>If <code>Batman.config.pathToApp</code> is present, it will be added to the path. </p>
+</li>
+<li><p>You can pass a <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a> class or instance. Batman.js will create a resourceful route for the given object. For example: </p>
+<pre><code class="lang-coffeescript">Batman.redirect(MyApp.Post) <span class="comment"># =&gt; will redirect to posts#index</span>
+Batman.redirect(somePost)   <span class="comment"># =&gt; will redirect to posts#show</span></code></pre>
+</li>
+<li><p>You can also use <strong>redirect params</strong> to navigate to a controller action. Batman.js will build a route from the provided parameters. For example: </p>
+<pre><code class="lang-coffeescript">Batman.Redirect(controller: <span class="string">"posts"</span>, action: <span class="string">"edit"</span>, id: <span class="number">6</span>)</code></pre>
+</li>
+</ul>
+<p>See API documentation for <a href="/docs/api/batman.html#class_function_redirect"><code>Batman.redirect</code></a> for more information.</p>
 

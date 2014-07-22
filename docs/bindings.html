@@ -9,6 +9,7 @@ title: View Bindings
 &lt;p data-bind=<span class="string">'post.body'</span>&gt;&lt;/p&gt;</code></pre>
 <p>When <code>posts#show</code> is rendered with a post, the HTML will be bound to that post.</p>
 <p>See the <a href="/docs/api/batman.view_bindings.html"><code>Batman.View Bindings</code> API documentation</a> for a full list of available bindings and information about defining custom bindings.</p>
+<p><em>Note: some browsers downcase HTML attributes, so you should always use lowercase names in &quot;double-dash&quot; bindings. For example, use <a href="/docs/api/batman.view_bindings.html#data-foreach"><code>data-foreach-blogpost</code></a> instead of <a href="/docs/api/batman.view_bindings.html#data-foreach"><code>data-foreach-blogPost</code></a>. See the <a href="https://github.com/batmanjs/batman/issues/957">github issue</a> for more information.</em></p>
 <p><h2  class="guide-heading" id="binding-synchronization"><a href='#binding-synchronization'>Binding Synchronization</a></h2>
 </p>
 <p>Bindings are automatically updated by batman.js. They observe their DOM node <em>and</em> their <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>s for changes, maintaining synchronization between the two. For example, in a <a href="/docs/api/batman.view_bindings.html#data-foreach"><code>data-foreach</code></a> binding, the DOM will be automatically updated when an item is added to the collection:</p>

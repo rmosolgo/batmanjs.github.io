@@ -11,6 +11,8 @@ Controller actions are functions that:
 - __prepare data to display__ by interacting with the app's models.
 - __render views__, either implicitly or explicitly.
 
+(Controller actions may also [redirect](/docs/routing.html#redirecting).)
+
 Controller actions may be bound _by name_ to URLs. The controller action name is determined by:
 
 - Downcasing the first letter of the class name

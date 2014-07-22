@@ -12,6 +12,7 @@ When `posts#show` is rendered with a post, the HTML will be bound to that post.
 
 See the [`Batman.View Bindings` API documentation](/docs/api/batman.view_bindings.html) for a full list of available bindings and information about defining custom bindings.
 
+_Note: some browsers downcase HTML attributes, so you should always use lowercase names in "double-dash" bindings. For example, use `data-foreach-blogpost` instead of `data-foreach-blogPost`. See the [github issue](https://github.com/batmanjs/batman/issues/957) for more information._
 
 ## Binding Synchronization 
 

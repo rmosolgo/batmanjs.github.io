@@ -1,0 +1,52 @@
+---
+layout: docs
+title: Model Persistence
+---
+
+<p>Persistence responsibilities are divided between:</p>
+<ul>
+<li><a href="/docs/api/batman.model.html"><code>Batman.Model</code></a> encoders, which define serialization of model attributes</li>
+<li>Storage adapters, which perform storage operations with serialized data.</li>
+</ul>
+<p><h2  class="guide-heading" id="encoders"><a href='#encoders'>Encoders</a></h2>
+</p>
+<p>Persisted model attributes are defined with <em>encoders</em>. These are directives that tell
+batman.js to load certain keys from serialized data.</p>
+<p>To encode and decode an attribute without transformation, pass one or more attribute names to <code>@encode</code>:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Product</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="property">@encode</span> <span class="string">'title'</span>, <span class="string">'description'</span>, <span class="string">'price'</span>
+
+<span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Subscription</span> <span class="keyword">extends</span> <span class="title">MyApp</span>.<span class="title">Product</span></span>
+  <span class="comment"># Subscription inherits all encoders from MyApp.Product</span>
+  <span class="property">@encode</span> <span class="string">'period'</span></code></pre>
+<p>You can also define functions for encoding and decoding values by passing functions along with the attribute name(s):</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Product</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="property">@encode</span> <span class="string">'price'</span>,
+    encode: (value, key, outgoingJSON, record) -&gt;
+      <span class="comment"># adds values from `record` to `outgoingJSON`</span>
+    decode: (value, key, incomingJSON, outgoingAttributes, record) -&gt;
+      <span class="comment"># takes values from `incomingJSON` and adds them to `outgoingAttributes`,</span>
+      <span class="comment"># so they can be mixed into the record</span></code></pre>
+<p>See the <a href="/docs/api/batman.model.html#class_function_encode"><code>Model.encode</code> API docs</a> for more information about custom encoders.</p>
+<p>Also, model associations (<code>@belongsTo</code>, <code>@hasMany</code>, etc) define their own encoders.</p>
+<p><h2  class="guide-heading" id="storage-adapters"><a href='#storage-adapters'>Storage Adapters</a></h2>
+</p>
+<p>Storage adapters (subclasses of <a href="/docs/api/batman.storageadapter.html"><code>Batman.StorageAdapter</code></a>) handle persistence operations: <code>create</code>, <code>read</code>, <code>update</code>, <code>destroy</code> and <code>readAll</code>.
+You never call these functions directly, but <a href="/docs/api/batman.model.html"><code>Batman.Model</code></a> depends on them to save, load and destroy data.</p>
+<p>Batman.js ships with a few storage adapters you can use right away:</p>
+<ol>
+<li><a href="/docs/api/batman.localstorage.html"><code>Batman.LocalStorage</code></a> for storing data in <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage#localStorage">local storage</a>, if available.</li>
+<li><a href="/docs/api/batman.sessionstorage.html"><code>Batman.SessionStorage</code></a> for storing data in <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage#sessionStorage">session storage</a>, if available.</li>
+<li><a href="/docs/api/batman.reststorage.html"><code>Batman.RestStorage</code></a> for using RESTful HTTP (GET, POST, PUT, and DELETE) to store data in a backend app.</li>
+<li><a href="/docs/api/batman.railsstorage.html"><code>Batman.RailsStorage</code></a> which extends <a href="/docs/api/batman.reststorage.html"><code>Batman.RestStorage</code></a> with some handy Rails-specific functionality like parsing out validation errors.</li>
+</ol>
+<p>Use a storage adaper by passing to <code>@persist</code> in a model definition:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Product</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="property">@persist</span> Batman.RestStorage</code></pre>
+<p>You can also extend any of the built-in storage adapters to:</p>
+<ul>
+<li>modify incoming and outgoing JSON</li>
+<li>include HTTP headers in requests</li>
+</ul>
+<p>See the <a href="/docs/api/batman.storageadapter.html"><code>Batman.StorageAdapter</code> API docs</a> for more info.</p>
+

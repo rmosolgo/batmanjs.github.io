@@ -1,0 +1,180 @@
+---
+layout: docs
+title: Model Validations
+---
+
+<p>Model validations create requirements that must be met before a record is saved. For example, we can require the presence of <code>title</code>:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">Post</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span> </span>
+  <span class="property">@validate</span> <span class="string">'title'</span>, presence: <span class="literal">true</span></code></pre>
+<p>If you try to save a <code>Post</code> with no title, the operation will fail:</p>
+<pre><code class="lang-coffeescript">post = <span class="keyword">new</span> MyApp.Post(title: <span class="literal">null</span>)
+post.save (err, record) -&gt;
+    err <span class="comment"># =&gt; Batman.ErrorsSet containing validation errors</span></code></pre>
+<p>Remember, client-side validation should <em>always</em> be accompanied by server-side validation.</p>
+<p><h2  class="guide-heading" id="when-does-validation-happen-"><a href='#when-does-validation-happen-'>When Does Validation Happen?</a></h2>
+</p>
+<p>Batman.js always validates a record before saving it. If the record fails validation, the record&#39;s errors (a <a href="/docs/api/batman.errorsset.html"><code>Batman.ErrorsSet</code></a>) is passed to the callback as <code>err</code>. </p>
+<p>You can handle this in your <code>save</code> callbacks:</p>
+<pre><code class="lang-coffeescript">post.save (err, record) -&gt;
+  <span class="keyword">if</span> err <span class="keyword">and</span> err instanceOf Batman.ErrorsSet
+    console.warn(<span class="string">"Failed Validation!"</span>)
+  <span class="keyword">else</span> <span class="keyword">if</span> err?
+    <span class="keyword">throw</span> err <span class="comment"># there was a storage error</span>
+  <span class="keyword">else</span> 
+    console.log(<span class="string">"Save was successful"</span>)</code></pre>
+<p>You can also validate a record without saving by calling <code>validate</code>. </p>
+<pre><code class="lang-coffeescript">post.validate (javascriptError, validationErrors) -&gt;</code></pre>
+<p>The callback is fired with:</p>
+<ul>
+<li>any non-validation error that may have occured</li>
+<li>the record&#39;s errors (a <a href="/docs/api/batman.errorsset.html"><code>Batman.ErrorsSet</code></a>)</li>
+</ul>
+<p><em>Note</em>: Validation in batman.js is always asynchronous. This is so that the API is consistent regardless of the validations used.</p>
+<p><h2  class="guide-heading" id="validation-errors"><a href='#validation-errors'>Validation Errors</a></h2>
+</p>
+<p>You can access errors on a record by getting <code>errors</code> on that record: </p>
+<pre><code class="lang-coffeescript">post.get(<span class="string">'errors'</span>) &lt;<span class="comment"># Batman.ErrorsSet #&gt;</span></code></pre>
+<p><a href="/docs/api/batman.errorsset.html"><code>Batman.ErrorsSet</code></a> is a subclass of <a href="/docs/api/batman.set.html"><code>Batman.Set</code></a>, so you can iterate over it just like any other <a href="/docs/api/batman.set.html"><code>Batman.Set</code></a>.</p>
+<p>You can also access errors for a specific attribute at <code>&quot;errors.#{fieldName}&quot;</code>. For example, to get errors on a <code>Post</code>&#39;s <code>title</code>:</p>
+<pre><code class="lang-coffeescript">post.get(<span class="string">'errors.title'</span>) <span class="comment"># =&gt; &lt;# Batman.Set #&gt;</span></code></pre>
+<p>It returns a <a href="/docs/api/batman.set.html"><code>Batman.Set</code></a> containing the errors on that attribute. </p>
+<p>Each error is a <a href="/docs/api/batman.validationerror.html"><code>Batman.ValidationError</code></a>. It responds to <code>&quot;fullMessage&quot;</code>, which returns a human-friendly error message. This is great for HTML bindings:</p>
+<pre><code class="lang-html">&lt;ul&gt;
+  &lt;li data-foreach-err=<span class="string">'post.errors'</span>&gt;
+    &lt;span data-bind=<span class="string">'err.fullMessage'</span>&gt;&lt;/span&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>See also the <a href="/docs/api/batman.view_bindings.html#data-formfor"><code>data-formfor</code></a> binding, which can provide automatic error display.</p>
+<p><h2  class="guide-heading" id="built-in-validations"><a href='#built-in-validations'>Built-In Validations</a></h2>
+</p>
+<p>Built in validators are attached by calling <code>@validate</code> with options designating how to calculate the validity of the attribute:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">Post</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="comment"># ...</span>
+  <span class="property">@validate</span> <span class="string">'title'</span>, {presence: <span class="literal">true</span>}     <span class="comment"># title must be present (not undefined or '')</span>
+  <span class="property">@validate</span> <span class="string">'body'</span>, {minLength: <span class="number">10</span>}       <span class="comment"># body must be 10 characters long at least</span>
+  <span class="property">@validate</span> <span class="string">'title'</span>, {pattern: <span class="regexp">/^[A-Z]/</span>}  <span class="comment"># title must start with an uppercase letter</span>
+  <span class="property">@validate</span> <span class="string">'author'</span>, {email: <span class="literal">true</span>}       <span class="comment"># author must be a valid email address</span></code></pre>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Asserts that ...</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>presence : true</code></td>
+<td>String value is existent (not undefined or null) and has length greater than 0</td>
+</tr>
+<tr>
+<td><code>numeric : true</code></td>
+<td>Value is or can be coerced into a number using <code>parseFloat</code>.</td>
+</tr>
+<tr>
+<td><code>greaterThan : Number</code></td>
+<td>Value is greater than the given number.</td>
+</tr>
+<tr>
+<td><code>greaterThanOrEqualTo : Number</code></td>
+<td>Value is greater than or equal to the given number.</td>
+</tr>
+<tr>
+<td><code>equalTo : Number</code></td>
+<td>Value is equal to the given number.</td>
+</tr>
+<tr>
+<td><code>lessThan : Number</code></td>
+<td>Value is less than the given number.</td>
+</tr>
+<tr>
+<td><code>lessThanOrEqualTo : Number</code></td>
+<td>Value is less than or equal to the given number.</td>
+</tr>
+<tr>
+<td><code>minLength : Number</code></td>
+<td>Value&#39;s <code>length</code> property is greater than the given number.</td>
+</tr>
+<tr>
+<td><code>maxLength : Number</code></td>
+<td>Value&#39;s <code>length</code> property is less than the given number.</td>
+</tr>
+<tr>
+<td><code>length : Number</code></td>
+<td>Value&#39;s <code>length</code> property is exactly the given number.</td>
+</tr>
+<tr>
+<td><code>lengthWithin : [Number, Number]</code>, <code>lengthIn : [Number, number]</code></td>
+<td>Value&#39;s <code>length</code> property is within the range <code>[lower, upper]</code>.</td>
+</tr>
+<tr>
+<td><code>inclusion : in : [list, of, acceptable, values]</code></td>
+<td>Value is equal to one of the values in an array.</td>
+</tr>
+<tr>
+<td><code>exclusion : in : [list, of, unacceptable, values]</code></td>
+<td>Value is not equal to any of the values in an array.</td>
+</tr>
+<tr>
+<td><code>regexp : /regexp/</code></td>
+<td>Value is matching the provided regular expression.</td>
+</tr>
+<tr>
+<td><code>email : true</code></td>
+<td>Value is an email address, per the <a href="http://www.w3.org/TR/html5/forms.html#valid-e-mail-ress">W3C HTML5 definition</a>.</td>
+</tr>
+<tr>
+<td><code>associated : true</code></td>
+<td>Associated record is also valid. If invalid, the message will be &quot;#{associationName} is not valid&quot;.</td>
+</tr>
+<tr>
+<td><code>associatedFields : true</code></td>
+<td>Like <code>associated</code>, but adds error messages with the names of the fields on associated records, eg &quot;Username must at least 10 characters&quot; or &quot;Favorite flavor is not included in the list&quot;.</td>
+</tr>
+<tr>
+<td><code>confirmation : true/String</code></td>
+<td>Record&#39;s <code>#{attr}_confirmation</code> value matches <code>#{attr}</code>. If option is a string, use that attribute instead of <code>#{attribute}_confirmation</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><h2  class="guide-heading" id="custom-validation"><a href='#custom-validation'>Custom Validation</a></h2>
+</p>
+<p>You can easily define a custom validation by passing a function to <code>@validate</code>:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">App</span>.<span class="title">Product</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="property">@validate</span> <span class="string">'name'</span>, (errors, record, attribute, callback) -&gt;
+    <span class="comment"># custom validation ...</span>
+    callback()</code></pre>
+<p>The function takes <code>(errors, record, attribute, callback)</code>:</p>
+<ul>
+<li><code>errors</code>: the <a href="/docs/api/batman.errorsset.html"><code>Batman.ErrorsSet</code></a> for this record</li>
+<li><code>record</code>: the record being validated</li>
+<li><code>attribute</code>: the attribute  being validated</li>
+<li><code>callback</code>: a function to call once validation has been completed. Calling this function is <strong>mandatory</strong>: it enables validations to be asynchronous.</li>
+</ul>
+<p>To show that the record is invalid, a validation function should call <code>errors.add(attribute, message)</code>.</p>
+<p>You can also create custom validators by extending <a href="/docs/api/batman.validator.html"><code>Batman.Validator</code></a>.</p>
+<p><h2  class="guide-heading" id="conditional-validation"><a href='#conditional-validation'>Conditional Validation</a></h2>
+</p>
+<p>Validations can be skipped by including a conditional check. Pass <code>if</code> or <code>unless</code> as options to <code>@validate</code>:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">Invoice</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="property">@resourceName</span>: <span class="string">'invoice'</span>
+  <span class="property">@validate</span> <span class="string">'tax_1_rate'</span>, {presence: <span class="literal">true</span>, <span class="keyword">if</span>: (errors, record, attribute) -&gt; record.get(<span class="string">'tax_1_enabled'</span>)} <span class="comment"># tax 1 rate must be present if tax 1 is enabled</span>
+  <span class="property">@validate</span> <span class="string">'tax_2_rate'</span>, {presence: <span class="literal">true</span>, <span class="keyword">if</span>: <span class="string">'tax_2_rate'</span>} <span class="comment"># passing a string will look for an attribute or accessor with that name on the record</span>
+  <span class="property">@validate</span> <span class="string">'discount_rate'</span>, {presence: <span class="literal">true</span>, <span class="keyword">unless</span>: <span class="string">'discount_disabled'</span>} <span class="comment"># discount rate must be present unless discount is disabled</span></code></pre>
+<p>If you pass a string as <code>if</code> or <code>unless</code>, it will do a <code>@get(string)</code> on the record being validated. If you pass a function, it should have the signature <code>(errors, record, attribute)</code>:</p>
+<ul>
+<li><code>errors</code>: the <a href="/docs/api/batman.errorsset.html"><code>Batman.ErrorsSet</code></a> for the record</li>
+<li><code>record</code>: the record being validated</li>
+<li><code>attribute</code>: the attribute being validated</li>
+</ul>
+<p><h2  class="guide-heading" id="custom-messages"><a href='#custom-messages'>Custom Messages</a></h2>
+</p>
+<p>Batman.js ships with straightforward messages for the built-in validators. However, if you need custom messages, there are several ways to add them.</p>
+<ol>
+<li><strong>Pass a <code>message</code> option</strong>. It may be a string or function. for example:<pre><code> <span class="property">@validate</span> <span class="string">'name'</span>, presence: <span class="literal">true</span>, message: <span class="string">"must be provided"</span> <span class="comment"># =&gt; "Name must be provided"</span>
+ <span class="property">@validate</span> <span class="string">'amount'</span>, <span class="keyword">in</span>: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], message: (attribute, messageKey, record) -&gt; <span class="string">"can't be <span class="subst">#{record.get('amount')}</span>!"</span></code></pre>
+</li>
+<li><strong>Use a custom validation</strong>. In your custom validation, add the error with your custom message, for example:<pre><code class="lang-coffeescript"> errors.add(<span class="string">"email_address"</span>, <span class="string">"must be provided to ensure that your password isn't lost!"</span>)</code></pre>
+</li>
+<li><strong>Provide a custom translation</strong>. In your locale, <code>errors.messages.#{messageKey}</code> should match the structure provided by batman.js (<a href="https://github.com/batmanjs/batman/blob/master/src/model/validations/validators.coffee">see source</a>).</li>
+</ol>
+

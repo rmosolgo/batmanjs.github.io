@@ -1,0 +1,86 @@
+---
+layout: docs
+title: Custom Views
+---
+
+<p>Views are useful for creating reusable, configurable UI components. They are defined by extending <a href="/docs/api/batman.view.html"><code>Batman.View</code></a> and they are used by adding <a href="/docs/api/batman.view_bindings.html#data-view"><code>data-view</code></a> bindings inside HTML templates.</p>
+<p>When you define a custom view, you can provide:</p>
+<ul>
+<li><a href="#accessors">accessors</a> which can be bound inside that view&#39;s bindings</li>
+<li><a href="#event-handlers">functions</a> which can handle events on that view</li>
+<li><a href="#providing-html-to-custom-views">HTML</a> to render inside the view&#39;s node</li>
+</ul>
+<p>Besides defining custom views, you can also define <a href="/docs/views.html#rendering-by-controller-actions">default views for controller actions</a>.</p>
+<p><h2  class="guide-heading" id="defining-custom-views"><a href='#defining-custom-views'>Defining Custom Views</a></h2>
+</p>
+<p>To define a custom view, extend <a href="/docs/api/batman.view.html"><code>Batman.View</code></a>. (You can also extend any subclass of <a href="/docs/api/batman.view.html"><code>Batman.View</code></a>, such as another custom view.)</p>
+<p>For example, here&#39;s a custom view that uses <a href="http://jqueryui.com/autocomplete/">jQueryUI Autocomplete</a>:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">App</span>.<span class="title">AutocompleteView</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">View</span></span>
+  html: <span class="string">"&lt;input id='autocomplete' type='text' /&gt;"</span>
+
+  <span class="property">@accessor</span> <span class="string">'autocompleteSource'</span>, -&gt; []
+
+  viewDidAppear: -&gt;
+    <span class="comment"># @node is the container for the view</span>
+    input = $(<span class="property">@node</span>).find(<span class="string">"#autocomplete"</span>)
+    $(input).autocomplete
+      source: <span class="property">@get</span>(<span class="string">'autocompleteSource'</span>)</code></pre>
+<p>Obviously this isn&#39;t much use by itself, but we can extend it and provide more useful <code>autocompleteSource</code>s:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">App</span>.<span class="title">VillainAutocompleteView</span> <span class="keyword">extends</span> <span class="title">App</span>.<span class="title">AutocompleteView</span></span>
+  <span class="property">@accessor</span> <span class="string">'autocompleteSource'</span>, -&gt; App.Villian.get(<span class="string">'all'</span>).mapToProperty(<span class="string">'name'</span>)</code></pre>
+<p>Now, when we instantiate <code>App.VillianAutocompleteView</code>, it will have more interesting options!</p>
+<p><h2  class="guide-heading" id="accessors"><a href='#accessors'>Accessors</a></h2>
+</p>
+<p>When you define an <code>@accessor</code> on a custom view, it&#39;s also available to bindings. These accessors are a good place for complex view logic. For example, <code>postIsLong</code> could help you display a warning to the reader:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">PostsShowView</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">View</span></span>
+  <span class="property">@accessor</span> <span class="string">'postIsLong'</span>, -&gt;
+    <span class="property">@controller</span>.get(<span class="string">'post.body'</span>).length &gt; <span class="number">5000</span></code></pre>
+<p><code>postIsLong</code> is now available in the HTML template:</p>
+<pre><code class="lang-html">&lt;div data-showif=<span class="string">'postIsLong'</span>&gt;
+  &lt;p&gt; Warning! This <span class="keyword">is</span> a long post. &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<p>You can also pass in &quot;options&quot; to views. This allows you to explicitly pass objects into the view. For example, this view takes a <code>item</code> option from a <a href="/docs/api/batman.view_bindings.html#data-view"><code>data-view-item</code></a> binding:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">ListItemView</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">View</span></span>
+  <span class="property">@option</span> <span class="string">'item'</span> 
+  <span class="property">@accessor</span> <span class="string">'itemDescription'</span>, -&gt;
+    item = <span class="property">@get</span>(<span class="string">'item'</span>)
+    <span class="string">"<span class="subst">#{item.get('name'}</span>, circa <span class="subst">#{item.get('year')}</span>"</span></code></pre>
+<pre><code class="lang-html">&lt;ul&gt;
+  &lt;li data-foreach-item=<span class="string">'items'</span> data-view=<span class="string">'ListItemView'</span> data-view-item=<span class="string">'item'</span>&gt;
+    &lt;p data-bind=<span class="string">'itemDescription'</span>&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>(See <a href="/docs/api/batman.view.html#class_function_option"><code>View.option</code> docs</a> for more about view options.)</p>
+<p><h2  class="guide-heading" id="event-handlers"><a href='#event-handlers'>Event Handlers</a></h2>
+</p>
+<p>Functions defined in views are available as event handlers. You can bind them to events with <a href="/docs/api/batman.view_bindings.html#data-event"><code>data-event</code></a> bindings. For example, <code>deleteItem</code> can be used in a <a href="/docs/api/batman.view_bindings.html#data-event"><code>data-event-click</code></a> binding:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span>.<span class="title">ListItemView</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">View</span></span>
+  deleteItem: (item) -&gt;
+    item.destroy (err, record) -&gt;
+      <span class="keyword">throw</span> err <span class="keyword">if</span> err?</code></pre>
+<pre><code class="lang-html">&lt;button data-event-click=<span class="string">'deleteItem | withArguments item'</span>&gt;Delete!&lt;/button&gt;</code></pre>
+<p><h2  class="guide-heading" id="providing-html-for-custom-views"><a href='#providing-html-for-custom-views'>Providing HTML for Custom Views</a></h2>
+</p>
+<p>Your custom views can get HTML in three ways:</p>
+<ul>
+<li>wrap existing HTML</li>
+<li>define an HTML string</li>
+<li>define a <em>source path</em> that points to an HTML temlate.</li>
+</ul>
+<p>To <em>wrap existing HTML</em>, simply add a <a href="/docs/api/batman.view_bindings.html#data-view"><code>data-view</code></a> binding to a node with HTML inside it:</p>
+<pre><code class="lang-html">&lt;div data-view=<span class="string">'CustomListView'</span>&gt;
+  &lt;ul&gt;
+    &lt;li data-foreach-item=<span class="string">'items'</span> data-bind=<span class="string">'item.name'</span>&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+<p>This will instantiate a new <code>CustomListView</code> with the <code>&lt;div&gt;</code> as its <a href="/docs/api/batman.view.html#prototype_accessor_node"><code>node</code></a>. All the HTML inside the <code>CustomListView</code> will stay where it is.</p>
+<p>To <em>define an HTML string</em>, set the <a href="/docs/api/batman.view.html#prototype_accessor_html"><code>html</code> attribute</a> in your view class:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">App</span>.<span class="title">SearchView</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">View</span></span>
+  html: <span class="string">"&lt;input type='text' id='search' placeholder='Enter a Search Term' /&gt;"</span></code></pre>
+<p>The HTML you specify will be rendered inside a node with a <code>data-view=&quot;SearchView&quot;</code> binding.</p>
+<p>To <em>define a source path</em>,  set the <a href="/docs/api/batman.view.html#prototype_accessor_source"><code>source</code> attribute</a> in your view class:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">App</span>.<span class="title">HeaderNavigationView</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">View</span></span>
+  source: <span class="string">'layouts/_header_navigation'</span>
+  <span class="comment"># will lookup template layouts/_header_navigation.html</span></code></pre>
+<p>Your app will try to load a file relative to <a href="/docs/configuration.html"><code>Batman.config.pathToHTML</code></a> to use as this view&#39;s HTML. You don&#39;t need to add <code>.html</code> to the <code>source</code> string.</p>
+

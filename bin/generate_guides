@@ -4,9 +4,6 @@ glob   = require('glob')
 path   = require('path')
 yaml   = require('js-yaml')
 
-require('locus')
-# to add or reorder, update the config template, too
-config = require("../_templates/config.yml")
 
 Autolink = require('./support/autolink').Autolink
 TemplateWriter = require('./support/template_writer').TemplateWriter
@@ -14,20 +11,28 @@ MarkdownParser = require('./support/markdown_parser').MarkdownParser
 
 
 class GuideGenerator
-  constructor: ({dirname, @sequence}) ->
+  constructor: ({dirname}) ->
     @files = glob.sync(dirname)
     @parser = new MarkdownParser
+    @groups = []
+    @ungrouped = []
+
+  _groupForPath: (filepath) ->
+    groupName = filepath.match(/_guides\/\d+_(.*)\//)?[1]
+    return unless groupName?
+    group = @groups.filter((g) -> g.name is groupName)[0]
+    if !group?
+      group = {name: groupName, guides: []}
+      @groups.push(group)
+    group
 
   generateGuide: (filepath) ->
     content = fs.readFileSync(filepath).toString()
     content = Autolink.insertLinks(content, @)
     tokens = @parser.stringToTokens(content)
-    filename = path.basename(filepath).split(".")[0]
+    filename = path.basename(filepath).split(".")[0].replace(/^\d*_/, '')
 
     replacements = {}
-    [prevIndex, __, nextIndex] = @_indexesFor(filename)
-    replacements.prev_section = @sequence[prevIndex]
-    replacements.next_section = @sequence[nextIndex]
 
     # it's getting rendered by Jekyll, so remove it
     titleToken = tokens.shift()
@@ -53,22 +58,20 @@ class GuideGenerator
         tokens[idx] = wrapper
 
     replacements.guide_html = @parser.tokensToHTML(tokens)
-
+    group = @_groupForPath(filepath)
+    tocEntry = {title: replacements.title, filename}
+    if !group?
+      @ungrouped.push(tocEntry)
+    else
+      group.guides.push(tocEntry)
     @writer.write("docs/#{filename}.html", replacements)
-
-  _indexesFor: (filename) ->
-    currentIndex = @sequence.indexOf(filename)
-    if currentIndex > 0
-      prevIndex = currentIndex - 1
-    if currentIndex < (@sequence.length - 1)
-      nextIndex = currentIndex + 1
-    [prevIndex, currentIndex, nextIndex]
 
 
   render: ->
     @writer = new TemplateWriter("guide.html")
     for f in @files
       @generateGuide(f)
+    @_renderDataFile()
 
   # autolink everything!!!
   hasId: -> true
@@ -81,9 +84,11 @@ class GuideGenerator
     else
       return titleToken.text
 
-
+  _renderDataFile: ->
+    writer = new TemplateWriter("guides.yml")
+    writer.write("_data/guide_groups.yml", {guides: yaml.dump(@groups)})
+    writer.write("_data/guide_ungrouped.yml", {guides: yaml.dump(@ungrouped)})
 
 generator = new GuideGenerator
-  dirname: "#{__dirname}../../_guides/*.md"
-  sequence: (i.link for i in config.doc_boxes[0].items)
+  dirname: "#{__dirname}../../_guides/**/*.md"
 generator.render()

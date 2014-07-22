@@ -1,0 +1,25 @@
+---
+layout: docs
+title: View Filters
+---
+
+<p>View filters modify keypath values in view bindings. Batman.js&#39;s view filters are inspired by <a href="https://github.com/Shopify/liquid/wiki/Liquid-for-Designers#advanced-output-filters">Liquid filters</a>.</p>
+<p>Filters may be used to:</p>
+<ul>
+<li>modify values for presentation (eg, <code>truncate</code>, <code>downcase</code>)</li>
+<li>mix keypath values and <a href="/docs/bindings.html#keypath-literals">literals</a> (eg, <code>append</code>, <code>pluralize</code>)</li>
+<li>modify event handlers (eg, <code>withArguments</code>, <code>toggle</code>)</li>
+</ul>
+<p>See the <a href="/docs/api/batman.view_filters.html"><code>Batman.View Filters</code> documentation</a> for a full list of available view filters.</p>
+<p><h2  class="guide-heading" id="using-filters"><a href='#using-filters'>Using Filters</a></h2>
+</p>
+<p>You can apply filters to bindings by joining them with <code>&quot; | &quot;</code>. For example, to apply the <code>truncate</code> filter with argument <code>100</code>:</p>
+<pre><code class="lang-html">&lt;p data-bind=<span class="string">"post.body | truncate 100"</span>&gt;&lt;/p&gt;</code></pre>
+<p>The above <code>&lt;p&gt;</code> will have the first 100 characters of the post&#39;s body. Whenever the <code>post.body</code> changes, it will be retruncated and the <code>&lt;p&gt;</code>&#39;s <code>innerHTML</code> will be updated.</p>
+<p>Filter chains can be arbitrarily long:</p>
+<pre><code class="lang-html">&lt;span data-bind=<span class="string">"knight.name | prepend 'Sir ' | append ', the honourable'"</span>&gt;&lt;/span&gt;</code></pre>
+<p>and filter chains can use <em>other keypaths</em> as arguments to the filters:</p>
+<pre><code class="lang-html">&lt;span data-bind=<span class="string">"person.name | prepend ' ' | prepend person.title"</span>&gt;&lt;/span&gt;</code></pre>
+<p>The above <code>&lt;span&gt;</code>&#39;s <code>innerHTML</code> will be updated whenever the person&#39;s name <em>or</em> title changes. Both keypaths are tracked by the binding.</p>
+<p><strong>Note that filtered keypaths cannot propagate DOM changes to JavaScript</strong> because values can&#39;t always be &quot;unfiltered&quot;. Filters only affect Javascript-to-DOM bindings, not DOM-to-Javascript!</p>
+

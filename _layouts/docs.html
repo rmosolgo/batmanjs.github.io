@@ -1,11 +1,11 @@
 ---
 key: documentation
 layout: default
+flex: true
 ---
 
 <div class="plain-row">
   <div class="wrapper">
-
     <div class="row clearfix">
       <div class="span16">
         <div class="box box-highlight docs highlight-children">
@@ -13,13 +13,13 @@ layout: default
             <h2 class="ssb">{{ page.title }}</h2>
           </div>
 
-          <div class="content-wrapper">
+          <div class="content-wrapper highlight-tables">
           {{ content }}
           </div>
         </div>
 
         <div class="box-highlight-connected">
-          {% include section_nav.html %}
+          {% include feedback.html %}
         </div>
       </div>
 

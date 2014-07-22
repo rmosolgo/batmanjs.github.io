@@ -1,8 +1,6 @@
 ---
 layout: docs
 title: Testing
-prev_section: views
-next_section: undefined
 ---
 
 <p><h2  class="guide-heading" id="1-introduction-to-testing"><a href='#1-introduction-to-testing'>1. Introduction to Testing</a></h2>
@@ -38,7 +36,7 @@ next_section: undefined
 <p><a href="/docs/api/batman.testcase.html"><code>Batman.TestCase</code></a> comes with a set of basic assertions that Ruby <code>Test::Unit</code> users will be familiar with:</p>
 <p><code>assert(bool, [msg])</code>: Ensures the expression is <code>true</code></p>
 <p><code>assertEqual(expected, actual, [msg])</code>: Ensures that <code>expected</code> is <a href="http://api.qunitjs.com/deepEqual">deepEqual</a> to <code>actual</code></p>
-<p><code>assetNotEqual(expected, actual, [msg])</code>: Ensures that <code>expected</code> is [notDeepEqual] (<a href="http://api.qunitjs.com/notDeepEqual">http://api.qunitjs.com/notDeepEqual</a>) to <code>actual</code></p>
+<p><code>assetNotEqual(expected, actual, [msg])</code>: Ensures that <code>expected</code> is <a href="http://api.qunitjs.com/notDeepEqual">notDeepEqual</a> to <code>actual</code></p>
 <p><code>assertMatch(expected, actual, [msg])</code>: Ensures that <code>expected:Regex</code> matches <code>actual:String</code>.</p>
 <p><code>assertNoMatch(expected, actual, [msg])</code>: Ensures that <code>expected:Regex</code> does not match <code>actual:String</code>.</p>
 <p><code>assertDifference(expressions, difference = 1, [message], callback)</code>: Ensures that the set of <code>expressions</code> (single, or <code>Array</code>) have a delta of <code>difference</code> after the <code>callback</code> is executed.</p>

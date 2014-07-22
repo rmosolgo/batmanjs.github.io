@@ -1,40 +1,50 @@
 ---
 layout: docs
-title: Architecture
-prev_section: index
-next_section: structure
+title: App Architecture
 ---
 
-<p>batman.js is a stateful MVC framework based on Rails conventions used for building client-side single-page applications. That&#39;s a lot of buzzwords; let&#39;s break it down.</p>
-<p><h2  class="guide-heading" id="1-model-view-controller-architecture"><a href='#1-model-view-controller-architecture'>1. Model-View-Controller Architecture</a></h2>
+<p>Batman.js is a <em>MVC framework</em> for building <em>stateful</em> client-side applications. If you understand these concepts, you&#39;ll build a better batman.js app!</p>
+<p><h2  class="guide-heading" id="mvc-architecture"><a href='#mvc-architecture'>MVC Architecture</a></h2>
 </p>
-<p>Model-View-Controller (MVC) is a common way of dividing the responsibilities of your application. There are three main parts:</p>
+<p>Model-View-Controller (MVC) is a common way of dividing an app&#39;s responsibilities. Batman.js borrows its MVC implementation from Rails and Cocoa. There are three main parts:</p>
+<p><h4  class="guide-heading" id="models"><a href='#models'>Models</a></h4>
+</p>
+<p>Models define the <em>business objects</em> in your application. For examples, the models in a blogging app might be <code>Post</code>, <code>Comment</code> and <code>User</code>. These classes may:</p>
 <ul>
-<li>Model: Represents the data of the system, possibly coming from a database or web API.</li>
-<li>View: Interacts with the user by displaying the layout and data, and responding to user input.</li>
-<li>Controller: Handles communication within the app by requesting data from the model and rendering specific views with that data.</li>
+<li>validate incoming data</li>
+<li>persist data </li>
+<li>be associated to other models in your app</li>
 </ul>
-<p>Different frameworks and systems and languages will all implement MVC in slightly different ways, but the overall concepts are similar. batman.js borrows its conceptual MVC implementation heavily from both Rails and Cocoa, which makes it simple to understand if you&#39;re already familiar with one of them.</p>
-<p>Here&#39;s how the key components work in batman.js:</p>
-<p><h4  class="guide-heading" id="1-1-models"><a href='#1-1-models'>1.1 Models</a></h4>
-</p>
-<p>Models are still responsible for fetching and saving all your data, but since we&#39;re a client side app, they&#39;ll load it via AJAX from your server. It&#39;s worth noting that batman.js is more or less backend-agnostic. It doesn&#39;t really care what type of server you&#39;re using, as long as it responds to common REST API&#39;s with JSON (but you should still consider Rails for maximum easiness).</p>
 <p><a href="/docs/models.html">More About Models</a></p>
-<p><h4  class="guide-heading" id="1-2-controllers"><a href='#1-2-controllers'>1.2 Controllers</a></h4>
+<p><h4  class="guide-heading" id="views"><a href='#views'>Views</a></h4>
 </p>
-<p>Like in Rails, a controller action gets called whenever a specific route gets triggered. For example, if a user accesses <code>/products/new</code>, the <code>new</code> method of your <code>ProductsController</code> will automatically be invoked. All you have to do is implement the correctly named method, load the data that the view will need, and then tell batman.js which HTML file to render. Most of this is handled implicitly for you, as long as you&#39;re following the batman.js naming conventions.</p>
-<p><a href="/docs/controllers.html">More About Controllers</a></p>
-<p><h4  class="guide-heading" id="1-3-html"><a href='#1-3-html'>1.3 HTML</a></h4>
-</p>
-<p>Unlike in Rails, batman.js makes a distinction between HTML files and views. HTML files are the main way to get anything on screen. Developers and designers can both build vanilla HTML files and add extra <code>data-*</code> attributes to tell batman.js to bind a particular node to a particular piece of data. There&#39;s no extra templating language to learn, just a set of attributes.</p>
-<p><a href="/docs/bindings.html">More About Bindings</a></p>
-<p><h4  class="guide-heading" id="1-4-views"><a href='#1-4-views'>1.4 Views</a></h4>
-</p>
-<p>Views in batman.js render a specific HTML file to the DOM, prepare presentation data for that HTML file&#39;s bindings, and listen for user interaction with the parts they rendered. Most of the time, a view object will be automatically instantiated for you based on the controller action that is being rendered, but you can also create your own view classes to encapsulate pieces of view logic, e.g. a <code>MapView</code> for displaying a map. The view subsystem of batman.js is actually very similar to that of Cocoa&#39;s, so you get many of the same great API&#39;s that are available to Cocoa developers.</p>
+<p>Views connect your app to your users by rendering HTML and binding the page to your app. The &quot;view layer&quot; <em>includes</em> HTML templates but goes beyond that: subclasses of <a href="/docs/api/batman.view.html"><code>Batman.View</code></a> are also used for:</p>
+<ul>
+<li>creating reusable UI components</li>
+<li>handling complex user interactions</li>
+<li>rendering into different parts of the page</li>
+</ul>
 <p><a href="/docs/views.html">More About Views</a></p>
-<p><h2  class="guide-heading" id="2-stateful-single-page-application"><a href='#2-stateful-single-page-application'>2. Stateful Single-Page Application</a></h2>
+<p><h4  class="guide-heading" id="controllers"><a href='#controllers'>Controllers</a></h4>
 </p>
-<p>One thing to keep in mind is that while a number of the API&#39;s may look very similar to Rails, your batman.js application is operating in an inherently different environment. When Rails receives a request, it starts the application, spawns a controller, calls the action, hits the database, returns the HTML, and then shuts the application back down. We say Rails is stateless because the only state persisted through requests is in the database.</p>
-<p>batman.js has no concept of requests. The app is loaded once when the page is loaded, and then starts listening to events such as the URL changing or the user clicking around the application. The framework maps a number of these events to their Rails equivalent (such as a URL change event causes a controller action to be dispatched), but you do need to keep in mind that you are operating in a perpetual and non-ephemeral enviroment. Every variable that you assign to your controller is going to stay on that controller until it gets reassigned. Similarly, every view is going to stick around until you remove it from the view hierarchy.</p>
-<p>We say batman.js is stateful because the entire app is persisted in memory until the user navigates away from the page. Keep this in mind when building your client-side application!</p>
+<p>Controllers handle route changes. Routes invoke <em>controller actions</em> which may:</p>
+<ul>
+<li>select &amp; prepare data </li>
+<li>render views on the page </li>
+<li>persist changes made by the user (eg, clicking &quot;Save&quot;)</li>
+</ul>
+<p><a href="/docs/controllers.html">More About Controllers</a></p>
+<p><h2  class="guide-heading" id="buidling-a-stateful-application"><a href='#buidling-a-stateful-application'>Buidling a Stateful Application</a></h2>
+</p>
+<p>A critical concern of a single-page app is <a href="http://en.wikipedia.org/wiki/State_%28computer_science%29#Program_state"><em>state</em></a>, which refers to the information in a program&#39;s memory at a given time. Here are a few considerations for state in batman.js:</p>
+<ul>
+<li><p><strong>Storage is asynchronous.</strong> Especially if you&#39;re using JSON for persistence, loading &amp; saving will be asynchronous. You should set up your app to use callbacks properly (or load some data into your app on page load).</p>
+</li>
+<li><p><strong>Records &quot;persist&quot; in memory.</strong> When you fetch a record from storage, that record will remain in memory until the user leaves the page (or the record is destroyed). If you fetch the record from storage again, the in-memory copy will be <em>updated</em>, but not replaced. Values set on records will <em>stay</em> set between controller actions.</p>
+</li>
+<li><p><strong>Controllers are singletons.</strong> When you first dispatch a controller action, you instantiate that <a href="/docs/api/batman.controller.html"><code>Batman.Controller</code></a> subclass. That <em>same instance</em> will be used to dispatch subsequent actions, so any accessors set on the controller will <em>stay</em> set until you unset them! </p>
+</li>
+<li><p><strong>Views are objects.</strong> When batman.js renders HTML, it is &quot;backed&quot; by a <a href="/docs/api/batman.view.html"><code>Batman.View</code></a> instance. The view object creates <em>state</em> for that HTML by maintaining bindings between the HTML and your app. However, views <em>are</em> destroyed between controller actions (unlike controllers and models).</p>
+</li>
+</ul>
 

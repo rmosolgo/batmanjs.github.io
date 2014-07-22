@@ -1,8 +1,6 @@
 ---
 layout: docs
-title: Controllers
-prev_section: configuration
-next_section: models
+title: Controller Basics
 ---
 
 <p><a href="/docs/api/batman.controller.html"><code>Batman.Controller</code></a> is the C in MVC. Controllers have <em>actions</em> which are are dispatched by the router.</p>
@@ -14,6 +12,7 @@ next_section: models
 <li><strong>prepare data to display</strong> by interacting with the app&#39;s models.</li>
 <li><strong>render views</strong>, either implicitly or explicitly.</li>
 </ul>
+<p>(Controller actions may also <a href="/docs/routing.html#redirecting">redirect</a>.)</p>
 <p>Controller actions may be bound <em>by name</em> to URLs. The controller action name is determined by:</p>
 <ul>
 <li>Downcasing the first letter of the class name</li>
@@ -26,51 +25,6 @@ next_section: models
   index: -&gt; <span class="comment"># ...</span></code></pre>
 <p>would have this name for routing:</p>
 <pre><code class="lang-coffeescript"><span class="string">'productReviews#index'</span></code></pre>
-<p><h2  class="guide-heading" id="routing"><a href='#routing'>Routing</a></h2>
-</p>
-<p>To bind controller actions to URLs, define <em>routes</em> in your app definition. You can bind single routes with <code>@route</code> or define <em>resource routes</em> with <code>@resources</code> (inspired by <a href="http://guides.rubyonrails.org/routing.html#resource-routing-the-rails-default">Rails routing</a>).</p>
-<p>The simplest routing definition is <code>@route</code>:</p>
-<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">App</span></span>
-         <span class="comment"># path     , controller action</span>
-  <span class="property">@route</span> <span class="string">"/products"</span>, <span class="string">'products#index'</span></code></pre>
-<p>There is also a shortcut to define a route for <code>&quot;/&quot;</code>, <code>@root</code>:</p>
-<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">App</span></span>
-  <span class="property">@root</span> <span class="string">'products#index'</span></code></pre>
-<p><code>@resources</code> creates several routes at once. For example,</p>
-<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">App</span></span>
-  <span class="property">@resources</span> <span class="string">"products"</span></code></pre>
-<p>Would create the following mapping between URLs and actions on <code>MyApp.ProductsController</code>:</p>
-<div class="mobile-side-scroller">
-
-<table>
-  <thead>
-    <tr>
-      <th> URL </th>
-      <th> Controller Action </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td> <p><code>/products</code></p></td>
-      <td> <p><code>products#index</code></p></td>
-    </tr>
-    <tr>
-      <td> <p><code>/products/:id</code></p></td>
-      <td> <p><code>products#show</code></p></td>
-    </tr>
-    <tr>
-      <td> <p><code>/products/:id/edit</code></p></td>
-      <td> <p><code>products#edit</code></p></td>
-    </tr>
-    <tr>
-      <td> <p><code>/products/new</code></p></td>
-      <td> <p><code>products#new</code></p></td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-<p>These routes are accessible in <a href="/docs/api/batman.view_bindings.html#data-route"><code>data-route</code> bindings</a>. For more on routing, see the <a href="/docs/api/batman.app_routing.html">App Routing API docs</a></p>
 <p><h2  class="guide-heading" id="preparing-data"><a href='#preparing-data'>Preparing Data</a></h2>
 </p>
 <p>Controllers prepare data for views by interacting with models and <code>set</code>ting them on themselves. Here are some common actions for preparing data:</p>
@@ -87,7 +41,7 @@ next_section: models
   edit: (params) -&gt;
     <span class="comment"># mind the fat arrow</span>
     MyApp.Product.find params.id, (err, record) =&gt;
-      <span class="property">@set</span> <span class="string">'product'</span>, record
+      <span class="property">@set</span> <span class="string">'product'</span>, record.transaction()
 
   index: -&gt;
     <span class="property">@set</span> <span class="string">'products'</span>, MyApp.Product.get(<span class="string">'all'</span>)</code></pre>

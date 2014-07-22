@@ -1,4 +1,4 @@
-# Controllers
+# Controller Basics
 
 `Batman.Controller` is the C in MVC. Controllers have _actions_ which are are dispatched by the router.
 
@@ -10,6 +10,8 @@ Controller actions are functions that:
 
 - __prepare data to display__ by interacting with the app's models.
 - __render views__, either implicitly or explicitly.
+
+(Controller actions may also [redirect](/docs/routing.html#redirecting).)
 
 Controller actions may be bound _by name_ to URLs. The controller action name is determined by:
 
@@ -31,66 +33,6 @@ would have this name for routing:
 'productReviews#index'
 ```
 
-## Routing
-
-To bind controller actions to URLs, define _routes_ in your app definition. You can bind single routes with `@route` or define _resource routes_ with `@resources` (inspired by [Rails routing](http://guides.rubyonrails.org/routing.html#resource-routing-the-rails-default)).
-
-The simplest routing definition is `@route`:
-
-```coffeescript
-class MyApp extends Batman.App
-         # path     , controller action
-  @route "/products", 'products#index'
-```
-
-There is also a shortcut to define a route for `"/"`, `@root`:
-
-```coffeescript
-class MyApp extends Batman.App
-  @root 'products#index'
-```
-
-`@resources` creates several routes at once. For example,
-
-```coffeescript
-class MyApp extends Batman.App
-  @resources "products"
-```
-
-Would create the following mapping between URLs and actions on `MyApp.ProductsController`:
-
-<div class="mobile-side-scroller">
-
-<table>
-  <thead>
-    <tr>
-      <th> URL </th>
-      <th> Controller Action </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td> <p><code>/products</code></p></td>
-      <td> <p><code>products#index</code></p></td>
-    </tr>
-    <tr>
-      <td> <p><code>/products/:id</code></p></td>
-      <td> <p><code>products#show</code></p></td>
-    </tr>
-    <tr>
-      <td> <p><code>/products/:id/edit</code></p></td>
-      <td> <p><code>products#edit</code></p></td>
-    </tr>
-    <tr>
-      <td> <p><code>/products/new</code></p></td>
-      <td> <p><code>products#new</code></p></td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-These routes are accessible in [`data-route` bindings](/docs/api/batman.view_bindings.html#data-route). For more on routing, see the [App Routing API docs](/docs/api/batman.app_routing.html)
-
 ## Preparing Data
 
 Controllers prepare data for views by interacting with models and `set`ting them on themselves. Here are some common actions for preparing data:
@@ -109,7 +51,7 @@ class MyApp.ProductsController extends MyApp.ApplicationController
   edit: (params) ->
     # mind the fat arrow
     MyApp.Product.find params.id, (err, record) =>
-      @set 'product', record
+      @set 'product', record.transaction()
 
   index: ->
     @set 'products', MyApp.Product.get('all')

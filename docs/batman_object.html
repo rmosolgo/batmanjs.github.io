@@ -1,0 +1,94 @@
+---
+layout: docs
+title: Batman.Object
+---
+
+<p><a href="/docs/api/batman.object.html"><code>Batman.Object</code></a> superclass of (almost) every object in batman.js. The more you understand <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>, the more you&#39;ll benefit from batman.js. <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a> has a few things that make it special:</p>
+<ul>
+<li><a href="#properties"><strong>Properties</strong></a> which <em>update themselves</em> when their dependencies change </li>
+<li><a href="#observers"><strong>Observers</strong></a> which respond to changes in property values</li>
+<li><a href="#events"><strong>Events</strong></a> which can be handled (and fired) by your application</li>
+</ul>
+<p>Instances and classes of batman.js app components are all <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>s, so these principles apply to all of them. If a class doesn&#39;t extend <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>, it is noted in the API documentation (for example, <a href="/docs/api/batman.navigator.html"><code>Batman.Navigator</code></a>).</p>
+<p><h2  class="guide-heading" id="properties"><a href='#properties'>Properties</a></h2>
+</p>
+<p>Every <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a> has <em>properties</em> which can be accessed with <code>get</code> and <code>set</code>:</p>
+<pre><code class="lang-coffeescript">comment = <span class="keyword">new</span> Batman.Object
+comment.set(<span class="string">"mood"</span>, <span class="string">"pensive"</span>)
+comment.get(<span class="string">"mood"</span>) <span class="comment"># =&gt; "pensive"</span></code></pre>
+<p>Properties are <em>always</em> accessed with <code>get</code> and <code>set</code>. Batman.js depends on <code>get</code> and <code>set</code> for mainaining bindings throughout your application.</p>
+<p><h3  class="guide-heading" id="-accessor"><a href='#-accessor'>@accessor</a></h3>
+</p>
+<p>By default, <code>get</code> and <code>set</code> simply access properties on a <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>. However, you can use <code>@accessor</code> inside class definitions to provide custom getters and setters. These functions are called <em>accessors</em>.</p>
+<p>Accessors are an integral part of batman.js. They power many of batman.js&#39;s features, such as <a href="#source-tracking">source tracking</a> and <a href="/docs/bindings.html">view bindings</a>. You should use <code>@accessor</code> whenever possible.</p>
+<p>For example, you could use this accessor to modify data when it is retrieved:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">Comment</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Model</span></span>
+  <span class="property">@accessor</span> <span class="string">'mood'</span>,
+    set: (key, value) -&gt; <span class="property">@_mood</span> = value
+    get: (key)        -&gt; 
+      mood = (<span class="property">@_mood</span> || <span class="string">"happy"</span>)
+      mood.toUpperCase() + <span class="string">"!"</span></code></pre>
+<p>In this accessor, we&#39;ve: </p>
+<ul>
+<li>stored the value for <code>mood</code> in a private variable, <code>@_mood</code></li>
+<li>provided <code>&quot;happy&quot;</code> if there was no previous value for <code>@_mood</code></li>
+<li>modified the <code>mood</code> by uppercasing it and appending <code>&quot;!&quot;</code></li>
+</ul>
+<p>This accessor would behave like this:</p>
+<pre><code class="lang-coffeescript">comment = <span class="keyword">new</span> Comment
+comment.get(<span class="string">'mood'</span>)         <span class="comment"># =&gt; "HAPPY!"</span>
+comment.set(<span class="string">'mood'</span>, <span class="string">'sad'</span>)
+comment.get(<span class="string">'mood'</span>)         <span class="comment"># =&gt; "SAD!"</span></code></pre>
+<p>Notice that <code>&quot;sad&quot;</code> was converted to <code>&quot;SAD!&quot;</code> by the <code>get</code> accessor.</p>
+<p>There is also a <strong>shorthand syntax</strong> for read-only accessors. Pass the <code>get</code> function to <code>@accessor</code>:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">Comment</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Object</span> </span>
+  <span class="comment"># ...  </span>
+  <span class="comment"># getter function only</span>
+  <span class="property">@accessor</span> <span class="string">'isPositive'</span>, (key) -&gt; 
+    <span class="property">@get</span>(<span class="string">'mood'</span>) <span class="keyword">in</span> [<span class="string">"HAPPY!"</span>, <span class="string">"JOVIAL!"</span>, <span class="string">"CONGENIAL!"</span>]</code></pre>
+<p>Read-only accessors are very common in batman.js because they can be bound to views. They often replace instance methods.</p>
+<p><h3  class="guide-heading" id="keypaths"><a href='#keypaths'>Keypaths</a></h3>
+</p>
+<p>When you pass a string to <code>get</code> or <code>set</code>, you can access &quot;deep&quot; or &quot;nested&quot; properties of an object by joining property names with <code>.</code>. The string is like <em>path</em> to the <em>key</em> you want to access, so it&#39;s sometimes called a <em>keypath</em>.</p>
+<p>For example, let&#39;s say your <code>user</code> had a <code>name</code>:</p>
+<pre><code class="lang-coffeescript">user = <span class="keyword">new</span> Batman.Object(name: <span class="string">"Bruce Wayne"</span>)</code></pre>
+<p>And it belonged to a <code>comment</code>:</p>
+<pre><code class="lang-coffeescript">comment.set(<span class="string">'user'</span>, user)</code></pre>
+<p>You could access the users&#39;s name from the comment with a keypath:</p>
+<pre><code class="lang-coffeescript:">comment.get(<span class="string">'user.name'</span>) <span class="comment"># =&gt; "Bruce Wayne"</span></code></pre>
+<p>Keypaths are also used in view bindings. For example:</p>
+<pre><code class="lang-html">&lt;ul&gt;
+  &lt;li data-foreach-comment=<span class="string">'post.comments'</span>&gt;
+    &lt;!-- deep access to comment.user.name --&gt;
+    &lt;span data-bind=<span class="string">'comment.user.name | append " said: "'</span>&gt;&lt;/span&gt;
+    &lt;span data-bind=<span class="string">'comment.body'</span>&gt;&lt;/span&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p><h3  class="guide-heading" id="source-tracking"><a href='#source-tracking'>Source Tracking</a></h3>
+</p>
+<p>Accessors participate in <em>source tracking</em>, which means that their values are automatically updated when their dependencies change. </p>
+<p>Consider this example:</p>
+<pre><code class="lang-coffeescript"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">extends</span> <span class="title">Batman</span>.<span class="title">Object</span> </span>
+  <span class="property">@accessor</span> <span class="string">'name'</span>, -&gt;
+    <span class="string">"<span class="subst">#{@get('firstName')}</span> <span class="subst">#{@get('lastName')}</span>"</span></code></pre>
+<p>Whenever a <code>Person</code>&#39;s  <code>&quot;firstName&quot;</code> or <code>&quot;lastName&quot;</code> is updated with <code>set</code>, <code>&quot;name&quot;</code> will be updated. </p>
+<p><em>Note: In fact, the property isn&#39;t reevaluated immediately. Its cache is busted and it will be reevaluated next time it&#39;s accessed with <code>get</code>.</em></p>
+<p>Batman.js does this by evaluating <code>get</code> functions in a special context where nested <code>get</code> calls are tracked. When you <code>get</code> a value, batman.js tracks <em>which other properties</em> were accessed to calculate the value Then, batman.js observes those other properties. When one of those properties changes, batman.js recaluculates the value for the accessor.</p>
+<p>There are some caveats to batman.js&#39;s source tracking: </p>
+<ul>
+<li>Asynchronous operations can&#39;t be tracked</li>
+<li>If you don&#39;t use <code>get</code> to access properties, their sources can&#39;t be tracked</li>
+<li>If you don&#39;t use <code>set</code> to update properties, their dependents can&#39;t be updated</li>
+</ul>
+<p><h2  class="guide-heading" id="observers"><a href='#observers'>Observers</a></h2>
+</p>
+<p>You can observe properties of <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>s. Call <code>observe</code> with a keypath and a handler:</p>
+<pre><code class="lang-coffeescript">post.observe <span class="string">'upvotes'</span>, (newValue, oldValue) -&gt;
+  <span class="keyword">if</span> newValue &gt; <span class="number">20</span>
+    <span class="property">@set</span>(<span class="string">'trending'</span>, <span class="literal">true</span>)</code></pre>
+<p>However, observers can lead to memory leaks if they aren&#39;t removed with <code>forget</code>.</p>
+<p>Since <a href="/docs/api/batman.view.html"><code>Batman.View</code></a> is also a <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a>, custom views may also have observers. Creating observers inside views has one huge benefit: batman.js takes care of removing all observers when the view is removed from the page. This greatly reduces the chance of memory leaks.</p>
+<p><h2  class="guide-heading" id="events"><a href='#events'>Events</a></h2>
+</p>
+<p>A <a href="/docs/api/batman.object.html"><code>Batman.Object</code></a> may fire events with <code>fire(event, data)</code> and listen to events with <code>on(event, callback)</code>. Many of batman.js&#39;s app components fire events which you can use when building your app. </p>
+

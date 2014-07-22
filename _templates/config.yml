@@ -6,28 +6,4 @@ download:
     version: 0.16.0
     date: "May 10th, 2014"
 
-doc_boxes:
-  - box: Developer Guides
-    items:
-      - title: Getting Started
-        link: index
-      - title: Architecture
-        link: architecture
-      - title: App Structure
-        link: structure
-      - title: Installation
-        link: installation
-      - title: Configuration
-        link: configuration
-      - title: Controllers
-        link: controllers
-      - title: Models
-        link: models
-      - title: Bindings
-        link: bindings
-      - title: Views
-        link: views
-      - title: Testing
-        link: testing
-
 #= api_index

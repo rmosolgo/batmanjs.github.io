@@ -268,9 +268,16 @@ div.api-docs {
   border-top: solid 1px #e0deeb;
   padding: 20px;
   background: #e8e7f4;
-  font-size: 14px;
+  font-size: 16px;
 }
-.box-highlight-connected a { text-decoration: none }
+.box-highlight-connected p {
+  margin-bottom: 0.45em
+}
+
+.box-highlight-connected a {
+  color: #3f3f9e;
+  text-decoration: none
+}
 .box-highlight-connected a:hover{ text-decoration: underline }
 .box.mh {
   min-height: 12.5em;
@@ -278,23 +285,6 @@ div.api-docs {
 
 td + td > p, th + th {
   padding-left: 20px;
-}
-
-.next, .prev {
-  background: #f8f8f8;
-  border-radius: 2px;
-  padding: 5px 10px;
-  box-shadow: 0 1px #cbcdd6;
-  font-size: 1.3em;
-  cursor: pointer;
-  -webkit-transition: background-color 0.2s ease-in;
-  -moz-transition: background-color 0.2s ease-in;
-  transition: background-color 0.2s ease-in;
-}
-
-.next:hover, .prev:hover {
-  text-decoration: none !important;
-  background: #fff;
 }
 
 .disabled, .disabled:hover {
@@ -395,6 +385,9 @@ td + td > p, th + th {
   line-height: 1.6em;
 }
 
+.docs li a, .api-docs li a {
+  text-decoration: underline;
+}
 /* homepage mega intro block */
 .intro {
   background: #111119 url(../images/skyline.png) 0 100% repeat-x;
@@ -734,21 +727,21 @@ td + td > p, th + th {
   color: #aaa;
 }
 
-.api-docs td, .api-docs th {
+.highlight-tables td, .highlight-tables th {
   padding: 4px 8px;
 }
 
-.api-docs th {
+.highlight-tables th, .highlight-tables th {
   padding: 6px 8px;
   font-size: 1.1em;
 }
 
-.api-docs table {
+.highlight-tables table {
   margin-bottom: 1em;
   width: 100%;
 }
 
-.api-docs tr:nth-child(even), .api-docs thead tr {
+.highlight-tables tr:nth-child(even), .highlight-tables thead tr {
   background: #e8e7f4;
 }
 
@@ -823,7 +816,7 @@ td + td > p, th + th {
   padding-left: 13px;
 }
 
-.api-sidebar h5 {
+.api-sidebar h5, .guide-box h5 {
   text-transform: uppercase;
   font-size: 80%;
   margin-top: 1em;

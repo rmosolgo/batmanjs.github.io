@@ -1,0 +1,58 @@
+---
+layout: docs
+title: Contributing
+---
+
+<p>Thanks for your interest in contributing to batman.js! There are several ways you can help.</p>
+<p><h2  class="guide-heading" id="be-part-of-the-community"><a href='#be-part-of-the-community'>Be Part of the Community</a></h2>
+</p>
+<p>Join the conversation about batman.js! You can participate by:</p>
+<ul>
+<li>Opening a bug report or feature request as a <a href="https://github.com/batmanjs/batman/issues">Github issue</a></li>
+<li>Striking up a conversation in our IRC channel at <code>#batmanjs</code> on chat.freenode.net</li>
+<li>Mentioning <a href="https://twitter.com/batmanjs">@batmanjs</a> on Twitter</li>
+<li>Starting a thread on the <a href="https://groups.google.com/forum/#!forum/batmanjs">google group</a></li>
+<li>Participating in conversations on <a href="https://github.com/batmanjs/batman">the Github repo</a></li>
+</ul>
+<p><h2  class="guide-heading" id="contribute-to-the-codebase"><a href='#contribute-to-the-codebase'>Contribute to the Codebase</a></h2>
+</p>
+<p>There are several ways to contribute to the batman.js source code:</p>
+<ul>
+<li>Review <a href="https://github.com/batmanjs/batman/pulls">outstanding pull requests</a></li>
+<li>Triage <a href="https://github.com/batmanjs/batman/issues?state=open">open issues</a></li>
+<li>Solve <em>your problems</em> by making a pull request </li>
+<li>Solve <em>other people&#39;s problems</em> by making a pull request</li>
+</ul>
+<p>The best way to become a contributor is to start contributing! The batman.js repo (<a href="https://github.com/batmanjs/batman"><code>batmanjs/batman</code></a>) has instructions for working with the batman.js source. </p>
+<p><h2  class="guide-heading" id="improve-the-guides"><a href='#improve-the-guides'>Improve the Guides</a></h2>
+</p>
+<p>To improve the guides, make a pull request to this website&#39;s source code, <a href="https://github.com/batmanjs/batmanjs.github.io"><code>batmanjs/batmanjs.github.io</code></a>.</p>
+<p>To edit the guides: </p>
+<ul>
+<li><p>Install <a href="http://jekyllrb.com">jekyll</a> and the JS dependencies: </p>
+<pre><code>gem install jekyll
+npm install</code></pre>
+</li>
+<li><p>Start the jekyll server in watch mode:</p>
+<pre><code>jekyll serve --watch</code></pre>
+<p>Then, open the local version of the site at <a href="http://localhost:4000">http://localhost:4000</a></p>
+</li>
+<li><p>Modify the guides (found in <code>_guides/</code>)</p>
+</li>
+<li><p>In another console, run the guide generator:</p>
+<pre><code>chmod +x bin/generate_guides
+bin/generate_guides</code></pre>
+</li>
+<li><p>Refresh the local guide page. You should see your changes!</p>
+</li>
+</ul>
+<p><h2  class="guide-heading" id="improve-the-api-docs"><a href='#improve-the-api-docs'>Improve the API Docs</a></h2>
+</p>
+<p>The API docs are kept in the batman.js repo, <a href="https://github.com/batmanjs/batman"><code>batmanjs/batman</code></a>. There&#39;s also <a href="https://github.com/batmanjs/batman/blob/master/docs/README.md">a documentation readme</a> with instructions about how the docs are parsed for presentation.</p>
+<p>After you&#39;ve updated the API docs, you can preview the changes in your local copy of <code>batmanjs/batmanjs.github.io</code>: </p>
+<pre><code>$ cd ~<span class="regexp">/code/</span>batmanjs.github.io
+$ <span class="comment"># --dir is the path to batman.js documentation:</span>
+$ bin<span class="regexp">/generate_docs --dir ~/code/batman/</span>docs 
+$ jekyll serve</code></pre>
+<p>Now, your local batman.js website will have updated API docs!</p>
+

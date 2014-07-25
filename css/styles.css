@@ -82,6 +82,12 @@ strong { font-weight: bold; }
 .row {
   margin-left: -20px;
 }
+.row:before, .row:after {
+  /* borrowed from twbs */
+  content: " ";
+  display: table;
+}
+
 div[class*="span"] {
   padding-left: 20px;
   float:left;

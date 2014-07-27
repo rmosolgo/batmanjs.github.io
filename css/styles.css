@@ -82,6 +82,12 @@ strong { font-weight: bold; }
 .row {
   margin-left: -20px;
 }
+.row:before, .row:after {
+  /* borrowed from twbs */
+  content: " ";
+  display: table;
+}
+
 div[class*="span"] {
   padding-left: 20px;
   float:left;
@@ -171,6 +177,55 @@ div.api-docs {
 .divider { border-bottom: solid 1px #e8e8fc; margin-bottom: 15px; padding-bottom: 15px; }
 
 .small { font-size: 13px; }
+
+/* examples */
+#example-app-container .row {
+  padding: 10px 0;
+}
+.example-text {
+  position: relative;
+}
+
+.example-row .highlight, .example-row .box {
+  margin: 0px;
+}
+
+.example-row.app-example .highlight, .example-row.app-example .box {
+  height: 200px;
+}
+
+
+.example-row.model-example .highlight, .example-row.model-example .box {
+  height: 300px;
+}
+
+.example-row.controller-example .highlight, .example-row.controller-example .box{
+  height: 275px;
+}
+
+.example-row.view-example .highlight:first-child {
+  height: 275px;
+  margin-bottom: 25px;
+}
+
+.example-row.view-example .highlight:last-child {
+  height: 150px;
+}
+
+.example-row.view-example .box {
+  height: 450px;
+}
+
+.guide-link-box {
+  height: 30px;
+  padding: 10px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  left: 20px;
+}
+
+/* end examples */
 
 /* icon font */
 @font-face {
@@ -300,11 +355,19 @@ td + td > p, th + th {
   margin-left: 18px;
   margin-top: 1em;
 }
+
 .bat-list li{
   list-style-type: square;
   margin-bottom: .45em;
 }
 
+.bat-list.bat-list-large {
+  font-size: 16px;
+}
+
+.bat-list.bat-list-large a {
+  text-decoration: underline;
+}
 
 
 /* header */

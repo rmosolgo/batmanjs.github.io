@@ -68,14 +68,13 @@ pre code {
   color: #c5c8c6;
   font-family: Menlo, Monaco, Consolas, monospace;
   line-height: 1.5;
-  border: 1px solid #000;
   padding: 10px;
   border-radius: 4px;
   overflow-x: auto;
 }
 
 .highlight .hll { background-color: #515151 }
-.highlight  { background: #2d2d2d; color: #cccccc }
+.highlight  { background: #1d1f21; color: #cccccc }
 .highlight .c { color: #999999 } /* Comment */
 .highlight .err { color: #f2777a } /* Error */
 .highlight .k { color: #cc99cc } /* Keyword */

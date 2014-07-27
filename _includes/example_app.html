@@ -1,0 +1,173 @@
+
+<div class='row example-row'>
+  <div class='span24'>
+    <div class="page-header">
+      <h2>Meet batman.js</h2>
+    </div>
+  </div>
+</div>
+
+
+<div class='row example-row app-example'>
+  <div class='span12 example-text'>
+    <div class='box box-highlight '>
+      <h3>App</h3>
+      <p class='sb'>
+        Your app is the namespace for all your other components. It extends <code>Batman.App</code> and defines <a href='/docs/routing.html'>routes</a>.
+      </p>
+      <p> You can define global accessors and functions on the app, too.</p>
+    </div>
+  </div>
+  <div class='span12'>
+    {% highlight coffeescript %}
+    # gotham.coffee
+    class Gotham extends Batman.App
+      @root 'superheros#index'
+      @resources 'superheros', 'villains'
+      @route '/404', -> alert("Page not found!")
+
+      @classAccessor 'cityIsSafe', ->
+        heroCount = Gotham.Superhero.get('all.length')
+        villainCount = Gotham.Villain.get('all.length')
+        heroCount > villainCount
+    {% endhighlight %}
+  </div>
+</div>
+
+
+<div class='row example-row model-example'>
+  <div class='span12'>
+    {% highlight coffeescript %}
+    # models/superhero.coffee
+    class Gotham.Superhero extends Batman.Model
+      @resourceName: 'superhero'
+      @persist Batman.RestStorage
+      @encode 'name', 'wears_cape'
+
+      @validate 'name', presence: true
+
+      @belongsTo 'hero_group'
+      @hasMany 'superpowers', saveInline: true
+
+      @accessor 'canSaveGotham', ->
+        @get('superpowers.length') > 3
+    {% endhighlight %}
+  </div>
+  <div class='span12 example-text'>
+    <div class='box'>
+      <h3>Models</h3>
+      <p>
+        Models represent the "business objects" in your app and connect those objects to a backend, like a JSON API. Models usually include:
+      </p>
+      <ul class='bat-list bat-list-large'>
+        <li>
+          <a href='/docs/persistence.html'>Persistence</a> via <code>@encode</code> and <code>@persist</code>
+        </li>
+        <li>
+          <a href='/docs/validations.html'>Validations</a> with built-in or custom validators
+        </li>
+        <li>
+          <a href='/docs/associations.html'>Associations</a> like <code>@hasMany</code> and <code>@belongsTo</code>
+        </li>
+      </ul>
+    </div>
+    <div class='box-connected clearfix guide-link-box'>
+      <a class='btn fr' href='/docs/models.html'>Learn more</a>
+    </div>
+  </div>
+</div>
+
+<div class='row example-row controller-example'>
+  <div class='span8 example-text'>
+    <div class='box box-highlight '>
+      <h3>Controllers</h3>
+      <p>
+        Controller actions are executed by <a href='/docs/routing.html'>routes</a> in your app. They load data and render views.
+      </p>
+    </div>
+    <div class='box-connected clearfix guide-link-box'>
+      <a class='btn fl' href='/docs/controllers.html'>Learn more</a>
+    </div>
+  </div>
+  <div class='span16'>
+    {% highlight coffeescript %}
+    # controllers/superheros_controller.coffee
+    class Gotham.SuperherosController extends Gotham.ApplicationController
+      routingKey: 'superheros'
+
+      index: (params) ->
+        @set 'superheros', Gotham.Superhero.get('all')
+
+      show: (params) ->
+        Gotham.Superhero.find params.id, (err, record) =>
+          @set 'superhero', record
+
+      edit: (params) ->
+        Gotham.Superhero.find params.id, (err, record) =>
+          @set 'superhero', record.transaction()
+    {% endhighlight %}
+  </div>
+</div>
+
+<div class='row example-row view-example'>
+  <div class='span12'>
+    {% highlight html %}
+    <!-- html/superheros/index.html -->
+    <h1 data-bind='"Superhero" | pluralize heroCount'></h1>
+
+    <div data-foreach-superhero='superheros'>
+      <h2 data-bind='superhero.name'></h2>
+      <span data-showif='superhero.wears_cape'>
+        (Wears a Cape)
+      </span>
+      <a data-event-click='removeHero | withArguments superhero'>
+        Remove this superhero
+      </a>
+    </div>
+
+    <a data-route='routes.superheros.new'>Add a Superhero</a>
+    {% endhighlight %}
+
+    {% highlight coffeescript %}
+    # views/superheros/superheros_index_view.coffee
+    class Gotham.SuperherosIndexView extends Batman.View
+      @accessor 'heroCount', ->
+        Gotham.Superhero.get('all.length')
+
+      removeHero: (superhero) ->
+        superhero.destroy()
+    {% endhighlight %}
+
+  </div>
+  <div class='span12 example-text'>
+    <div class='box'>
+      <h3>Views</h3>
+      <p class='sb'>
+        The view layer includes two parts: <em>HTML templates</em> and <em>views</em>.
+      </p>
+
+      <h5>HTML Templates</h5>
+      <p class='sb'>
+        Templates connect your app the DOM with <a href='/docs/bindings.html'>data bindings</a>. Batman.js maintains bindings, so the DOM and your app are always in sync.
+      </p>
+
+      <h5>Views</h5>
+      <p class=''>
+        Views provide context to HTML templates by defining:
+      </p>
+      <ul class='bat-list bat-list-large'>
+        <li>
+          <a href='/docs/custom_views.html#accessors'>Accessors</a> which encapsulate display logic; and
+        </li>
+        <li>
+          <a href='/docs/custom_views.html#event-handlers'>Event handlers</a> which manage user interaction.
+        </li>
+      </ul>
+
+      <p>You can also hook into the <a href='/docs/views.html#view-lifecycle'>view lifecycle</a> to setup, teardown and transition your views.
+    </div>
+    <div class='box-connected clearfix guide-link-box'>
+      <a class='btn fr' href='/docs/views.html'>Learn more</a>
+    </div>
+  </div>
+</div>

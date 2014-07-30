@@ -182,7 +182,7 @@ Batman.redirect("/posts/new")
 - You can also use __redirect params__ to navigate to a controller action. Batman.js will build a route from the provided parameters. For example:
 
   ```coffeescript
-  Batman.Redirect(controller: "posts", action: "edit", id: 6)
+  Batman.redirect(controller: "posts", action: "edit", id: 6)
   ```
 
 See API documentation for [`Batman.redirect`](/docs/api/batman.html#class_function_redirect) for more information.

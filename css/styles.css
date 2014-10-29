@@ -24,12 +24,11 @@
     font-style: normal;
 }
 
-
 /* generic / layout */
 body {
   font-family: ProximaNovaRegular;
   line-height: 1.3;
-  padding-top: 64px;
+  padding-top: 124px;
   background: #171722;
   color: #a2a1ba;
 }
@@ -374,7 +373,7 @@ td + td > p, th + th {
 .header{
   position: fixed; top: 0; left: 0;
   width: 100%;
-  height: 64px;
+  height: 124px;
   background: #1f1f27;
   box-shadow: 0 5px 10px rgba(0,0,0,.05);
   z-index: 2;
@@ -387,6 +386,13 @@ td + td > p, th + th {
   transition:         all 0.15s ease;
 }
 .header a:hover { color: #fff; }
+
+#deprecation-warning {
+  background: #ffe43f;
+  height: 60px;
+  color: #1f1f27;
+  text-align: center;
+}
 
 .header-site-title {
   float: left;
